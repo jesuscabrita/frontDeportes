@@ -1,5 +1,5 @@
 {
-  "name": "frontDeportes",
+  "name": "frontdeportes",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "git@github.com:jesuscabrita/frontDeportes.git",
@@ -9,7 +9,7 @@
     "dev": "next dev",
     "start": "next start",
     "build": "next build",
-    "test": "jest",
+    "test": "jest"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.0.0",
@@ -50,6 +50,6 @@
     "@types/node": "^18.11.18",
     "@types/react": "^18.0.27",
     "typescript": "^4.9.5"
-  },
+  }
   
 }
