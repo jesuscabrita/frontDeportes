@@ -2,12 +2,13 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import es from "date-fns/locale/es";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { Layout } from "../components/Layout/Layout";
-// import "../styles/globals.css";
+import "../styles/globals.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthenticatedApp } from "../components/auth/AuthenticatedApp";
 import { useMemo } from "react";
 // import { Auth0Provider } from "@auth0/auth0-react";
 import { Analytics } from '@vercel/analytics/react';
+import { InfoContextProvider } from "../context/contextPrincipal";
 
 const MyApp = ({ Component, pageProps }) => {
     const origin = useMemo(() => {
@@ -36,10 +37,12 @@ const MyApp = ({ Component, pageProps }) => {
                 {/* <AuthenticatedApp> */}
                     <QueryClientProvider client={queryClient}>
                         <LocalizationProvider adapterLocale={es} dateAdapter={AdapterDateFns}>
+                            <InfoContextProvider>
                                 <Layout>
-                                    <Component {...pageProps} />
+                                    <Component {...pageProps}/>
                                     <Analytics />
                                 </Layout>
+                            </InfoContextProvider>
                         </LocalizationProvider>
                     </QueryClientProvider>
                 {/* </AuthenticatedApp> */}
