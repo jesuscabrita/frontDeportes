@@ -16,27 +16,28 @@ export const ButtonNav = ({ children, href }) => {
 }
 export const ButtonNavbar = ({ children, href }) => {
     const { asPath } = useRouter();
-    const isActive = asPath == href;
-
-    function classNames(...classes) {
-        return classes.filter(Boolean).join(' ')
-    }
+    const isActive = asPath == href; 
+    const buttonClassNames = isActive
+        ? "text-red"
+        : "text-blue hover:bg-gray-700 hover:text-white";
+    const buttonStyles = {
+        display: "block",
+        padding: "8px 12px 8px 12px",
+        borderRadius: "6px",
+        fontSize: "16px",
+        background: isActive ? "rgb(17 24 39)" : undefined,
+        color: isActive ? "var(--danger)" : "var(--primario)",
+    };
 
     return (
-        <Link 
-            href={href} 
-            style={{color: isActive ? "var(--danger)" : 'var(--primario)'}} 
+        <Link href={href}>
+            <Disclosure.Button 
+                className={buttonClassNames}
+                style={buttonStyles}
+                aria-current={isActive ? "page" : undefined}
             >
-                <Disclosure.Button
-                as="a"
-                className={classNames(
-                    isActive ? 'bg-gray-900 text-red' : 'text-blue hover:bg-gray-700 hover:text-white',
-                'block px-3 py-2 rounded-md text-base font-medium'
-                )}
-                aria-current={isActive ? 'page' : undefined}
-                >
-                {children}
-                </Disclosure.Button>
+            {children}
+            </Disclosure.Button>
         </Link>
         
     );

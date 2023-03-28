@@ -7,11 +7,11 @@ import { Navbar } from "../home/Navbar";
 
 injectGlobal`
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500&display=swap');
-body{
-padding: 0;
-margin: 0;
-font-family: 'Quicksand', sans-serif;
-}
+    body{
+        padding: 0;
+        margin: 0;
+        font-family: 'Quicksand', sans-serif;
+    }
 `;
 export const Layout = ({ children }) => {
     const [light] = useContext(Context);
