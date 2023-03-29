@@ -8,7 +8,7 @@ const Index = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
 
     return (
-    <Grid container sx={{height:'120vh', background: light ? "var(--cero)" : "var(--dark)", justifyContent:'center'}}>
+    <Grid container sx={{height:'120vh', justifyContent:'center'}}>
         <Grid sx={{paddingTop:'80px'}}>
             <Carousel/>
         </Grid>

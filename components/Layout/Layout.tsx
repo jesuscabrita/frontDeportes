@@ -21,7 +21,7 @@ export const Layout = ({ children }) => {
             {!mobile ? (
                 <Grid item sx={{
                     width: '100%',
-                    height: '100vh',
+                    // height: '100vh',
                     background: light ? "var(--cero)" : "var(--dark)",
                 }}>
                     <Navbar />
@@ -30,7 +30,7 @@ export const Layout = ({ children }) => {
             ) : (
                 <Grid item sx={{
                     width: '100%',
-                    height: '100vh',
+                    
                     background: light ? "var(--cero)" : "var(--dark)",
                 }}>
                     <Navbar />
