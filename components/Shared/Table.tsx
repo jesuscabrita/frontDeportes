@@ -86,7 +86,7 @@ export const PositionTable = () => {
                                     <Grid>{index + 1}</Grid>
                                     <Grid container alignItems={'center'} gap={1} sx={{ flexDirection:'row' ,whiteSpace: 'nowrap'}}><img src={row.logo} alt={row.name} style={{ height: '35px' }} /> {row.name} <ArrowP currentPos={index+1} prevPos={row.puntaje_anterior}/></Grid>
                                 </StyledTableCell>
-                                <StyledTableCell align="right" style={{fontWeight:800, fontSize:'15px'}}>{row.puntos}</StyledTableCell>
+                                <StyledTableCell align="right" style={{fontWeight:700, fontSize:'15px'}}>{row.puntos}</StyledTableCell>
                                 <StyledTableCell align="right">{row.partidosJugados}</StyledTableCell>
                                 <StyledTableCell align="right">{row.ganados}</StyledTableCell>
                                 <StyledTableCell align="right">{row.empates}</StyledTableCell>
