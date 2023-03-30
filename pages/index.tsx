@@ -1,6 +1,5 @@
 import { Grid, useMediaQuery } from "@mui/material";
 import { useContext } from "react";
-import Carousel from "../components/home/Carousel";
 import Context from "../context/contextPrincipal";
 
 const Index = () => {
@@ -10,7 +9,7 @@ const Index = () => {
     return (
     <Grid container sx={{height:'120vh', justifyContent:'center'}}>
         <Grid sx={{paddingTop:'80px'}}>
-            <Carousel/>
+            holaaaaaaaaaaaaaa
         </Grid>
     </Grid>
     );

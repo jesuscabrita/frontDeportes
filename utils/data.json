@@ -1,0 +1,296 @@
+[
+    {
+        "id": 1,
+        "name": "Barcelona Fc",
+        "partidosJugados": 0,
+        "ganados": 0,
+        "empates": 0,
+        "perdidos": 0,
+        "goles_a_Favor": 0,
+        "goles_en_Contra": 0,
+        "diferencia_de_Goles": 0,
+        "puntos": 0,
+        "last5": [
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral"
+        ],
+        "logo": "https://1000marcas.net/wp-content/uploads/2020/03/Logo-Barcelona.png",
+        "puntaje_anterior": 1
+    },
+    {
+        "id": 2,
+        "name": "Real Madrid Fc",
+        "partidosJugados": 0,
+        "ganados": 0,
+        "empates": 0,
+        "perdidos": 0,
+        "goles_a_Favor": 0,
+        "goles_en_Contra": 0,
+        "diferencia_de_Goles": 0,
+        "puntos": 0,
+        "last5": [
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral"
+        ],
+        "logo": "https://logos-world.net/wp-content/uploads/2020/06/Real-Madrid-symbol.png",
+        "puntaje_anterior": 2
+    },
+    {
+        "id": 3,
+        "name": "Valencia Fc",
+        "partidosJugados": 0,
+        "ganados": 0,
+        "empates": 0,
+        "perdidos": 0,
+        "goles_a_Favor": 0,
+        "goles_en_Contra": 0,
+        "diferencia_de_Goles": 0,
+        "puntos": 0,
+        "last5": [
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral"
+        ],
+        "logo": "https://1000marcas.net/wp-content/uploads/2021/05/Valencia-Logo.png",
+        "puntaje_anterior": 3
+    },
+    {
+        "id": 4,
+        "name": "Atletico Madrid",
+        "partidosJugados": 0,
+        "ganados": 0,
+        "empates": 0,
+        "perdidos": 0,
+        "goles_a_Favor": 0,
+        "goles_en_Contra": 0,
+        "diferencia_de_Goles": 0,
+        "puntos": 0,
+        "last5": [
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral"
+        ],
+        "logo": "https://1000marcas.net/wp-content/uploads/2020/03/Logo-Atletico-Madrid.png",
+        "puntaje_anterior": 4
+    },
+    {
+        "id": 5,
+        "name": "Athletic Bilbao",
+        "partidosJugados": 0,
+        "ganados": 0,
+        "empates": 0,
+        "perdidos": 0,
+        "goles_a_Favor": 0,
+        "goles_en_Contra": 0,
+        "diferencia_de_Goles": 0,
+        "puntos": 0,
+        "last5": [
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral"
+        ],
+        "logo": "https://logos-world.net/wp-content/uploads/2020/11/Athletic-Bilbao-Logo.png",
+        "puntaje_anterior": 5
+    },
+    {
+        "id": 6,
+        "name": "Real Sociedad",
+        "partidosJugados": 0,
+        "ganados": 0,
+        "empates": 0,
+        "perdidos": 0,
+        "goles_a_Favor": 0,
+        "goles_en_Contra": 0,
+        "diferencia_de_Goles": 0,
+        "puntos": 0,
+        "last5": [
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral"
+        ],
+        "logo": "https://1000marcas.net/wp-content/uploads/2022/04/Real-Sociedad-Logo.png",
+        "puntaje_anterior": 6
+    },
+    {
+        "id": 7,
+        "name": "Betis",
+        "partidosJugados": 0,
+        "ganados": 0,
+        "empates": 0,
+        "perdidos": 0,
+        "goles_a_Favor": 0,
+        "goles_en_Contra": 0,
+        "diferencia_de_Goles": 0,
+        "puntos": 0,
+        "last5": [
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral"
+        ],
+        "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/1/13/Real_betis_logo.svg/800px-Real_betis_logo.svg.png",
+        "puntaje_anterior": 7
+    },
+    {
+        "id": 8,
+        "name": "Villareal",
+        "partidosJugados": 0,
+        "ganados": 0,
+        "empates": 0,
+        "perdidos": 0,
+        "goles_a_Favor": 0,
+        "goles_en_Contra": 0,
+        "diferencia_de_Goles": 0,
+        "puntos": 0,
+        "last5": [
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral"
+        ],
+        "logo": "https://upload.wikimedia.org/wikipedia/an/thumb/7/70/Villarreal_CF_logo.svg/1200px-Villarreal_CF_logo.svg.png",
+        "puntaje_anterior": 8
+    },
+    {
+        "id": 9,
+        "name": "Rayo Vallecano",
+        "partidosJugados": 0,
+        "ganados": 0,
+        "empates": 0,
+        "perdidos": 0,
+        "goles_a_Favor": 0,
+        "goles_en_Contra": 0,
+        "diferencia_de_Goles": 0,
+        "puntos": 0,
+        "last5": [
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral"
+        ],
+        "logo": "https://w7.pngwing.com/pngs/360/799/png-transparent-rayo-vallecano-hd-logo.png",
+        "puntaje_anterior": 9
+    },
+    {
+        "id": 10,
+        "name": "Getafe",
+        "partidosJugados": 0,
+        "ganados": 0,
+        "empates": 0,
+        "perdidos": 0,
+        "goles_a_Favor": 0,
+        "goles_en_Contra": 0,
+        "diferencia_de_Goles": 0,
+        "puntos": 0,
+        "last5": [
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral"
+        ],
+        "logo": "https://1000marcas.net/wp-content/uploads/2021/05/Getafe-logo.png",
+        "puntaje_anterior": 10
+    },
+    {
+        "id": 11,
+        "name": "Espanyol",
+        "partidosJugados": 1,
+        "ganados": 0,
+        "empates": 0,
+        "perdidos": 1,
+        "goles_a_Favor": 0,
+        "goles_en_Contra": 3,
+        "diferencia_de_Goles": 0,
+        "puntos": 0,
+        "last5": [
+            "loss",
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral"
+        ],
+        "logo": "https://1000marcas.net/wp-content/uploads/2021/05/Espanyol-logo.png",
+        "puntaje_anterior": 11
+    },
+    {
+        "id": 12,
+        "name": "Sevilla",
+        "partidosJugados": 1,
+        "ganados": 1,
+        "empates": 0,
+        "perdidos": 0,
+        "goles_a_Favor": 3,
+        "goles_en_Contra": 0,
+        "diferencia_de_Goles": 0,
+        "puntos": 3,
+        "last5": [
+            "win",
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral"
+        ],
+        "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/Sevilla_FC_logo.svg/1200px-Sevilla_FC_logo.svg.png",
+        "puntaje_anterior": 12
+    },
+    {
+        "id": 13,
+        "name": "Mallorca",
+        "partidosJugados": 1,
+        "ganados": 0,
+        "empates": 1,
+        "perdidos": 0,
+        "goles_a_Favor": 1,
+        "goles_en_Contra": 0,
+        "diferencia_de_Goles": 0,
+        "puntos": 1,
+        "last5": [
+            "draw",
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral"
+        ],
+        "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/Rcd_mallorca.svg/1200px-Rcd_mallorca.svg.png",
+        "puntaje_anterior": 13
+    },
+    {
+        "id": 14,
+        "name": "Celta de vigo",
+        "partidosJugados": 1,
+        "ganados": 0,
+        "empates": 1,
+        "perdidos": 0,
+        "goles_a_Favor": 1,
+        "goles_en_Contra": 0,
+        "diferencia_de_Goles": 0,
+        "puntos": 1,
+        "last5": [
+            "draw",
+            "neutral",
+            "neutral",
+            "neutral",
+            "neutral"
+        ],
+        "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/1/12/RC_Celta_de_Vigo_logo.svg/1200px-RC_Celta_de_Vigo_logo.svg.png",
+        "puntaje_anterior": 14
+    }
+]
