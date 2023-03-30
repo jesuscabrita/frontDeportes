@@ -84,7 +84,9 @@ export const PositionTable = () => {
                                     {(index + 1 == 9 || index + 1 == 10 || index + 1 == 11 || index + 1 == 12) &&
                                         <Grid sx={{ background: 'var(--warnning)', height: '35px', width: '10px', whiteSpace: 'nowrap' }}></Grid>}
                                     <Grid>{index + 1}</Grid>
-                                    <Grid container alignItems={'center'} gap={1} sx={{ flexDirection:'row' ,whiteSpace: 'nowrap'}}><img src={row.logo} alt={row.name} style={{ height: '35px' }} /> {row.name} <ArrowP currentPos={index+1} prevPos={row.puntaje_anterior}/></Grid>
+                                    <Grid container alignItems={'center'} gap={1} sx={{ flexDirection:'row' ,whiteSpace: 'nowrap'}}>
+                                        <img src={row.logo} alt={row.name} style={{ height: '35px'}} /> {row.name} <ArrowP currentPos={index+1} prevPos={row.puntaje_anterior}/>
+                                    </Grid>
                                 </StyledTableCell>
                                 <StyledTableCell align="right" style={{fontWeight:700, fontSize:'15px'}}>{row.puntos}</StyledTableCell>
                                 <StyledTableCell align="right">{row.partidosJugados}</StyledTableCell>
