@@ -22,10 +22,10 @@ export const PositionTable = () => {
         } else if (a.puntos < b.puntos) {
             return 1;
         }
-        else if (a.goles_a_Favor > b.goles_a_Favor) {
+        else if (a.diferencia_de_Goles > b.diferencia_de_Goles) {
             return -1;
         }
-        else if (a.goles_a_Favor < b.goles_a_Favor) {
+        else if (a.diferencia_de_Goles < b.diferencia_de_Goles) {
             return 1;
         } else {
             return 0;
