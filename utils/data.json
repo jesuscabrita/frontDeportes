@@ -18,7 +18,10 @@
             "neutral"
         ],
         "logo": "https://1000marcas.net/wp-content/uploads/2020/03/Logo-Barcelona.png",
-        "puntaje_anterior": 1
+        "puntaje_anterior": 1,
+        "tarjetasAmarillas": 0,
+        "tarjetasRojas":0,
+        "fecha": "12/12/2023"
     },
     {
         "id": 2,
@@ -39,7 +42,10 @@
             "neutral"
         ],
         "logo": "https://logos-world.net/wp-content/uploads/2020/06/Real-Madrid-symbol.png",
-        "puntaje_anterior": 2
+        "puntaje_anterior": 2,
+        "tarjetasAmarillas": 0,
+        "tarjetasRojas":0,
+        "fecha": "12/12/2023"
     },
     {
         "id": 3,
@@ -60,7 +66,10 @@
             "neutral"
         ],
         "logo": "https://1000marcas.net/wp-content/uploads/2021/05/Valencia-Logo.png",
-        "puntaje_anterior": 3
+        "puntaje_anterior": 3,
+        "tarjetasAmarillas": 0,
+        "tarjetasRojas":0,
+        "fecha": "12/12/2023"
     },
     {
         "id": 4,
@@ -81,7 +90,10 @@
             "neutral"
         ],
         "logo": "https://1000marcas.net/wp-content/uploads/2020/03/Logo-Atletico-Madrid.png",
-        "puntaje_anterior": 4
+        "puntaje_anterior": 4,
+        "tarjetasAmarillas": 0,
+        "tarjetasRojas":0,
+        "fecha": "12/12/2023"
     },
     {
         "id": 5,
@@ -102,7 +114,10 @@
             "neutral"
         ],
         "logo": "https://logos-world.net/wp-content/uploads/2020/11/Athletic-Bilbao-Logo.png",
-        "puntaje_anterior": 5
+        "puntaje_anterior": 5,
+        "tarjetasAmarillas": 0,
+        "tarjetasRojas":0,
+        "fecha": "12/12/2023"
     },
     {
         "id": 6,
@@ -123,7 +138,10 @@
             "neutral"
         ],
         "logo": "https://1000marcas.net/wp-content/uploads/2022/04/Real-Sociedad-Logo.png",
-        "puntaje_anterior": 6
+        "puntaje_anterior": 6,
+        "tarjetasAmarillas": 0,
+        "tarjetasRojas":0,
+        "fecha": "12/12/2023"
     },
     {
         "id": 7,
@@ -144,7 +162,10 @@
             "neutral"
         ],
         "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/1/13/Real_betis_logo.svg/800px-Real_betis_logo.svg.png",
-        "puntaje_anterior": 7
+        "puntaje_anterior": 7,
+        "tarjetasAmarillas": 0,
+        "tarjetasRojas":0,
+        "fecha": "12/12/2023"
     },
     {
         "id": 8,
@@ -165,7 +186,10 @@
             "neutral"
         ],
         "logo": "https://upload.wikimedia.org/wikipedia/an/thumb/7/70/Villarreal_CF_logo.svg/1200px-Villarreal_CF_logo.svg.png",
-        "puntaje_anterior": 8
+        "puntaje_anterior": 8,
+        "tarjetasAmarillas": 0,
+        "tarjetasRojas":0,
+        "fecha": "12/12/2023"
     },
     {
         "id": 9,
@@ -186,7 +210,10 @@
             "neutral"
         ],
         "logo": "https://w7.pngwing.com/pngs/360/799/png-transparent-rayo-vallecano-hd-logo.png",
-        "puntaje_anterior": 9
+        "puntaje_anterior": 9,
+        "tarjetasAmarillas": 0,
+        "tarjetasRojas":0,
+        "fecha": "12/12/2023"
     },
     {
         "id": 10,
@@ -207,7 +234,10 @@
             "neutral"
         ],
         "logo": "https://1000marcas.net/wp-content/uploads/2021/05/Getafe-logo.png",
-        "puntaje_anterior": 10
+        "puntaje_anterior": 10,
+        "tarjetasAmarillas": 0,
+        "tarjetasRojas":0,
+        "fecha": "12/12/2023"
     },
     {
         "id": 11,
@@ -228,7 +258,10 @@
             "neutral"
         ],
         "logo": "https://1000marcas.net/wp-content/uploads/2021/05/Espanyol-logo.png",
-        "puntaje_anterior": 11
+        "puntaje_anterior": 11,
+        "tarjetasAmarillas": 0,
+        "tarjetasRojas":0,
+        "fecha": "12/12/2023"
     },
     {
         "id": 12,
@@ -249,7 +282,10 @@
             "neutral"
         ],
         "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/Sevilla_FC_logo.svg/1200px-Sevilla_FC_logo.svg.png",
-        "puntaje_anterior": 12
+        "puntaje_anterior": 12,
+        "tarjetasAmarillas": 0,
+        "tarjetasRojas":0,
+        "fecha": "12/12/2023"
     },
     {
         "id": 13,
@@ -270,7 +306,10 @@
             "neutral"
         ],
         "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/Rcd_mallorca.svg/1200px-Rcd_mallorca.svg.png",
-        "puntaje_anterior": 13
+        "puntaje_anterior": 13,
+        "tarjetasAmarillas": 0,
+        "tarjetasRojas":0,
+        "fecha": "12/12/2023"
     },
     {
         "id": 14,
@@ -291,6 +330,9 @@
             "neutral"
         ],
         "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/1/12/RC_Celta_de_Vigo_logo.svg/1200px-RC_Celta_de_Vigo_logo.svg.png",
-        "puntaje_anterior": 14
+        "puntaje_anterior": 14,
+        "tarjetasAmarillas": 0,
+        "tarjetasRojas":0,
+        "fecha": "12/12/2023"
     }
 ]

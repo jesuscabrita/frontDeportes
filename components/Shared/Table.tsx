@@ -6,11 +6,12 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { ArrowP, UltimateP } from './UltimateP';
+import { UltimateP } from './UltimateP';
 import { Grid } from '@mui/material';
 import data from '../../utils/data.json';
 import { useContext } from 'react';
 import Context from '../../context/contextPrincipal';
+import { ArrowP } from './ArrowP';
 
 
 export const PositionTable = () => {
@@ -26,6 +27,12 @@ export const PositionTable = () => {
             return -1;
         }
         else if (a.diferencia_de_Goles < b.diferencia_de_Goles) {
+            return 1;
+        }
+        else if (a.tarjetasAmarillas < b.tarjetasAmarillas) {
+            return -1;
+        }
+        else if (a.tarjetasAmarillas > b.tarjetasAmarillas) {
             return 1;
         } else {
             return 0;
