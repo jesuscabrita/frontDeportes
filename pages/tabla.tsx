@@ -6,7 +6,7 @@ const Tabla = () => {
 
     return (
     <Grid sx={{height:!mobile ?'170vh' : '100%',display:'flex', alignItems:'center', justifyContent:'center'}}>
-        <Grid item sx={{paddingTop: !mobile ?'10px' : '100px', maxWidth:'95%'}}>
+        <Grid item sx={{paddingTop: !mobile ?'10px' : '80px', maxWidth:'95%'}}>
             <PositionTable/>
         </Grid>
     </Grid>

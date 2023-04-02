@@ -21,7 +21,9 @@
         "puntaje_anterior": 1,
         "tarjetasAmarillas": 0,
         "tarjetasRojas":0,
-        "fecha": "12/12/2023"
+        "fecha": "12/12/2023",
+        "arbitro": "Andres Mujica",
+        "estadio": "Spotify Camp Nou"
     },
     {
         "id": 2,
@@ -45,7 +47,9 @@
         "puntaje_anterior": 2,
         "tarjetasAmarillas": 0,
         "tarjetasRojas":0,
-        "fecha": "12/12/2023"
+        "fecha": "12/12/2023",
+        "arbitro": "Negreira",
+        "estadio": "Santiago Bernabeu"
     },
     {
         "id": 3,
@@ -69,7 +73,9 @@
         "puntaje_anterior": 3,
         "tarjetasAmarillas": 0,
         "tarjetasRojas":0,
-        "fecha": "12/12/2023"
+        "fecha": "12/12/2023",
+        "arbitro": "Andres Mujica",
+        "estadio": "Mestalla"
     },
     {
         "id": 4,
@@ -93,7 +99,9 @@
         "puntaje_anterior": 4,
         "tarjetasAmarillas": 0,
         "tarjetasRojas":0,
-        "fecha": "12/12/2023"
+        "fecha": "12/12/2023",
+        "arbitro": "Andres Mujica",
+        "estadio": "Cívitas Metropolitano"
     },
     {
         "id": 5,
@@ -117,7 +125,9 @@
         "puntaje_anterior": 5,
         "tarjetasAmarillas": 0,
         "tarjetasRojas":0,
-        "fecha": "12/12/2023"
+        "fecha": "12/12/2023",
+        "arbitro": "Andres Mujica",
+        "estadio":"San Mamés"
     },
     {
         "id": 6,
@@ -141,7 +151,9 @@
         "puntaje_anterior": 6,
         "tarjetasAmarillas": 0,
         "tarjetasRojas":0,
-        "fecha": "12/12/2023"
+        "fecha": "12/12/2023",
+        "arbitro": "Andres Mujica",
+        "estadio":"Reale Arena"
     },
     {
         "id": 7,
@@ -165,7 +177,9 @@
         "puntaje_anterior": 7,
         "tarjetasAmarillas": 0,
         "tarjetasRojas":0,
-        "fecha": "12/12/2023"
+        "fecha": "12/12/2023",
+        "arbitro": "Andres Mujica",
+        "estadio":"Benito Villamarín"
     },
     {
         "id": 8,
@@ -189,7 +203,9 @@
         "puntaje_anterior": 8,
         "tarjetasAmarillas": 0,
         "tarjetasRojas":0,
-        "fecha": "12/12/2023"
+        "fecha": "12/12/2023",
+        "arbitro": "Andres Mujica",
+        "estadio":"Estadio de la Cerámica"
     },
     {
         "id": 9,
@@ -213,7 +229,9 @@
         "puntaje_anterior": 9,
         "tarjetasAmarillas": 0,
         "tarjetasRojas":0,
-        "fecha": "12/12/2023"
+        "fecha": "12/12/2023",
+        "arbitro": "Andres Mujica",
+        "estadio":"Campo de Fútbol de Vallecas"
     },
     {
         "id": 10,
@@ -237,7 +255,9 @@
         "puntaje_anterior": 10,
         "tarjetasAmarillas": 0,
         "tarjetasRojas":0,
-        "fecha": "12/12/2023"
+        "fecha": "12/12/2023",
+        "arbitro": "Andres Mujica",
+        "estadio":"Coliseum Alfonso Pérez"
     },
     {
         "id": 11,
@@ -261,7 +281,9 @@
         "puntaje_anterior": 11,
         "tarjetasAmarillas": 0,
         "tarjetasRojas":0,
-        "fecha": "12/12/2023"
+        "fecha": "12/12/2023",
+        "arbitro": "Andres Mujica",
+        "estadio":"RCDE Stadium"
     },
     {
         "id": 12,
@@ -285,7 +307,9 @@
         "puntaje_anterior": 12,
         "tarjetasAmarillas": 0,
         "tarjetasRojas":0,
-        "fecha": "12/12/2023"
+        "fecha": "12/12/2023",
+        "arbitro": "Andres Mujica",
+        "estadio":"Ramón Sánchez-Pizjuán"
     },
     {
         "id": 13,
@@ -309,7 +333,9 @@
         "puntaje_anterior": 13,
         "tarjetasAmarillas": 0,
         "tarjetasRojas":0,
-        "fecha": "12/12/2023"
+        "fecha": "12/12/2023",
+        "arbitro": "Andres Mujica",
+        "estadio":"Visit Mallorca Estadi"
     },
     {
         "id": 14,
@@ -333,6 +359,8 @@
         "puntaje_anterior": 14,
         "tarjetasAmarillas": 0,
         "tarjetasRojas":0,
-        "fecha": "12/12/2023"
+        "fecha": "12/12/2023",
+        "arbitro": "Andres Mujica",
+        "estadio":"Estadio de Balaídos"
     }
 ]
