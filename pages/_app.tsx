@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { InfoContextProvider } from "../context/contextPrincipal";
 import Head from "next/head";
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 
 const MyApp = ({ Component, pageProps }) => {
     const queryClient = new QueryClient({

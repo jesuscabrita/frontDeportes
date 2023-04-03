@@ -31,6 +31,8 @@
                 "nacionalidad":"Alemania",
                 "dorsal":1,
                 "partidos":0,
+                "esquipo":"Barcelona Fc",
+                "logo": "https://1000marcas.net/wp-content/uploads/2020/03/Logo-Barcelona.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/178/png/144x144/77318.png"
             },
             {   "name":"Ronald Araújo",
@@ -45,6 +47,8 @@
                 "nacionalidad":"Uruguay",
                 "dorsal":4,
                 "partidos":0,
+                "esquipo":"Barcelona Fc",
+                "logo": "https://1000marcas.net/wp-content/uploads/2020/03/Logo-Barcelona.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/178/png/144x144/445087.png"
             },
             {   "name":"Frenkie de Jong",
@@ -59,6 +63,8 @@
                 "nacionalidad":"Paises bajos",
                 "dorsal":21,
                 "partidos":0,
+                "esquipo":"Barcelona Fc",
+                "logo": "https://1000marcas.net/wp-content/uploads/2020/03/Logo-Barcelona.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/178/png/144x144/209712.png"
             },
             {   "name":"Robert Lewandowski",
@@ -73,6 +79,8 @@
                 "nacionalidad":"Polonia",
                 "dorsal":9,
                 "partidos":0,
+                "esquipo":"Barcelona Fc",
+                "logo": "https://1000marcas.net/wp-content/uploads/2020/03/Logo-Barcelona.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/178/png/144x144/56764.png"
             }
         ]
@@ -109,6 +117,8 @@
                 "nacionalidad":"Belgica",
                 "dorsal":1,
                 "partidos":0,
+                "esquipo":"Real Madrid Fc",
+                "logo": "https://logos-world.net/wp-content/uploads/2020/06/Real-Madrid-symbol.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/186/png/144x144/60772.png"
             },
             {   "name":"David Alaba",
@@ -123,6 +133,8 @@
                 "nacionalidad":"Austria",
                 "dorsal":4,
                 "partidos":0,
+                "esquipo":"Real Madrid Fc",
+                "logo": "https://logos-world.net/wp-content/uploads/2020/06/Real-Madrid-symbol.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/186/png/144x144/50188.png"
             },
             {   "name":"Luka Modric",
@@ -137,6 +149,8 @@
                 "nacionalidad":"Croacia",
                 "dorsal":10,
                 "partidos":0,
+                "esquipo":"Real Madrid Fc",
+                "logo": "https://logos-world.net/wp-content/uploads/2020/06/Real-Madrid-symbol.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/186/png/144x144/37055.png"
             },
             {   "name":"Karim Benzema",
@@ -151,6 +165,8 @@
                 "nacionalidad":"Francia",
                 "dorsal":9,
                 "partidos":0,
+                "esquipo":"Real Madrid Fc",
+                "logo": "https://logos-world.net/wp-content/uploads/2020/06/Real-Madrid-symbol.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/186/png/144x144/19927.png"
             }
         ]
@@ -187,6 +203,8 @@
                 "nacionalidad":"España",
                 "dorsal":1,
                 "partidos":0,
+                "esquipo":"Valencia Fc",
+                "logo": "https://1000marcas.net/wp-content/uploads/2021/05/Valencia-Logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/191/png/144x144/89292.png"
             },
             {   "name":"José Gayà",
@@ -201,6 +219,8 @@
                 "nacionalidad":"España",
                 "dorsal":14,
                 "partidos":0,
+                "esquipo":"Valencia Fc",
+                "logo": "https://1000marcas.net/wp-content/uploads/2021/05/Valencia-Logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/191/png/144x144/132105.png"
             },
             {   "name":"Samuel Castillejo Azuaga",
@@ -215,6 +235,8 @@
                 "nacionalidad":"España",
                 "dorsal":11,
                 "partidos":0,
+                "esquipo":"Valencia Fc",
+                "logo": "https://1000marcas.net/wp-content/uploads/2021/05/Valencia-Logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/191/png/144x144/193449.png"
             },
             {   "name":"Edinson Cavani",
@@ -228,6 +250,8 @@
                 "nacionalidad":"Uruguay",
                 "dorsal":7,
                 "partidos":0,
+                "esquipo":"Valencia Fc",
+                "logo": "https://1000marcas.net/wp-content/uploads/2021/05/Valencia-Logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/191/png/144x144/40720.png"
             }
         ]
@@ -264,6 +288,8 @@
                 "nacionalidad":"Eslovenia",
                 "dorsal":13,
                 "partidos":0,
+                "esquipo":"Atletico Madrid",
+                "logo": "https://1000marcas.net/wp-content/uploads/2020/03/Logo-Atletico-Madrid.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/175/png/144x144/81352.png"
             },
             {   "name":"José Giménez",
@@ -278,6 +304,8 @@
                 "nacionalidad":"Uruguay",
                 "dorsal":2,
                 "partidos":0,
+                "esquipo":"Atletico Madrid",
+                "logo": "https://1000marcas.net/wp-content/uploads/2020/03/Logo-Atletico-Madrid.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/175/png/144x144/151883.png"
             },
             {   "name":"Yannick Carrasco",
@@ -292,6 +320,8 @@
                 "nacionalidad":"Belgica",
                 "dorsal":21,
                 "partidos":0,
+                "esquipo":"Atletico Madrid",
+                "logo": "https://1000marcas.net/wp-content/uploads/2020/03/Logo-Atletico-Madrid.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/175/png/144x144/119718.png"
             },
             {   "name":"Antoine Griezmann",
@@ -306,6 +336,8 @@
                 "nacionalidad":"Francia",
                 "dorsal":8,
                 "partidos":0,
+                "esquipo":"Atletico Madrid",
+                "logo": "https://1000marcas.net/wp-content/uploads/2020/03/Logo-Atletico-Madrid.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/175/png/144x144/76650.png"
             }
         ]
@@ -342,6 +374,8 @@
                 "nacionalidad":"España",
                 "dorsal":1,
                 "partidos":0,
+                "esquipo":"Athletic Bilbao",
+                "logo": "https://logos-world.net/wp-content/uploads/2020/11/Athletic-Bilbao-Logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/174/png/144x144/212769.png"
             },
             {   "name":"Íñigo Martínez",
@@ -356,6 +390,8 @@
                 "nacionalidad":"España",
                 "dorsal":4,
                 "partidos":0,
+                "esquipo":"Athletic Bilbao",
+                "logo": "https://logos-world.net/wp-content/uploads/2020/11/Athletic-Bilbao-Logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/174/png/144x144/90318.png"
             },
             {   "name":"Raúl García",
@@ -370,6 +406,8 @@
                 "nacionalidad":"España",
                 "dorsal":22,
                 "partidos":0,
+                "esquipo":"Athletic Bilbao",
+                "logo": "https://logos-world.net/wp-content/uploads/2020/11/Athletic-Bilbao-Logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/174/png/144x144/18498.png"
             },
             {   "name":"Iñaki Williams",
@@ -383,6 +421,9 @@
                 "lesion":"no",
                 "nacionalidad":"Ghana",
                 "dorsal":9,
+                "partidos":0,
+                "esquipo":"Athletic Bilbao",
+                "logo": "https://logos-world.net/wp-content/uploads/2020/11/Athletic-Bilbao-Logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/174/png/144x144/197334.png"
             }
         ]
@@ -419,6 +460,8 @@
                 "nacionalidad":"España",
                 "dorsal":1,
                 "partidos":0,
+                "esquipo":"Real Sociedad",
+                "logo": "https://1000marcas.net/wp-content/uploads/2022/04/Real-Sociedad-Logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/188/png/144x144/197316.png"
             },
             {   "name":"Diego Rico",
@@ -433,6 +476,8 @@
                 "nacionalidad":"España",
                 "dorsal":15,
                 "partidos":0,
+                "esquipo":"Real Sociedad",
+                "logo": "https://1000marcas.net/wp-content/uploads/2022/04/Real-Sociedad-Logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/188/png/144x144/171129.png"
             },
             {   "name":"David Silva",
@@ -447,6 +492,8 @@
                 "nacionalidad":"España",
                 "dorsal":21,
                 "partidos":0,
+                "esquipo":"Real Sociedad",
+                "logo": "https://1000marcas.net/wp-content/uploads/2022/04/Real-Sociedad-Logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/188/png/144x144/20664.png"
             },
             {   "name":"Mikel Oyarzabal",
@@ -461,6 +508,8 @@
                 "nacionalidad":"España",
                 "dorsal":10,
                 "partidos":0,
+                "esquipo":"Real Sociedad",
+                "logo": "https://1000marcas.net/wp-content/uploads/2022/04/Real-Sociedad-Logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/188/png/144x144/219000.png"
             }
         ]
@@ -497,6 +546,8 @@
                 "nacionalidad":"Chile",
                 "dorsal":1,
                 "partidos":0,
+                "esquipo":"Betis",
+                "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/1/13/Real_betis_logo.svg/800px-Real_betis_logo.svg.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/185/png/144x144/33148.png"
             },
             {   "name":"Germán Pezzella",
@@ -511,6 +562,8 @@
                 "nacionalidad":"Argentina",
                 "dorsal":16,
                 "partidos":0,
+                "esquipo":"Betis",
+                "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/1/13/Real_betis_logo.svg/800px-Real_betis_logo.svg.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/185/png/144x144/121220.png"
             },
             {   "name":"Andrés Guardado",
@@ -525,6 +578,8 @@
                 "nacionalidad":"Mexico",
                 "dorsal":18,
                 "partidos":0,
+                "esquipo":"Betis",
+                "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/1/13/Real_betis_logo.svg/800px-Real_betis_logo.svg.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/185/png/144x144/37064.png"
             },
             {   "name":"Nabil Fekir",
@@ -539,6 +594,8 @@
                 "nacionalidad":"Francia",
                 "dorsal":8,
                 "partidos":0,
+                "esquipo":"Betis",
+                "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/1/13/Real_betis_logo.svg/800px-Real_betis_logo.svg.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/185/png/144x144/166552.png"
             }
         ]
@@ -575,6 +632,8 @@
                 "nacionalidad":"España",
                 "dorsal":1,
                 "partidos":0,
+                "esquipo":"Villareal",
+                "logo": "https://upload.wikimedia.org/wikipedia/an/thumb/7/70/Villarreal_CF_logo.svg/1200px-Villarreal_CF_logo.svg.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/449/png/144x144/8432.png"
             },
             {   "name":"Pau Torres",
@@ -589,6 +648,8 @@
                 "nacionalidad":"España",
                 "dorsal":4,
                 "partidos":0,
+                "esquipo":"Villareal",
+                "logo": "https://upload.wikimedia.org/wikipedia/an/thumb/7/70/Villarreal_CF_logo.svg/1200px-Villarreal_CF_logo.svg.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/449/png/144x144/244954.png"
             },
             {   "name":"Daniel Parejo",
@@ -603,6 +664,8 @@
                 "nacionalidad":"España",
                 "dorsal":10,
                 "partidos":0,
+                "esquipo":"Villareal",
+                "logo": "https://upload.wikimedia.org/wikipedia/an/thumb/7/70/Villarreal_CF_logo.svg/1200px-Villarreal_CF_logo.svg.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/449/png/144x144/51952.png"
             },
             {   "name":"Gerard Moreno",
@@ -617,6 +680,8 @@
                 "nacionalidad":"España",
                 "dorsal":7,
                 "partidos":0,
+                "esquipo":"Villareal",
+                "logo": "https://upload.wikimedia.org/wikipedia/an/thumb/7/70/Villarreal_CF_logo.svg/1200px-Villarreal_CF_logo.svg.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/449/png/144x144/93721.png"
             }
         ]
@@ -653,6 +718,8 @@
                 "nacionalidad":"España",
                 "dorsal":13,
                 "partidos":0,
+                "esquipo":"Rayo Vallecano",
+                "logo": "https://w7.pngwing.com/pngs/360/799/png-transparent-rayo-vallecano-hd-logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/184/png/144x144/16021.png"
             },
             {   "name":"Mario Suárez",
@@ -667,6 +734,8 @@
                 "nacionalidad":"España",
                 "dorsal":4,
                 "partidos":0,
+                "esquipo":"Rayo Vallecano",
+                "logo": "https://w7.pngwing.com/pngs/360/799/png-transparent-rayo-vallecano-hd-logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/184/png/144x144/28160.png"
             },
             {   "name":"Unai López",
@@ -681,6 +750,8 @@
                 "nacionalidad":"España",
                 "dorsal":17,
                 "partidos":0,
+                "esquipo":"Rayo Vallecano",
+                "logo": "https://w7.pngwing.com/pngs/360/799/png-transparent-rayo-vallecano-hd-logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/184/png/144x144/183462.png"
             },
             {   "name":"Radamel Falcao",
@@ -695,6 +766,8 @@
                 "nacionalidad":"Colombia",
                 "dorsal":9,
                 "partidos":0,
+                "esquipo":"Rayo Vallecano",
+                "logo": "https://w7.pngwing.com/pngs/360/799/png-transparent-rayo-vallecano-hd-logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/184/png/144x144/48847.png"
             }
         ]
@@ -731,6 +804,8 @@
                 "nacionalidad":"España",
                 "dorsal":1,
                 "partidos":0,
+                "esquipo":"Getafe",
+                "logo": "https://1000marcas.net/wp-content/uploads/2021/05/Getafe-logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/1450/png/144x144/39790.png"
             },
             {   "name":"Damián Suárez",
@@ -745,6 +820,8 @@
                 "nacionalidad":"Uruguay",
                 "dorsal":22,
                 "partidos":0,
+                "esquipo":"Getafe",
+                "logo": "https://1000marcas.net/wp-content/uploads/2021/05/Getafe-logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/1450/png/144x144/99005.png"
             },
             {   "name":"Carles Aleñá",
@@ -759,6 +836,8 @@
                 "nacionalidad":"España",
                 "dorsal":11,
                 "partidos":0,
+                "esquipo":"Getafe",
+                "logo": "https://1000marcas.net/wp-content/uploads/2021/05/Getafe-logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/1450/png/144x144/179271.png"
             },
             {   "name":"Borja Mayoral",
@@ -773,6 +852,8 @@
                 "nacionalidad":"España",
                 "dorsal":19,
                 "partidos":0,
+                "esquipo":"Getafe",
+                "logo": "https://1000marcas.net/wp-content/uploads/2021/05/Getafe-logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/1450/png/144x144/199248.png"
             }
         ]
@@ -809,6 +890,8 @@
                 "nacionalidad":"España",
                 "dorsal":25,
                 "partidos":0,
+                "esquipo":"Espanyol",
+                "logo": "https://1000marcas.net/wp-content/uploads/2021/05/Espanyol-logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/177/png/144x144/240796.png"
             },
             {   "name":"Aleix Vidal",
@@ -823,6 +906,8 @@
                 "nacionalidad":"España",
                 "dorsal":22,
                 "partidos":0,
+                "esquipo":"Espanyol",
+                "logo": "https://1000marcas.net/wp-content/uploads/2021/05/Espanyol-logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/177/png/144x144/79627.png"
             },
             {   "name":"Vinicius de Souza Costa",
@@ -837,6 +922,8 @@
                 "nacionalidad":"Brasil",
                 "dorsal":12,
                 "partidos":0,
+                "esquipo":"Espanyol",
+                "logo": "https://1000marcas.net/wp-content/uploads/2021/05/Espanyol-logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/177/png/144x144/424001.png"
             },
             {   "name":"Martin Braithwaite",
@@ -851,6 +938,8 @@
                 "nacionalidad":"Dinamarca",
                 "dorsal":17,
                 "partidos":0,
+                "esquipo":"Espanyol",
+                "logo": "https://1000marcas.net/wp-content/uploads/2021/05/Espanyol-logo.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/177/png/144x144/68690.png"
             }
         ]
@@ -887,6 +976,8 @@
                 "nacionalidad":"Marruecos",
                 "dorsal":13,
                 "partidos":0,
+                "esquipo":"Sevilla",
+                "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/Sevilla_FC_logo.svg/1200px-Sevilla_FC_logo.svg.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/179/png/144x144/120026.png"
             },
             {   "name":"Marcos Acuña",
@@ -901,6 +992,8 @@
                 "nacionalidad":"Argentina",
                 "dorsal":19,
                 "partidos":0,
+                "esquipo":"Sevilla",
+                "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/Sevilla_FC_logo.svg/1200px-Sevilla_FC_logo.svg.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/179/png/144x144/169813.png"
             },
             {   "name":"Ivan Rakitic",
@@ -915,6 +1008,8 @@
                 "nacionalidad":"Croacia",
                 "dorsal":10,
                 "partidos":0,
+                "esquipo":"Sevilla",
+                "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/Sevilla_FC_logo.svg/1200px-Sevilla_FC_logo.svg.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/179/png/144x144/34703.png"
             },
             {   "name":"Youssef En-Nesyri",
@@ -929,6 +1024,8 @@
                 "nacionalidad":"Marruecos",
                 "dorsal":15,
                 "partidos":0,
+                "esquipo":"Sevilla",
+                "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/Sevilla_FC_logo.svg/1200px-Sevilla_FC_logo.svg.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/179/png/144x144/234991.png"
             }
         ]
@@ -965,6 +1062,8 @@
                 "nacionalidad":"Serbia",
                 "dorsal":1,
                 "partidos":0,
+                "esquipo":"Mallorca",
+                "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/Rcd_mallorca.svg/1200px-Rcd_mallorca.svg.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/181/png/144x144/104407.png"
             },
             {   "name":"José Manuel Arias Copete",
@@ -979,6 +1078,8 @@
                 "nacionalidad":"España",
                 "dorsal":6,
                 "partidos":0,
+                "esquipo":"Mallorca",
+                "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/Rcd_mallorca.svg/1200px-Rcd_mallorca.svg.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/181/png/144x144/500759.png"
             },
             {   "name":"Daniel José Rodríguez",
@@ -993,6 +1094,8 @@
                 "nacionalidad":"España",
                 "dorsal":14,
                 "partidos":0,
+                "esquipo":"Mallorca",
+                "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/Rcd_mallorca.svg/1200px-Rcd_mallorca.svg.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/181/png/144x144/80906.png"
             },
             {   "name":"Amath Ndiaye",
@@ -1007,6 +1110,8 @@
                 "nacionalidad":"Senegal",
                 "dorsal":23,
                 "partidos":0,
+                "esquipo":"Mallorca",
+                "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/Rcd_mallorca.svg/1200px-Rcd_mallorca.svg.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/181/png/144x144/225463.png"
             }
         ]
@@ -1043,6 +1148,8 @@
                 "nacionalidad":"Argentina",
                 "dorsal":1,
                 "partidos":0,
+                "esquipo":"Celta de vigo",
+                "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/1/12/RC_Celta_de_Vigo_logo.svg/1200px-RC_Celta_de_Vigo_logo.svg.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/176/png/144x144/59891.png"
             },
             {   "name":"Óscar Mingueza",
@@ -1057,6 +1164,8 @@
                 "nacionalidad":"España",
                 "dorsal":3,
                 "partidos":0,
+                "esquipo":"Celta de vigo",
+                "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/1/12/RC_Celta_de_Vigo_logo.svg/1200px-RC_Celta_de_Vigo_logo.svg.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/176/png/144x144/242313.png"
             },
             {   "name":"Óscar Rodríguez",
@@ -1071,6 +1180,8 @@
                 "nacionalidad":"España",
                 "dorsal":5,
                 "partidos":0,
+                "esquipo":"Celta de vigo",
+                "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/1/12/RC_Celta_de_Vigo_logo.svg/1200px-RC_Celta_de_Vigo_logo.svg.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/176/png/144x144/223757.png"
             },
             {   "name":"Iago Aspas",
@@ -1085,6 +1196,8 @@
                 "nacionalidad":"España",
                 "dorsal":10,
                 "partidos":0,
+                "esquipo":"Celta de vigo",
+                "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/1/12/RC_Celta_de_Vigo_logo.svg/1200px-RC_Celta_de_Vigo_logo.svg.png",
                 "foto":"https://e00-marca.uecdn.es/assets/sports/headshots/football/176/png/144x144/40270.png"
             }
         ]
