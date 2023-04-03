@@ -10,38 +10,41 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Row } from "./Row";
 import Context from "../../context/contextPrincipal";
+import { ModalEdit } from "./Modal";
 
-const MatchCalendar = () => {
+export const MatchCalendar = () => {
     const [light] = useContext(Context);
     const [currentRound, setCurrentRound] = useState(0);
     const [matches, setMatches] = useState(generateCalendar());
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
+    const [open, setOpen] = useState(false);
 
     function generateCalendar() {
         const numTeams = data.length;
         const numRounds = numTeams - 1;
         const matchesPerRound = numTeams / 2;
+        const sortedData = [...data].sort((a, b) => a.name.localeCompare(b.name));
 
         const newMatches = [];
         for (let round = 0; round < numRounds; round++) {
-            const roundMatches = [];
+        const roundMatches = [];
 
             for (let match = 0; match < matchesPerRound; match++) {
-                const homeTeamIndex = (round + match) % (numTeams - 1);
-                const awayTeamIndex = (numTeams - 1 - match + round) % (numTeams - 1);
+            const homeTeamIndex = (round + match) % (numTeams - 1);
+            const awayTeamIndex = (numTeams - 1 - match + round) % (numTeams - 1);
 
-                if (match === 0) {
-                    roundMatches.push([
-                        data[numTeams - 1].id,
-                        data[homeTeamIndex].id
-                    ]);
-                } else {
-                    roundMatches.push([
-                        data[homeTeamIndex].id,
-                        data[awayTeamIndex].id
-                    ]);
-                }
+            if (match === 0) {
+                roundMatches.push([
+                    sortedData[numTeams - 1].id,
+                    sortedData[homeTeamIndex].id
+                ]);
+            } else {
+                roundMatches.push([
+                    sortedData[homeTeamIndex].id,
+                    sortedData[awayTeamIndex].id
+                ]);
             }
+        }
             newMatches.push(roundMatches);
         }
         return newMatches;
@@ -54,7 +57,6 @@ const MatchCalendar = () => {
     function handlePrevRound() {
         setCurrentRound(currentRound - 1);
     }
-
 
     return (
         <Grid container width={'100%'} alignItems={'center'} alignContent={'center'}>
@@ -82,7 +84,13 @@ const MatchCalendar = () => {
                             const homeTeam = data.find(team => team.id === match[0]);
                             const awayTeam = data.find(team => team.id === match[1]);
                             return (
-                                <Row key={index} homeTeam={homeTeam} awayTeam={awayTeam}  />
+                                <Row 
+                                    key={index} 
+                                    homeTeam={homeTeam} 
+                                    awayTeam={awayTeam} 
+                                    openEdit={open}
+                                    setOpenEdit={setOpen}
+                                />
                             );
                         })}
                     </TableBody>
@@ -93,8 +101,7 @@ const MatchCalendar = () => {
             <Button sx={{color:'var(--primario)'}} disabled={currentRound === 0} onClick={handlePrevRound}>Anterior</Button>
             <Button sx={{color:'var(--primario)'}}  disabled={currentRound === matches.length - 1} onClick={handleNextRound}>Siguiente</Button>
         </Grid>
+        {open && <ModalEdit open={open} setOpen={setOpen}/>}
     </Grid>
     );
 };
-
-export default MatchCalendar;

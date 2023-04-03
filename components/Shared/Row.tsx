@@ -10,8 +10,9 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Grid, useMediaQuery } from "@mui/material";
 import Context from "../../context/contextPrincipal";
+import { MdOutlineEditCalendar as Edit } from 'react-icons/md';
 
-export const Row =({homeTeam, awayTeam})=> {
+export const Row =({homeTeam, awayTeam, setOpenEdit, openEdit})=> {
     const [light] = useContext(Context);
     const [open, setOpen] = useState(false);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -25,7 +26,12 @@ return (
                 </IconButton>
             </TableCell>
             <TableCell align="left" sx={{color:light ? 'black': 'var(--cero)'}}>{homeTeam.fecha}</TableCell>
-            <TableCell align="left" sx={{color:light ? 'black': 'var(--cero)'}}>{'10:00am'}</TableCell>
+            <TableCell align="left" sx={{color:light ? 'black': 'var(--cero)', whiteSpace: 'nowrap'}}>
+                <Grid container alignItems={'center'} gap={2} sx={{width:'150px'}}>
+                    <Grid item>{'10:00am'}</Grid>
+                    <Edit style={{cursor:'pointer'}} fontSize={20} onClick={()=> setOpenEdit(!openEdit)}/>
+                </Grid>
+            </TableCell>
             <TableCell align="center" sx={{whiteSpace: 'nowrap', paddingRight:mobile? '90px': '0px',color:light ? 'black': 'var(--cero)'}}>{homeTeam.estadio}</TableCell>
             <TableCell sx={{color:light ? 'black': 'var(--cero)'}}>
                 <Grid sx={{display:'flex',alignItems:'center',whiteSpace: 'nowrap', gap:'6px', justifyContent:'right'}}>
