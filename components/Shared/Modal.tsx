@@ -11,8 +11,9 @@ import moment from 'moment';
 
 export const ModalEdit = ({open,setOpen}) => {
     const [light] = useContext(Context);
-    const [fecha, setFecha] = useState(moment(new Date()))
-
+    const [fecha, setFecha] = useState(moment())
+    const formatoFecha = moment(fecha,'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY');
+    
     const handleClose = () => {
         setOpen(false);
     };

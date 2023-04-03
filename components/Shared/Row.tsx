@@ -11,11 +11,14 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Grid, useMediaQuery } from "@mui/material";
 import Context from "../../context/contextPrincipal";
 import { MdOutlineEditCalendar as Edit } from 'react-icons/md';
+import moment from "moment";
 
 export const Row =({homeTeam, awayTeam, setOpenEdit, openEdit})=> {
     const [light] = useContext(Context);
     const [open, setOpen] = useState(false);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
+    const formatoFecha = moment(homeTeam.fecha,'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY')
+    const formatoHora = moment(homeTeam.fecha,'YYYY-MM-DD HH:mm:ss').format('HH:mm a')
 
 return (
     <React.Fragment>
@@ -25,10 +28,10 @@ return (
                     {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                 </IconButton>
             </TableCell>
-            <TableCell align="left" sx={{color:light ? 'black': 'var(--cero)'}}>{homeTeam.fecha}</TableCell>
+            <TableCell align="left" sx={{color:light ? 'black': 'var(--cero)'}}>{formatoFecha}</TableCell>
             <TableCell align="left" sx={{color:light ? 'black': 'var(--cero)', whiteSpace: 'nowrap'}}>
                 <Grid container alignItems={'center'} gap={2} sx={{width:'150px'}}>
-                    <Grid item>{'10:00am'}</Grid>
+                    <Grid item>{formatoHora}</Grid>
                     <Edit style={{cursor:'pointer'}} fontSize={20} onClick={()=> setOpenEdit(!openEdit)}/>
                 </Grid>
             </TableCell>
