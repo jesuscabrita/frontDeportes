@@ -4,53 +4,20 @@ import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@mui/material/styles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { TablaGoleadores } from "../components/Shared/TablaGoleadores";
 import data from '../utils/data.json';
 import { TablaAsistidores } from "../components/Shared/TablaAsistidores";
 import { TablaAmarillas } from "../components/Shared/TablaAmarillas";
 import { TablaRojas } from "../components/Shared/TablaRojas";
-
-interface TabPanelProps {
-    children?: React.ReactNode;
-    dir?: string;
-    index: number;
-    value: number;
-}
-
-const TabPanel=(props: TabPanelProps)=> {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`full-width-tabpanel-${index}`}
-            aria-labelledby={`full-width-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
-        </div>
-    );
-}
-
-function a11yProps(index: number) {
-    return {
-        id: `full-width-tab-${index}`,
-        'aria-controls': `full-width-tabpanel-${index}`,
-    };
-}
+import { TabPanel } from "../components/Shared/TabPanel";
+import Context from "../context/contextPrincipal";
 
 const Tabla = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const theme = useTheme();
     const [value, setValue] = useState(0);
+    const [light] = useContext(Context);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -60,15 +27,22 @@ const Tabla = () => {
     setValue(index);
   };
 
+  function a11yProps(index: number) {
+    return {
+        id: `full-width-tab-${index}`,
+        'aria-controls': `full-width-tabpanel-${index}`,
+    };
+}
+
     return (
         <Grid sx={{ height: !mobile ? '170vh' : '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Grid item sx={{ paddingTop: !mobile ? '10px' : '80px', maxWidth: '95%' }}>
-              <Tabs value={value} onChange={handleChange} textColor="inherit" variant="fullWidth">
-                <Tab label="Posiciones" {...a11yProps(0)} />
-                <Tab label="Goleadores" {...a11yProps(1)} />
-                <Tab label="Asistidores" {...a11yProps(2)} />
-                <Tab label="Amarillas" {...a11yProps(3)} />
-                <Tab label="Rojas" {...a11yProps(4)} />
+            <Grid item sx={{ paddingTop: !mobile ? value == 0 ? '80px' : '10px' : '80px', maxWidth: '95%', marginTop: value == 1 || value == 2 || value == 3 || value == 4 ? mobile ? '0px': '-200px': '0px' }}>
+              <Tabs value={value} onChange={handleChange} textColor="inherit" variant="fullWidth" sx={{'& .MuiTabs-indicator':{backgroundColor:light?'var(--primario)':'var(--cero)'}}}>
+                <Tab sx={{fontSize:mobile ? '10px' : '14px', color : light ? 'var(--dark2)':'var(--cero)'}} label="Posiciones" {...a11yProps(0)} />
+                <Tab sx={{fontSize:mobile ? '10px' : '14px', color : light ? 'var(--dark2)':'var(--cero)'}} label="Goleadores" {...a11yProps(1)} />
+                <Tab sx={{fontSize:mobile ? '10px' : '14px', color : light ? 'var(--dark2)':'var(--cero)'}} label="Asistidores" {...a11yProps(2)} />
+                <Tab sx={{fontSize:mobile ? '10px' : '14px', color : light ? 'var(--dark2)':'var(--cero)'}} label="Amarillas" {...a11yProps(3)} />
+                <Tab sx={{fontSize:mobile ? '10px' : '14px', color : light ? 'var(--dark2)':'var(--cero)'}} label="Rojas" {...a11yProps(4)} />
               </Tabs>
               <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
                 <TabPanel value={value} index={0} dir={theme.direction}>

@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import Context from "../context/contextPrincipal";
 import { Equipos } from "../components/Shared/Equipos";
 import Tabs from '@mui/material/Tabs'
+import { LiveMatches } from "../components/Shared/LiveMatches";
 
 const Index = () => {
     const [light] = useContext(Context);
@@ -29,6 +30,7 @@ const Index = () => {
                 </Tabs>
                 </Box>
         </Grid>
+        <LiveMatches/>
     </Grid>
     );
 };
