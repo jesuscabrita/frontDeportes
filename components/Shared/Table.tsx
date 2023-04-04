@@ -13,7 +13,6 @@ import { useContext } from 'react';
 import Context from '../../context/contextPrincipal';
 import { ArrowP } from './ArrowP';
 
-
 export const PositionTable = () => {
     const [light] = useContext(Context);
 

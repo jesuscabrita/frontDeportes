@@ -14,3 +14,33 @@
     --warnning: #ece25d;
     --neutral: #8ca9a2;
 }
+
+.vivo {
+    border: 2px solid white;
+    animation-duration: 2.8s;
+    animation-name: fade;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes fade {
+    0% {
+        border-color: #CC4746;
+    }
+
+    20% {
+        border-color: #CC4746;
+    }
+
+    50% {
+        border-color: #CC4746;
+    }
+
+    70% {
+        border-color: white;
+    }
+
+    100% {
+        border-color: #CC4746;
+    }
+}
