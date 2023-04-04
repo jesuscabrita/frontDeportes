@@ -27,24 +27,32 @@ export const MatchCalendar = () => {
 
         const newMatches = [];
         for (let round = 0; round < numRounds; round++) {
-        const roundMatches = [];
+            const roundMatches = [];
 
             for (let match = 0; match < matchesPerRound; match++) {
-            const homeTeamIndex = (round + match) % (numTeams - 1);
-            const awayTeamIndex = (numTeams - 1 - match + round) % (numTeams - 1);
+                const homeTeamIndex = (round + match) % (numTeams - 1);
+                const awayTeamIndex = (numTeams - 1 - match + round) % (numTeams - 1);
 
-            if (match === 0) {
-                roundMatches.push([
-                    sortedData[numTeams - 1].id,
-                    sortedData[homeTeamIndex].id
-                ]);
-            } else {
-                roundMatches.push([
-                    sortedData[homeTeamIndex].id,
-                    sortedData[awayTeamIndex].id
-                ]);
+                if (match === 0) {
+                    roundMatches.push([
+                        sortedData[numTeams - 1].id,
+                        sortedData[homeTeamIndex].id,
+                        sortedData[numTeams - 1].fecha
+                    ]);
+                } else {
+                    roundMatches.push([
+                        sortedData[homeTeamIndex].id,
+                        sortedData[awayTeamIndex].id,
+                        sortedData[homeTeamIndex].fecha
+                    ]);
+                }
             }
-        }
+
+            roundMatches.sort((a, b) => {
+                const dateA = new Date(a[2]);
+                const dateB = new Date(b[2]);
+                return dateA.getTime() - dateB.getTime();
+            });
             newMatches.push(roundMatches);
         }
         return newMatches;
@@ -60,48 +68,48 @@ export const MatchCalendar = () => {
 
     return (
         <Grid container width={'100%'} alignItems={'center'} alignContent={'center'}>
-        <Grid item pb={2} sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap:'8px' }}>
-            <Grid item sx={{fontSize:'16px', color:light ? 'black': 'var(--cero)'}}>Jornada {currentRound + 1}</Grid> 
-            <img style={{height:'40px'}} src="https://logodownload.org/wp-content/uploads/2018/05/laliga-logo-1.png" alt="la liga" />
+            <Grid item pb={2} sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                <Grid item sx={{ fontSize: '16px', color: light ? 'black' : 'var(--cero)' }}>Jornada {currentRound + 1}</Grid>
+                <img style={{ height: '40px' }} src="https://logodownload.org/wp-content/uploads/2018/05/laliga-logo-1.png" alt="la liga" />
+            </Grid>
+            <Grid container alignItems={'center'} justifyContent={'center'}>
+                <TableContainer sx={{ width: '90%' }} component={Paper}>
+                    <Table aria-label="collapsible table">
+                        <TableHead sx={{ background: 'var(--dark2)' }}>
+                            <TableRow>
+                                <TableCell />
+                                <TableCell sx={{ color: 'var(--cero)' }} align="left">Fecha</TableCell>
+                                <TableCell sx={{ color: 'var(--cero)' }} align="left">Horario</TableCell>
+                                <TableCell sx={{ color: 'var(--cero)' }} align="center">Ubicacion</TableCell>
+                                <TableCell sx={{ color: 'var(--cero)' }} align="right">Local</TableCell>
+                                <TableCell />
+                                <TableCell sx={{ color: 'var(--cero)' }} align="left">Visitante</TableCell>
+                                <TableCell sx={{ color: 'var(--cero)' }} align={!mobile ? "left" : "right"}>Arbitro</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {matches[currentRound].map((match, index) => {
+                                const homeTeam = data.find(team => team.id === match[0]);
+                                const awayTeam = data.find(team => team.id === match[1]);
+                                return (
+                                    <Row
+                                        key={index}
+                                        homeTeam={homeTeam}
+                                        awayTeam={awayTeam}
+                                        openEdit={open}
+                                        setOpenEdit={setOpen}
+                                    />
+                                );
+                            })}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Grid>
+            <Grid container justifyContent="center" alignItems="center">
+                <Button sx={{ color: 'var(--primario)' }} disabled={currentRound === 0} onClick={handlePrevRound}>Anterior</Button>
+                <Button sx={{ color: 'var(--primario)' }} disabled={currentRound === matches.length - 1} onClick={handleNextRound}>Siguiente</Button>
+            </Grid>
+            {open && <ModalEdit open={open} setOpen={setOpen} />}
         </Grid>
-        <Grid container alignItems={'center'} justifyContent={'center'}>
-            <TableContainer sx={{ width: '90%'}} component={Paper}>
-                <Table aria-label="collapsible table">
-                    <TableHead sx={{background:'var(--dark2)'}}>
-                        <TableRow>
-                            <TableCell />
-                            <TableCell sx={{color: 'var(--cero)'}} align="left">Fecha</TableCell>
-                            <TableCell sx={{color: 'var(--cero)'}} align="left">Horario</TableCell>
-                            <TableCell sx={{color: 'var(--cero)'}} align="center">Ubicacion</TableCell>
-                            <TableCell sx={{color: 'var(--cero)'}} align="right">Local</TableCell>
-                            <TableCell />
-                            <TableCell sx={{color: 'var(--cero)'}} align="left">Visitante</TableCell>
-                            <TableCell sx={{color: 'var(--cero)'}} align={!mobile ?"left" : "right"}>Arbitro</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {matches[currentRound].map((match, index) => {
-                            const homeTeam = data.find(team => team.id === match[0]);
-                            const awayTeam = data.find(team => team.id === match[1]);
-                            return (
-                                <Row 
-                                    key={index} 
-                                    homeTeam={homeTeam} 
-                                    awayTeam={awayTeam} 
-                                    openEdit={open}
-                                    setOpenEdit={setOpen}
-                                />
-                            );
-                        })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Grid>
-        <Grid container justifyContent="center" alignItems="center">
-            <Button sx={{color:'var(--primario)'}} disabled={currentRound === 0} onClick={handlePrevRound}>Anterior</Button>
-            <Button sx={{color:'var(--primario)'}}  disabled={currentRound === matches.length - 1} onClick={handleNextRound}>Siguiente</Button>
-        </Grid>
-        {open && <ModalEdit open={open} setOpen={setOpen}/>}
-    </Grid>
     );
 };
