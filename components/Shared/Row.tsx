@@ -14,6 +14,7 @@ import moment from "moment";
 import { ButtonStatus } from "./ButtonStatus";
 import { GiSoccerBall as Gol } from 'react-icons/gi';
 import { CgUser as Dt } from 'react-icons/cg';
+import { FaUserEdit as Arbitro } from 'react-icons/fa';
 
 export const Row =({homeTeam, awayTeam, setOpenEdit, openEdit, currentRound, setOpenEditArbitro, openEditArbitro})=> {
     const [light] = useContext(Context);
@@ -93,7 +94,7 @@ return (
             <TableCell  align="left" sx={{whiteSpace: 'nowrap',paddingLeft:mobile? '90px': '0px',color:light ? 'black': 'var(--cero)'}}>
                 <Grid container alignItems={'center'} gap={2} sx={{width:'150px'}}>
                     <Grid>{homeTeam.arbitro}</Grid>
-                    <Edit style={{cursor:'pointer'}} fontSize={20} onClick={()=> {setOpenEditArbitro(!openEditArbitro)}}/>
+                    <Arbitro style={{cursor:'pointer'}} fontSize={20} onClick={()=> {setOpenEditArbitro(!openEditArbitro)}}/>
                 </Grid>
             </TableCell>
         </TableRow>
