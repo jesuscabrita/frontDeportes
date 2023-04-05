@@ -64,7 +64,7 @@ export const TablaAsistidores = ({ data }) => {
                             <StyledTableCell  component="th" scope="row" style={{ display: 'flex', gap: '8px', alignItems: 'center', whiteSpace: 'nowrap',height: '70px' }}>
                                 <Grid>{index + 1}</Grid>
                                 {(index + 1 == 1) &&
-                                    <Grid sx={{ background: 'var(--primario)', height: '35px', width: '10px', whiteSpace: 'nowrap' }}></Grid>}
+                                    <Grid sx={{ background: 'var(--check)', height: '35px', width: '10px', whiteSpace: 'nowrap' }}></Grid>}
                             </StyledTableCell>
                             <StyledTableCell align="right" style={{width:'330px',whiteSpace: 'nowrap'}}>
                                 <Grid sx={{display:'flex', alignItems:'center', whiteSpace: 'nowrap', gap:'18px'}} >

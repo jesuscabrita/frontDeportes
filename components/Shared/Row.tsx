@@ -13,6 +13,7 @@ import { MdOutlineEditCalendar as Edit } from 'react-icons/md';
 import moment from "moment";
 import { ButtonStatus } from "./ButtonStatus";
 import { GiSoccerBall as Gol } from 'react-icons/gi';
+import { CgUser as Dt } from 'react-icons/cg';
 
 export const Row =({homeTeam, awayTeam, setOpenEdit, openEdit, currentRound})=> {
     const [light] = useContext(Context);
@@ -26,7 +27,7 @@ export const Row =({homeTeam, awayTeam, setOpenEdit, openEdit, currentRound})=> 
     const gol_home = homeTeam.gol_partido[currentRound];
     const gol_away = awayTeam.gol_partido[currentRound];
     const fechaBD = moment(fecha_home,'YYYY-MM-DD HH:mm:ss')
-    const TIEMPO_PARTIDO = 40;
+    const TIEMPO_PARTIDO = 50;
     const tiempoRestante = fechaBD.diff(hoy, 'minutes') + TIEMPO_PARTIDO;
     const fechaFinalPartido = fechaBD.clone().add(TIEMPO_PARTIDO, 'minutes');
 
@@ -95,36 +96,120 @@ return (
             <TableCell style={{ paddingBottom: 0, paddingTop: 0,background:light ? 'var(--cero)':'var(--dark)' }} colSpan={8}>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <Box sx={{ margin: 1}}>
-                        <Typography variant="h6" gutterBottom component="div">
+                        <Typography variant="h6" gutterBottom component="div" sx={{color:light ? 'var(--dark2)':'var(--cero)'}}>
                             Historial
                         </Typography>
-                        <Grid container gap={4}>
+                        <Grid container gap={6}>
                             <Grid>
                             <img style={{height:'30px'}} src={homeTeam.logo} alt="" />
+                            {homeTeam.director_tecnico.map((tecnico)=>{
+                                return(
+                                    <>
+                                    {tecnico.amarilla_partido[currentRound] !== 0 ?
+                                        <Grid item container alignItems={'center'} sx={{color: light ? 'var(--dark2)':'var(--gris)'}}>
+                                            <Grid item sx={{color: light ? 'var(--dark2)':'var(--cero)'}}>{tecnico.amarilla_partido[currentRound]}</Grid>
+                                            <Grid sx={{background:'var(--warnning)', height:'13px', width:'9px', borderRadius:'2px'}}/> 
+                                            <Grid item ml={2} sx={{display:'flex', alignItems:'center'}}>{tecnico.name} <Dt size={16} color={light ? 'var(--dark2)':'var(--cero)'}/>DT </Grid>
+                                        </Grid> : 
+                                    null}
+                                    {tecnico.roja_partido[currentRound] !== 0 ?
+                                        <Grid item container alignItems={'center'} sx={{color: light ? 'var(--dark2)':'var(--gris)'}}>
+                                            <Grid item sx={{color: light ? 'var(--dark2)':'var(--cero)'}}>{tecnico.roja_partido[currentRound]}</Grid>
+                                            <Grid sx={{background:'var(--danger)', height:'13px', width:'9px', borderRadius:'2px'}}/> 
+                                            <Grid item ml={2} sx={{display:'flex', alignItems:'center'}}>{tecnico.name} <Dt size={16} color={light ? 'var(--dark2)':'var(--cero)'}/>DT </Grid>
+                                        </Grid> : 
+                                    null}
+                                    </>
+                                )
+                            })}
                                 {homeTeam.jugadores.map((jugador)=>{
                                     return(
                                         <>
                                         {jugador.gol_partido[currentRound] !== 0 ? 
-                                            <Grid item container alignItems={'center'}>
-                                            {jugador.gol_partido[currentRound]}
-                                            <Gol/>
-                                            <Grid ml={2} item>{jugador.name} </Grid>
-                                        </Grid> : null}
+                                            <Grid item container alignItems={'center'} sx={{color: light ? 'var(--dark2)':'var(--gris)'}}>
+                                                <Grid sx={{color: light ? 'var(--dark2)':'var(--cero)'}}>{jugador.gol_partido[currentRound]}</Grid> 
+                                                <Gol color={light ? 'var(--dark2)':'var(--cero)'}/>
+                                                <Grid ml={2} item>{jugador.name} </Grid>
+                                            </Grid> : 
+                                        null}
+                                        {jugador.amarilla_partido[currentRound] !== 0 ? 
+                                            <Grid item container alignItems={'center'} sx={{color: light ? 'var(--dark2)':'var(--gris)'}}>
+                                                <Grid sx={{color: light ? 'var(--dark2)':'var(--cero)'}}>{jugador.amarilla_partido[currentRound]}</Grid>
+                                                <Grid sx={{background:'var(--warnning)', height:'13px', width:'9px', borderRadius:'2px'}}/>
+                                                <Grid ml={2} item>{jugador.name} </Grid>
+                                            </Grid> : 
+                                        null}
+                                        {jugador.roja_partido[currentRound] !== 0 ? 
+                                            <Grid item container alignItems={'center'} sx={{color: light ? 'var(--dark2)':'var(--gris)'}}>
+                                                <Grid sx={{color: light ? 'var(--dark2)':'var(--cero)'}}>{jugador.roja_partido[currentRound]}</Grid>
+                                                <Grid sx={{background:'var(--danger)', height:'13px', width:'9px', borderRadius:'2px'}}/>
+                                                <Grid ml={2} item>{jugador.name} </Grid>
+                                            </Grid> : 
+                                        null}
+                                        {jugador.azul_partido[currentRound] !== 0 ? 
+                                            <Grid item container alignItems={'center'} sx={{color: light ? 'var(--dark2)':'var(--gris)'}}>
+                                                <Grid sx={{color: light ? 'var(--dark2)':'var(--cero)'}}>{jugador.azul_partido[currentRound]}</Grid>
+                                                <Grid sx={{background:'var(--primario)', height:'13px', width:'9px', borderRadius:'2px'}}/>
+                                                <Grid ml={2} item>{jugador.name} </Grid>
+                                            </Grid> : 
+                                        null}
                                         </>
                                     )
                                 })}
                             </Grid>
                             <Grid>
                             <img style={{height:'30px'}} src={awayTeam.logo} alt="" />
+                            {awayTeam.director_tecnico.map((tecnico)=>{
+                                return(
+                                    <>
+                                    {tecnico.amarilla_partido[currentRound] !== 0 ?
+                                        <Grid item container alignItems={'center'} sx={{color: light ? 'var(--dark2)':'var(--gris)'}}>
+                                            <Grid item sx={{color: light ? 'var(--dark2)':'var(--cero)'}}>{tecnico.amarilla_partido[currentRound]}</Grid>
+                                            <Grid sx={{background:'var(--warnning)', height:'13px', width:'9px', borderRadius:'2px'}}/> 
+                                            <Grid item ml={2} sx={{display:'flex', alignItems:'center'}}>{tecnico.name} <Dt size={16} color={light ? 'var(--dark2)':'var(--cero)'}/>DT </Grid>
+                                        </Grid> : 
+                                    null}
+                                    {tecnico.roja_partido[currentRound] !== 0 ?
+                                        <Grid item container alignItems={'center'} sx={{color: light ? 'var(--dark2)':'var(--gris)'}}>
+                                            <Grid item sx={{color: light ? 'var(--dark2)':'var(--cero)'}}>{tecnico.roja_partido[currentRound]}</Grid>
+                                            <Grid sx={{background:'var(--danger)', height:'13px', width:'9px', borderRadius:'2px'}}/> 
+                                            <Grid item ml={2} sx={{display:'flex', alignItems:'center'}}>{tecnico.name} <Dt size={16} color={light ? 'var(--dark2)':'var(--cero)'}/>DT </Grid>
+                                        </Grid> : 
+                                    null}
+                                    </>
+                                )
+                            })}
                                 {awayTeam.jugadores.map((jugador)=>{
                                     return(
                                         <>
                                         {jugador.gol_partido[currentRound] !== 0 ? 
-                                            <Grid item container alignItems={'center'}>
-                                            {jugador.gol_partido[currentRound]}
-                                            <Gol/>
-                                            <Grid ml={2} item>{jugador.name} </Grid>
-                                        </Grid> : null}
+                                            <Grid item container alignItems={'center'} sx={{color: light ? 'var(--dark2)':'var(--gris)'}}>
+                                                <Grid sx={{color: light ? 'var(--dark2)':'var(--cero)'}}>{jugador.gol_partido[currentRound]}</Grid> 
+                                                <Gol color={light ? 'var(--dark2)':'var(--cero)'}/>
+                                                <Grid ml={2} item>{jugador.name} </Grid>
+                                            </Grid> : 
+                                        null}
+                                        {jugador.amarilla_partido[currentRound] !== 0 ? 
+                                            <Grid item container alignItems={'center'} sx={{color: light ? 'var(--dark2)':'var(--gris)'}}>
+                                                <Grid sx={{color: light ? 'var(--dark2)':'var(--cero)'}}>{jugador.amarilla_partido[currentRound]}</Grid>
+                                                <Grid sx={{background:'var(--warnning)', height:'13px', width:'9px', borderRadius:'2px'}}/>
+                                                <Grid ml={2} item>{jugador.name} </Grid>
+                                            </Grid> : 
+                                        null}
+                                        {jugador.roja_partido[currentRound] !== 0 ? 
+                                            <Grid item container alignItems={'center'} sx={{color: light ? 'var(--dark2)':'var(--gris)'}}>
+                                                <Grid sx={{color: light ? 'var(--dark2)':'var(--cero)'}}>{jugador.roja_partido[currentRound]}</Grid>
+                                                <Grid sx={{background:'var(--danger)', height:'13px', width:'9px', borderRadius:'2px'}}/>
+                                                <Grid ml={2} item>{jugador.name} </Grid>
+                                            </Grid> : 
+                                        null}
+                                        {jugador.azul_partido[currentRound] !== 0 ? 
+                                            <Grid item container alignItems={'center'} sx={{color: light ? 'var(--dark2)':'var(--gris)'}}>
+                                                <Grid sx={{color: light ? 'var(--dark2)':'var(--cero)'}}>{jugador.azul_partido[currentRound]}</Grid>
+                                                <Grid sx={{background:'var(--primario)', height:'13px', width:'9px', borderRadius:'2px'}}/>
+                                                <Grid ml={2} item>{jugador.name} </Grid>
+                                            </Grid> : 
+                                        null}
                                         </>
                                     )
                                 })}
