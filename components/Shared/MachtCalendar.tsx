@@ -10,8 +10,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Row } from "./Row";
 import Context from "../../context/contextPrincipal";
-import { ModalEdit } from "./Modal";
+import { ModalEdit } from "../modals/Modal";
 import { generateCalendar } from "../../utils/generateCalendar";
+import { ModalArbitro } from "../modals/ModalArbitro";
 
 export const MatchCalendar = () => {
     const [light] = useContext(Context);
@@ -19,6 +20,7 @@ export const MatchCalendar = () => {
     const [matches, setMatches] = useState(generateCalendar());
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [open, setOpen] = useState(false);
+    const [openArbitro, setOpenArbitro] = useState(false);
 
     function handleNextRound() {
         setCurrentRound(currentRound + 1);
@@ -61,6 +63,8 @@ export const MatchCalendar = () => {
                                         openEdit={open}
                                         setOpenEdit={setOpen}
                                         currentRound={currentRound}
+                                        openEditArbitro={openArbitro}
+                                        setOpenEditArbitro={setOpenArbitro}
                                     />
                                 );
                             })}
@@ -73,6 +77,7 @@ export const MatchCalendar = () => {
                 <Button sx={{ color: 'var(--primario)' }} disabled={currentRound === matches.length - 1} onClick={handleNextRound}>Siguiente</Button>
             </Grid>
             {open && <ModalEdit open={open} setOpen={setOpen} />}
+            {openArbitro && <ModalArbitro open={openArbitro} setOpen={setOpenArbitro} />}
         </Grid>
     );
 };

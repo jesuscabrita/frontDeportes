@@ -15,7 +15,7 @@ import { ButtonStatus } from "./ButtonStatus";
 import { GiSoccerBall as Gol } from 'react-icons/gi';
 import { CgUser as Dt } from 'react-icons/cg';
 
-export const Row =({homeTeam, awayTeam, setOpenEdit, openEdit, currentRound})=> {
+export const Row =({homeTeam, awayTeam, setOpenEdit, openEdit, currentRound, setOpenEditArbitro, openEditArbitro})=> {
     const [light] = useContext(Context);
     const [open, setOpen] = useState(false);
     const [hoy, setHoy] = useState(moment())
@@ -90,7 +90,12 @@ return (
                     <Grid sx={{color:light ? 'black': 'var(--cero)'}}>{awayTeam.name} </Grid>
                 </Grid>
             </TableCell>
-            <TableCell align="left" sx={{whiteSpace: 'nowrap',paddingLeft:mobile? '90px': '0px',color:light ? 'black': 'var(--cero)'}}>{homeTeam.arbitro}</TableCell>
+            <TableCell  align="left" sx={{whiteSpace: 'nowrap',paddingLeft:mobile? '90px': '0px',color:light ? 'black': 'var(--cero)'}}>
+                <Grid container alignItems={'center'} gap={2} sx={{width:'150px'}}>
+                    <Grid>{homeTeam.arbitro}</Grid>
+                    <Edit style={{cursor:'pointer'}} fontSize={20} onClick={()=> {setOpenEditArbitro(!openEditArbitro)}}/>
+                </Grid>
+            </TableCell>
         </TableRow>
         <TableRow>
             <TableCell style={{ paddingBottom: 0, paddingTop: 0,background:light ? 'var(--cero)':'var(--dark)' }} colSpan={8}>
