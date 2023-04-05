@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
-import Table from '@mui/material/Table';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
@@ -13,11 +12,13 @@ import Context from "../../context/contextPrincipal";
 import { MdOutlineEditCalendar as Edit } from 'react-icons/md';
 import moment from "moment";
 import { ButtonStatus } from "./ButtonStatus";
+import { GiSoccerBall as Gol } from 'react-icons/gi';
 
 export const Row =({homeTeam, awayTeam, setOpenEdit, openEdit, currentRound})=> {
     const [light] = useContext(Context);
     const [open, setOpen] = useState(false);
     const [hoy, setHoy] = useState(moment())
+    const [minutosTranscurridos, setMinutosTranscurridos] = useState(0);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const fecha_home = homeTeam.fecha[currentRound];
     const formatoFecha = moment(fecha_home,'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY');
@@ -27,7 +28,7 @@ export const Row =({homeTeam, awayTeam, setOpenEdit, openEdit, currentRound})=> 
     const fechaBD = moment(fecha_home,'YYYY-MM-DD HH:mm:ss')
     const TIEMPO_PARTIDO = 40;
     const tiempoRestante = fechaBD.diff(hoy, 'minutes') + TIEMPO_PARTIDO;
-    const fechaFinalPartido = fechaBD.clone().add(TIEMPO_PARTIDO, 'minutes')
+    const fechaFinalPartido = fechaBD.clone().add(TIEMPO_PARTIDO, 'minutes');
 
     const status =()=>{
         if(hoy.diff(fechaFinalPartido, 'days') === 0){
@@ -42,11 +43,20 @@ export const Row =({homeTeam, awayTeam, setOpenEdit, openEdit, currentRound})=> 
         }
     }
 
-    useEffect(() =>{
-        setTimeout(()=>{
-            setHoy(moment())
-        },5000)
-    }, [hoy])
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setHoy(moment());
+        }, 5000);
+        return () => {
+            clearInterval(timer);
+        };
+    }, [hoy]);
+
+    useEffect(() => {
+        const tiempoRestante = fechaBD.diff(hoy, "minutes") + TIEMPO_PARTIDO;
+        const minutos = TIEMPO_PARTIDO - tiempoRestante;
+        setMinutosTranscurridos(minutos);
+    }, [hoy]);
 
 return (
     <React.Fragment>
@@ -71,7 +81,7 @@ return (
                 </Grid>
             </TableCell>
             <TableCell align="left" sx={{color:light ? 'black': 'var(--cero)', whiteSpace: 'nowrap'}}>
-                <ButtonStatus status={status()} gol_away={gol_away} gol_home={gol_home}/> 
+                <ButtonStatus status={status()} gol_away={gol_away} gol_home={gol_home} minutosTranscurridos={minutosTranscurridos}/> 
             </TableCell>
             <TableCell align="left" sx={{color:light ? 'black': 'var(--cero)'}}>
                 <Grid sx={{display:'flex',alignItems:'center',whiteSpace: 'nowrap', gap:'6px', justifyContent:'left'}}>
@@ -86,9 +96,40 @@ return (
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <Box sx={{ margin: 1}}>
                         <Typography variant="h6" gutterBottom component="div">
-                            History
+                            Historial
                         </Typography>
-                        <Table size="small" aria-label="purchases"> sin datos</Table>
+                        <Grid container gap={4}>
+                            <Grid>
+                            <img style={{height:'30px'}} src={homeTeam.logo} alt="" />
+                                {homeTeam.jugadores.map((jugador)=>{
+                                    return(
+                                        <>
+                                        {jugador.gol_partido[currentRound] !== 0 ? 
+                                            <Grid item container alignItems={'center'}>
+                                            {jugador.gol_partido[currentRound]}
+                                            <Gol/>
+                                            <Grid ml={2} item>{jugador.name} </Grid>
+                                        </Grid> : null}
+                                        </>
+                                    )
+                                })}
+                            </Grid>
+                            <Grid>
+                            <img style={{height:'30px'}} src={awayTeam.logo} alt="" />
+                                {awayTeam.jugadores.map((jugador)=>{
+                                    return(
+                                        <>
+                                        {jugador.gol_partido[currentRound] !== 0 ? 
+                                            <Grid item container alignItems={'center'}>
+                                            {jugador.gol_partido[currentRound]}
+                                            <Gol/>
+                                            <Grid ml={2} item>{jugador.name} </Grid>
+                                        </Grid> : null}
+                                        </>
+                                    )
+                                })}
+                            </Grid>
+                        </Grid>
                     </Box>
                 </Collapse>
             </TableCell>
