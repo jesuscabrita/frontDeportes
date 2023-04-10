@@ -39,7 +39,7 @@ const Tabla = () => {
 
     return (
         <Grid sx={{ height: !mobile ? '170vh' : '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Grid item sx={{ paddingTop: !mobile ? value == 0 ? '80px' : '10px' : '80px', maxWidth: '95%', marginTop: value == 1 || value == 2 || value == 3 || value == 4 ? mobile ? '0px': '-200px': '0px' }}>
+            <Grid item sx={{ paddingTop: !mobile ? value == 0 ? '80px' : '10px' : '80px', maxWidth:mobile? '95%': '100%', marginTop: value == 1 || value == 2 || value == 3 || value == 4 ? mobile ? '0px': '-200px': '0px' }}>
               <Tabs value={value} onChange={handleChange} textColor="inherit" variant="fullWidth" sx={{'& .MuiTabs-indicator':{backgroundColor:light?'var(--primario)':'var(--cero)'}}}>
                 <Tab sx={{fontSize:mobile ? '10px' : '14px', color : light ? 'var(--dark2)':'var(--cero)', display:'flex', flexDirection:'row', alignItems:'center', gap:'10px'}} label={!mobile ? <><Tablas size={20}/> Posiciones</> : <Tablas size={20}/>}  {...a11yProps(0)} />
                 <Tab sx={{fontSize:mobile ? '10px' : '14px', color : light ? 'var(--dark2)':'var(--cero)', display:'flex', flexDirection:'row', alignItems:'center', gap:'10px'}} label={!mobile ? <><Gol size={20}/> Goleadores</>: <Gol size={20}/>} {...a11yProps(1)} />
