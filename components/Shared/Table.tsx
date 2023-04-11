@@ -62,8 +62,8 @@ export const PositionTable = () => {
     )(TableRow);
 
     return (
-        <TableContainer component={Paper} >
-            <Table  aria-label="customized table">
+        <TableContainer component={Paper}>
+            <Table aria-label="customized table" >
                 <TableHead>
                     <TableRow>
                         <StyledTableCell>Club</StyledTableCell>
