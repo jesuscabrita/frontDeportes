@@ -11,9 +11,10 @@ export const Navbar = () => {
     const [light, setLight] = useContext(Context);
 
     const setChangeDark = () => {
-        setLight(!light);
-        localStorage.setItem("light", light.toString());
+        setLight(light ? false : true);
+        localStorage.setItem("light", "false");
     };
+    
 
     return (
         <Disclosure as="nav" className="bg-gray-800 fixed top-0 left-0 right-0 z-10">
