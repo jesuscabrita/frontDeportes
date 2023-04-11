@@ -23,11 +23,11 @@ export const ButtonStatus = ({ status, gol_home, gol_away, minutosTranscurridos 
                     </Grid>
                 )}
                 <Grid sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Grid item mr={1} fontSize={'18px'} sx={{background:gol_home > gol_away ? 'var(--check)': gol_home == gol_away ? '':'var(--danger)', height:'25px', borderRadius:'3px', width:'14px', display:'flex',justifyContent:'center'}}>
+                    <Grid item mr={1} fontSize={'18px'}>
                         {gol_home}
                     </Grid>
                     <EnVivo />
-                    <Grid item ml={1} fontSize={'18px'} sx={{background:gol_away > gol_home ? 'var(--check)': gol_away == gol_home ? '':'var(--danger)', height:'25px', borderRadius:'3px', width:'14px', display:'flex',justifyContent:'center'}}>
+                    <Grid item ml={1} fontSize={'18px'} >
                         {gol_away}
                     </Grid>
                 </Grid>
@@ -36,13 +36,13 @@ export const ButtonStatus = ({ status, gol_home, gol_away, minutosTranscurridos 
     } else if (status === 'finPartido') {
         return (
             <Grid sx={{ display: 'flex', alignItems: 'center' }}>
-                <Grid item mr={1} fontSize={'18px'} sx={{background:gol_home > gol_away ? 'var(--check)': gol_home == gol_away ? '':'var(--danger)', height:'25px', borderRadius:'3px', width:'14px', display:'flex',justifyContent:'center'}}>
+                <Grid item mr={1} fontSize={'18px'}>
                     {gol_home}
                 </Grid>
                 <Grid item sx={{ fontSize: '10px', color: light ? 'var(--primario)' : 'var(--cero)' }}>
                     Finalizado
                 </Grid>
-                <Grid item ml={1} fontSize={'18px'} sx={{background:gol_away > gol_home ? 'var(--check)': gol_away == gol_home ? '':'var(--danger)', height:'25px', borderRadius:'3px', width:'14px', display:'flex',justifyContent:'center'}}>
+                <Grid item ml={1} fontSize={'18px'}>
                     {gol_away}
                 </Grid>
             </Grid>

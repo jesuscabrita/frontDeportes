@@ -97,8 +97,8 @@ export const Row = ({ homeTeam, awayTeam, setOpenEdit, openEdit, currentRound, s
                 </TableCell>
                 <TableCell align="left" sx={{ whiteSpace: 'nowrap', paddingLeft: mobile ? '0px' : '90px', color: light ? 'black' : 'var(--cero)' }}>
                     <Grid container alignItems={'center'} gap={2} sx={{ width: !mobile ?'150px':'30px'}}>
-                        {!mobile &&<Grid>{homeTeam.arbitro}</Grid>}
-                        <Arbitro style={{ cursor: 'pointer' }} fontSize={20} onClick={() => { setOpenEditArbitro(!openEditArbitro) }} />
+                        {!mobile && <Grid>{homeTeam.arbitro}</Grid>}
+                        {!mobile &&  <Arbitro style={{ cursor: 'pointer' }} fontSize={20} onClick={() => { setOpenEditArbitro(!openEditArbitro) }} />}
                     </Grid>
                 </TableCell>
             </TableRow>
