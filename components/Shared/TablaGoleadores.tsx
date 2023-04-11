@@ -50,8 +50,8 @@ export const TablaGoleadores = ({ data }) => {
                         <StyledTableCell align="left">Nombre</StyledTableCell>
                         <StyledTableCell align={!mobile ?"left" : "right"}>Equipo</StyledTableCell>
                         <StyledTableCell align={!mobile ?"center": "right"}>Goles</StyledTableCell>
-                        <StyledTableCell align="center" style={{whiteSpace: 'nowrap'}}>Partidos Jugados</StyledTableCell>
-                        <StyledTableCell align="right" style={{whiteSpace: 'nowrap'}}>Goles por partido</StyledTableCell>
+                        <StyledTableCell align="center" style={{whiteSpace: 'nowrap'}}>{mobile ? 'PJ': 'Partidos Jugados'}</StyledTableCell>
+                        <StyledTableCell align="right" style={{whiteSpace: 'nowrap'}}>{mobile ? 'GP': 'Goles por partido'}</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody style={{background:light ? 'var(--cero)':'var(--dark3)'}}>
@@ -69,16 +69,16 @@ export const TablaGoleadores = ({ data }) => {
                             <StyledTableCell align="right" style={{width:'330px',whiteSpace: 'nowrap'}}>
                                 <Grid sx={{display:'flex', alignItems:'center', whiteSpace: 'nowrap', gap:'18px'}} >
                                     <img src={jugador.foto} alt={jugador.name} style={{ height: '35px'}} />
-                                    <Grid sx={{whiteSpace: 'nowrap'}}>{jugador.name}</Grid>
+                                    <Grid sx={{whiteSpace: 'nowrap', paddingRight: mobile &&'30px'}}>{jugador.name}</Grid>
                                 </Grid>
                             </StyledTableCell>
-                            <StyledTableCell align="right" style={{width:'280px',whiteSpace: 'nowrap'}}>
-                                <Grid sx={{display:'flex', alignItems:'center', whiteSpace: 'nowrap', gap:'18px'}} >
+                            <StyledTableCell align="center" style={{width:'280px',whiteSpace: 'nowrap',}}>
+                                <Grid sx={{display:'flex', alignItems:'center', gap:'18px'}} >
                                     <img src={jugador.logo} alt={jugador.equipo} style={{ height: '35px'}} />
-                                    <Grid sx={{whiteSpace: 'nowrap'}}>{jugador.esquipo}</Grid>
+                                    {!mobile &&<Grid sx={{whiteSpace: 'nowrap'}}>{jugador.esquipo}</Grid>}
                                 </Grid>
                             </StyledTableCell>
-                            <StyledTableCell align="center" style={{fontWeight:700, fontSize:'15px', paddingLeft:mobile &&'80px'}}>{jugador.goles}</StyledTableCell>
+                            <StyledTableCell align="center" style={{fontWeight:700, fontSize:'15px'}}>{jugador.goles}</StyledTableCell>
                             <StyledTableCell align="center" >{jugador.partidos}</StyledTableCell>
                             {<StyledTableCell align="center">{promedioGolFormatted}</StyledTableCell>}
                         </StyledTableRow>

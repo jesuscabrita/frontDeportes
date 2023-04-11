@@ -38,14 +38,100 @@ const Tabla = () => {
 }
 
     return (
-        <Grid sx={{ height: !mobile ? '170vh' : '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Grid item sx={{ paddingTop: !mobile ? value == 0 ? '80px' : '10px' : '80px', maxWidth:mobile? '95%': '100%', marginTop: value == 1 || value == 2 || value == 3 || value == 4 ? mobile ? '0px': '-200px': '0px'}}>
-              <Tabs value={value} onChange={handleChange} textColor="inherit" variant="fullWidth" sx={{'& .MuiTabs-indicator':{backgroundColor:light?'var(--primario)':'var(--cero)'}}}>
-                <Tab sx={{fontSize:mobile ? '10px' : '14px', color : light ? 'var(--dark2)':'var(--cero)', display:'flex', flexDirection:'row', alignItems:'center', gap:'10px'}} label={!mobile ? <><Tablas size={20}/> Posiciones</> : <Tablas size={20}/>}  {...a11yProps(0)} />
-                <Tab sx={{fontSize:mobile ? '10px' : '14px', color : light ? 'var(--dark2)':'var(--cero)', display:'flex', flexDirection:'row', alignItems:'center', gap:'10px'}} label={!mobile ? <><Gol size={20}/> Goleadores</>: <Gol size={20}/>} {...a11yProps(1)} />
-                <Tab sx={{fontSize:mobile ? '10px' : '14px', color : light ? 'var(--dark2)':'var(--cero)', display:'flex', flexDirection:'row', alignItems:'center', gap:'10px'}} label={!mobile ?<><Asistir size={20}/> Asistidores</>: <Asistir size={20}/>} {...a11yProps(2)} />
-                <Tab sx={{fontSize:mobile ? '10px' : '14px', color : light ? 'var(--dark2)':'var(--cero)', display:'flex', flexDirection:'row', alignItems:'center', gap:'10px'}} label={!mobile ?<><Grid sx={{background:'var(--warnning)', height:'15px', width:'11px', borderRadius:'2px'}} /> Amarillas</>: <Grid sx={{background:'var(--warnning)', height:'15px', width:'11px', borderRadius:'2px'}} />} {...a11yProps(3)} />
-                <Tab sx={{fontSize:mobile ? '10px' : '14px', color : light ? 'var(--dark2)':'var(--cero)', display:'flex', flexDirection:'row', alignItems:'center', gap:'10px'}} label={!mobile ?<><Grid sx={{background:'var(--danger)', height:'15px', width:'11px', borderRadius:'2px'}} /> Rojas</> : <Grid sx={{background:'var(--danger)', height:'15px', width:'11px', borderRadius:'2px'}} />} {...a11yProps(4)} />
+        <Grid sx={{ height: !mobile ? '170vh' : '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingBottom:'20px' }}>
+            <Grid item sx={{ paddingTop: !mobile ? value == 0 ? '80px' : '10px' : '80px', maxWidth:!mobile && '100%', minWidth:mobile &&'100%',marginTop: value == 1 || value == 2 || value == 3 || value == 4 ? mobile ? '0px': '-200px': '0px'}}>
+              <Tabs 
+                value={value} 
+                onChange={handleChange} 
+                textColor="inherit" 
+                variant={!mobile ?"fullWidth" : "scrollable"} 
+                sx={{'& .MuiTabs-indicator':{backgroundColor:light?'var(--primario)':'var(--cero)'},
+                '& .MuiTab-root': {
+                  minWidth: '70px',
+                  width: 'auto',
+                  padding: '8px'
+                }
+                }}>
+                <Tab
+                  label={!mobile ? <><Tablas size={20}/> Posiciones</> : <Tablas size={20}/>}
+                  {...a11yProps(0)}
+                  sx={{
+                    fontSize:mobile ? '10px' : '14px', 
+                    color : light ? 'var(--dark2)':'var(--cero)', 
+                    display:'flex', 
+                    flexDirection:'row', 
+                    alignItems:'center', 
+                    gap:'10px',
+                    background: value == 0 ? light ? 'var(--gris)': 'var(--dark2)' : 'transparent',
+                    '&:hover': {
+                      background: value == 0 ?light ? 'var(--gris)': 'var(--dark2)' : 'rgba(0, 0, 0, 0.04)',
+                    },
+                    }}
+                />
+                <Tab 
+                  label={!mobile ? <><Gol size={20}/> Goleadores</>: <Gol size={20}/>}
+                  {...a11yProps(1)}
+                  sx={{
+                    fontSize:mobile ? '10px' : '14px', 
+                    color : light ? 'var(--dark2)':'var(--cero)', 
+                    display:'flex', 
+                    flexDirection:'row', 
+                    alignItems:'center', 
+                    gap:'10px',
+                    background: value == 1 ? light ? 'var(--gris)': 'var(--dark2)' : 'transparent',
+                    '&:hover': {
+                      background: value == 1 ?light ? 'var(--gris)': 'var(--dark2)' : 'rgba(0, 0, 0, 0.04)',
+                    },
+                    }}
+                />
+                <Tab
+                  label={!mobile ?<><Asistir size={20}/> Asistidores</>: <Asistir size={20}/>}
+                  {...a11yProps(2)} 
+                  sx={{
+                    fontSize:mobile ? '10px' : '14px', 
+                    color : light ? 'var(--dark2)':'var(--cero)', 
+                    display:'flex', 
+                    flexDirection:'row', 
+                    alignItems:'center',
+                    gap:'10px',
+                    background: value == 2 ? light ? 'var(--gris)': 'var(--dark2)' : 'transparent',
+                    '&:hover': {
+                      background: value == 2 ?light ? 'var(--gris)': 'var(--dark2)' : 'rgba(0, 0, 0, 0.04)',
+                    },
+                  }}
+                />
+                <Tab
+                  label={!mobile ?<><Grid sx={{background:'var(--warnning)', height:'15px', width:'11px', borderRadius:'2px'}} /> Amarillas</>: <Grid sx={{background:'var(--warnning)', height:'15px', width:'11px', borderRadius:'2px'}} />}
+                  {...a11yProps(3)}
+                  sx={{
+                    fontSize:mobile ? '10px' : '14px', 
+                    color : light ? 'var(--dark2)':'var(--cero)', 
+                    display:'flex', 
+                    flexDirection:'row', 
+                    alignItems:'center', 
+                    gap:'10px',
+                    background: value == 3 ? light ? 'var(--gris)': 'var(--dark2)' : 'transparent',
+                    '&:hover': {
+                      background: value == 3 ?light ? 'var(--gris)': 'var(--dark2)' : 'rgba(0, 0, 0, 0.04)',
+                    },
+                  }}
+                />
+                <Tab
+                  label={!mobile ?<><Grid sx={{background:'var(--danger)', height:'15px', width:'11px', borderRadius:'2px'}} /> Rojas</> : <Grid sx={{background:'var(--danger)', height:'15px', width:'11px', borderRadius:'2px'}} />}
+                  {...a11yProps(4)}
+                  sx={{
+                    fontSize:mobile ? '10px' : '14px', 
+                    color : light ? 'var(--dark2)':'var(--cero)', 
+                    display:'flex', 
+                    flexDirection:'row', 
+                    alignItems:'center', 
+                    gap:'10px',
+                    background: value == 4 ? light ? 'var(--gris)': 'var(--dark2)' : 'transparent',
+                    '&:hover': {
+                      background: value == 4 ?light ? 'var(--gris)': 'var(--dark2)' : 'rgba(0, 0, 0, 0.04)',
+                    },
+                  }}
+                />
               </Tabs>
               <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
                 <TabPanel value={value} index={0} dir={theme.direction}>

@@ -64,16 +64,16 @@ export const TablaRojas = ({ data }) => {
                             <StyledTableCell align="right" style={{width:'330px',whiteSpace: 'nowrap'}}>
                                 <Grid sx={{display:'flex', alignItems:'center', whiteSpace: 'nowrap', gap:'18px'}} >
                                     <img src={jugador.foto} alt={jugador.name} style={{ height: '35px'}} />
-                                    <Grid sx={{whiteSpace: 'nowrap'}}>{jugador.name}</Grid>
+                                    <Grid sx={{whiteSpace: 'nowrap',  paddingRight: mobile &&'30px'}}>{jugador.name}</Grid>
                                 </Grid>
                             </StyledTableCell>
                             <StyledTableCell align="right" style={{width:'280px',whiteSpace: 'nowrap'}}>
                                 <Grid sx={{display:'flex', alignItems:'center', whiteSpace: 'nowrap', gap:'18px'}} >
                                     <img src={jugador.logo} alt={jugador.equipo} style={{ height: '35px'}} />
-                                    <Grid sx={{whiteSpace: 'nowrap'}}>{jugador.esquipo}</Grid>
+                                    {!mobile &&<Grid sx={{whiteSpace: 'nowrap'}}>{jugador.esquipo}</Grid>}
                                 </Grid>
                             </StyledTableCell>
-                            <StyledTableCell align="center" style={{fontWeight:700, fontSize:'15px', paddingLeft:mobile &&'80px'}}>{jugador.tarjetas_roja}</StyledTableCell>
+                            <StyledTableCell align="center" style={{fontWeight:700, fontSize:'15px'}}>{jugador.tarjetas_roja}</StyledTableCell>
                         </StyledTableRow>
                     )
                 })}

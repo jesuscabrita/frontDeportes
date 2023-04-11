@@ -7,7 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { UltimateP } from './UltimateP';
-import { Grid } from '@mui/material';
+import { Grid, useMediaQuery } from '@mui/material';
 import data from '../../utils/data.json';
 import { useContext } from 'react';
 import Context from '../../context/contextPrincipal';
@@ -15,6 +15,7 @@ import { ArrowP } from './ArrowP';
 
 export const PositionTable = () => {
     const [light] = useContext(Context);
+    const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
 
     const orden = data.sort((a, b) => {
         if (a.puntos > b.puntos) {
@@ -82,7 +83,7 @@ export const PositionTable = () => {
                     {orden.map((row, index) => {                        
                         return (
                             <StyledTableRow key={row.id}>
-                                <StyledTableCell  component="th" scope="row" style={{ display: 'flex', gap: '8px', alignItems: 'center', whiteSpace: 'nowrap', width:'300px' }}>
+                                <StyledTableCell  component="th" scope="row" style={{ display: 'flex', gap: '8px', alignItems: 'center', whiteSpace: 'nowrap', width:!mobile ?'300px': '250px' }}>
                                     {(index + 1 == 1 ) &&
                                         <Grid sx={{ background: 'var(--check)', height: '35px', width: '10px', whiteSpace: 'nowrap' }}></Grid>}
                                     {(index + 1 == 2 || index + 1 == 3 || index + 1 == 4 || index + 1 == 5 || index + 1 == 6 || index + 1 == 7 || index + 1 == 8) &&
@@ -95,7 +96,7 @@ export const PositionTable = () => {
                                     <Grid container alignItems={'center'} gap={1} sx={{ flexDirection:'row' ,whiteSpace: 'nowrap'}}>
                                         <img src={row.logo} alt={row.name} style={{ height: '35px'}} /> {row.name} <ArrowP currentPos={index+1} prevPos={row.puntaje_anterior}/>
                                     </Grid>
-                                </StyledTableCell>
+                                </StyledTableCell>                               
                                 <StyledTableCell align="right" style={{fontWeight:700, fontSize:'15px'}}>{row.puntos}</StyledTableCell>
                                 <StyledTableCell align="right">{row.partidosJugados}</StyledTableCell>
                                 <StyledTableCell align="right">{row.ganados}</StyledTableCell>
