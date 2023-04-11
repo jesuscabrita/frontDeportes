@@ -28,7 +28,7 @@ export const Row = ({ homeTeam, awayTeam, setOpenEdit, openEdit, currentRound, s
     const gol_home = homeTeam.gol_partido[currentRound];
     const gol_away = awayTeam.gol_partido[currentRound];
     const fechaBD = moment(fecha_home, 'YYYY-MM-DD HH:mm:ss')
-    const TIEMPO_PARTIDO = 60;
+    const TIEMPO_PARTIDO = 55;
     const tiempoRestante = fechaBD.diff(hoy, 'minutes') + TIEMPO_PARTIDO;
     const fechaFinalPartido = fechaBD.clone().add(TIEMPO_PARTIDO, 'minutes');
 
