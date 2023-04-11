@@ -49,7 +49,10 @@ const Tabla = () => {
                 '& .MuiTab-root': {
                   minWidth: '70px',
                   width: 'auto',
-                  padding: '8px'
+                  padding: '8px',
+                },'.MuiTabs-scroller':{
+                  display:mobile &&'flex',
+                  justifyContent:mobile &&'center'
                 }
                 }}>
                 <Tab
