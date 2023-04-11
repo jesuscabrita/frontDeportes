@@ -55,6 +55,7 @@ export const Navbar = () => {
                                         <ButtonNavbar href='/calendario'>Calendario</ButtonNavbar>
                                         <ButtonNavbar href='/tabla'>Tabla</ButtonNavbar>
                                         <ButtonNavbar href='/noticias'>Noticias</ButtonNavbar>
+                                        <ButtonNavbar href='/manager/registrar'>Registrar</ButtonNavbar>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -73,6 +74,7 @@ export const Navbar = () => {
                             <ButtonNavbar href='/calendario'>Calendario</ButtonNavbar>
                             <ButtonNavbar href='/tabla'>Tabla</ButtonNavbar>
                             <ButtonNavbar href='/noticias'>Noticias</ButtonNavbar>
+                            <ButtonNavbar href='/manager/registrar'>Registrar</ButtonNavbar>
                         </Grid>
                     </Disclosure.Panel>
                 </>
