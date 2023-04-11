@@ -79,8 +79,8 @@ export const Row = ({ homeTeam, awayTeam, setOpenEdit, openEdit, currentRound, s
                         <Edit style={{ cursor: 'pointer' }} fontSize={20} onClick={() => { setOpenEdit(!openEdit) }} />
                     </Grid>
                 </TableCell>
-                <TableCell align="center" sx={{ whiteSpace: 'nowrap', paddingRight: mobile ? '90px' : '0px', color: light ? 'black' : 'var(--cero)' }}>{homeTeam.estadio}</TableCell>
-                <TableCell sx={{ color: light ? 'black' : 'var(--cero)' }}>
+                {!mobile && <TableCell align="center" sx={{ whiteSpace: 'nowrap', paddingRight: mobile ? '90px' : '0px', color: light ? 'black' : 'var(--cero)' }}>{homeTeam.estadio}</TableCell>}
+                <TableCell sx={{ color: light ? 'black' : 'var(--cero)', paddingLeft:'70px' }}>
                     <Grid sx={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', gap: '6px', justifyContent: 'right' }}>
                         <Grid sx={{ color: light ? 'black' : 'var(--cero)' }}>{homeTeam.name} </Grid>
                         <img style={{ height: '30px' }} src={homeTeam.logo} alt="" />
@@ -89,15 +89,15 @@ export const Row = ({ homeTeam, awayTeam, setOpenEdit, openEdit, currentRound, s
                 <TableCell align="left" sx={{ color: light ? 'black' : 'var(--cero)', whiteSpace: 'nowrap' }}>
                     <ButtonStatus status={status()} gol_away={gol_away} gol_home={gol_home} minutosTranscurridos={minutosTranscurridos} />
                 </TableCell>
-                <TableCell align="left" sx={{ color: light ? 'black' : 'var(--cero)' }}>
+                <TableCell align="left" sx={{ color: light ? 'black' : 'var(--cero)', paddingRight:'70px' }}>
                     <Grid sx={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', gap: '6px', justifyContent: 'left' }}>
                         <img style={{ height: '30px' }} src={awayTeam.logo} alt="" />
                         <Grid sx={{ color: light ? 'black' : 'var(--cero)' }}>{awayTeam.name} </Grid>
                     </Grid>
                 </TableCell>
-                <TableCell align="left" sx={{ whiteSpace: 'nowrap', paddingLeft: mobile ? '90px' : '0px', color: light ? 'black' : 'var(--cero)' }}>
-                    <Grid container alignItems={'center'} gap={2} sx={{ width: '150px' }}>
-                        <Grid>{homeTeam.arbitro}</Grid>
+                <TableCell align="left" sx={{ whiteSpace: 'nowrap', paddingLeft: mobile ? '0px' : '90px', color: light ? 'black' : 'var(--cero)' }}>
+                    <Grid container alignItems={'center'} gap={2} sx={{ width: !mobile ?'150px':'30px'}}>
+                        {!mobile &&<Grid>{homeTeam.arbitro}</Grid>}
                         <Arbitro style={{ cursor: 'pointer' }} fontSize={20} onClick={() => { setOpenEditArbitro(!openEditArbitro) }} />
                     </Grid>
                 </TableCell>

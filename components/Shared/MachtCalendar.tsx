@@ -44,11 +44,11 @@ export const MatchCalendar = () => {
                                 <TableCell />
                                 <TableCell sx={{ color: 'var(--cero)' }} align="left">Fecha</TableCell>
                                 <TableCell sx={{ color: 'var(--cero)' }} align="left">Horario</TableCell>
-                                <TableCell sx={{ color: 'var(--cero)' }} align="center">Ubicacion</TableCell>
-                                <TableCell sx={{ color: 'var(--cero)' }} align="right">Local</TableCell>
+                                {!mobile &&<TableCell sx={{ color: 'var(--cero)' }} align="center">Ubicacion</TableCell>}
+                                <TableCell sx={{ color: 'var(--cero)', width:'800px' }} align="right">Local</TableCell>
                                 <TableCell />
                                 <TableCell sx={{ color: 'var(--cero)' }} align="left">Visitante</TableCell>
-                                <TableCell sx={{ color: 'var(--cero)' }} align={!mobile ? "left" : "right"}>Arbitro</TableCell>
+                                <TableCell sx={{ color: 'var(--cero)'}} align={!mobile ? "left" : "right"}>{!mobile ?'Arbitro' : ''}</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
