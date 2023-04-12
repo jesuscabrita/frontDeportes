@@ -13,6 +13,8 @@ export const Form = () => {
     const [image, setImage] = useState(null);
     const [isLoading, setIsLoading] = useState(false); // nuevo estado para indicar si se está cargando o no
     const { mutate: crearEquipo } = useMutation(equiposPost);
+    const [logoAdded, setLogoAdded] = useState(false);
+    const [imageName, setImageName] = useState('');
 
     const nuevoEquipo = (nombre: string, logo: string) => {
         setIsLoading(true); // indicar que se está cargando la solicitud
@@ -36,13 +38,15 @@ export const Form = () => {
         const reader = new FileReader();
         reader.onload = () => {
             setImage(reader.result);
+            setLogoAdded(true); // indicar que se agregó el logo
+            setImageName(file.name); 
         };
         reader.readAsDataURL(file);
     };
 
     return (
         <Grid container flexDirection={'column'} gap={2} alignItems={'center'}>
-            <InputText label={'Nombre'} setValue={setName} value={name}/>
+            <InputText label={'Nombre'} setValue={setName} value={name} />
             <Button variant="contained" component="label"
                 sx={{
                     display: 'flex',
@@ -55,6 +59,13 @@ export const Form = () => {
                 <Add /> Agregue el logo
                 <input hidden accept="image/*" multiple type="file" onChange={handleImageChange} />
             </Button>
+            
+            {logoAdded && (
+                <div>
+                    <p>Logo agregado correctamente:</p>
+                    <p>{imageName}</p> {/* mostrar el nombre del archivo */}
+                </div>
+            )}
 
             {isLoading && ( // si se está cargando, mostrar el spinner y la pantalla de opacidad
                 <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

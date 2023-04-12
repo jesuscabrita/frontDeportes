@@ -16,7 +16,8 @@ export const InputText =({value,label, setValue})=>{
             sx={{
                 '& .MuiOutlinedInput-input': {
                     border: light ? '1px solid var(--dark2)' : '1px solid var(--cero)',
-                    borderRadius: '6px'
+                    borderRadius: '6px',
+                    color: light ? 'var(--dark2)' : 'var(--cero)'
                 },
                 '& .MuiInputLabel-root': {
                     color: light ? 'var(--dark2)' : 'var(--cero)'
