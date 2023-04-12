@@ -1,22 +1,65 @@
-import { Button, Grid, TextField } from "@mui/material";
+import { Button, CircularProgress, Grid, TextField } from "@mui/material";
+import { useState } from "react";
 import { RiImageAddFill as Add } from 'react-icons/ri';
+import { useMutation } from "react-query";
+import { equiposPost } from "../../service/equipos";
+import { alertaSubmit } from "../../utils/alert";
 
 export const Form = () => {
+    const [name, setName] = useState('');
+    const [image, setImage] = useState(null);
+    const [isLoading, setIsLoading] = useState(false); // nuevo estado para indicar si se está cargando o no
+    const { mutate: crearEquipo } = useMutation(equiposPost);
+
+    const nuevoEquipo = (nombre: string, logo: string) => {
+        setIsLoading(true); // indicar que se está cargando la solicitud
+        const formData = { form: { name: nombre, logo } };
+        crearEquipo(formData, {
+            onSuccess: (success) => {
+                setName('');
+                alertaSubmit(true,  success?.message); 
+                setIsLoading(false); // indicar que la solicitud ha terminado de cargarse
+            },
+            onError: (err: any) => {
+                const errorMessage = err?.response?.data?.message || err.message;
+                alertaSubmit(false, errorMessage);
+                setIsLoading(false); // indicar que la solicitud ha terminado de cargarse
+            },
+        });
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+            setImage(reader.result);
+        };
+        reader.readAsDataURL(file);
+    };
+
     return (
         <Grid container flexDirection={'column'} gap={2} alignItems={'center'}>
-            <TextField label="Nombre" variant="outlined" />
-            <Button variant="contained" component="label" 
+            <TextField label="Nombre" variant="outlined" value={name} onChange={(e) => setName(e.target.value)} />
+            <Button variant="contained" component="label"
                 sx={{
-                    display:'flex', 
-                    alignItems:'center',
-                    justifyContent:'center',
-                    gap:'10px',
-                    background:'var(--dark2)',
-                    '&:hover':{background:'var(--dark2hover)'}
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '10px',
+                    background: 'var(--dark2)',
+                    '&:hover': { background: 'var(--dark2hover)' }
                 }}>
-                <Add/> Agregue el logo
-            <input hidden accept="image/*" multiple type="file" />
+                <Add /> Agregue el logo
+                <input hidden accept="image/*" multiple type="file" onChange={handleImageChange} />
             </Button>
+
+            {isLoading && ( // si se está cargando, mostrar el spinner y la pantalla de opacidad
+                <div style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <CircularProgress color="primary" />
+                </div>
+            )}
+
+            <button onClick={() => { nuevoEquipo(name, image) }}>crear</button>
         </Grid>
     )
 }

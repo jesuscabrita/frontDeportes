@@ -8,7 +8,7 @@ const Registrar = () => {
     const [light] = useContext(Context);
 
     return (
-    <Grid sx={{height: !mobile ? '170vh' : '100%', }}>
+    <Grid sx={{height: !mobile ? '170vh' : '100vh', }}>
         <Grid container flexDirection={'column'} sx={{paddingTop:!mobile ? '100px': '90px', paddingBottom:'40px',display: 'flex', alignItems: 'center', justifyContent: 'center'}} >
             <Grid item mb={4} sx={{display:'flex', flexDirection:'row', alignItems:'center'}}>
                 <Grid item sx={{fontSize:'28px', color : light ? 'var(--dark2)':'var(--cero)'}}>Registrar equipo</Grid>
