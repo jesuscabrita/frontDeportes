@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Grid, TextField } from "@mui/material";
+import { Button, CircularProgress, Grid } from "@mui/material";
 import { useContext, useState } from "react";
 import { RiImageAddFill as Add } from 'react-icons/ri';
 import { useMutation } from "react-query";
@@ -6,6 +6,8 @@ import { equiposPost } from "../../service/equipos";
 import { alertaSubmit } from "../../utils/alert";
 import Context from "../../context/contextPrincipal";
 import { InputText } from "../MaterialUi/InputTex";
+import { IoMdImages as Images } from 'react-icons/io';
+import { TiDeleteOutline as Delete } from 'react-icons/ti';
 
 export const Form = () => {
     const [light] = useContext(Context);
@@ -22,6 +24,9 @@ export const Form = () => {
         crearEquipo(formData, {
             onSuccess: (success) => {
                 setName('');
+                setImage(null);
+                setLogoAdded(false);
+                setImageName('');
                 alertaSubmit(true, success?.message);
                 setIsLoading(false); // indicar que la solicitud ha terminado de cargarse
             },
@@ -39,7 +44,7 @@ export const Form = () => {
         reader.onload = () => {
             setImage(reader.result);
             setLogoAdded(true); // indicar que se agregó el logo
-            setImageName(file.name); 
+            setImageName(file.name);
         };
         reader.readAsDataURL(file);
     };
@@ -59,12 +64,43 @@ export const Form = () => {
                 <Add /> Agregue el logo
                 <input hidden accept="image/*" multiple type="file" onChange={handleImageChange} />
             </Button>
-            
+
             {logoAdded && (
-                <div>
-                    <p>Logo agregado correctamente:</p>
-                    <p>{imageName}</p> {/* mostrar el nombre del archivo */}
-                </div>
+                <Grid container flexDirection={'column'}>
+                    <Grid item sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '6px',
+                        color: 'var(--check)'
+                    }}>
+                        Logo agregado correctamente
+                        <Images size={25} />
+                    </Grid>
+                    <Grid item sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: light ? 'var(--dark2)' : 'var(--gris)'
+                    }}>
+                        {imageName}
+                    </Grid>
+                    <Grid item sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'var(--danger)',
+                    }}>
+                        <Delete 
+                            size={30} 
+                            style={{cursor:'pointer'}}
+                            onClick={() => {
+                            setImage(null);
+                            setLogoAdded(false);
+                            setImageName('');
+                        }}/>
+                    </Grid>
+                </Grid>
             )}
 
             {isLoading && ( // si se está cargando, mostrar el spinner y la pantalla de opacidad
@@ -73,7 +109,7 @@ export const Form = () => {
                 </div>
             )}
 
-            <button onClick={() => { nuevoEquipo(name, image) }}>crear</button>
+            <Button onClick={() => { nuevoEquipo(name, image) }} sx={{color:'var(--primario)', fontSize:'16px'}}>Registrar</Button>
         </Grid>
     )
 }
