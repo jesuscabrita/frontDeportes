@@ -47,7 +47,7 @@ const Registrar = () => {
 
 
     return (
-        <Grid sx={{ height: !mobile ? '170vh' : '100vh', }}>
+        <Grid sx={{ height: !mobile ? '170vh' : '100%', }}>
             <Grid container flexDirection={'column'} sx={{ paddingTop: !mobile ? '100px' : '90px', paddingBottom: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
                 <Grid item mb={4} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                     <Grid item sx={{ fontSize: '28px', color: light ? 'var(--dark2)' : 'var(--cero)' }}>Registrar equipo</Grid>
@@ -123,6 +123,12 @@ const Registrar = () => {
                     </Tabs>
                     <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
                         <TabPanel value={value} index={0} dir={theme.direction}>
+                        <Grid sx={{
+                            width:'100%',
+                            display: 'grid',
+                            gridTemplateColumns: !mobile ? 'repeat(5, 1fr)' : 'repeat(2, 1fr)',
+                            gap: '20px',
+                            }}>
                             {isLoading ?
                                 <CircularProgress color="primary" />
                                 : isError ? <div>Ha ocurrido un error al cargar los equipos</div>
@@ -132,8 +138,15 @@ const Registrar = () => {
                                                 <ListaEquipoRegistro data={equipo} key={index} isLoading={isLoading} />
                                             )
                                         })}
+                        </Grid>
                         </TabPanel>
                         <TabPanel value={value} index={1} dir={theme.direction}>
+                        <Grid sx={{
+                            width:'100%',
+                            display: 'grid',
+                            gridTemplateColumns: !mobile ? 'repeat(5, 1fr)' : 'repeat(2, 1fr)',
+                            gap: '20px',
+                            }}>
                         {isLoading ?
                                 <CircularProgress color="primary" />
                                 : isError ? <div>Ha ocurrido un error al cargar los equipos</div>
@@ -143,6 +156,7 @@ const Registrar = () => {
                                                 <ListaEquipoRegistro data={equipo} key={index} isLoading={isLoading} />
                                             )
                                         })}
+                        </Grid>
                         </TabPanel>
                     </SwipeableViews>
                 </Grid>
