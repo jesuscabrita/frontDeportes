@@ -1,7 +1,7 @@
 import { Button, CircularProgress, Grid } from "@mui/material";
 import { useContext, useState } from "react";
 import { RiImageAddFill as Add } from 'react-icons/ri';
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { equiposPost } from "../../service/equipos";
 import { alertaSubmit } from "../../utils/alert";
 import Context from "../../context/contextPrincipal";
@@ -17,12 +17,14 @@ export const Form = () => {
     const { mutate: crearEquipo } = useMutation(equiposPost);
     const [logoAdded, setLogoAdded] = useState(false);
     const [imageName, setImageName] = useState('');
+    const queryClient = useQueryClient()
 
     const nuevoEquipo = (nombre: string, logo: string) => {
         setIsLoading(true); // indicar que se está cargando la solicitud
         const formData = { form: { name: nombre, logo } };
         crearEquipo(formData, {
             onSuccess: (success) => {
+                queryClient.invalidateQueries(["/api/liga"])
                 setName('');
                 setImage(null);
                 setLogoAdded(false);

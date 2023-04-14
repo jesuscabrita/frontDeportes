@@ -23,3 +23,24 @@ export const alertaSubmit = (submit, message) => {
         });
     }
 };
+
+export const alertaEdit =()=>{
+    Swal.fire({
+        title: 'Estas seguro?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#256d85',
+        cancelButtonColor: '#b74848',
+        cancelButtonText:'Calcelar',
+        confirmButtonText: '¡Sí, Registrar!',
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+                'Registrado!',
+                'El equipo ha sido registrado a la liga.',
+                'success'
+                )
+        }
+    })
+}
