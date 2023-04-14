@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Grid } from "@mui/material";
+import { Button, CircularProgress, Grid, useMediaQuery } from "@mui/material";
 import { useContext, useState } from "react";
 import { RiImageAddFill as Add } from 'react-icons/ri';
 import { useMutation, useQueryClient } from "react-query";
@@ -10,23 +10,27 @@ import { IoMdImages as Images } from 'react-icons/io';
 import { TiDeleteOutline as Delete } from 'react-icons/ti';
 
 export const Form = () => {
+    const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [light] = useContext(Context);
     const [name, setName] = useState('');
     const [image, setImage] = useState(null);
+    const [correo, setCorreo] = useState('');
     const [isLoading, setIsLoading] = useState(false); // nuevo estado para indicar si se está cargando o no
     const { mutate: crearEquipo } = useMutation(equiposPost);
     const [logoAdded, setLogoAdded] = useState(false);
     const [imageName, setImageName] = useState('');
     const queryClient = useQueryClient()
+    
 
-    const nuevoEquipo = (nombre: string, logo: string) => {
+    const nuevoEquipo = (nombre: string, logo: string, correo: string) => {
         setIsLoading(true); // indicar que se está cargando la solicitud
-        const formData = { form: { name: nombre, logo } };
+        const formData = { form: { name: nombre, logo, correo } };
         crearEquipo(formData, {
             onSuccess: (success) => {
                 queryClient.invalidateQueries(["/api/liga"])
                 setName('');
                 setImage(null);
+                setCorreo('')
                 setLogoAdded(false);
                 setImageName('');
                 alertaSubmit(true, success?.message);
@@ -54,6 +58,7 @@ export const Form = () => {
     return (
         <Grid container flexDirection={'column'} gap={2} alignItems={'center'}>
             <InputText label={'Nombre'} setValue={setName} value={name} />
+            <InputText label={'Correo'} setValue={setCorreo} value={correo} />
             <Button variant="contained" component="label"
                 sx={{
                     display: 'flex',
@@ -106,12 +111,12 @@ export const Form = () => {
             )}
 
             {isLoading && ( // si se está cargando, mostrar el spinner y la pantalla de opacidad
-                <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '170vh' : '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <CircularProgress color="primary" />
                 </div>
             )}
 
-            <Button onClick={() => { nuevoEquipo(name, image) }} sx={{color:'var(--primario)', fontSize:'16px'}}>Registrar</Button>
+            <Button onClick={() => { nuevoEquipo(name, image, correo) }} sx={{color:'var(--primario)', fontSize:'16px'}}>Registrar</Button>
         </Grid>
     )
 }
