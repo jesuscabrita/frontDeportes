@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import { RiImageAddFill as Add } from 'react-icons/ri';
 import { useMutation, useQueryClient } from "react-query";
 import { equiposPost } from "../../service/equipos";
-import { alertaSubmit } from "../../utils/alert";
+import { alertaCheck, alertaSubmit } from "../../utils/alert";
 import Context from "../../context/contextPrincipal";
 import { InputText } from "../MaterialUi/InputTex";
 import { IoMdImages as Images } from 'react-icons/io';
@@ -20,10 +20,10 @@ export const Form = () => {
     const [logoAdded, setLogoAdded] = useState(false);
     const [imageName, setImageName] = useState('');
     const queryClient = useQueryClient()
-    
+
 
     const nuevoEquipo = (nombre: string, logo: string, correo: string) => {
-        setIsLoading(true); // indicar que se está cargando la solicitud
+        setIsLoading(true);
         const formData = { form: { name: nombre, logo, correo } };
         crearEquipo(formData, {
             onSuccess: (success) => {
@@ -34,12 +34,15 @@ export const Form = () => {
                 setLogoAdded(false);
                 setImageName('');
                 alertaSubmit(true, success?.message);
-                setIsLoading(false); // indicar que la solicitud ha terminado de cargarse
+                setTimeout(() => {
+                    alertaCheck('Registrado!', 'Gracias por crear un equipo en nuestra plataforma. En breve recibirás un correo electrónico con la confirmación de su registro. Si tiene alguna pregunta o necesita ayuda adicional, no dude en ponerse en contacto con nuestro equipo de soporte.');
+                }, 5000);
+                setIsLoading(false);
             },
             onError: (err: any) => {
                 const errorMessage = err?.response?.data?.message || err.message;
                 alertaSubmit(false, errorMessage);
-                setIsLoading(false); // indicar que la solicitud ha terminado de cargarse
+                setIsLoading(false);
             },
         });
     };
@@ -98,14 +101,14 @@ export const Form = () => {
                         justifyContent: 'center',
                         color: 'var(--danger)',
                     }}>
-                        <Delete 
-                            size={30} 
-                            style={{cursor:'pointer'}}
+                        <Delete
+                            size={30}
+                            style={{ cursor: 'pointer' }}
                             onClick={() => {
-                            setImage(null);
-                            setLogoAdded(false);
-                            setImageName('');
-                        }}/>
+                                setImage(null);
+                                setLogoAdded(false);
+                                setImageName('');
+                            }} />
                     </Grid>
                 </Grid>
             )}
@@ -116,7 +119,7 @@ export const Form = () => {
                 </div>
             )}
 
-            <Button onClick={() => { nuevoEquipo(name, image, correo) }} sx={{color:'var(--primario)', fontSize:'16px'}}>Registrar</Button>
+            <Button onClick={() => { nuevoEquipo(name, image, correo) }} sx={{ color: 'var(--primario)', fontSize: '16px' }}>Registrar</Button>
         </Grid>
     )
 }

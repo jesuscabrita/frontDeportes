@@ -1,11 +1,11 @@
 import Swal from "sweetalert2";
 
-export const alertaSubmit = (submit, message) => {
+export const alertaSubmit = (submit: boolean, message: string) => {
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-right',
         iconColor: 'white',
-        customClass: { popup: 'colored-toast'},
+        customClass: { popup: 'colored-toast' },
         showConfirmButton: false,
         timer: 5500,
         timerProgressBar: true
@@ -24,23 +24,68 @@ export const alertaSubmit = (submit, message) => {
     }
 };
 
-export const alertaEdit =()=>{
-    Swal.fire({
-        title: 'Estas seguro?',
+export const alertaCheck = (titulo: string, message: string) => {
+    Swal.fire(
+        titulo,
+        message,
+        'success'
+    )
+}
+
+export const alertaQuestion = (id: string, formData: object, editarEstado: any, success: string, message: string, subMessage: string, error: string) => {
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+    });
+
+    const btnStyle = `
+    .swal2-confirm.btn-success {
+        background-color: var(--check);
+        border-radius: 8px;
+        padding:10px;
+        color: var(--cero);
+    }
+    .swal2-cancel.btn-danger {
+        background-color: var(--danger);
+        border-radius: 8px;
+        padding:10px;
+        padding:10px;
+        color: var(--cero);
+    }
+    .swal2-actions button + button {
+        margin-left: 10px;
+    }
+`;
+    const customStyle = document.createElement('style');
+    customStyle.appendChild(document.createTextNode(btnStyle));
+    document.head.appendChild(customStyle);
+
+    swalWithBootstrapButtons.fire({
+        title: 'Estas segur@?',
         text: "¡No podrás revertir esto!",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#256d85',
-        cancelButtonColor: '#b74848',
-        cancelButtonText:'Calcelar',
-        confirmButtonText: '¡Sí, Registrar!',
-    }).then(async (result) => {
+        confirmButtonText: success,
+        cancelButtonText: 'No, cancelar',
+        reverseButtons: true
+    }).then((result) => {
         if (result.isConfirmed) {
-            Swal.fire(
-                'Registrado!',
-                'El equipo ha sido registrado a la liga.',
+            swalWithBootstrapButtons.fire(
+                message,
+                subMessage,
                 'success'
-                )
+            );
+
+            editarEstado(id, formData);
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            swalWithBootstrapButtons.fire(
+                'Cancelado',
+                error,
+                'error'
+            );
         }
-    })
-}
+    });
+};
