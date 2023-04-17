@@ -29,3 +29,13 @@ export const equiposPut = async ({ form, id }) => {
         throw new Error(message);
     }
 }
+
+export const equiposDelete = async ({ id}) => {
+    try {
+        const data = await api.delete(`/api/liga/${id}`).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}

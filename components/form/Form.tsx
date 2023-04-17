@@ -36,7 +36,7 @@ export const Form = () => {
                 alertaSubmit(true, success?.message);
                 setTimeout(() => {
                     alertaCheck('Registrado!', 'Gracias por crear un equipo en nuestra plataforma. En breve recibirás un correo electrónico con la confirmación de su registro. Si tiene alguna pregunta o necesita ayuda adicional, no dude en ponerse en contacto con nuestro equipo de soporte.');
-                }, 5000);
+                }, 4000);
                 setIsLoading(false);
             },
             onError: (err: any) => {

@@ -3,13 +3,16 @@ import { useContext, useState, useEffect } from "react";
 import Context from "../../context/contextPrincipal";
 import { alertaQuestion, alertaSubmit } from "../../utils/alert";
 import { useMutation, useQueryClient } from "react-query";
-import { equiposPut } from "../../service/equipos";
+import { equiposDelete, equiposPut } from "../../service/equipos";
+import { TiDeleteOutline as Delete } from 'react-icons/ti';
+import { AiTwotoneEdit as Edit } from 'react-icons/ai';
 
 export const ListaEquipoRegistro = ({ data, isLoading }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [light] = useContext(Context);
     const [showImage, setShowImage] = useState(false);
     const { mutate: editarEquipo } = useMutation(equiposPut);
+    const { mutate: eliminarEquipo } = useMutation(equiposDelete);
     const queryClient = useQueryClient()
 
     useEffect(() => {
@@ -29,7 +32,7 @@ export const ListaEquipoRegistro = ({ data, isLoading }) => {
             editarEquipo({ form: formData, id }, {
                 onSuccess: (success) => {
                     queryClient.invalidateQueries(["/api/liga"]);
-                    alertaSubmit(true, success?.message);
+                    alertaSubmit(true, estado == 'registrado' ? 'Se registro el equipo correctamente': 'Se suspendio el equipo correctamente');
                 },
                 onError: (err: any) => {
                     const errorMessage = err?.response?.data?.message || err.message;
@@ -42,6 +45,19 @@ export const ListaEquipoRegistro = ({ data, isLoading }) => {
             estado == 'registrado' ? 'El equipo sigue en la cola :)': 'El equipo sigue en la liga :)'  );
     };
 
+    const eliminarEquipos =(id: string)=>{
+        eliminarEquipo({id}, {
+            onSuccess: (success) => {
+                queryClient.invalidateQueries(["/api/liga"]);
+                alertaSubmit(true, success?.message);
+            },
+            onError: (err: any) => {
+                const errorMessage = err?.response?.data?.message || err.message;
+                alertaSubmit(false, errorMessage);
+            },
+        })
+    }
+
     return (
         <Grid container flexDirection={'column'} justifyContent={'center'} alignItems={'center'} sx={{
             border: light ? '1px solid var(--dark2)' : '1px solid var(--neutral)',
@@ -50,6 +66,10 @@ export const ListaEquipoRegistro = ({ data, isLoading }) => {
             width: '180px',
             background: light ? 'var(--gris)' : 'var(--dark2)',
         }}>
+            <Grid sx={{display:'flex', flexDirection:'row', alignItems:'center',gap:'10px' ,paddingLeft:'100px', paddingBottom:'10px'}}>
+                {data?.estado == 'enCola' && <Grid item><Delete onClick={()=>{eliminarEquipos(data?._id)}} size={20} style={{cursor:'pointer', color:'var(--danger)'}}/></Grid>}
+                <Grid item><Edit size={20} style={{cursor:'pointer', color: light ? 'var(--dark2)':'var(--cero)'}}/></Grid>
+            </Grid>
             <Grid item>
                 {isLoading || !showImage ? 
                     (<CircularProgress color="primary" size={30} />) 
