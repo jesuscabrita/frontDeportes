@@ -15,22 +15,23 @@ export const Form = () => {
     const [name, setName] = useState('');
     const [image, setImage] = useState(null);
     const [correo, setCorreo] = useState('');
+    const [instagram, setInstagram] = useState('');
     const [isLoading, setIsLoading] = useState(false); // nuevo estado para indicar si se está cargando o no
     const { mutate: crearEquipo } = useMutation(equiposPost);
     const [logoAdded, setLogoAdded] = useState(false);
     const [imageName, setImageName] = useState('');
     const queryClient = useQueryClient()
 
-
-    const nuevoEquipo = (nombre: string, logo: string, correo: string) => {
+    const nuevoEquipo = (nombre: string, logo: string, correo: string, instagram: string) => {
         setIsLoading(true);
-        const formData = { form: { name: nombre, logo, correo } };
+        const formData = { form: { name: nombre, logo, correo, instagram } };
         crearEquipo(formData, {
             onSuccess: (success) => {
                 queryClient.invalidateQueries(["/api/liga"])
                 setName('');
-                setImage(null);
+                setImage('');
                 setCorreo('')
+                setInstagram('')
                 setLogoAdded(false);
                 setImageName('');
                 alertaSubmit(true, success?.message);
@@ -62,6 +63,7 @@ export const Form = () => {
         <Grid container flexDirection={'column'} gap={2} alignItems={'center'}>
             <InputText label={'Nombre'} setValue={setName} value={name} />
             <InputText label={'Correo'} setValue={setCorreo} value={correo} />
+            <InputText label={'Instagram'} setValue={setInstagram} value={instagram} />
             <Button variant="contained" component="label"
                 sx={{
                     display: 'flex',
@@ -119,7 +121,7 @@ export const Form = () => {
                 </div>
             )}
 
-            <Button onClick={() => { nuevoEquipo(name, image, correo) }} sx={{ color: 'var(--primario)', fontSize: '16px' }}>Registrar</Button>
+            <Button onClick={() => { nuevoEquipo(name, image, correo, instagram) }} sx={{ color: 'var(--primario)', fontSize: '16px' }}>Registrar</Button>
         </Grid>
     )
 }
