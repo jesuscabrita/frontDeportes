@@ -34,7 +34,10 @@ const Index = () => {
                     allowScrollButtonsMobile={true}
                     scrollButtons={true}
                     sx={{
-                        width: isError||isLoading ||filterEstado(data, 'registrado').length === 0? mobile? '100%':'1500px': 'inherit',flexGrow: 1,paddingLeft:'20px', 
+                        width: isError||isLoading ||filterEstado(data, 'registrado').length === 0? mobile? '100%':'1500px': 'inherit',
+                        flexGrow: 1,
+                        paddingLeft:'20px',
+                        minWidth:'450px',
                         '& .MuiSvgIcon-fontSizeSmall': { color: light ? 'black' : 'white' },
                         '& .MuiTabs-flexContainer': { gap: '16px' },
                         '& .MuiTabs-indicator': { backgroundColor:'inherit' }
@@ -46,8 +49,9 @@ const Index = () => {
                         justifyContent:'center', 
                         width:'100%',
                         color:light ?'var(--dark2)':'var(--cero)',
+                        gap:'16px',
                     }}>
-                        <CircularProgress style={{color:light ? 'var(--dark2)': 'var(--cero)'}} size={30} />
+                        Cargando equipos..! <CircularProgress style={{color:light ? 'var(--dark2)': 'var(--cero)'}} size={30} />
                     </Grid>
                     :isError ?
                     <Grid item sx={{
