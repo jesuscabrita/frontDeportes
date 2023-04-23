@@ -78,7 +78,7 @@ export const ListaEquipoRegistro = ({ data, isLoading}) => {
             </Grid>
             <Grid item>
                 {isLoading || !showImage ? 
-                    (<CircularProgress color="primary" size={30} />) 
+                    (<CircularProgress style={{color:light ? 'var(--dark2)': 'var(--cero)'}} size={30} />) 
                 :    showImage ? <img src={data?.logo} alt={data?.name} style={{ height: '80px', cursor: 'pointer' }} /> 
                 : null}
             </Grid>

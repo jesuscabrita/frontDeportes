@@ -1,6 +1,6 @@
-import { CircularProgress, Grid, Tab, Tabs, useMediaQuery } from "@mui/material";
+import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
 import { Form } from "../../components/form/Form";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import Context from "../../context/contextPrincipal";
 import { ListaEquipoRegistro } from "../../components/Shared/ListaEquipoRegistro";
 import { useQuery } from "react-query";
@@ -76,16 +76,17 @@ const Registrar = () => {
                                     <CircularProgress style={{color:light ? 'var(--dark2)': 'var(--cero)'}} />
                                 </Grid>
                             : isError ? 
-                                <Grid mt={8} item sx={{ 
+                                <Grid mt={mobile ? 0: 8} item sx={{ 
                                     display: 'flex', 
-                                    flexDirection: 'row', 
+                                    flexDirection: 'column', 
                                     gap: '16px',
                                     minWidth:!mobile? '960px':'100%',
                                     height:mobile &&'300px', 
                                     justifyContent:'center',
+                                    alignItems:'center',
                                     color:light ? 'var(--dark2)': 'var(--cero)'
                                     }}>
-                                    Ha ocurrido un error al cargar los equipos <Err404 size={25}/>
+                                    Ha ocurrido un error al cargar los equipos <Err404 size={85}/>
                                 </Grid>
                             : filterEstado(data, 'registrado').length === 0 ? 
                                 <Grid mt={8} item sx={{ 
@@ -127,16 +128,17 @@ const Registrar = () => {
                                     <CircularProgress style={{color:light ? 'var(--dark2)': 'var(--cero)'}} />
                                 </Grid>
                             : isError ? 
-                                <Grid mt={8} item sx={{ 
+                                <Grid mt={mobile ? 0: 8} item sx={{ 
                                     display: 'flex', 
-                                    flexDirection: 'row', 
+                                    flexDirection: 'column', 
                                     gap: '16px',
                                     minWidth:!mobile? '960px':'100%',
                                     height:mobile &&'300px', 
                                     justifyContent:'center',
+                                    alignItems:'center',
                                     color:light ? 'var(--dark2)': 'var(--cero)'
                                     }}>
-                                    Ha ocurrido un error al cargar los equipos <Err404 size={25}/>
+                                    Ha ocurrido un error al cargar los equipos <Err404 size={85}/>
                                 </Grid>
                             : filterEstado(data, 'enCola').length === 0 ? 
                                 <Grid mt={8} item sx={{ 
