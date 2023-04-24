@@ -10,6 +10,16 @@ export const equiposGet = async () => {
     }
 }
 
+export const equiposGetById = async (id) => {
+    try {
+        const equipos  = await api.get(`/api/liga/${id}`).then(res => res.data)
+        return equipos;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
+
 export const equiposPost = async ({ form }) => {
     try {
         const data = await api.post('/api/liga', form).then(res => res.data)
