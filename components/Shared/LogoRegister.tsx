@@ -2,11 +2,11 @@ import { useContext } from "react";
 import Context from "../../context/contextPrincipal";
 import { Grid } from "@mui/material";
 
-export const LogoRegister =()=>{
+export const LogoRegister =({name})=>{
     const [light] = useContext(Context);
     return(
         <Grid item mb={4} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-            <Grid item sx={{ fontSize: '28px', color: light ? 'var(--dark2)' : 'var(--cero)' }}>Registrar equipo</Grid>
+            <Grid item sx={{ fontSize: '28px', color: light ? 'var(--dark2)' : 'var(--cero)' }}>{name}</Grid>
                 <img
                     className="block h-14 w-auto lg:hidden"
                     src={light ?

@@ -46,7 +46,7 @@ const Registrar = () => {
     return (
         <Grid sx={{ height: !mobile ? '180vh' : '100%', }}>
             <Grid container flexDirection={'column'} sx={{ paddingTop: !mobile ? '100px' : '90px', paddingBottom: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
-                <LogoRegister/>
+                <LogoRegister name={'Registrar equipo'}/>
                 <Form />
                 <Grid item mt={4}>
                     <Grid item container sx={{height:'min-content'}}>
