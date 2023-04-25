@@ -48,7 +48,6 @@ export const ListaEquipoRegistro = ({ data, isLoading}) => {
     };
 
     const eliminarEquipos =(id: string)=>{
-
         alertaQuestion(id, {}, (id: string) => {
             eliminarEquipo({ id }, {
                 onSuccess: (success) => {

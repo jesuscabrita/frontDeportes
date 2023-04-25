@@ -70,7 +70,6 @@ export const ModalEditarEquipo = ({ open, setOpen, data }) => {
             });
         }
 
-
     return (
         <Grid>
             <Dialog open={open} onClose={handleClose}>
