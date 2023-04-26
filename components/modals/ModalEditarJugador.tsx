@@ -1,5 +1,5 @@
 import { Button, CircularProgress, Grid, useMediaQuery } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Context from "../../context/contextPrincipal";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -13,33 +13,44 @@ import { InputSelect } from "../MaterialUi/InputSelect";
 import { nationalities, posiciones } from "../../utils/arrays";
 import { InputFecha } from "../MaterialUi/InputFecha";
 import { InputImagen } from "../MaterialUi/InputImagen";
-import { jugadoresPost } from "../../service/jugadores";
+import { jugadoresPut } from "../../service/jugadores";
 
-export const ModalJugador =({open, setOpen,id})=>{
+export const ModalEditarJugador =({open, setOpen,equipoId,jugadorId, data})=>{
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [light] = useContext(Context);
-    const [name, setName] = useState('');
-    const [edad, setEdad] = useState('');
-    const [posicion, setPosicion] = useState('');
-    const [fecha, setFecha] = useState('');
-    const [nacionalidad, setNacionalidad] = useState('');
-    const [dorsal, setDorsal] = useState('');
-    const [instagram, setInstagram] = useState('');
-    const [foto, setFoto] = useState(null);
+    const [name, setName] = useState(data?.name);
+    const [edad, setEdad] = useState(data?.edad);
+    const [posicion, setPosicion] = useState(data?.posicion);
+    const [fecha, setFecha] = useState(data?.fecha_nacimiento ? moment(data.fecha_nacimiento) : null);
+    const [nacionalidad, setNacionalidad] = useState(data?.nacionalidad);
+    const [dorsal, setDorsal] = useState(data?.dorsal);
+    const [instagram, setInstagram] = useState(data?.instagram);
+    const [foto, setFoto] = useState(data?.foto);
     const [fotoAdded, setFotoAdded] = useState(false);
     const [fotoName, setFotoName] = useState('');
     const queryClient = useQueryClient();
     const [isLoading, setIsLoading] = useState(false); 
-    const { mutate: crearJugador } = useMutation(jugadoresPost);
+    const { mutate: editarJugador } = useMutation(jugadoresPut);
 
     const handleClose = () => {
         setOpen(false);
     };
 
-    const crearJugadores = (id: string, name: string, edad: string,posicion: string, fecha_nacimiento: string ,nacionalidad: string,dorsal: string,instagram: string,foto: string) => {
+    useEffect(() => {
+        setName(data?.name);
+        setEdad(data?.edad);
+        setPosicion(data?.posicion);
+        setNacionalidad(data?.nacionalidad);
+        setInstagram(data?.instagram);
+        setFoto(data?.foto);
+        setDorsal(data?.dorsal)
+        setFecha(data?.fecha_nacimiento ? moment(data.fecha_nacimiento) : null)
+    }, [data]);
+
+    const editarJugadores = (equipoId: string, jugadorId: string, name: string, edad: string,posicion: string, fecha_nacimiento: string ,nacionalidad: string,dorsal: string,instagram: string,foto: string) => {
         setIsLoading(true);
         const formData = { name, edad, posicion,fecha_nacimiento, nacionalidad , dorsal ,instagram, foto };
-            crearJugador({ form: formData, eid: id }, {
+            editarJugador({ form: formData, equipoId, jugadorId}, {
                 onSuccess: (success) => {
                     queryClient.invalidateQueries(["equipos"]);
                     alertaSubmit(true, success?.message);
@@ -87,7 +98,7 @@ export const ModalJugador =({open, setOpen,id})=>{
                 )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
                     <Button onClick={handleClose} sx={{ color: 'var(--primario)' }}>Cancelar</Button>
-                    <Button onClick={()=> {crearJugadores(id, name, edad, posicion, moment(fecha).format('YYYY-MM-DD HH:mm:ss'), nacionalidad , dorsal ,instagram, foto)}} autoFocus sx={{ color: 'var(--primario)' }}>Crear</Button>
+                    <Button onClick={()=> {editarJugadores(equipoId,jugadorId,name, edad, posicion, moment(fecha).format('YYYY-MM-DD HH:mm:ss'), nacionalidad , dorsal ,instagram, foto )}} autoFocus sx={{ color: 'var(--primario)' }}>Editar</Button>
                 </DialogActions>
             </Dialog>
         </Grid>

@@ -19,15 +19,23 @@ export const InputSelect = ({ value,setValue,label, selectData }) => {
                 value={value}
                 label={label}
                 onChange={handleChange}
-                MenuProps={{ PaperProps: { sx: { background: light ? 'var(--cero)' : 'var(--dark3)' } } }}
-                sx={{ '& .MuiInputBase-input': { color: light ? 'var(--dark3)' : 'var(--cero)', border: light ? '1px solid var(--dark2)' : '1px solid var(--cero)' } }}
+                MenuProps={{sx: {'& .MuiList-root.MuiMenu-list': {background: light ? 'var(--cero)' : 'var(--dark3)',}}}}
+                sx={{ '& .MuiInputBase-input': { color: light ? 'var(--dark3)' : 'var(--cero)', border: light ? '1px solid var(--dark2)' : '1px solid var(--cero)' }}}
             >
                 {selectData.map((item) => (
                     <MenuItem
-                        key={item.value}
-                        value={item.value}
-                        sx={{background: light ? 'var(--cero)' : 'var(--dark3)',color: light ? 'var(--dark3)' : 'var(--cero)'}}
-                    >
+                    key={item.value}
+                    value={item.value}
+                    sx={{
+                        background: light ? 'var(--cero)' : 'var(--dark3)',
+                        color: light ? 'var(--dark3)' : 'var(--cero)',
+                        '&:hover': {
+                            background: light ? 'var(--gris)' : 'var(--dark2)',
+                        },
+                        '&.Mui-selected': {
+                            background: light ? 'var(--gris)' : 'var(--dark2)'}
+                    }}
+                >
                         {item.label}
                     </MenuItem>
                 ))}

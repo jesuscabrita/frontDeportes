@@ -49,23 +49,3 @@ export const equiposDelete = async ({ id}) => {
         throw new Error(message);
     }
 }
-
-export const jugadoresPost = async ({ form, eid }) => {
-    try {
-        const data = await api.post(`/api/liga/${eid}/jugador`, form).then(res => res.data)
-        return data;
-    } catch (err) {
-        const message = err?.response?.data?.message || err.message;
-        throw new Error(message);
-    }
-}
-
-export const JugadorDelete = async ({ equipoId, jugadorId}) => {
-    try {
-        const data = await api.delete(`/api/liga/${equipoId}/jugadores/${jugadorId}`).then(res => res.data)
-        return data;
-    } catch (err) {
-        const message = err?.response?.data?.message || err.message;
-        throw new Error(message);
-    }
-}

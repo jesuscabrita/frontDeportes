@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Grid, useMediaQuery } from "@mui/material"
+import { CircularProgress, Grid, useMediaQuery } from "@mui/material"
 import { useContext, useEffect, useState } from "react";
 import Context from "../../context/contextPrincipal";
 import { TbRectangleVertical as Tarjeta } from 'react-icons/tb';
@@ -14,24 +14,23 @@ import { MdVerified as Ganado } from 'react-icons/md';
 import { AiOutlineCloseCircle as Perdido } from 'react-icons/ai';
 import { MenuTabla } from "../MaterialUi/MenuTabla";
 import { TbTemplate as Plantilla } from 'react-icons/tb';
-import { MdNextPlan as Proximo } from 'react-icons/md';
-import { GiSoccerBall as Resultado } from 'react-icons/gi';
-import { FcStatistics as Estadisticas } from 'react-icons/fc';
+import { GiSoccerKick as Asistir } from 'react-icons/gi';
+import { GiSoccerBall as Goles } from 'react-icons/gi';
 import { BiTransfer as Fichaje } from 'react-icons/bi';
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from '@mui/material/styles';
 import { TabPanel } from "../MaterialUi/TabPanel";
 import { ModalJugador } from "../modals/ModalJugador";
-import { alertaQuestion, alertaSubmit } from "../../utils/alert";
-import { useMutation, useQueryClient } from "react-query";
-import { JugadorDelete } from "../../service/equipos";
+import { TablaPlantilla } from "../MaterialUi/TablaPlantilla";
+import { TablaEstadisticas } from "../MaterialUi/TablaEstadisticas";
 
 const opcionSelectEquipo =[
     {id:0, name: 'Plantilla', icono: <Plantilla size={30} />},
-    {id:1, name: 'Proximos partidos', icono: <Proximo size={30} />},
-    {id:2, name: 'Resultados', icono: <Resultado size={30} />},
-    {id:3, name: 'Estadisticas', icono: <Estadisticas size={30} />},
-    {id:4, name: 'Fichajes', icono: <Fichaje size={30} />},
+    {id:1, name: 'Goles', icono: <Goles size={30} />},
+    {id:2, name: 'Asistencias', icono: <Asistir size={30} />},
+    {id:3, name: 'Amarillas', icono: <Tarjeta color={'var(--warnning)'} size={30}/>},
+    {id:4, name: 'Rojas', icono: <Tarjeta color={'var(--danger)'} size={30}/>},
+    {id:5, name: 'Fichajes', icono: <Fichaje size={30} />},
 ]
 
 export const EquipoDetalle =({data, isLoading})=>{
@@ -41,8 +40,6 @@ export const EquipoDetalle =({data, isLoading})=>{
     const [value, setValue] = useState(0);
     const theme = useTheme();
     const [modalJugador, setModalJugador] = useState(false);
-    const queryClient = useQueryClient();
-    const { mutate: eliminarJugador } = useMutation(JugadorDelete);
 
     const handleChange = (newValue) => {
         setValue(newValue);
@@ -52,28 +49,11 @@ export const EquipoDetalle =({data, isLoading})=>{
         setValue(index);
     };
 
-    const eliminarJugadores =(equipoId: string, jugadorId: string )=>{
-        alertaQuestion(equipoId, {}, (equipoId: string) => {
-            eliminarJugador({ equipoId, jugadorId }, {
-                onSuccess: (success) => {
-                    queryClient.invalidateQueries(["equipos"]);
-                    alertaSubmit(true, success?.message);
-                },
-                onError: (err: any) => {
-                    const errorMessage = err?.response?.data?.message || err.message;
-                    alertaSubmit(false, errorMessage);
-                },
-            });
-        },  'Si, Eliminar!', 'Eliminado de la Liga!', 'El equipo ha sido eliminado.', 'El equipo sigue en la liga :)'  )
-    }
-
     useEffect(() => {
         if (!isLoading) {
-            // Mostrar la imagen después de 2 segundos
             const timeoutId = setTimeout(() => {
                 setShowImage(true);
             }, 1500);
-            // Cancelar el timeout si el componente se desmonta antes de que se complete
             return () => clearTimeout(timeoutId);
         }
     }, [isLoading]);
@@ -123,6 +103,11 @@ export const EquipoDetalle =({data, isLoading})=>{
                     <Grid sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:'8px'}}><Ganado color={light ? 'var(--dark2)': 'var(--cero)'}/>Ganados: {data?.ganados}</Grid>
                     <Grid sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:'8px'}}><Perdido color={light ? 'var(--dark2)': 'var(--cero)'}/>perdidos: {data?.perdidos}</Grid>
                 </Grid>
+                <Grid sx={{display:'flex', flexDirection:'column',color: light ?'var(--dark2)':'var(--neutral)',fontSize:!mobile?'20px':'14px'}}>
+                    <Grid sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:'8px'}}><Empate color={light ? 'var(--dark2)': 'var(--cero)'}/>Goles en total:{data?.goles_a_Favor}</Grid>
+                    <Grid sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:'8px'}}><Ganado color={light ? 'var(--dark2)': 'var(--cero)'}/>Goles en contra: {data?.goles_en_Contra}</Grid>
+                    <Grid sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:'8px'}}><Perdido color={light ? 'var(--dark2)': 'var(--cero)'}/>Diferencia de goles: {data?.diferencia_de_Goles}</Grid>
+                </Grid>
         </Grid>
         <Grid mt={3} item container sx={{height:'min-content'}}>
             {opcionSelectEquipo.map(opcion =>(
@@ -133,25 +118,21 @@ export const EquipoDetalle =({data, isLoading})=>{
         <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
             <TabPanel value={value} index={0} dir={theme.direction}>
                 <Grid onClick={()=>{setModalJugador(!modalJugador)}}>Plantilla</Grid>
-                {data.jugadores.map((jugador)=>(
-                    <Grid container flexDirection={'row'} gap={2} alignItems={'center'}>
-                        <img src={jugador.foto} alt="" style={{height:'30px'}}/>
-                        <Grid>{jugador.name}</Grid>
-                        <Grid>#{jugador.dorsal}</Grid>
-                        <Button onClick={()=>{eliminarJugadores(data._id,jugador._id)}}> eliminar</Button>
-                    </Grid>
-                ))}
+                <TablaPlantilla jugadores={data.jugadores} equipo={data} isLoading={isLoading}/>
             </TabPanel>
             <TabPanel value={value} index={1} dir={theme.direction}>
-                Proximos partidos
+                <TablaEstadisticas jugadores={data.jugadores} label={'Goles'}/>
             </TabPanel>
             <TabPanel value={value} index={2} dir={theme.direction}>
-                Resultados
+                <TablaEstadisticas jugadores={data.jugadores} label={'Asistencias'}/>
             </TabPanel>
             <TabPanel value={value} index={3} dir={theme.direction}>
-                Estadisticas
+                <TablaEstadisticas jugadores={data.jugadores} label={'Tarjetas amarillas'}/>
             </TabPanel>
             <TabPanel value={value} index={4} dir={theme.direction}>
+                <TablaEstadisticas jugadores={data.jugadores} label={'Tarjetas rojas'}/>
+            </TabPanel>
+            <TabPanel value={value} index={5} dir={theme.direction}>
                 Fichajes
             </TabPanel>
         </SwipeableViews>
