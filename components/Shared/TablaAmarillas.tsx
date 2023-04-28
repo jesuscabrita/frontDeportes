@@ -42,35 +42,44 @@ export const TablaAmarillas = ({ data }) => {
     )(TableRow);
 
     return (
+    <Grid mt={2}>
         <TableContainer component={Paper} >
             <Table  aria-label="customized table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell/>
                         <StyledTableCell align="left">Nombre</StyledTableCell>
-                        <StyledTableCell align={!mobile ?"left" : "right"}>Equipo</StyledTableCell>
+                        <StyledTableCell align="left">Equipo</StyledTableCell>
                         <StyledTableCell align={!mobile ?"center": "right"} style={{whiteSpace: 'nowrap'}}>Tarjetas amarillas</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody style={{background:light ? 'var(--cero)':'var(--dark3)'}}>
                 {jugadoresMasAmarillas.map((jugador, index)=>{
                     return(
-                        <StyledTableRow key={jugador.id}>
-                            <StyledTableCell  component="th" scope="row" style={{ display: 'flex', gap: '8px', alignItems: 'center', whiteSpace: 'nowrap',height: '70px' }}>
-                                <Grid>{index + 1}</Grid>
-                                {(index + 1 == 1) &&
-                                    <Grid sx={{ background: 'var(--warnning)', height: '35px', width: '10px', whiteSpace: 'nowrap' }}></Grid>}
-                            </StyledTableCell>
-                            <StyledTableCell align="right" style={{width:'330px',whiteSpace: 'nowrap'}}>
-                                <Grid sx={{display:'flex', alignItems:'center', whiteSpace: 'nowrap', gap:'18px'}} >
-                                    <img src={jugador.foto} alt={jugador.name} style={{ height: '35px'}} />
-                                    <Grid sx={{whiteSpace: 'nowrap', paddingRight: mobile &&'30px'}}>{jugador.name}</Grid>
+                        <StyledTableRow key={jugador._id}>
+                            <StyledTableCell  component="th" scope="row">
+                                <Grid container alignItems={'center'} width={'250px'} flexDirection={'row'} sx={{whiteSpace: 'nowrap'}}>
+                                    <Grid container sx={{gap: '8px', alignItems: 'center', whiteSpace: 'nowrap', width:'40px'}}>
+                                        <Grid>{index + 1}</Grid>
+                                        {(index + 1 == 1 ) &&
+                                            <Grid sx={{ background: 'var(--warnning)', height: '35px', width: '10px', whiteSpace: 'nowrap' }}></Grid>}
+                                    </Grid>
+                                    <Grid item container alignItems={'center'} justifyContent={'center'} sx={{width:'55px',height: '35px'}}>
+                                        <img src={jugador.foto} alt={jugador.name} style={{ height: '35px'}} />
+                                    </Grid>
+                                    <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width:'130px'}}>
+                                        {jugador.name} 
+                                    </Grid>
                                 </Grid>
                             </StyledTableCell>
-                            <StyledTableCell align="right" style={{width:'280px',whiteSpace: 'nowrap'}}>
-                                <Grid sx={{display:'flex', alignItems:'center', whiteSpace: 'nowrap', gap:'18px'}} >
-                                    <img src={jugador.logo} alt={jugador.equipo} style={{ height: '35px'}} />
-                                    {!mobile &&<Grid sx={{whiteSpace: 'nowrap'}}>{jugador.esquipo}</Grid>}
+                            <StyledTableCell align="center">
+                                <Grid sx={{display:'flex', alignItems:'center', gap:'18px'}} >
+                                    <Grid item container alignItems={'center'} justifyContent={'center'} sx={{width:'55px',height: '35px'}}>
+                                        <img src={jugador.logo} alt={jugador.equipo} style={{ height: '35px'}} />
+                                    </Grid>
+                                    {!mobile &&
+                                    <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width:'130px'}}>
+                                        {jugador.equipo}
+                                    </Grid>}
                                 </Grid>
                             </StyledTableCell>
                             <StyledTableCell align="center" style={{fontWeight:700, fontSize:'15px'}}>{jugador.tarjetas_amarillas}</StyledTableCell>
@@ -80,5 +89,6 @@ export const TablaAmarillas = ({ data }) => {
                 </TableBody>
             </Table>
         </TableContainer>
+    </Grid>
     );
 }

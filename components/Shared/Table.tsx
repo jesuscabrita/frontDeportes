@@ -8,12 +8,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { UltimateP } from './UltimateP';
 import { Grid, useMediaQuery } from '@mui/material';
-import data from '../../utils/data.json';
 import { useContext } from 'react';
 import Context from '../../context/contextPrincipal';
 import { ArrowP } from './ArrowP';
 
-export const PositionTable = () => {
+export const PositionTable = ({data}) => {
     const [light] = useContext(Context);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
 
@@ -63,7 +62,7 @@ export const PositionTable = () => {
     )(TableRow);
 
     return (
-        <Grid mt={2} sx={{overflowX: 'auto'}}>
+        <Grid mt={2}>
         <TableContainer component={Paper}>
             <Table aria-label="customized table">
                 <TableHead>
@@ -83,7 +82,7 @@ export const PositionTable = () => {
                 <TableBody style={{background:light ? 'var(--cero)':'var(--dark3)'}}>
                     {orden.map((row, index) => {                        
                         return (
-                            <StyledTableRow key={row.id}>
+                            <StyledTableRow key={row._id}>
                                 <StyledTableCell component="th" scope="row">
                                     <Grid container alignItems={'center'} width={'300px'} flexDirection={'row'} sx={{whiteSpace: 'nowrap'}}>
                                         <Grid container sx={{gap: '8px', alignItems: 'center', whiteSpace: 'nowrap', width:'40px'}}>
@@ -100,7 +99,7 @@ export const PositionTable = () => {
                                         <Grid item container alignItems={'center'} justifyContent={'center'} sx={{width:'55px',height: '35px'}}>
                                             <img src={row.logo} alt={row.name} style={{ height: '35px'}} /> 
                                         </Grid>
-                                        <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width:'150px'}}>
+                                        <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width:'130px'}}>
                                             {row.name} 
                                         </Grid>
                                         <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ whiteSpace: 'nowrap', width:'30px'}}>
