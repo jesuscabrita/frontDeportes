@@ -7,14 +7,15 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { UltimateP } from './UltimateP';
-import { Grid, useMediaQuery } from '@mui/material';
-import { useContext } from 'react';
+import { CircularProgress, Grid, useMediaQuery } from '@mui/material';
+import { useContext, useEffect, useState } from 'react';
 import Context from '../../context/contextPrincipal';
 import { ArrowP } from './ArrowP';
 
-export const PositionTable = ({data}) => {
+export const PositionTable = ({data, isLoading}) => {
     const [light] = useContext(Context);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
+    const [showImage, setShowImage] = useState(false);
 
     const orden = data.sort((a, b) => {
         if (a.puntos > b.puntos) {
@@ -61,6 +62,17 @@ export const PositionTable = ({data}) => {
         }),
     )(TableRow);
 
+    useEffect(() => {
+        if (!isLoading) {
+            // Mostrar la imagen después de 2 segundos
+            const timeoutId = setTimeout(() => {
+                setShowImage(true);
+            }, 2000);
+            // Cancelar el timeout si el componente se desmonta antes de que se complete
+            return () => clearTimeout(timeoutId);
+        }
+    }, [isLoading]);
+
     return (
         <Grid mt={2}>
         <TableContainer component={Paper}>
@@ -97,7 +109,10 @@ export const PositionTable = ({data}) => {
                                             <Grid>{index + 1}</Grid>
                                         </Grid>
                                         <Grid item container alignItems={'center'} justifyContent={'center'} sx={{width:'55px',height: '35px'}}>
-                                            <img src={row.logo} alt={row.name} style={{ height: '35px'}} /> 
+                                            {isLoading || !showImage ? 
+                                                (<CircularProgress style={{color:light ? 'var(--dark2)': 'var(--cero)'}} size={20} />) 
+                                            :    showImage ? <img src={row.logo} alt={row.name} style={{ height: '35px' }} /> 
+                                            : null} 
                                         </Grid>
                                         <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width:'130px'}}>
                                             {row.name} 

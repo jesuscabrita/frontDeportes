@@ -72,7 +72,7 @@ const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {
                       flexDirection: 'row', 
                       gap: '16px',
                       minWidth:!mobile? '960px':'100%',
-                      height:mobile ? '300px':'500px', 
+                      height:'500px', 
                       justifyContent:'center',
                       color:light ? 'var(--dark2)': 'var(--cero)'
                       }}>
@@ -84,7 +84,7 @@ const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {
                       flexDirection: 'column', 
                       gap: '16px',
                       minWidth:!mobile? '960px':'100%',
-                      height:mobile ? '300px':'500px', 
+                      height:'500px', 
                       justifyContent:'center',
                       alignItems:'center',
                       color:light ? 'var(--dark2)': 'var(--cero)'
@@ -97,13 +97,13 @@ const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {
                       flexDirection: 'row', 
                       gap: '16px',
                       minWidth:!mobile? '960px':'100%',
-                      height:mobile ? '300px':'500px',  
+                      height:'500px',  
                       justifyContent:'center',
                       color:light ? 'var(--dark2)': 'var(--cero)'
                       }}>
                       No hay equipos en la liga <Vacio size={25} />
                   </Grid>
-              :<PositionTable data={filterEstado(data, 'registrado')}/>}
+              :<PositionTable data={filterEstado(data, 'registrado')} isLoading={isLoading}/>}
             </TabPanel>
             <TabPanel value={value} index={1} dir={theme.direction}>
                 {isLoading ?
@@ -112,7 +112,7 @@ const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {
                       flexDirection: 'row', 
                       gap: '16px',
                       minWidth:!mobile? '960px':'100%',
-                      height:mobile ? '300px':'500px', 
+                      height:'500px', 
                       justifyContent:'center',
                       color:light ? 'var(--dark2)': 'var(--cero)'
                       }}>
@@ -124,7 +124,7 @@ const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {
                       flexDirection: 'column', 
                       gap: '16px',
                       minWidth:!mobile? '960px':'100%',
-                      height:mobile ? '300px':'500px',  
+                      height:'500px',  
                       justifyContent:'center',
                       alignItems:'center',
                       color:light ? 'var(--dark2)': 'var(--cero)'
@@ -137,13 +137,13 @@ const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {
                       flexDirection: 'row', 
                       gap: '16px',
                       minWidth:!mobile? '960px':'100%',
-                      height:mobile ? '300px':'500px', 
+                      height:'500px', 
                       justifyContent:'center',
                       color:light ? 'var(--dark2)': 'var(--cero)'
                       }}>
                       No hay jugadores en la liga <Vacio size={25} />
                   </Grid>
-              :<TablaGoleadores data={filterEstado(data, 'registrado')} />}
+              :<TablaGoleadores data={filterEstado(data, 'registrado')} isLoading={isLoading}/>}
             </TabPanel>
             <TabPanel value={value} index={2} dir={theme.direction}>
             {isLoading ?
@@ -152,7 +152,7 @@ const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {
                       flexDirection: 'row', 
                       gap: '16px',
                       minWidth:!mobile? '960px':'100%',
-                      height:mobile ? '300px':'500px', 
+                      height:'500px', 
                       justifyContent:'center',
                       color:light ? 'var(--dark2)': 'var(--cero)'
                       }}>
@@ -164,7 +164,7 @@ const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {
                       flexDirection: 'column', 
                       gap: '16px',
                       minWidth:!mobile? '960px':'100%',
-                      height:mobile ? '300px':'500px',  
+                      height:'500px',  
                       justifyContent:'center',
                       alignItems:'center',
                       color:light ? 'var(--dark2)': 'var(--cero)'
@@ -177,13 +177,13 @@ const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {
                       flexDirection: 'row', 
                       gap: '16px',
                       minWidth:!mobile? '960px':'100%',
-                      height:mobile ? '300px':'500px',  
+                      height:'500px',  
                       justifyContent:'center',
                       color:light ? 'var(--dark2)': 'var(--cero)'
                       }}>
                       No hay jugadores en la liga <Vacio size={25} />
                   </Grid>
-              :<TablaAsistidores data={filterEstado(data, 'registrado')} />}
+              :<TablaAsistidores data={filterEstado(data, 'registrado')} isLoading={isLoading}/>}
             </TabPanel>
             <TabPanel value={value} index={3} dir={theme.direction}>
             {isLoading ?
@@ -192,7 +192,7 @@ const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {
                       flexDirection: 'row', 
                       gap: '16px',
                       minWidth:!mobile? '960px':'100%',
-                      height:mobile ? '300px':'500px', 
+                      height:'500px', 
                       justifyContent:'center',
                       color:light ? 'var(--dark2)': 'var(--cero)'
                       }}>
@@ -204,7 +204,7 @@ const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {
                       flexDirection: 'column', 
                       gap: '16px',
                       minWidth:!mobile? '960px':'100%',
-                      height:mobile ? '300px':'500px', 
+                      height:'500px', 
                       justifyContent:'center',
                       alignItems:'center',
                       color:light ? 'var(--dark2)': 'var(--cero)'
@@ -217,13 +217,13 @@ const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {
                       flexDirection: 'row', 
                       gap: '16px',
                       minWidth:!mobile? '960px':'100%',
-                      height:mobile ? '300px':'500px', 
+                      height:'500px', 
                       justifyContent:'center',
                       color:light ? 'var(--dark2)': 'var(--cero)'
                       }}>
                       No hay jugadores en la liga <Vacio size={25} />
                   </Grid>
-              :<TablaAmarillas data={filterEstado(data, 'registrado')} />}
+              :<TablaAmarillas data={filterEstado(data, 'registrado')} isLoading={isLoading}/>}
             </TabPanel>
             <TabPanel value={value} index={4} dir={theme.direction}>
             {isLoading ?
@@ -232,7 +232,7 @@ const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {
                       flexDirection: 'row', 
                       gap: '16px',
                       minWidth:!mobile? '960px':'100%',
-                      height:mobile ? '300px':'500px', 
+                      height:'500px', 
                       justifyContent:'center',
                       color:light ? 'var(--dark2)': 'var(--cero)'
                       }}>
@@ -244,7 +244,7 @@ const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {
                       flexDirection: 'column', 
                       gap: '16px',
                       minWidth:!mobile? '960px':'100%',
-                      height:mobile ? '300px':'500px',  
+                      height:'500px',  
                       justifyContent:'center',
                       alignItems:'center',
                       color:light ? 'var(--dark2)': 'var(--cero)'
@@ -257,13 +257,13 @@ const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {
                       flexDirection: 'row', 
                       gap: '16px',
                       minWidth:!mobile? '960px':'100%',
-                      height:mobile ? '300px':'500px', 
+                      height:'500px', 
                       justifyContent:'center',
                       color:light ? 'var(--dark2)': 'var(--cero)'
                       }}>
                       No hay jugadores en la liga <Vacio size={25} />
                   </Grid>
-              :<TablaRojas data={filterEstado(data, 'registrado')} />}
+              :<TablaRojas data={filterEstado(data, 'registrado')} isLoading={isLoading}/>}
             </TabPanel>
           </SwipeableViews>
       </Grid>

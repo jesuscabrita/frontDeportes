@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import Context from "../../context/contextPrincipal";
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -8,11 +8,12 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { Grid, useMediaQuery } from '@mui/material';
+import { CircularProgress, Grid, useMediaQuery } from '@mui/material';
 
-export const TablaGoleadores = ({ data }) => {
+export const TablaGoleadores = ({ data, isLoading  }) => {
     const [light] = useContext(Context);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
+    const [showImage, setShowImage] = useState(false);
 
     const jugadoresMasGoleadores = data.flatMap((equipo) => equipo.jugadores)
     .sort((a, b) => b.goles - a.goles)
@@ -40,6 +41,17 @@ export const TablaGoleadores = ({ data }) => {
             },
         }),
     )(TableRow);
+
+    useEffect(() => {
+        if (!isLoading) {
+            // Mostrar la imagen después de 2 segundos
+            const timeoutId = setTimeout(() => {
+                setShowImage(true);
+            }, 2000);
+            // Cancelar el timeout si el componente se desmonta antes de que se complete
+            return () => clearTimeout(timeoutId);
+        }
+    }, [isLoading]);
 
     return (
     <Grid mt={2}>
@@ -69,7 +81,10 @@ export const TablaGoleadores = ({ data }) => {
                                             <Grid sx={{ background: 'var(--check)', height: '35px', width: '10px', whiteSpace: 'nowrap' }}></Grid>}
                                     </Grid>
                                     <Grid item container alignItems={'center'} justifyContent={'center'} sx={{width:'55px',height: '35px'}}>
-                                        <img src={jugador.foto} alt={jugador.name} style={{ height: '35px'}} />
+                                        {isLoading || !showImage ? 
+                                            (<CircularProgress style={{color:light ? 'var(--dark2)': 'var(--cero)'}} size={20} />) 
+                                        :    showImage ? <img src={jugador.foto} alt={jugador.name} style={{ height: '35px' }} /> 
+                                        : null}
                                     </Grid>
                                     <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width:'130px'}}>
                                         {jugador.name} 
@@ -79,7 +94,10 @@ export const TablaGoleadores = ({ data }) => {
                             <StyledTableCell align="center">
                                 <Grid sx={{display:'flex', alignItems:'center', gap:'18px'}} >
                                     <Grid item container alignItems={'center'} justifyContent={'center'} sx={{width:'55px',height: '35px'}}>
-                                        <img src={jugador.logo} alt={jugador.equipo} style={{ height: '35px'}} />
+                                        {isLoading || !showImage ? 
+                                            (<CircularProgress style={{color:light ? 'var(--dark2)': 'var(--cero)'}} size={20} />) 
+                                        :    showImage ? <img src={jugador.logo} alt={jugador.name} style={{ height: '35px' }} /> 
+                                        : null}
                                     </Grid>
                                     {!mobile &&
                                     <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width:'130px'}}>
