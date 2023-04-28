@@ -56,6 +56,7 @@ export const Navbar = () => {
                                         <ButtonNavbar href='/tabla'>Tabla</ButtonNavbar>
                                         <ButtonNavbar href='/noticias'>Noticias</ButtonNavbar>
                                         <ButtonNavbar href='/manager/registrar'>Registrar</ButtonNavbar>
+                                        <ButtonNavbar href='/admin/panel'>Panel</ButtonNavbar>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -75,6 +76,7 @@ export const Navbar = () => {
                             <ButtonNavbar href='/tabla'>Tabla</ButtonNavbar>
                             <ButtonNavbar href='/noticias'>Noticias</ButtonNavbar>
                             <ButtonNavbar href='/manager/registrar'>Registrar</ButtonNavbar>
+                            <ButtonNavbar href='/admin/panel'>Panel</ButtonNavbar>
                         </Grid>
                     </Disclosure.Panel>
                 </>

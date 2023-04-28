@@ -63,11 +63,13 @@ export const PositionTable = () => {
     )(TableRow);
 
     return (
+        <Grid mt={2}>
         <TableContainer component={Paper}>
             <Table aria-label="customized table" >
                 <TableHead>
                     <TableRow>
                         <StyledTableCell>Club</StyledTableCell>
+                        <StyledTableCell/>
                         <StyledTableCell align="right">PTS</StyledTableCell>
                         <StyledTableCell align="right">PJ</StyledTableCell>
                         <StyledTableCell align="right">G</StyledTableCell>
@@ -83,7 +85,8 @@ export const PositionTable = () => {
                     {orden.map((row, index) => {                        
                         return (
                             <StyledTableRow key={row.id}>
-                                <StyledTableCell  component="th" scope="row" style={{ display: 'flex', gap: '8px', alignItems: 'center', whiteSpace: 'nowrap', width:!mobile ?'300px': '250px' }}>
+                                <StyledTableCell  component="th" scope="row">
+                                    <Grid container sx={{gap: '8px', alignItems: 'center', whiteSpace: 'nowrap', width:'40px'}}>
                                     {(index + 1 == 1 ) &&
                                         <Grid sx={{ background: 'var(--check)', height: '35px', width: '10px', whiteSpace: 'nowrap' }}></Grid>}
                                     {(index + 1 == 2 || index + 1 == 3 || index + 1 == 4 || index + 1 == 5 || index + 1 == 6 || index + 1 == 7 || index + 1 == 8) &&
@@ -93,10 +96,18 @@ export const PositionTable = () => {
                                     {(index + 1 == 9 || index + 1 == 10 || index + 1 == 11 || index + 1 == 12) &&
                                         <Grid sx={{ background: 'var(--warnning)', height: '35px', width: '10px', whiteSpace: 'nowrap' }}></Grid>}
                                     <Grid>{index + 1}</Grid>
-                                    <Grid container alignItems={'center'} gap={1} sx={{ flexDirection:'row' ,whiteSpace: 'nowrap'}}>
-                                        <img src={row.logo} alt={row.name} style={{ height: '35px'}} /> {row.name} <ArrowP currentPos={index+1} prevPos={row.puntaje_anterior}/>
                                     </Grid>
-                                </StyledTableCell>                               
+                                </StyledTableCell>
+                                <StyledTableCell align="right">
+                                    <Grid container alignItems={'center'} width={'210px'} flexDirection={'row'} sx={{whiteSpace: 'nowrap'}}>
+                                        <Grid item container alignItems={'center'} justifyContent={'center'} sx={{width:'55px',height: '35px'}}>
+                                            <img src={row.logo} alt={row.name} style={{ height: '35px'}} /> 
+                                        </Grid>
+                                        <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width:'150px'}}>
+                                        {row.name} <ArrowP currentPos={index+1} prevPos={row.puntaje_anterior}/>
+                                        </Grid>
+                                    </Grid>
+                                </StyledTableCell> 
                                 <StyledTableCell align="right" style={{fontWeight:700, fontSize:'15px'}}>{row.puntos}</StyledTableCell>
                                 <StyledTableCell align="right">{row.partidosJugados}</StyledTableCell>
                                 <StyledTableCell align="right">{row.ganados}</StyledTableCell>
@@ -112,5 +123,6 @@ export const PositionTable = () => {
                 </TableBody>
             </Table>
         </TableContainer>
+    </Grid>
     );
 }

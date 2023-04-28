@@ -1,4 +1,4 @@
-import { Grid, useMediaQuery } from "@mui/material";
+import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,8 +9,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { useContext } from "react";
 import Context from "../../context/contextPrincipal";
+import { TbMoodEmpty as Vacio } from 'react-icons/tb';
 
-export const TablaEstadisticas =({jugadores, label})=>{
+export const TablaEstadisticas =({jugadores, label, isLoading})=>{
     const [light] = useContext(Context);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
 
@@ -38,6 +39,32 @@ export const TablaEstadisticas =({jugadores, label})=>{
     )(TableRow);
 
     return(
+        <>
+        {isLoading ? 
+        <Grid mt={8} item sx={{ 
+            display: 'flex', 
+            flexDirection: 'row', 
+            gap: '16px',
+            minWidth:!mobile? '960px':'100%',
+            height:mobile &&'300px', 
+            justifyContent:'center',
+            color:light ? 'var(--dark2)': 'var(--cero)'
+            }}>
+            <CircularProgress style={{color:light ? 'var(--dark2)': 'var(--cero)'}} />
+        </Grid>
+        : jugadores.length === 0 ?
+        <Grid mt={8} item sx={{ 
+            display: 'flex', 
+            flexDirection: 'row', 
+            gap: '16px',
+            minWidth:!mobile? '960px':'100%',
+            height:mobile &&'300px', 
+            justifyContent:'center',
+            color:light ? 'var(--dark2)': 'var(--cero)'
+            }}>
+            No hay jugadores en este equipo <Vacio size={25} />
+        </Grid>
+        :
         <Grid mt={2}>
             <TableContainer component={Paper} >
             <Table  aria-label="customized table">
@@ -80,6 +107,7 @@ export const TablaEstadisticas =({jugadores, label})=>{
                 </TableBody>
             </Table>
         </TableContainer>
-        </Grid>
+        </Grid>}
+    </>
     )
 }

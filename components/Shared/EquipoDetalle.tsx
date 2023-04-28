@@ -58,6 +58,17 @@ export const EquipoDetalle =({data, isLoading})=>{
         }
     }, [isLoading]);
 
+    const orden = data.jugadores.sort((a, b) => {
+        if (a.goles > b.goles) {
+            return -1;
+        } else if (a.goles < b.goles) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    });
+
     return (
         <>
         <Grid container sx={{ 
@@ -121,16 +132,16 @@ export const EquipoDetalle =({data, isLoading})=>{
                 <TablaPlantilla jugadores={data.jugadores} equipo={data} isLoading={isLoading}/>
             </TabPanel>
             <TabPanel value={value} index={1} dir={theme.direction}>
-                <TablaEstadisticas jugadores={data.jugadores} label={'Goles'}/>
+                <TablaEstadisticas jugadores={orden} label={'Goles'} isLoading={isLoading}/>
             </TabPanel>
             <TabPanel value={value} index={2} dir={theme.direction}>
-                <TablaEstadisticas jugadores={data.jugadores} label={'Asistencias'}/>
+                <TablaEstadisticas jugadores={data.jugadores} label={'Asistencias'} isLoading={isLoading}/>
             </TabPanel>
             <TabPanel value={value} index={3} dir={theme.direction}>
-                <TablaEstadisticas jugadores={data.jugadores} label={'Tarjetas amarillas'}/>
+                <TablaEstadisticas jugadores={data.jugadores} label={'Tarjetas amarillas'} isLoading={isLoading}/>
             </TabPanel>
             <TabPanel value={value} index={4} dir={theme.direction}>
-                <TablaEstadisticas jugadores={data.jugadores} label={'Tarjetas rojas'}/>
+                <TablaEstadisticas jugadores={data.jugadores} label={'Tarjetas rojas'} isLoading={isLoading}/>
             </TabPanel>
             <TabPanel value={value} index={5} dir={theme.direction}>
                 Fichajes
