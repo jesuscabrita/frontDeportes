@@ -9,7 +9,7 @@ export const MenuTabla =({opcion, valueSelect, handleChange})=>{
     return(
         <Grid item key={opcion.name} id={opcion.name}
         sx={{
-            width:'180px',
+            width:!mobile? '180px': '60px',
             background: !light && valueSelect == opcion.id ? 'var(--dark2)' : light && valueSelect === opcion.id ? 'var(--gris)' : '',
             height:'48px',
             display:'flex',
@@ -17,13 +17,13 @@ export const MenuTabla =({opcion, valueSelect, handleChange})=>{
             alignItems:'center',
             borderBottom:light && valueSelect == opcion.id ? '3px solid var(--dark2)': !light && valueSelect == opcion.id && '3px solid var(--cero)' ,
             color:!light && valueSelect === opcion.id ? 'var(--cero)' : light && valueSelect === opcion.id ? 'var(--dark2)' : light ? 'var(--dark3)' :'var(--neutral)',
-            zIndex:'2',
+            // zIndex:'2',
             cursor:'pointer',
             gap:'8px',
         }}
         onClick={()=> handleChange(opcion.id)}
         >
-            {opcion.icono} {opcion.name}
+            {opcion.icono} {!mobile && opcion.name}
         </Grid>
     )
 }

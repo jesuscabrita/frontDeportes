@@ -104,8 +104,8 @@ export const TablaPlantilla =({jugadores, equipo, isLoading})=>{
             No hay jugadores en este equipo <Vacio size={25} />
         </Grid>
         :
-        <TableContainer component={Paper} >
-            <Table  aria-label="customized table">
+        <TableContainer component={Paper} style={{ width: '100%', overflowX: 'auto' }}>
+            <Table  aria-label="customized table" style={{ width: '100%' }} >
                 <TableHead>
                     <TableRow>
                         <StyledTableCell>Posicion</StyledTableCell>

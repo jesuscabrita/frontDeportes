@@ -47,7 +47,7 @@ const handleChangeIndex = (index: number) => {
         <Grid item container justifyContent={'center'}>
           <LogoRegister name={'Tablas'}/>
         </Grid>
-        <Grid item container sx={{height:'min-content'}}>
+        <Grid item container sx={{height:'min-content', overflowX: 'auto'}}>
               {opcionSelect.map(opcion =>(
                   <MenuTabla opcion={opcion} valueSelect={value} handleChange={handleChange}/>
               ))}
