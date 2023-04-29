@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -12,8 +12,7 @@ import { InputText } from '../MaterialUi/InputTex';
 import { RiImageAddFill as Add } from 'react-icons/ri';
 import { useMutation, useQueryClient } from 'react-query';
 import { equiposPut } from '../../service/equipos';
-import { alertaSubmit } from '../../utils/alert';
-
+import { editarEquipos } from '../../utils/utils';
 
 export const ModalEditarEquipo = ({ open, setOpen, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -46,29 +45,11 @@ export const ModalEditarEquipo = ({ open, setOpen, data }) => {
         const reader = new FileReader();
         reader.onload = () => {
             setImage(reader.result);
-            setLogoAdded(true); // indicar que se agregó el logo
+            setLogoAdded(true); 
             setImageName(file.name);
         };
         reader.readAsDataURL(file);
     };
-
-    const editarEquipos = (id: string, name: string, logo: string, correo: string, instagram: string ) => {
-        setIsLoading(true);
-        const formData = { name, logo, correo, instagram };
-            editarEquipo({ form: formData, id }, {
-                onSuccess: (success) => {
-                    queryClient.invalidateQueries(["/api/liga"]);
-                    alertaSubmit(true, success?.message);
-                    setIsLoading(false);
-                    handleClose()
-                },
-                onError: (err: any) => {
-                    const errorMessage = err?.response?.data?.message || err.message;
-                    alertaSubmit(false, errorMessage);
-                    setIsLoading(false);
-                },
-            });
-        }
 
     return (
         <Grid>
@@ -136,14 +117,14 @@ export const ModalEditarEquipo = ({ open, setOpen, data }) => {
                 </Grid>
             )}
                 </DialogContent>
-                {isLoading && ( // si se está cargando, mostrar el spinner y la pantalla de opacidad
+                {isLoading && ( 
                 <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '100%' : '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <CircularProgress color="primary" />
                 </div>
             )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
                     <Button onClick={handleClose} sx={{ color: 'var(--primario)' }}>Cancelar</Button>
-                    <Button onClick={()=> {editarEquipos(data?._id, name, image, correo, instagram)}} autoFocus sx={{ color: 'var(--primario)' }}>Editar</Button>
+                    <Button onClick={()=> {editarEquipos(data?._id, name, image, correo, instagram, setIsLoading, editarEquipo, queryClient, handleClose)}} autoFocus sx={{ color: 'var(--primario)' }}>Editar</Button>
                 </DialogActions>
             </Dialog>
         </Grid>

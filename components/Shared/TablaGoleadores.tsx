@@ -9,8 +9,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { CircularProgress, Grid, useMediaQuery } from '@mui/material';
+import { TbError404 as Err404 } from 'react-icons/tb';
+import { TbMoodEmpty as Vacio } from 'react-icons/tb';
 
-export const TablaGoleadores = ({ data, isLoading  }) => {
+export const TablaGoleadores = ({ data, isLoading, isError  }) => {
     const [light] = useContext(Context);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [showImage, setShowImage] = useState(false);
@@ -44,17 +46,28 @@ export const TablaGoleadores = ({ data, isLoading  }) => {
 
     useEffect(() => {
         if (!isLoading) {
-            // Mostrar la imagen después de 2 segundos
             const timeoutId = setTimeout(() => {
                 setShowImage(true);
             }, 2000);
-            // Cancelar el timeout si el componente se desmonta antes de que se complete
             return () => clearTimeout(timeoutId);
         }
     }, [isLoading]);
 
     return (
-    <Grid mt={2}>
+    <>
+    {isLoading ?
+        <Grid mt={8} item sx={{display: 'flex',flexDirection: 'row',gap: '16px',minWidth: !mobile ? '960px' : '100%',height: '500px',justifyContent: 'center',color: light ? 'var(--dark2)' : 'var(--cero)'}}>
+            <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} />
+        </Grid>
+    : isError ?
+        <Grid mt={mobile ? 0 : 8} item sx={{display: 'flex',flexDirection: 'column',gap: '16px',minWidth: !mobile ? '960px' : '100%',height: '500px',justifyContent: 'center',alignItems: 'center',color: light ? 'var(--dark2)' : 'var(--cero)'}}>
+            Ha ocurrido un error al cargar los jugadores <Err404 size={85} />
+        </Grid>
+    : data.length === 0 ?
+        <Grid mt={8} item sx={{display: 'flex',flexDirection: 'row',gap: '16px',minWidth: !mobile ? '960px' : '100%',height: '500px',justifyContent: 'center',color: light ? 'var(--dark2)' : 'var(--cero)'}}>
+            No hay jugadores en la liga <Vacio size={25} />
+        </Grid>
+    : <Grid mt={2}>
         <TableContainer component={Paper} >
             <Table  aria-label="customized table">
                 <TableHead>
@@ -115,5 +128,7 @@ export const TablaGoleadores = ({ data, isLoading  }) => {
             </Table>
         </TableContainer>
     </Grid>
+    }
+    </>
     );
 }

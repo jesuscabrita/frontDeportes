@@ -8,12 +8,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { InputText } from "../MaterialUi/InputTex";
 import { useMutation, useQueryClient } from "react-query";
 import moment from "moment";
-import { alertaSubmit } from "../../utils/alert";
 import { InputSelect } from "../MaterialUi/InputSelect";
 import { nationalities, posiciones } from "../../utils/arrays";
 import { InputFecha } from "../MaterialUi/InputFecha";
 import { InputImagen } from "../MaterialUi/InputImagen";
 import { jugadoresPut } from "../../service/jugadores";
+import { editarJugadores } from "../../utils/utils";
 
 export const ModalEditarJugador =({open, setOpen,equipoId,jugadorId, data})=>{
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -47,24 +47,6 @@ export const ModalEditarJugador =({open, setOpen,equipoId,jugadorId, data})=>{
         setFecha(data?.fecha_nacimiento ? moment(data.fecha_nacimiento) : null)
     }, [data]);
 
-    const editarJugadores = (equipoId: string, jugadorId: string, name: string, edad: string,posicion: string, fecha_nacimiento: string ,nacionalidad: string,dorsal: string,instagram: string,foto: string) => {
-        setIsLoading(true);
-        const formData = { name, edad, posicion,fecha_nacimiento, nacionalidad , dorsal ,instagram, foto };
-            editarJugador({ form: formData, equipoId, jugadorId}, {
-                onSuccess: (success) => {
-                    queryClient.invalidateQueries(["equipos"]);
-                    alertaSubmit(true, success?.message);
-                    setIsLoading(false);
-                    handleClose()
-                },
-                onError: (err: any) => {
-                    const errorMessage = err?.response?.data?.message || err.message;
-                    alertaSubmit(false, errorMessage);
-                    setIsLoading(false);
-                },
-            });
-        }
-
     return(
         <Grid>
             <Dialog open={open} onClose={handleClose}>
@@ -91,14 +73,14 @@ export const ModalEditarJugador =({open, setOpen,equipoId,jugadorId, data})=>{
                         <InputImagen setValue={setFoto} value={foto}  setValueAdded={setFotoAdded} setValueName={setFotoName} valueAdded={fotoAdded} valueName={fotoName}/>
                     </Grid>
                 </DialogContent>
-                {isLoading && ( // si se está cargando, mostrar el spinner y la pantalla de opacidad
+                {isLoading && ( 
                 <Grid sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '100%' : '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <CircularProgress style={{color:light ? 'var(--dark2)': 'var(--cero)'}} />
                 </Grid>
                 )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
                     <Button onClick={handleClose} sx={{ color: 'var(--primario)' }}>Cancelar</Button>
-                    <Button onClick={()=> {editarJugadores(equipoId,jugadorId,name, edad, posicion, moment(fecha).format('YYYY-MM-DD HH:mm:ss'), nacionalidad , dorsal ,instagram, foto )}} autoFocus sx={{ color: 'var(--primario)' }}>Editar</Button>
+                    <Button onClick={()=> {editarJugadores(equipoId,jugadorId,name, edad, posicion, moment(fecha).format('YYYY-MM-DD HH:mm:ss'), nacionalidad , dorsal ,instagram, foto, setIsLoading, editarJugador, queryClient, handleClose )}} autoFocus sx={{ color: 'var(--primario)' }}>Editar</Button>
                 </DialogActions>
             </Dialog>
         </Grid>

@@ -13,7 +13,7 @@ export const InputImagen =({value, valueAdded, valueName, setValue, setValueAdde
         const reader = new FileReader();
         reader.onload = () => {
             setValue(reader.result);
-            setValueAdded(true); // indicar que se agregó el logo
+            setValueAdded(true); 
             setValueName(file.name);
         };
         reader.readAsDataURL(file);

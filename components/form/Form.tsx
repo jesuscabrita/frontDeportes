@@ -3,11 +3,11 @@ import { useContext, useState } from "react";
 import { RiImageAddFill as Add } from 'react-icons/ri';
 import { useMutation, useQueryClient } from "react-query";
 import { equiposPost } from "../../service/equipos";
-import { alertaCheck, alertaSubmit } from "../../utils/alert";
 import Context from "../../context/contextPrincipal";
 import { InputText } from "../MaterialUi/InputTex";
 import { IoMdImages as Images } from 'react-icons/io';
 import { TiDeleteOutline as Delete } from 'react-icons/ti';
+import { nuevoEquipo } from "../../utils/utils";
 
 export const Form = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -16,44 +16,18 @@ export const Form = () => {
     const [image, setImage] = useState(null);
     const [correo, setCorreo] = useState('');
     const [instagram, setInstagram] = useState('');
-    const [isLoading, setIsLoading] = useState(false); // nuevo estado para indicar si se está cargando o no
+    const [isLoading, setIsLoading] = useState(false); 
     const { mutate: crearEquipo } = useMutation(equiposPost);
     const [logoAdded, setLogoAdded] = useState(false);
     const [imageName, setImageName] = useState('');
     const queryClient = useQueryClient()
-
-    const nuevoEquipo = (nombre: string, logo: string, correo: string, instagram: string) => {
-        setIsLoading(true);
-        const formData = { form: { name: nombre, logo, correo, instagram } };
-        crearEquipo(formData, {
-            onSuccess: (success) => {
-                queryClient.invalidateQueries(["/api/liga"])
-                setName('');
-                setImage('');
-                setCorreo('')
-                setInstagram('')
-                setLogoAdded(false);
-                setImageName('');
-                alertaSubmit(true, success?.message);
-                setTimeout(() => {
-                    alertaCheck('Registrado!', 'Gracias por crear un equipo en nuestra plataforma. En breve recibirás un correo electrónico con la confirmación de su registro. Si tiene alguna pregunta o necesita ayuda adicional, no dude en ponerse en contacto con nuestro equipo de soporte.');
-                }, 4000);
-                setIsLoading(false);
-            },
-            onError: (err: any) => {
-                const errorMessage = err?.response?.data?.message || err.message;
-                alertaSubmit(false, errorMessage);
-                setIsLoading(false);
-            },
-        });
-    };
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         const reader = new FileReader();
         reader.onload = () => {
             setImage(reader.result);
-            setLogoAdded(true); // indicar que se agregó el logo
+            setLogoAdded(true);
             setImageName(file.name);
         };
         reader.readAsDataURL(file);
@@ -114,14 +88,12 @@ export const Form = () => {
                     </Grid>
                 </Grid>
             )}
-
-            {isLoading && ( // si se está cargando, mostrar el spinner y la pantalla de opacidad
+            {isLoading && ( 
                 <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '170vh' : '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <CircularProgress color="primary" />
                 </div>
             )}
-
-            <Button onClick={() => { nuevoEquipo(name, image, correo, instagram) }} sx={{ color: 'var(--primario)', fontSize: '16px' }}>Registrar</Button>
+            <Button onClick={() => { nuevoEquipo(name, image, correo, instagram, setIsLoading, crearEquipo, queryClient, setName, setImage, setCorreo, setInstagram, setLogoAdded, setImageName ) }} sx={{ color: 'var(--primario)', fontSize: '16px' }}>Registrar</Button>
         </Grid>
     )
 }

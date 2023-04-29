@@ -43,6 +43,27 @@ const Registrar = () => {
         setValue(index);
     };
 
+    const stylesRow ={
+        display: 'flex', 
+        flexDirection: 'row', 
+        gap: '16px',
+        minWidth:!mobile? '960px':'100%',
+        height:mobile &&'300px', 
+        justifyContent:'center',
+        color:light ? 'var(--dark2)': 'var(--cero)'
+    }
+
+    const stylesColumn ={
+        display: 'flex', 
+        flexDirection: 'column', 
+        gap: '16px',
+        minWidth:!mobile? '960px':'100%',
+        height:mobile &&'300px', 
+        justifyContent:'center',
+        alignItems:'center',
+        color:light ? 'var(--dark2)': 'var(--cero)'
+    }
+
     return (
         <Grid sx={{ height: !mobile ? '180vh' : '100%', }}>
             <Grid container flexDirection={'column'} sx={{ paddingTop: !mobile ? '100px' : '90px', paddingBottom: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
@@ -57,99 +78,39 @@ const Registrar = () => {
                     </Grid>
                     <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
                         <TabPanel value={value} index={0} dir={theme.direction}>
-                            <Grid mt={2} sx={{
-                                width: '100%',
-                                display:filterEstado(data, 'registrado').length === 0 || isError || isLoading ? 'flex' : 'grid',
-                                gridTemplateColumns: !mobile ? 'repeat(5, 1fr)' : 'repeat(2, 1fr)',
-                                gap: '20px',
-                            }}>
+                            <Grid mt={2} sx={{width: '100%',display:filterEstado(data, 'registrado').length === 0 || isError || isLoading ? 'flex' : 'grid',gridTemplateColumns: !mobile ? 'repeat(5, 1fr)' : 'repeat(2, 1fr)',gap: '20px',}}>
                             {isLoading ?
-                                <Grid mt={8} item sx={{ 
-                                    display: 'flex', 
-                                    flexDirection: 'row', 
-                                    gap: '16px',
-                                    minWidth:!mobile? '960px':'100%',
-                                    height:mobile &&'300px', 
-                                    justifyContent:'center',
-                                    color:light ? 'var(--dark2)': 'var(--cero)'
-                                    }}>
+                                <Grid mt={8} item sx={stylesRow}>
                                     <CircularProgress style={{color:light ? 'var(--dark2)': 'var(--cero)'}} />
                                 </Grid>
                             : isError ? 
-                                <Grid mt={mobile ? 0: 8} item sx={{ 
-                                    display: 'flex', 
-                                    flexDirection: 'column', 
-                                    gap: '16px',
-                                    minWidth:!mobile? '960px':'100%',
-                                    height:mobile &&'300px', 
-                                    justifyContent:'center',
-                                    alignItems:'center',
-                                    color:light ? 'var(--dark2)': 'var(--cero)'
-                                    }}>
+                                <Grid mt={mobile ? 0: 8} item sx={stylesColumn}>
                                     Ha ocurrido un error al cargar los equipos <Err404 size={85}/>
                                 </Grid>
                             : filterEstado(data, 'registrado').length === 0 ? 
-                                <Grid mt={8} item sx={{ 
-                                    display: 'flex', 
-                                    flexDirection: 'row', 
-                                    gap: '16px',
-                                    minWidth:!mobile? '960px':'100%',
-                                    height:mobile &&'300px', 
-                                    justifyContent:'center',
-                                    color:light ? 'var(--dark2)': 'var(--cero)'
-                                    }}>
+                                <Grid mt={8} item sx={stylesRow}>
                                     No hay equipos en la liga <Vacio size={25} />
                                 </Grid>
                             : filterEstado(data, 'registrado').map((equipo, index) => (
-                                    <Grid key={index}>
-                                        <ListaEquipoRegistro data={equipo} isLoading={isLoading} />
-                                    </Grid>
+                                <Grid key={index}>
+                                    <ListaEquipoRegistro data={equipo} isLoading={isLoading} />
+                                </Grid>
                                 ))
                             }
                             </Grid>
                         </TabPanel>
                         <TabPanel value={value} index={1} dir={theme.direction} >
-                            <Grid mt={2} sx={{
-                                width:'100%',
-                                display:filterEstado(data, 'enCola').length === 0 || isError || isLoading ? 'flex' : 'grid',
-                                gridTemplateColumns: !mobile ? 'repeat(5, 1fr)' : 'repeat(2, 1fr)',
-                                gap: '20px',
-                            }}>
+                            <Grid mt={2} sx={{width:'100%',display:filterEstado(data, 'enCola').length === 0 || isError || isLoading ? 'flex' : 'grid',gridTemplateColumns: !mobile ? 'repeat(5, 1fr)' : 'repeat(2, 1fr)',gap: '20px'}}>
                             {isLoading ?
-                                <Grid mt={8} item sx={{ 
-                                    display: 'flex', 
-                                    flexDirection: 'row', 
-                                    gap: '16px',
-                                    minWidth:!mobile? '960px':'100%',
-                                    height:mobile &&'300px', 
-                                    justifyContent:'center',
-                                    color:light ? 'var(--dark2)': 'var(--cero)'
-                                    }}>
+                                <Grid mt={8} item sx={stylesRow}>
                                     <CircularProgress style={{color:light ? 'var(--dark2)': 'var(--cero)'}} />
                                 </Grid>
                             : isError ? 
-                                <Grid mt={mobile ? 0: 8} item sx={{ 
-                                    display: 'flex', 
-                                    flexDirection: 'column', 
-                                    gap: '16px',
-                                    minWidth:!mobile? '960px':'100%',
-                                    height:mobile &&'300px', 
-                                    justifyContent:'center',
-                                    alignItems:'center',
-                                    color:light ? 'var(--dark2)': 'var(--cero)'
-                                    }}>
+                                <Grid mt={mobile ? 0: 8} item sx={stylesColumn}>
                                     Ha ocurrido un error al cargar los equipos <Err404 size={85}/>
                                 </Grid>
                             : filterEstado(data, 'enCola').length === 0 ? 
-                                <Grid mt={8} item sx={{ 
-                                    display: 'flex', 
-                                    flexDirection: 'row', 
-                                    gap: '16px',
-                                    minWidth:!mobile? '960px':'100%',
-                                    height:mobile &&'300px', 
-                                    justifyContent:'center',
-                                    color:light ? 'var(--dark2)': 'var(--cero)'
-                                    }}>
+                                <Grid mt={8} item sx={stylesRow}>
                                     No hay equipos en cola <Vacio size={25} />
                                 </Grid>
                             : filterEstado(data, 'enCola').map((equipo, index) => (
