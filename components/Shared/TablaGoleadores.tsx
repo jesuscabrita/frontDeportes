@@ -63,7 +63,7 @@ export const TablaGoleadores = ({ data, isLoading, isError  }) => {
         <Grid mt={mobile ? 0 : 8} item sx={{display: 'flex',flexDirection: 'column',gap: '16px',minWidth: !mobile ? '960px' : '100%',height: '500px',justifyContent: 'center',alignItems: 'center',color: light ? 'var(--dark2)' : 'var(--cero)'}}>
             Ha ocurrido un error al cargar los jugadores <Err404 size={85} />
         </Grid>
-    : data.length === 0 ?
+    : jugadoresMasGoleadores.length === 0 ?
         <Grid mt={8} item sx={{display: 'flex',flexDirection: 'row',gap: '16px',minWidth: !mobile ? '960px' : '100%',height: '500px',justifyContent: 'center',color: light ? 'var(--dark2)' : 'var(--cero)'}}>
             No hay jugadores en la liga <Vacio size={25} />
         </Grid>

@@ -5,6 +5,13 @@ export const posiciones = [
     {value: 'Delantero', label: 'Delantero'}
 ]
 
+export const arbitros = [
+    {value: 'Negreira', label: 'Negreira'},
+    {value: 'Fulanito Perez', label: 'Fulanito Perez'},
+    {value: 'Jesus Cabrita', label: 'Jesus Cabrita'},
+    {value: 'Gil Manzano', label: 'Gil Manzano'}
+]
+
 export const nationalities = [
     { value: 'Argentina', label: 'Argentina' },
     { value: 'Armenia', label: 'Armenia' },

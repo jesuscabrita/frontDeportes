@@ -89,7 +89,7 @@ export const Form = () => {
                 </Grid>
             )}
             {isLoading && ( 
-                <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '170vh' : '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '180vh' : '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <CircularProgress color="primary" />
                 </div>
             )}

@@ -7,7 +7,7 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Grid, useMediaQuery } from "@mui/material";
+import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
 import Context from "../../context/contextPrincipal";
 import { MdOutlineEditCalendar as Edit } from 'react-icons/md';
 import moment from "moment";
@@ -15,18 +15,24 @@ import { ButtonStatus } from "./ButtonStatus";
 import { GiSoccerBall as Gol } from 'react-icons/gi';
 import { CgUser as Dt } from 'react-icons/cg';
 import { FaUserEdit as Arbitro } from 'react-icons/fa';
+import { ModalEdit } from "../modals/Modal";
+import { ModalArbitro } from "../modals/ModalArbitro";
 
-export const Row = ({ homeTeam, awayTeam, setOpenEdit, openEdit, currentRound, setOpenEditArbitro, openEditArbitro }) => {
+export const Row = ({ homeTeam, awayTeam, currentRound,isLoading }) => {
     const [light] = useContext(Context);
     const [open, setOpen] = useState(false);
+    const [openFecha, setOpenFecha] = useState(false);
+    const [openArbitro, setOpenArbitro] = useState(false);
     const [hoy, setHoy] = useState(moment())
     const [minutosTranscurridos, setMinutosTranscurridos] = useState(0);
+    const [showImage, setShowImage] = useState(false);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
-    const fecha_home = homeTeam.fecha[currentRound];
+    const fecha_home = homeTeam?.fecha[currentRound];
+    const arbitro_home = homeTeam?.arbitro[currentRound];
     const formatoFecha = moment(fecha_home, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY');
     const formatoHora = moment(fecha_home, 'YYYY-MM-DD HH:mm:ss').format('HH:mm a');
-    const gol_home = homeTeam.gol_partido[currentRound];
-    const gol_away = awayTeam.gol_partido[currentRound];
+    const gol_home = homeTeam?.gol_partido[currentRound];
+    const gol_away = awayTeam?.gol_partido[currentRound];
     const fechaBD = moment(fecha_home, 'YYYY-MM-DD HH:mm:ss')
     const TIEMPO_PARTIDO = 55;
     const tiempoRestante = fechaBD.diff(hoy, 'minutes') + TIEMPO_PARTIDO;
@@ -44,6 +50,9 @@ export const Row = ({ homeTeam, awayTeam, setOpenEdit, openEdit, currentRound, s
             }
         } else if (hoy.diff(fechaFinalPartido, 'days') < 0) {
             return 'noEmpezado'
+        }
+        else if (!hoy.diff(fechaFinalPartido, 'days')) {
+            return 'fechaInvalida'
         } else {
             return 'finPartido'
         }
@@ -64,43 +73,71 @@ export const Row = ({ homeTeam, awayTeam, setOpenEdit, openEdit, currentRound, s
         setMinutosTranscurridos(minutos);
     }, [hoy]);
 
+    useEffect(() => {
+        if (!isLoading) {
+            const timeoutId = setTimeout(() => {
+                setShowImage(true);
+            }, 2000);
+            return () => clearTimeout(timeoutId);
+        }
+    }, [isLoading]);
+
     return (
         <React.Fragment>
             <TableRow sx={{ '& > *': { borderBottom: 'unset', background: light ? 'rgba(0, 0, 0, 0.04)' : 'var(--dark3)', cursor: 'pointer' } }} onClick={() => setOpen(!open)}>
-                <TableCell sx={{ color: light ? 'black' : 'var(--cero)' }}>
-                    <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)} sx={{ color: light ? 'black' : 'var(--cero)' }}>
-                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                    </IconButton>
-                </TableCell>
-                <TableCell align="left" sx={{ color: light ? 'black' : 'var(--cero)' }}>{formatoFecha}</TableCell>
-                <TableCell align="left" sx={{ color: light ? 'black' : 'var(--cero)', whiteSpace: 'nowrap' }}>
-                    <Grid container alignItems={'center'} gap={2} sx={{ width: '150px' }}>
-                        <Grid item>{formatoHora}</Grid>
-                        <Edit style={{ cursor: 'pointer' }} fontSize={20} onClick={() => { setOpenEdit(!openEdit) }} />
+                <TableCell sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', whiteSpace: 'nowrap' }}>
+                    <Grid container width={'190px'} flexDirection={'row'} alignItems={'center'}>
+                        <Grid item>
+                            <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)} sx={{ color: light ? 'black' : 'var(--cero)' }}>
+                                {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                            </IconButton>
+                        </Grid>
+                        <Grid item width={'110px'} container flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
+                            <Grid item sx={{fontSize:'16px'}}>{homeTeam?.fecha[currentRound] === 'No definido' ? 'No definido': formatoFecha}</Grid>
+                            <Grid item sx={{fontSize:'12px'}}>{homeTeam?.fecha[currentRound] === 'No definido' ? 'No definida': formatoHora}</Grid>
+                        </Grid>
+                        <Grid item>
+                            <Edit style={{ cursor: 'pointer' }} fontSize={20} onClick={() => { setOpenFecha(!openFecha) }} />
+                        </Grid>
                     </Grid>
                 </TableCell>
-                {!mobile && <TableCell align="center" sx={{ whiteSpace: 'nowrap', paddingRight: mobile ? '90px' : '0px', color: light ? 'black' : 'var(--cero)' }}>{homeTeam.estadio}</TableCell>}
-                <TableCell sx={{ color: light ? 'black' : 'var(--cero)', paddingLeft:'70px' }}>
-                    <Grid sx={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', gap: '6px', justifyContent: 'right' }}>
-                        <Grid sx={{ color: light ? 'black' : 'var(--cero)' }}>{homeTeam.name} </Grid>
-                        <img style={{ height: '30px' }} src={homeTeam.logo} alt="" />
+                {!mobile &&
+                <TableCell align="center" sx={{ whiteSpace: 'nowrap', color: light ? 'var(--dark2)' : 'var(--cero)'}}>{homeTeam?.estadio}</TableCell>}
+                <TableCell align="center" sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>
+                    <Grid container width={'470px'} flexDirection={'row'} alignItems={'center'}>
+                        <Grid item container alignItems={'center'} justifyContent={'end'} sx={{ whiteSpace: 'nowrap', width: '130px'}}>
+                            {homeTeam?.name}
+                        </Grid>
+                        <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: '55px', height: '35px' }}>
+                            {isLoading || !showImage ?
+                                (<CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} size={20} />)
+                            : showImage ? <img style={{ height: '30px' }} src={homeTeam?.logo} alt={homeTeam?.name} />
+                            : null}
+                        </Grid>
+                        <Grid item>
+                            <ButtonStatus status={status()} gol_away={gol_away} gol_home={gol_home} minutosTranscurridos={minutosTranscurridos} />
+                        </Grid>
+                        <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: '55px', height: '35px' }}>
+                            {isLoading || !showImage ?
+                                (<CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} size={20} />)
+                            : showImage ? <img style={{ height: '30px' }} src={awayTeam?.logo} alt={awayTeam?.name} />
+                            : null}
+                        </Grid>
+                        <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width: '130px' }}>
+                            {awayTeam?.name}
+                        </Grid>
                     </Grid>
                 </TableCell>
-                <TableCell align="left" sx={{ color: light ? 'black' : 'var(--cero)', whiteSpace: 'nowrap' }}>
-                    <ButtonStatus status={status()} gol_away={gol_away} gol_home={gol_home} minutosTranscurridos={minutosTranscurridos} />
-                </TableCell>
-                <TableCell align="left" sx={{ color: light ? 'black' : 'var(--cero)', paddingRight:'70px' }}>
-                    <Grid sx={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', gap: '6px', justifyContent: 'left' }}>
-                        <img style={{ height: '30px' }} src={awayTeam.logo} alt="" />
-                        <Grid sx={{ color: light ? 'black' : 'var(--cero)' }}>{awayTeam.name} </Grid>
+                {!mobile &&
+                <TableCell align="left" sx={{ whiteSpace: 'nowrap', color: light ? 'var(--dark2)' : 'var(--cero)' }}>
+                    <Grid container alignItems={'center'} gap={2} width={'140px'}>
+                        <Grid item>{arbitro_home}</Grid>
+                        <Grid item>
+                            <Arbitro style={{ cursor: 'pointer' }} fontSize={20} onClick={() => { setOpenArbitro(!openArbitro) }} />
+                        </Grid>
+                        
                     </Grid>
-                </TableCell>
-                <TableCell align="left" sx={{ whiteSpace: 'nowrap', paddingLeft: mobile ? '0px' : '90px', color: light ? 'black' : 'var(--cero)' }}>
-                    <Grid container alignItems={'center'} gap={2} sx={{ width: !mobile ?'150px':'30px'}}>
-                        {!mobile && <Grid>{homeTeam.arbitro}</Grid>}
-                        {!mobile &&  <Arbitro style={{ cursor: 'pointer' }} fontSize={20} onClick={() => { setOpenEditArbitro(!openEditArbitro) }} />}
-                    </Grid>
-                </TableCell>
+                </TableCell>}
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0, background: light ? 'var(--cero)' : 'var(--dark)' }} colSpan={8}>
@@ -111,8 +148,8 @@ export const Row = ({ homeTeam, awayTeam, setOpenEdit, openEdit, currentRound, s
                             </Typography>
                             <Grid container gap={6}>
                                 <Grid>
-                                    <img style={{ height: '30px' }} src={homeTeam.logo} alt="" />
-                                    {homeTeam.director_tecnico.map((tecnico) => {
+                                    <img style={{ height: '30px' }} src={homeTeam?.logo} alt="" />
+                                    {homeTeam?.director_tecnico.map((tecnico) => {
                                         return (
                                             <>
                                                 {tecnico.amarilla_partido[currentRound] !== 0 ?
@@ -132,7 +169,7 @@ export const Row = ({ homeTeam, awayTeam, setOpenEdit, openEdit, currentRound, s
                                             </>
                                         )
                                     })}
-                                    {homeTeam.jugadores.map((jugador) => {
+                                    {homeTeam?.jugadores.map((jugador) => {
                                         return (
                                             <>
                                                 {jugador.gol_partido[currentRound] !== 0 ?
@@ -168,8 +205,8 @@ export const Row = ({ homeTeam, awayTeam, setOpenEdit, openEdit, currentRound, s
                                     })}
                                 </Grid>
                                 <Grid>
-                                    <img style={{ height: '30px' }} src={awayTeam.logo} alt="" />
-                                    {awayTeam.director_tecnico.map((tecnico) => {
+                                    <img style={{ height: '30px' }} src={awayTeam?.logo} alt="" />
+                                    {awayTeam?.director_tecnico.map((tecnico) => {
                                         return (
                                             <>
                                                 {tecnico.amarilla_partido[currentRound] !== 0 ?
@@ -189,7 +226,7 @@ export const Row = ({ homeTeam, awayTeam, setOpenEdit, openEdit, currentRound, s
                                             </>
                                         )
                                     })}
-                                    {awayTeam.jugadores.map((jugador) => {
+                                    {awayTeam?.jugadores.map((jugador) => {
                                         return (
                                             <>
                                                 {jugador.gol_partido[currentRound] !== 0 ?
@@ -229,6 +266,8 @@ export const Row = ({ homeTeam, awayTeam, setOpenEdit, openEdit, currentRound, s
                     </Collapse>
                 </TableCell>
             </TableRow>
+            {openFecha && <ModalEdit open={openFecha} setOpen={setOpenFecha} id={homeTeam._id} data={homeTeam} index={currentRound} />}
+            {openArbitro && <ModalArbitro open={openArbitro} setOpen={setOpenArbitro} id={homeTeam._id} data={homeTeam} index={currentRound} />}
         </React.Fragment>
     );
 }

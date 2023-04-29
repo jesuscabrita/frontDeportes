@@ -83,6 +83,27 @@ export const editarEstado = (id: string, estado: string,editarEquipo, queryClien
         estado == 'registrado' ? 'El equipo sigue en la cola :)': 'El equipo sigue en la liga :)'  );
 };
 
+export const editarArbitros =(id: string, arbitro: string, index, setIsLoading, editarArbitro, queryClient, handleClose, data)=>{
+    setIsLoading(true);
+    const updatedArbitro = arbitro;
+    const updatedArbitroArr = [...data.arbitro]; 
+    updatedArbitroArr[index] = updatedArbitro; 
+    const formData = {arbitro: updatedArbitroArr};
+    editarArbitro({ form: formData, id }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["/api/liga"]);
+            alertaSubmit(true, 'Se editó el arbitro correctamente');
+            setIsLoading(false);
+            handleClose()
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+}
+
 export const crearJugadores = (id: string, name: string, edad: string,posicion: string, fecha_nacimiento: string ,nacionalidad: string,dorsal: string,instagram: string,foto: string, setIsLoading, crearJugador, queryClient, handleClose) => {
     setIsLoading(true);
     const formData = { name, edad, posicion,fecha_nacimiento, nacionalidad , dorsal ,instagram, foto };

@@ -5,8 +5,8 @@ const Calendario = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
 
     return (
-    <Grid container sx={{height:!mobile ?'100%' : '100%', }} >
-        <Grid container sx={{paddingTop:!mobile ? '100px': '90px', paddingBottom:'40px'}} >
+    <Grid item sx={{ height: !mobile ? '100vh' : '160vh', width: '100%', paddingTop: '90px', }}>
+        <Grid item sx={{ padding: '18px', width: '100%' }}>
             <MatchCalendar/>
         </Grid>
     </Grid>

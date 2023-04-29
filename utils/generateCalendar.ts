@@ -1,6 +1,4 @@
-import data from './data.json'
-
-export const generateCalendar = () => {
+export const generateCalendar = (data) => {
     const numTeams = data.length;
     const numRounds = numTeams - 1;
     const matchesPerRound = numTeams / 2;
@@ -16,14 +14,14 @@ export const generateCalendar = () => {
 
             if (match === 0) {
                 roundMatches.push([
-                    sortedData[numTeams - 1].id,
-                    sortedData[homeTeamIndex].id,
+                    sortedData[numTeams - 1]._id,
+                    sortedData[homeTeamIndex]._id,
                     sortedData[numTeams - 1].fecha,
                 ]);
             } else {
                 roundMatches.push([
-                    sortedData[homeTeamIndex].id,
-                    sortedData[awayTeamIndex].id,
+                    sortedData[homeTeamIndex]._id,
+                    sortedData[awayTeamIndex]._id,
                     sortedData[homeTeamIndex].fecha,
                 ]);
             }

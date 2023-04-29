@@ -47,10 +47,17 @@ export const ButtonStatus = ({ status, gol_home, gol_away, minutosTranscurridos 
                 </Grid>
             </Grid>
         );
-    } else {
+    } 
+    else if (status === 'fechaInvalida') {
         return (
             <Grid sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Grid item>vs</Grid>
+                <Grid item width={'95px'}>vs</Grid>
+            </Grid>)
+    }
+    else {
+        return (
+            <Grid sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Grid item width={'95px'}>vs</Grid>
             </Grid>)
     }
 }

@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
-import data from '../../utils/data.json'
-import { Button, Grid, useMediaQuery } from "@mui/material";
+import { Button, CircularProgress, Grid, useMediaQuery } from "@mui/material";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -10,17 +9,29 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Row } from "./Row";
 import Context from "../../context/contextPrincipal";
-import { ModalEdit } from "../modals/Modal";
-import { generateCalendar } from "../../utils/generateCalendar";
 import { ModalArbitro } from "../modals/ModalArbitro";
+import { useQuery } from "react-query";
+import { equiposGet } from "../../service/equipos";
+import { generateCalendar } from "../../utils/generateCalendar";
+import { TbError404 as Err404 } from 'react-icons/tb';
+import { TbMoodEmpty as Vacio } from 'react-icons/tb';
+import { filterEstado } from "../../utils/utils";
 
 export const MatchCalendar = () => {
     const [light] = useContext(Context);
     const [currentRound, setCurrentRound] = useState(0);
-    const [matches, setMatches] = useState(generateCalendar());
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
-    const [open, setOpen] = useState(false);
     const [openArbitro, setOpenArbitro] = useState(false);
+    const [data, setData] = useState([]);
+
+    const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {
+        refetchOnWindowFocus: false,
+        onSuccess: (data) => {
+            setData(data);
+        },
+    })
+
+    const matches = generateCalendar(filterEstado(data, 'registrado'));
 
     function handleNextRound() {
         setCurrentRound(currentRound + 1);
@@ -36,35 +47,43 @@ export const MatchCalendar = () => {
                 <Grid item sx={{ fontSize: '16px', color: light ? 'black' : 'var(--cero)' }}>Jornada {currentRound + 1}</Grid>
                 <img style={{ height: '40px' }} src="https://logodownload.org/wp-content/uploads/2018/05/laliga-logo-1.png" alt="la liga" />
             </Grid>
+            { isLoading ?
+                <Grid width={'100%'} mt={8} item sx={{display: 'flex',flexDirection: 'row',gap: '16px',minWidth: !mobile ? '960px' : '100%',height: '600px',justifyContent: 'center',color: light ? 'var(--dark2)' : 'var(--cero)'}}>
+                    <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} />
+                </Grid>
+            : isError ?
+                <Grid width={'100%'} mt={8} item sx={{display: 'flex',flexDirection: 'column',gap: '16px',minWidth: !mobile ? '960px' : '100%',height: '600px',alignItems: 'center',color: light ? 'var(--dark2)' : 'var(--cero)'}}>
+                    Ha ocurrido un error al cargar el calendario <Err404 size={85} />
+                </Grid>
+            : data.length === 0 ?
+                <Grid width={'100%'} mt={8} item sx={{display: 'flex',flexDirection: 'row',gap: '16px',height: '600px',minWidth: !mobile ? '960px' : '100%', justifyContent: 'center', color: light ? 'var(--dark2)' : 'var(--cero)'}}>
+                    No hay equipos en la liga <Vacio size={25} />
+                </Grid>
+            :<>
             <Grid container alignItems={'center'} justifyContent={'center'}>
-                <TableContainer sx={{ width: '90%' }} component={Paper}>
+                <TableContainer  component={Paper}>
                     <Table aria-label="collapsible table">
                         <TableHead sx={{ background: 'var(--dark2)' }}>
                             <TableRow>
-                                <TableCell />
-                                <TableCell sx={{ color: 'var(--cero)' }} align="left">Fecha</TableCell>
-                                <TableCell sx={{ color: 'var(--cero)' }} align="left">Horario</TableCell>
-                                {!mobile &&<TableCell sx={{ color: 'var(--cero)' }} align="center">Ubicacion</TableCell>}
-                                <TableCell sx={{ color: 'var(--cero)', width:'800px' }} align="right">Local</TableCell>
-                                <TableCell />
-                                <TableCell sx={{ color: 'var(--cero)' }} align="left">Visitante</TableCell>
-                                <TableCell sx={{ color: 'var(--cero)'}} align={!mobile ? "left" : "right"}>{!mobile ?'Arbitro' : ''}</TableCell>
+                                <TableCell sx={{ color: 'var(--cero)' }} align="center">Fecha</TableCell>
+                                {!mobile &&
+                                <TableCell sx={{ color: 'var(--cero)' }} align="center">Ubicacion</TableCell>}
+                                <TableCell sx={{ color: 'var(--cero)' }} align="center">Partidos</TableCell>
+                                {!mobile &&
+                                <TableCell sx={{ color: 'var(--cero)'}} align="center">Arbitro</TableCell>}
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {matches[currentRound].map((match, index) => {
-                                const homeTeam = data.find(team => team.id === match[0]);
-                                const awayTeam = data.find(team => team.id === match[1]);
+                            {matches[currentRound]?.map((match, index) => {
+                                const homeTeam = filterEstado(data, 'registrado').find(team => team._id === match[0]);
+                                const awayTeam = filterEstado(data, 'registrado').find(team => team._id === match[1]);
                                 return (
                                     <Row
                                         key={index}
                                         homeTeam={homeTeam}
                                         awayTeam={awayTeam}
-                                        openEdit={open}
-                                        setOpenEdit={setOpen}
                                         currentRound={currentRound}
-                                        openEditArbitro={openArbitro}
-                                        setOpenEditArbitro={setOpenArbitro}
+                                        isLoading={isLoading}
                                     />
                                 );
                             })}
@@ -72,12 +91,12 @@ export const MatchCalendar = () => {
                     </Table>
                 </TableContainer>
             </Grid>
-            <Grid container justifyContent="center" alignItems="center">
+            <Grid container mt={1} justifyContent="center" alignItems="center">
                 <Button sx={{ color: 'var(--primario)' }} disabled={currentRound === 0} onClick={handlePrevRound}>Anterior</Button>
                 <Button sx={{ color: 'var(--primario)' }} disabled={currentRound === matches.length - 1} onClick={handleNextRound}>Siguiente</Button>
             </Grid>
-            {open && <ModalEdit open={open} setOpen={setOpen} />}
-            {openArbitro && <ModalArbitro open={openArbitro} setOpen={setOpenArbitro} />}
+            </>
+            }
         </Grid>
     );
 };

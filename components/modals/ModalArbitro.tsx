@@ -1,28 +1,28 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Context from '../../context/contextPrincipal';
-import { Grid } from '@mui/material';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { CircularProgress, Grid, useMediaQuery } from '@mui/material';
+import { InputSelect } from '../MaterialUi/InputSelect';
+import { arbitros } from '../../utils/arrays';
+import { useMutation, useQueryClient } from 'react-query';
+import { equiposPut } from '../../service/equipos';
+import { editarArbitros } from '../../utils/utils';
 
-export const ModalArbitro = ({ open, setOpen }) => {
+export const ModalArbitro = ({ open, setOpen, data, index, id }) => {
     const [light] = useContext(Context);
+    const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [arbitro, setArbitro] = useState('');
+    const { mutate: editarArbitro } = useMutation(equiposPut);
+    const queryClient = useQueryClient();
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleClose = () => {
         setOpen(false);
     };
-
-    const handleChange = (event: SelectChangeEvent) => {
-        setArbitro(event.target.value);
-    }
 
     return (
         <Grid>
@@ -31,28 +31,16 @@ export const ModalArbitro = ({ open, setOpen }) => {
                     {"Editar Arbitro"}
                 </DialogTitle>
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
-                    <FormControl sx={{ m: 1, width: 220 }}>
-                        <InputLabel sx={{color :light ? 'var(--dark2)':'var(--cero)'}}>Arbitro</InputLabel>
-                        <Select 
-                            value={arbitro} 
-                            label='Arbitro' 
-                            onChange={handleChange}
-                            MenuProps={{PaperProps : {sx : {background: light ? 'var(--cero)': 'var(--dark3)'}}}}
-                            sx={{'& .MuiInputBase-input':{color:light ? 'var(--dark3)':'var(--cero)', border: light ? '1px solid var(--dark2)': '1px solid var(--cero)'}}}
-                        >
-                            <MenuItem value={"No definido"} sx={{background: light ? 'var(--cero)' :'var(--dark3)',color: light ? 'var(--dark3)':'var(--cero)' }}>
-                                <em>No definido</em>
-                            </MenuItem>
-                            <MenuItem value={'Andres Mujica'} sx={{background: light ? 'var(--cero)' :'var(--dark3)', color: light ? 'var(--dark3)':'var(--cero)'}}>Andres Mujica</MenuItem>
-                            <MenuItem value={'Negreira'} sx={{background: light ? 'var(--cero)' :'var(--dark3)', color: light ? 'var(--dark3)':'var(--cero)'}}>Negreira</MenuItem>
-                            <MenuItem value={'Hernandez Hernandez'} sx={{background: light ? 'var(--cero)' :'var(--dark3)', color: light ? 'var(--dark3)':'var(--cero)'}}>Hernandez Hernandez</MenuItem>
-                        </Select>
-                        <FormHelperText sx={{color: light ? 'var(--dark2)':'var(--cero)'}}>Seleccione el arbitro</FormHelperText>
-                    </FormControl>
+                    <InputSelect label={'Arbitro'} value={arbitro} setValue={setArbitro} selectData={arbitros}/>
                 </DialogContent>
+                {isLoading && (
+                    <Grid sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '100%' : '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} />
+                    </Grid>
+                )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
                     <Button onClick={handleClose} sx={{ color: 'var(--primario)' }}>Cancelar</Button>
-                    <Button onClick={handleClose} autoFocus sx={{ color: 'var(--primario)' }}>Editar</Button>
+                    <Button onClick={()=>{editarArbitros(id, arbitro, index, setIsLoading, editarArbitro, queryClient, handleClose, data)}} autoFocus sx={{ color: 'var(--primario)' }}>Editar</Button>
                 </DialogActions>
             </Dialog>
         </Grid>
