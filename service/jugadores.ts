@@ -29,3 +29,13 @@ export const jugadoresPut = async ({ form, equipoId, jugadorId }) => {
         throw new Error(message);
     }
 }
+
+export const jugadoresPut_gol= async ({ form, equipoId, jugadorId }) => {
+    try {
+        const data = await api.put(`/api/liga/${equipoId}/goles/${jugadorId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}

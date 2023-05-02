@@ -5,6 +5,26 @@ export const filterEstado = (array, estado) => {
     return newFilter;
 }
 
+export const status = (hoy,fechaFinalPartido,tiempoRestante,TIEMPO_PARTIDO) => {
+    if (hoy.diff(fechaFinalPartido, 'days') === 0) {
+        const enVivo = tiempoRestante <= TIEMPO_PARTIDO && tiempoRestante > 0
+        if (enVivo) {
+            return 'enVivo'
+        } else if (tiempoRestante <= 0) {
+            return 'finPartido'
+        } else {
+            return 'agendar'
+        }
+    } else if (hoy.diff(fechaFinalPartido, 'days') < 0) {
+        return 'noEmpezado'
+    }
+    else if (!hoy.diff(fechaFinalPartido, 'days')) {
+        return 'fechaInvalida'
+    } else {
+        return 'finPartido'
+    }
+}
+
 export const nuevoEquipo = (nombre: string, logo: string, correo: string, instagram: string, setIsLoading, crearEquipo, queryClient, setName, setImage, setCorreo, setInstagram, setLogoAdded, setImageName  ) => {
     setIsLoading(true);
     const formData = { form: { name: nombre, logo, correo, instagram } };

@@ -9,7 +9,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Row } from "./Row";
 import Context from "../../context/contextPrincipal";
-import { ModalArbitro } from "../modals/ModalArbitro";
 import { useQuery } from "react-query";
 import { equiposGet } from "../../service/equipos";
 import { generateCalendar } from "../../utils/generateCalendar";
@@ -21,7 +20,6 @@ export const MatchCalendar = () => {
     const [light] = useContext(Context);
     const [currentRound, setCurrentRound] = useState(0);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
-    const [openArbitro, setOpenArbitro] = useState(false);
     const [data, setData] = useState([]);
 
     const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {

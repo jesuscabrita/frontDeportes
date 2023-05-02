@@ -1,10 +1,14 @@
-import { Grid } from "@mui/material";
+import { Grid, useMediaQuery } from "@mui/material";
+import { PanelPartidos } from "../../components/Shared/PanelPartidos";
 
 const Panel = () => {
+    const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
 
     return (
-        <Grid sx={{paddingTop:'150px'}}> 
-        hola
+        <Grid item sx={{ height: !mobile ? '160vh' : '160vh', width: '100%', paddingTop: '90px', }}>
+            <Grid item sx={{ padding: '18px', width: '100%' }}>
+                <PanelPartidos/>
+            </Grid>
         </Grid>
     );
 };
