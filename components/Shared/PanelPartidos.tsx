@@ -46,6 +46,7 @@ export const PanelPartidos =()=>{
                     awayTeam={awayTeam}
                     homeTeam={homeTeam}
                     currentRound={currentRound}
+                    data={filterEstado(data, 'registrado')}
                     isLoading={isLoading} />
                     </>
                 )

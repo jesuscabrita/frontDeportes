@@ -131,7 +131,7 @@ export const PositionTable = ({ data, isLoading, isError }) => {
                                                 {row.name}
                                             </Grid>
                                             <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ whiteSpace: 'nowrap', width: '30px' }}>
-                                                <ArrowP currentPos={index + 1} prevPos={row.puntaje_anterior} />
+                                                <ArrowP currentPos={index} prevPos={row.puntaje_anterior} />
                                             </Grid>
                                         </Grid>
                                     </StyledTableCell>
