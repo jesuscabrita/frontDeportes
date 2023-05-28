@@ -1,4 +1,4 @@
-import { alertaCheck, alertaQuestion, alertaSubmit } from "./alert";
+import { alertaSubmit } from "./alert";
 
 export const editarRoja = (
     equipoId: string, 
@@ -254,6 +254,48 @@ export const editarGoles = (
         onSuccess: (success) => {
             queryClient.invalidateQueries(["/api/liga"]);
             alertaSubmit(true, `Golll! de ${jugador_name}`);
+            setIsLoading(false);
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+};
+
+export const editarAutoGol = (
+    equipoId: string, 
+    autogol_partido: number, 
+    index: number, 
+    jugador_gol: number, 
+    jugador_autogol, 
+    golesAFavor: number, 
+    golPartidoIndividual,
+    autogolPartidoEquipo,
+    setIsLoading,
+    editarAutogoles,
+    queryClient
+    ) => {
+    setIsLoading(true);
+    let updatedGolpartidoArr = [...golPartidoIndividual];
+    let updatedGolpartido = jugador_gol + autogol_partido;
+    updatedGolpartidoArr[index] = updatedGolpartido;
+
+    let updatedAutoGolEquipoArr = [...autogolPartidoEquipo];
+    let updatedAutoGolEquipo = jugador_autogol + autogol_partido;
+    updatedAutoGolEquipoArr[index] = updatedAutoGolEquipo;
+    
+    let sumaGolesaFavor = golesAFavor + autogol_partido
+    const formData = {
+        gol_partido: updatedGolpartidoArr,
+        autogol_partido: updatedAutoGolEquipoArr,
+        goles_a_Favor: sumaGolesaFavor ,
+    };
+    editarAutogoles({ form: formData, equipoId }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["/api/liga"]);
+            alertaSubmit(true, `Auto gol`);
             setIsLoading(false);
         },
         onError: (err: any) => {

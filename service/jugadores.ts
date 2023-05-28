@@ -90,6 +90,16 @@ export const jugadoresPut_figura = async ({ form, equipoId, jugadorId }) => {
     }
 }
 
+export const edit_autogol = async ({ form, equipoId }) => {
+    try {
+        const data = await api.put(`/api/liga/${equipoId}/autogol`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
+
 export const calcularDatosPartido = async ({ form, equipoId }) => {
     try {
         const data = await api.put(`/api/liga/${equipoId}/partido`, form).then(res => res.data)
