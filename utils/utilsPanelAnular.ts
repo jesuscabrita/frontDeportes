@@ -25,6 +25,11 @@ export const anularGoles = (
     let updatedGolEquipo = equipo - gol_partido;
     updatedGolEquipoArr[index] = updatedGolEquipo;
     let sumaGoles = goles - gol_partido;
+    if (jugador_gol < 1) {
+        alertaSubmit(false, 'no puedes anular si no hizo gol aun');
+        setIsLoading(false);
+        return;
+    }
     const formData = {
         gol_partido_individual: updatedGolpartidoArr,
         gol_partido: updatedGolEquipoArr,
@@ -62,6 +67,11 @@ export const anularAsistencia = (
     let updatedAsistenciapartido = jugador_asistencia - 1;
     updatedAsistenciapartidoArr[index] = updatedAsistenciapartido;
     let sumaAsistencia = asistencia - 1;
+    if (jugador_asistencia < 1) {
+        alertaSubmit(false, 'no puedes anular si no hizo asistencia aun');
+        setIsLoading(false);
+        return;
+    }
     const formData = {
         asistencia_partido_individual: updatedAsistenciapartidoArr,
         asistencias: sumaAsistencia,
@@ -101,6 +111,11 @@ export const anularRoja = (
     let restaRojasaFavor = rojasAFavor - 1;
     let restaRojas = rojas - 1; 
     let restarSuspencion = suspendidoNumero - 1;
+    if (jugador_roja < 1) {
+        alertaSubmit(false, 'no puedes anular si no tiene tarjeta roja');
+        setIsLoading(false);
+        return;
+    }
     const formData = {
         roja_partido_individual: updatedRojaspartidoArr,
         tarjetas_roja: restaRojas,
@@ -139,6 +154,11 @@ export const anularAzul = (
     let updatedAzulpartido = jugador_azul - 1;
     updatedAzulpartidoArr[index] = updatedAzulpartido;
     let sumaAzul = azul - 1; 
+    if (jugador_azul < 1) {
+        alertaSubmit(false, 'no puedes anular si no tiene tarjeta azul');
+        setIsLoading(false);
+        return;
+    }
     const formData = {
         azul_partido_individual: updatedAzulpartidoArr,
         tarjetas_azul: sumaAzul,
@@ -174,11 +194,11 @@ export const anularFigura = (
     let updatedFigurapartido = jugador_figura - 1;
     updatedFigurapartidoArr[index] = updatedFigurapartido;
     let sumaFigura = figura - 1;
-    // if (jugador_figura >= 1) {
-    //     alertaSubmit(false, 'solo se puede ser figura 1 vez por partido');
-    //     setIsLoading(false);
-    //     return;
-    // }
+    if (jugador_figura < 1) {
+        alertaSubmit(false, 'no puedes anular si no fue seleccionado como jugador figura');
+        setIsLoading(false);
+        return;
+    }
     const formData = {
         jugador_figura_individual: updatedFigurapartidoArr,
         figura: sumaFigura,
@@ -237,6 +257,12 @@ export const anularAmarilla = (
         updatedAmarillaspartidoArr[index] === 2 ? suspendidoNumero -= 1 : suspendidoNumero;
 
     let suspenderJugador = "No";
+
+    if (jugador_amarilla < 1) {
+        alertaSubmit(false, 'no puedes anular si no tiene tarjeta amarilla');
+        setIsLoading(false);
+        return;
+    }
 
     const formData = {
         amarilla_partido_individual: updatedAmarillaspartidoArr,

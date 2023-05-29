@@ -243,11 +243,13 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                         {filterPartido(homeTeam?.jugadores,'Si',currentRound).map((jugador, index) => {
                             return (
                                 <>
-                                <Grid mt={1} item gap={2} sx={{ color: light ? 'var(--dark2)' : 'var(--gris)', display:'flex', flexDirection:'row', alignItems:'center', background: jugador.suspendido === 'Si' && 'var(--danger2)', borderRadius:'8px' }}>
-                                    <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', fontWeight: 600 }}>#{jugador.dorsal}</Grid>
-                                    <Grid item width={'300px'} sx={{ cursor: 'pointer', display: 'flex', alignItems:'center', gap:'6px' }}>{jugador.name} {jugador.jugador_figura_individual[currentRound] === 1 && <Figura style={{color:'var(--warnning)'}}/>} </Grid>
+                                <Grid mt={1} item gap={2} sx={{ color: light ? 'var(--dark2)' : 'var(--gris)', display:'flex', flexDirection:!mobile ?'row':'column', alignItems:'center', background: jugador.suspendido === 'Si' ? 'var(--danger2)' : jugador.azul_partido_individual[currentRound] === 1 ? 'var(--primario2)' : jugador.amarilla_partido_individual[currentRound] === 1 ? 'var(--warnning2)' : '', borderRadius:'8px' }}>
+                                    <Grid item sx={{display:'flex', gap:'8px'}}>
+                                        <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', fontWeight: 600 }}>#{jugador.dorsal}</Grid>
+                                        <Grid item width={!mobile?'250px':'150px'} sx={{ cursor: 'pointer', display: 'flex', alignItems:'center', gap:'6px', justifyContent:mobile && 'center' }}>{jugador.name} {jugador.jugador_figura_individual[currentRound] === 1 && <Figura style={{color:'var(--warnning)'}}/>} </Grid>
+                                    </Grid>
                                     <Grid item container flexDirection={'column'} alignItems={'center'}>
-                                        <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} sx={{borderBottom:light ? '1px solid var(--dark3)' :'1px solid var(--cero)'}}>
+                                        <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} sx={{borderBottom:light ? '1px solid var(--dark3)' :'1px solid var(--cero)',justifyContent:mobile && 'center'}}>
                                             <Tooltip title="Gol" placement="top">
                                             <Grid item sx={{ cursor: 'pointer','&:hover':{color:light?'var(--neutral)':'var(--dark3)'} }} 
                                                 onClick={() => { editarGoles(
@@ -365,7 +367,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                             </Grid>
                                             </Tooltip>
                                         </Grid>
-                                        <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} >
+                                        <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} sx={{justifyContent:mobile && 'center'}} >
                                             <Tooltip title="Anular gol" placement="top">
                                             <Grid item sx={{ cursor: 'pointer',color:'var(--danger)','&:hover':{color:light?'var(--neutral)':'var(--dark3)'} }}
                                                 onClick={()=>{ anularGoles(
@@ -540,11 +542,13 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                         {filterPartido(awayTeam?.jugadores,'Si',currentRound).map((jugador, index) => {
                             return (
                                 <>
-                                <Grid mt={1} item gap={2} sx={{ color: light ? 'var(--dark2)' : 'var(--gris)', display:'flex', flexDirection:'row', alignItems:'center',background: jugador.suspendido === 'Si' && 'var(--danger2)', borderRadius:'8px' }}>
-                                    <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', fontWeight: 600 }}>#{jugador.dorsal}</Grid>
-                                    <Grid item width={'300px'} sx={{ cursor: 'pointer', display: 'flex', alignItems:'center', gap:'6px' }}>{jugador.name} {jugador.jugador_figura_individual[currentRound] === 1 && <Figura style={{color:'var(--warnning)'}}/>} </Grid>
+                                <Grid mt={1} item gap={2} sx={{ color: light ? 'var(--dark2)' : 'var(--gris)', display:'flex', flexDirection:!mobile ?'row':'column', alignItems:'center', background: jugador.suspendido === 'Si' ? 'var(--danger2)' : jugador.azul_partido_individual[currentRound] === 1 ? 'var(--primario2)' : jugador.amarilla_partido_individual[currentRound] === 1 ? 'var(--warnning2)' : '', borderRadius:'8px' }}>
+                                    <Grid item sx={{display:'flex', gap:'8px'}}>
+                                        <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', fontWeight: 600 }}>#{jugador.dorsal}</Grid>
+                                        <Grid item width={!mobile?'250px':'150px'} sx={{ cursor: 'pointer', display: 'flex', alignItems:'center', gap:'6px', justifyContent:mobile && 'center' }}>{jugador.name} {jugador.jugador_figura_individual[currentRound] === 1 && <Figura style={{color:'var(--warnning)'}}/>} </Grid>
+                                    </Grid>
                                     <Grid item container flexDirection={'column'} alignItems={'center'}>
-                                        <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} sx={{borderBottom:light ? '1px solid var(--dark3)' :'1px solid var(--cero)'}}>
+                                        <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} sx={{borderBottom:light ? '1px solid var(--dark3)' :'1px solid var(--cero)',justifyContent:mobile && 'center'}}>
                                             <Tooltip title="Gol" placement="top">
                                             <Grid item sx={{ cursor: 'pointer','&:hover':{color:light?'var(--neutral)':'var(--dark3)'} }}
                                                 onClick={()=>{ editarGoles(
@@ -662,7 +666,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                             </Grid>
                                             </Tooltip>
                                         </Grid>
-                                        <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} >
+                                        <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} sx={{justifyContent:mobile && 'center'}} >
                                             <Tooltip title="Anular gol" placement="top">
                                             <Grid item sx={{ cursor: 'pointer',color:'var(--danger)','&:hover':{color:light?'var(--neutral)':'var(--dark3)'} }}
                                                 onClick={()=>{ anularGoles(

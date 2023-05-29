@@ -21,6 +21,11 @@ export const editarRoja = (
     let sumaRojasaFavor = rojasAFavor + 1;
     let sumaRojas = rojas + 1;
     let sumarSuspencion = suspendidoNumero + 1;
+    if (jugador_roja >= 1) {
+        alertaSubmit(false, 'solo se puede sacar 1 roja por partido');
+        setIsLoading(false);
+        return;
+    }
     const formData = {
         roja_partido_individual: updatedRojaspartidoArr,
         tarjetas_roja: sumaRojas,
@@ -78,6 +83,11 @@ export const editarAmarilla = (
     let sumarSuspencion =
         updateRojaPartidoArr[index] === 2 ? suspendidoNumero + 1 : suspendidoNumero;
     let suspenderJugador = updateRojaPartidoArr[index] === 2 ? suspendidoJugador = 'Si' : suspendidoJugador
+    if (jugador_amarilla >= 2) {
+        alertaSubmit(false, `solo se puede sacar 2 amarillas por partido, ya debio estar expulsado ${jugador_name}`);
+        setIsLoading(false);
+        return;
+    }
     if (updatedAmarillapartido === 2) {
         updateRojaPartidoArr[index] = 1;
         sumarRojasaFavor += 1;
@@ -126,6 +136,11 @@ export const editarAzul = (
     let updatedAzulpartido = jugador_azul + 1;
     updatedAzulpartidoArr[index] = updatedAzulpartido;
     let sumaAzul = azul + 1;
+    if (jugador_azul >= 1) {
+        alertaSubmit(false, 'solo se puede sacar 1 azul por partido');
+        setIsLoading(false);
+        return;
+    }
     const formData = {
         azul_partido_individual: updatedAzulpartidoArr,
         tarjetas_azul: sumaAzul,
