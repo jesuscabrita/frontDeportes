@@ -1,32 +1,32 @@
 import { alertaSubmit } from "./alert";
 
 export const editarRoja = (
-    equipoId: string, 
-    jugadorId: string, 
-    index: number, 
-    jugador_roja: number, 
-    jugador_name: string, 
-    rojas: number, 
-    rojasAFavor: number, 
+    equipoId: string,
+    jugadorId: string,
+    index: number,
+    jugador_roja: number,
+    jugador_name: string,
+    rojas: number,
+    rojasAFavor: number,
     rojaPartidoIndividual,
     suspendidoNumero: number,
     setIsLoading,
     editarRojas,
     queryClient
-    ) => {
+) => {
     setIsLoading(true);
     let updatedRojaspartidoArr = [...rojaPartidoIndividual];
     let updatedRojapartido = jugador_roja + 1;
     updatedRojaspartidoArr[index] = updatedRojapartido;
     let sumaRojasaFavor = rojasAFavor + 1;
-    let sumaRojas = rojas + 1; 
+    let sumaRojas = rojas + 1;
     let sumarSuspencion = suspendidoNumero + 1;
     const formData = {
         roja_partido_individual: updatedRojaspartidoArr,
         tarjetas_roja: sumaRojas,
         tarjetasRojas: sumaRojasaFavor,
-        suspendido_numero :sumarSuspencion,
-        suspendido : 'Si'
+        suspendido_numero: sumarSuspencion,
+        suspendido: 'Si',
     };
     editarRojas({ form: formData, equipoId, jugadorId }, {
         onSuccess: (success) => {
@@ -43,14 +43,14 @@ export const editarRoja = (
 };
 
 export const editarAmarilla = (
-    equipoId: string, 
-    jugadorId: string, 
-    amarilla_partido: number, 
-    index: number, 
-    jugador_amarilla: number, 
-    jugador_name: string, 
-    amarillas: number, 
-    amarillasAFavor: number, 
+    equipoId: string,
+    jugadorId: string,
+    amarilla_partido: number,
+    index: number,
+    jugador_amarilla: number,
+    jugador_name: string,
+    amarillas: number,
+    amarillasAFavor: number,
     amarillaPartidoIndividual,
     rojaPartidoIndividual,
     jugador_roja: number,
@@ -61,13 +61,13 @@ export const editarAmarilla = (
     setIsLoading,
     editarAmarillas,
     queryClient
-    ) => {
+) => {
     setIsLoading(true);
     let updatedAmarillaspartidoArr = [...amarillaPartidoIndividual];
     let updatedAmarillapartido = jugador_amarilla + amarilla_partido;
     updatedAmarillaspartidoArr[index] = updatedAmarillapartido;
     let sumaAmarillasaFavor = amarillasAFavor + amarilla_partido
-    let sumaAmarillas = amarillas + amarilla_partido; 
+    let sumaAmarillas = amarillas + amarilla_partido;
     let updateRojaPartidoArr = [...rojaPartidoIndividual];
     let updatedRojapartido =
         updateRojaPartidoArr[index] === 2 ? jugador_roja + 1 : jugador_roja;
@@ -75,8 +75,8 @@ export const editarAmarilla = (
     let sumarRojasaFavor =
         updateRojaPartidoArr[index] === 2 ? rojasAFavor + 1 : rojasAFavor;
     let sumarRojas = updateRojaPartidoArr[index] === 2 ? rojas + 1 : rojas;
-    let sumarSuspencion = 
-        updateRojaPartidoArr[index] === 2 ? suspendidoNumero + 1 :suspendidoNumero;
+    let sumarSuspencion =
+        updateRojaPartidoArr[index] === 2 ? suspendidoNumero + 1 : suspendidoNumero;
     let suspenderJugador = updateRojaPartidoArr[index] === 2 ? suspendidoJugador = 'Si' : suspendidoJugador
     if (updatedAmarillapartido === 2) {
         updateRojaPartidoArr[index] = 1;
@@ -92,8 +92,8 @@ export const editarAmarilla = (
         roja_partido_individual: updateRojaPartidoArr,
         tarjetas_roja: sumarRojas,
         tarjetasRojas: sumarRojasaFavor,
-        suspendido_numero :sumarSuspencion,
-        suspendido : suspenderJugador
+        suspendido_numero: sumarSuspencion,
+        suspendido: suspenderJugador
     };
     editarAmarillas({ form: formData, equipoId, jugadorId }, {
         onSuccess: (success) => {
@@ -110,22 +110,22 @@ export const editarAmarilla = (
 };
 
 export const editarAzul = (
-    equipoId: string, 
-    jugadorId: string, 
-    index: number, 
-    jugador_azul: number, 
-    jugador_name: string, 
-    azul: number, 
+    equipoId: string,
+    jugadorId: string,
+    index: number,
+    jugador_azul: number,
+    jugador_name: string,
+    azul: number,
     azulPartidoIndividual,
     setIsLoading,
     editarAzules,
     queryClient
-    ) => {
+) => {
     setIsLoading(true);
     let updatedAzulpartidoArr = [...azulPartidoIndividual];
     let updatedAzulpartido = jugador_azul + 1;
     updatedAzulpartidoArr[index] = updatedAzulpartido;
-    let sumaAzul = azul + 1; 
+    let sumaAzul = azul + 1;
     const formData = {
         azul_partido_individual: updatedAzulpartidoArr,
         tarjetas_azul: sumaAzul,
@@ -145,22 +145,22 @@ export const editarAzul = (
 };
 
 export const editarAsistencia = (
-    equipoId: string, 
-    jugadorId: string, 
-    index: number, 
-    jugador_asistencia: number, 
-    jugador_name: string, 
-    asistencia: number, 
+    equipoId: string,
+    jugadorId: string,
+    index: number,
+    jugador_asistencia: number,
+    jugador_name: string,
+    asistencia: number,
     asistenciaPartidoIndividual,
     setIsLoading,
     editarAsistencias,
     queryClient
-    ) => {
+) => {
     setIsLoading(true);
     let updatedAsistenciapartidoArr = [...asistenciaPartidoIndividual];
     let updatedAsistenciapartido = jugador_asistencia + 1;
     updatedAsistenciapartidoArr[index] = updatedAsistenciapartido;
-    let sumaAsistencia = asistencia + 1; 
+    let sumaAsistencia = asistencia + 1;
     const formData = {
         asistencia_partido_individual: updatedAsistenciapartidoArr,
         asistencias: sumaAsistencia,
@@ -180,17 +180,17 @@ export const editarAsistencia = (
 };
 
 export const editarFigura = (
-    equipoId: string, 
-    jugadorId: string, 
-    index: number, 
-    jugador_figura: number, 
-    jugador_name: string, 
-    figura: number, 
+    equipoId: string,
+    jugadorId: string,
+    index: number,
+    jugador_figura: number,
+    jugador_name: string,
+    figura: number,
     figuraPartidoIndividual,
     setIsLoading,
     editarAsistencias,
     queryClient
-    ) => {
+) => {
     setIsLoading(true);
     let updatedFigurapartidoArr = [...figuraPartidoIndividual];
     let updatedFigurapartido = jugador_figura + 1;
@@ -220,21 +220,21 @@ export const editarFigura = (
 };
 
 export const editarGoles = (
-    equipoId: string, 
-    jugadorId: string, 
-    gol_partido: number, 
-    index: number, 
-    jugador_gol: number, 
-    jugador_name: string, 
-    goles: number, 
-    equipo, 
-    golesAFavor: number, 
+    equipoId: string,
+    jugadorId: string,
+    gol_partido: number,
+    index: number,
+    jugador_gol: number,
+    jugador_name: string,
+    goles: number,
+    equipo,
+    golesAFavor: number,
     golPartidoIndividual,
     golPartidoEquipo,
     setIsLoading,
     editarGol,
     queryClient
-    ) => {
+) => {
     setIsLoading(true);
     let updatedGolpartidoArr = [...golPartidoIndividual];
     let updatedGolpartido = jugador_gol + gol_partido;
@@ -243,12 +243,12 @@ export const editarGoles = (
     let updatedGolEquipoArr = [...golPartidoEquipo];
     let updatedGolEquipo = equipo + gol_partido;
     updatedGolEquipoArr[index] = updatedGolEquipo;
-    let sumaGoles = goles + gol_partido; 
+    let sumaGoles = goles + gol_partido;
     const formData = {
         gol_partido_individual: updatedGolpartidoArr,
         gol_partido: updatedGolEquipoArr,
         goles: sumaGoles,
-        goles_a_Favor: sumaGolesaFavor ,
+        goles_a_Favor: sumaGolesaFavor,
     };
     editarGol({ form: formData, equipoId, jugadorId }, {
         onSuccess: (success) => {
@@ -265,18 +265,18 @@ export const editarGoles = (
 };
 
 export const editarAutoGol = (
-    equipoId: string, 
-    autogol_partido: number, 
-    index: number, 
-    jugador_gol: number, 
-    jugador_autogol, 
-    golesAFavor: number, 
+    equipoId: string,
+    autogol_partido: number,
+    index: number,
+    jugador_gol: number,
+    jugador_autogol,
+    golesAFavor: number,
     golPartidoIndividual,
     autogolPartidoEquipo,
     setIsLoading,
     editarAutogoles,
     queryClient
-    ) => {
+) => {
     setIsLoading(true);
     let updatedGolpartidoArr = [...golPartidoIndividual];
     let updatedGolpartido = jugador_gol + autogol_partido;
@@ -285,12 +285,12 @@ export const editarAutoGol = (
     let updatedAutoGolEquipoArr = [...autogolPartidoEquipo];
     let updatedAutoGolEquipo = jugador_autogol + autogol_partido;
     updatedAutoGolEquipoArr[index] = updatedAutoGolEquipo;
-    
+
     let sumaGolesaFavor = golesAFavor + autogol_partido
     const formData = {
         gol_partido: updatedGolpartidoArr,
         autogol_partido: updatedAutoGolEquipoArr,
-        goles_a_Favor: sumaGolesaFavor ,
+        goles_a_Favor: sumaGolesaFavor,
     };
     editarAutogoles({ form: formData, equipoId }, {
         onSuccess: (success) => {
@@ -306,16 +306,91 @@ export const editarAutoGol = (
     });
 };
 
+export const editarPartido = (
+    equipoId: string,
+    jugadorId: string,
+    index: number,
+    jugador_name: string,
+    partido: number,
+    partidoIndividual,
+    setIsLoading,
+    editarPartidos,
+    queryClient
+) => {
+    setIsLoading(true);
+    let updatedpartidoArr = [...partidoIndividual];
+    let updatedpartido = 'Si';
+    updatedpartidoArr[index] = updatedpartido;
+    let sumaPartido = partido + 1;
+
+    const formData = {
+        partidos_individual: updatedpartidoArr,
+        partidos: sumaPartido,
+    };
+    editarPartidos({ form: formData, equipoId, jugadorId }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["/api/liga"]);
+            alertaSubmit(true, `${jugador_name} convocado!`);
+            setIsLoading(false);
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+};
+
+export const editarSuspencion = (
+    equipoId: string,
+    jugadorId: string,
+    jugadorSuspendido: string,
+    jugador_name: string,
+    jornadaSuspendido: number,
+    setIsLoading,
+    editarSupendido,
+    queryClient
+) => {
+    setIsLoading(true);
+    let suspencion = jugadorSuspendido;
+    let jornada = jornadaSuspendido;
+    if (jornada >= 1) {
+        jornada -= 1;
+        if (jornada === 0) {
+            suspencion = 'No';
+        }
+    }
+    if (suspencion === 'Si') {
+        jornada += 1;
+    }
+    const formData = {
+        suspendido: suspencion,
+        jornadas_suspendido: jornada,
+    };
+    editarSupendido({ form: formData, equipoId, jugadorId }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["/api/liga"]);
+            alertaSubmit(true, `${jugador_name} se le modifico su suspencion!`);
+            setIsLoading(false);
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+};
+
 export const datosDelPartidoHome = (
     equipoId,
     partidosHomeJugados,
-    equipoHomeGol, 
-    equipoAwayGol, 
+    equipoHomeGol,
+    equipoAwayGol,
     partidoGanado,
     partidoEmpatado,
-    partidoPerdido, 
+    partidoPerdido,
     golEnContra,
-    golAfavor, 
+    golAfavor,
     equipoHomePuntos,
     homeLast,
     currentRound,
@@ -323,28 +398,28 @@ export const datosDelPartidoHome = (
     data,
     calcularDatosPartidos,
     queryClient
-    ) => {
+) => {
     setIsLoading(true);
     let PartidoJugadoSuma = partidosHomeJugados + 1;
-    let sumaGanados =  equipoHomeGol > equipoAwayGol ?  partidoGanado + 1 : partidoGanado;
-    let sumaEmpates =  equipoHomeGol == equipoAwayGol ? partidoEmpatado + 1 : partidoEmpatado;
+    let sumaGanados = equipoHomeGol > equipoAwayGol ? partidoGanado + 1 : partidoGanado;
+    let sumaEmpates = equipoHomeGol == equipoAwayGol ? partidoEmpatado + 1 : partidoEmpatado;
     let sumaPerdidos = equipoHomeGol < equipoAwayGol ? partidoPerdido + 1 : partidoPerdido;
     let sumaGoEnContra = golEnContra + equipoAwayGol;
     let calculoDiferenciaGoles = golAfavor - sumaGoEnContra;
-    let sumaPuntos = 
+    let sumaPuntos =
         equipoHomeGol > equipoAwayGol
-        ? equipoHomePuntos + 3
-        : equipoHomeGol < equipoAwayGol
-        ? equipoHomePuntos
-        :  equipoHomePuntos + 1 ;
+            ? equipoHomePuntos + 3
+            : equipoHomeGol < equipoAwayGol
+                ? equipoHomePuntos
+                : equipoHomePuntos + 1;
     let valueLast = [...homeLast];
-        if (equipoHomeGol > equipoAwayGol) {
-            valueLast[currentRound] = 'win';
-        } else if (equipoHomeGol < equipoAwayGol) {
-            valueLast[currentRound] = 'loss';
-        } else {
-            valueLast[currentRound] = 'draw';
-        }
+    if (equipoHomeGol > equipoAwayGol) {
+        valueLast[currentRound] = 'win';
+    } else if (equipoHomeGol < equipoAwayGol) {
+        valueLast[currentRound] = 'loss';
+    } else {
+        valueLast[currentRound] = 'draw';
+    }
     let calculoPuntajeAnterior = data.findIndex(item => item._id === equipoId)
 
     const formData = {
@@ -352,8 +427,8 @@ export const datosDelPartidoHome = (
         ganados: sumaGanados,
         empates: sumaEmpates,
         perdidos: sumaPerdidos,
-        goles_en_Contra : sumaGoEnContra,
-        diferencia_de_Goles : calculoDiferenciaGoles,
+        goles_en_Contra: sumaGoEnContra,
+        diferencia_de_Goles: calculoDiferenciaGoles,
         puntos: sumaPuntos,
         last5: valueLast,
         puntaje_anterior: calculoPuntajeAnterior,

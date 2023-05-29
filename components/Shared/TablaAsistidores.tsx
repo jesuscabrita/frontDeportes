@@ -96,7 +96,7 @@ export const TablaAsistidores = ({ data, isLoading, isError }) => {
                                     <Grid item container alignItems={'center'} justifyContent={'center'} sx={{width:'55px',height: '35px'}}>
                                         {isLoading || !showImage ? 
                                             (<CircularProgress style={{color:light ? 'var(--dark2)': 'var(--cero)'}} size={20} />) 
-                                        :    showImage ? <img src={jugador.foto} alt={jugador.name} style={{ height: '35px' }} /> 
+                                        :    showImage ? <img src={jugador.foto} alt={'.'} style={{ height: '35px' }} /> 
                                         : null}
                                     </Grid>
                                     <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width:'130px'}}>

@@ -90,6 +90,26 @@ export const jugadoresPut_figura = async ({ form, equipoId, jugadorId }) => {
     }
 }
 
+export const jugadoresPut_partidos = async ({ form, equipoId, jugadorId }) => {
+    try {
+        const data = await api.put(`/api/liga/${equipoId}/partidos/${jugadorId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
+
+export const jugadoresPut_suspencion = async ({ form, equipoId, jugadorId }) => {
+    try {
+        const data = await api.put(`/api/liga/${equipoId}/suspencion/${jugadorId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
+
 export const edit_autogol = async ({ form, equipoId }) => {
     try {
         const data = await api.put(`/api/liga/${equipoId}/autogol`, form).then(res => res.data)

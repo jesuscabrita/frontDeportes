@@ -135,7 +135,7 @@ export const TablaPlantilla =({jugadores, equipo, isLoading})=>{
                             </StyledTableCell>
                             <StyledTableCell align="right" style={{whiteSpace: 'nowrap'}}>
                                 <Grid sx={{display:'flex', alignItems:'center', whiteSpace: 'nowrap', gap:'18px'}} >
-                                    <img src={jugador.foto} alt={jugador.name} style={{ height: '35px'}} />
+                                    <img src={jugador.foto} alt={'.'} style={{ height: '35px'}} />
                                     <Grid sx={{whiteSpace: 'nowrap', paddingRight: mobile &&'30px'}}>{jugador.name}</Grid>
                                 </Grid>
                             </StyledTableCell>
