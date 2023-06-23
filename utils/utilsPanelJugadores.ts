@@ -65,7 +65,8 @@ export const editarAmarilla = (
     suspendidoNumero: number,
     setIsLoading,
     editarAmarillas,
-    queryClient
+    queryClient,
+    tarjetasAcumuladas
 ) => {
     setIsLoading(true);
     let updatedAmarillaspartidoArr = [...amarillaPartidoIndividual];
@@ -95,6 +96,7 @@ export const editarAmarilla = (
         sumarSuspencion += 1;
         suspenderJugador = 'Si';
     }
+    let acumulada = tarjetasAcumuladas + amarilla_partido
     const formData = {
         amarilla_partido_individual: updatedAmarillaspartidoArr,
         tarjetas_amarillas: sumaAmarillas,
@@ -103,7 +105,8 @@ export const editarAmarilla = (
         tarjetas_roja: sumarRojas,
         tarjetasRojas: sumarRojasaFavor,
         suspendido_numero: sumarSuspencion,
-        suspendido: suspenderJugador
+        suspendido: suspenderJugador,
+        tarjetas_acumuladas: acumulada
     };
     editarAmarillas({ form: formData, equipoId, jugadorId }, {
         onSuccess: (success) => {
@@ -364,11 +367,14 @@ export const editarSuspencion = (
     jornadaSuspendido: number,
     setIsLoading,
     editarSupendido,
-    queryClient
+    queryClient,
+    tarjetasAcumuladas,
 ) => {
     setIsLoading(true);
     let suspencion = jugadorSuspendido;
     let jornada = jornadaSuspendido;
+    let acumulada = tarjetasAcumuladas;
+
     if (jornada >= 1) {
         jornada -= 1;
         if (jornada === 0) {
@@ -378,9 +384,16 @@ export const editarSuspencion = (
     if (suspencion === 'Si') {
         jornada += 1;
     }
+
+    if (acumulada === 2){
+        suspencion = 'Si';
+        acumulada = 0;
+    }
+
     const formData = {
         suspendido: suspencion,
         jornadas_suspendido: jornada,
+        tarjetas_acumuladas: acumulada,
     };
     editarSupendido({ form: formData, equipoId, jugadorId }, {
         onSuccess: (success) => {

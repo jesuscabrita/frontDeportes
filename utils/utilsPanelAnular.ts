@@ -235,7 +235,8 @@ export const anularAmarilla = (
     suspendidoNumero: number,
     setIsLoading,
     editarAmarillas,
-    queryClient
+    queryClient,
+    tarjetasAcumuladas
 ) => {
     setIsLoading(true);
     let updatedAmarillaspartidoArr = [...amarillaPartidoIndividual];
@@ -263,6 +264,7 @@ export const anularAmarilla = (
         setIsLoading(false);
         return;
     }
+    let acumulada = tarjetasAcumuladas - amarilla_partido
 
     const formData = {
         amarilla_partido_individual: updatedAmarillaspartidoArr,
@@ -273,6 +275,7 @@ export const anularAmarilla = (
         tarjetasRojas: restarRojasaFavor,
         suspendido_numero: restarSuspencion,
         suspendido: suspenderJugador,
+        tarjetas_acumuladas: acumulada
     };
 
     editarAmarillas({ form: formData, equipoId, jugadorId }, {

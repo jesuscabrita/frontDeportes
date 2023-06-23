@@ -173,7 +173,8 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                         jugador.jornadas_suspendido,
                         setIsLoadinng,
                         editarSuspendido,
-                        queryClient
+                        queryClient,
+                        jugador.tarjetas_acumuladas
                         );}),
                         awayTeam?.jugadores.forEach(jugador => {
                             editarSuspencion(
@@ -184,7 +185,8 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                             jugador.jornadas_suspendido,
                             setIsLoadinng,
                             editarSuspendido,
-                            queryClient
+                            queryClient,
+                            jugador.tarjetas_acumuladas
                             );});
                 }}>
                     Calcular partido
@@ -308,7 +310,8 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                                     jugador.suspendido_numero,
                                                     setIsLoadinng,
                                                     editarAmarillas,
-                                                    queryClient
+                                                    queryClient,
+                                                    jugador.tarjetas_acumuladas
                                                 )}}>
                                                 <Tarjeta color={'var(--warnning)'} />
                                             </Grid>
@@ -426,7 +429,8 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                                     jugador.suspendido_numero,
                                                     setIsLoadinng,
                                                     editarAmarillas,
-                                                    queryClient
+                                                    queryClient,
+                                                    jugador.tarjetas_acumuladas
                                                 )}}>
                                                 <Tarjeta color={'var(--warnning)'} />
                                             </Grid>
@@ -607,7 +611,8 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                                     jugador.suspendido_numero,
                                                     setIsLoadinng,
                                                     editarAmarillas,
-                                                    queryClient
+                                                    queryClient,
+                                                    jugador.tarjetas_acumuladas
                                                 )}}>
                                                 <Tarjeta color={'var(--warnning)'} />
                                             </Grid>
@@ -725,7 +730,8 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                                     jugador.suspendido_numero,
                                                     setIsLoadinng,
                                                     editarAmarillas,
-                                                    queryClient
+                                                    queryClient,
+                                                    jugador.tarjetas_acumuladas
                                                 )}}>
                                                 <Tarjeta color={'var(--warnning)'} />
                                             </Grid>
