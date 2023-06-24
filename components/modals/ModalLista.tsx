@@ -11,6 +11,7 @@ import moment from "moment";
 import { jugadoresPut_partidos } from "../../service/jugadores";
 import { editarPartido } from "../../utils/utilsPanelJugadores";
 import { bajarPartido } from "../../utils/utilsPanelAnular";
+import { TbRectangleVertical as Tarjeta } from 'react-icons/tb';
 
 export const ModalLista =({open, setOpen, data, currentRound })=>{
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -51,8 +52,9 @@ export const ModalLista =({open, setOpen, data, currentRound })=>{
                                             : null}
                                 </Grid>
                                 <Grid item sx={{display:'flex'}}>
-                                    <Grid item width={'350px'} gap={1} sx={{ cursor: 'pointer',display:'flex' }}>
+                                    <Grid item width={'350px'} gap={1} sx={{ cursor:jugador.suspendido === 'Si'? 'default': 'pointer',display:'flex', alignItems:'center' }}>
                                         {jugador.name} 
+                                        {jugador.tarjetas_acumuladas > 0 && ( <Grid item sx={{display:'flex', alignItems:'center'}}>{jugador.tarjetas_acumuladas}<Tarjeta color={'var(--warnning)'} /></Grid>)}
                                         {jugador.partidos_individual[currentRound] === 'Si'&&
                                         <Grid item sx={{color:'var(--check)'}}>(Convocado)</Grid>}
                                         {jugador.partidos_individual[currentRound] === 'No'&&
@@ -63,8 +65,9 @@ export const ModalLista =({open, setOpen, data, currentRound })=>{
                                         </Tooltip>}
                                     </Grid>
                                 </Grid>
-                                <Grid item sx={{cursor: 'pointer', color:jugador.partidos_individual[currentRound] === 'Si'? 'var(--check)':'var(--neutral)'}}
-                                onClick={()=>{editarPartido(
+                                <Grid item sx={{cursor: jugador.suspendido === 'Si'? 'default': 'pointer', color:jugador.partidos_individual[currentRound] === 'Si'? 'var(--check)':'var(--neutral)'}}
+                                onClick={()=>{jugador.suspendido === 'Si' ? null :
+                                    editarPartido(
                                     data._id,
                                     jugador._id,
                                     currentRound,
@@ -79,7 +82,10 @@ export const ModalLista =({open, setOpen, data, currentRound })=>{
                                     <Check size={20}/>
                                 </Grid>
                                 {jugador.partidos_individual[currentRound] === 'Si'&&
-                                    <Button onClick={()=>{bajarPartido(
+                                    <Button 
+                                    disabled={jugador.suspendido === 'Si'}
+                                    sx={{color:'var(--danger)'}}
+                                    onClick={()=>{bajarPartido(
                                         data._id,
                                         jugador._id,
                                         currentRound,

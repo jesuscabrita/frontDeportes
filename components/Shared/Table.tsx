@@ -106,6 +106,32 @@ export const PositionTable = ({ data, isLoading, isError }) => {
                     </TableHead>
                     <TableBody style={{ background: light ? 'var(--cero)' : 'var(--dark3)' }}>
                         {orden.map((row, index) => {
+                            let last5ToShow = [];
+                            let neutralCount = 0;
+                            
+                            for (let i = row.last5.length - 1; i >= 0; i--) {
+                              if (row.last5[i] === "neutral") {
+                                if (neutralCount === 0) {
+                                  last5ToShow = [];
+                                } else {
+                                  break;
+                                }
+                              } else {
+                                last5ToShow.unshift(row.last5[i]);
+                                neutralCount++;
+                                if (neutralCount === 5) {
+                                  break;
+                                }
+                              }
+                            }
+                            
+                            // Agregar elementos "neutral" adicionales si hay menos de cinco
+                            while (last5ToShow.length < 5) {
+                              last5ToShow.unshift("neutral");
+                            }
+                            
+                            
+                            
                             return (
                                 <StyledTableRow key={row._id}>
                                     <StyledTableCell component="th" scope="row">
@@ -130,9 +156,10 @@ export const PositionTable = ({ data, isLoading, isError }) => {
                                             <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width: '130px' }}>
                                                 {row.name}
                                             </Grid>
-                                            <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ whiteSpace: 'nowrap', width: '30px' }}>
+                                            {row.partidosJugados >= 1 &&
+                                                <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ whiteSpace: 'nowrap', width: '30px' }}>
                                                 <ArrowP currentPos={index} prevPos={row.puntaje_anterior} />
-                                            </Grid>
+                                            </Grid>}
                                         </Grid>
                                     </StyledTableCell>
                                     <StyledTableCell align="right" style={{ fontWeight: 700, fontSize: '15px' }}>{row.puntos}</StyledTableCell>
@@ -143,7 +170,7 @@ export const PositionTable = ({ data, isLoading, isError }) => {
                                     <StyledTableCell align="right">{row.goles_a_Favor}</StyledTableCell>
                                     <StyledTableCell align="right">{row.goles_en_Contra}</StyledTableCell>
                                     <StyledTableCell align="right">{row.diferencia_de_Goles}</StyledTableCell>
-                                    <StyledTableCell align="center"><UltimateP last5={row.last5} /></StyledTableCell>
+                                    <StyledTableCell align="center"><UltimateP last5={last5ToShow.reverse()} /></StyledTableCell>
                                 </StyledTableRow>
                             )
                         })}

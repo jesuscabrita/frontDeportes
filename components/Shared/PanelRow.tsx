@@ -126,8 +126,9 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                 <Tooltip title="Calcular los datos del partidos, se recomienda usarlo despues de terminado" placement="top">
                 <Button sx={{ color: 'var(--primario)', marginBottom:'10px' }}
                     disabled={
-                        status(hoy, fechaFinalPartido, tiempoRestante, TIEMPO_PARTIDO) === 'finPartido' ||
-                        status(hoy, fechaFinalPartido, tiempoRestante, TIEMPO_PARTIDO) === 'agendar'
+                        status(hoy, fechaFinalPartido, tiempoRestante, TIEMPO_PARTIDO) === 'noEmpezado' ||
+                        (status(hoy, fechaFinalPartido, tiempoRestante, TIEMPO_PARTIDO) === 'fechaInvalida') ||
+                        (status(hoy, fechaFinalPartido, tiempoRestante, TIEMPO_PARTIDO) === 'finPartido' && tiempoRestante <= -5) 
                     }
                     onClick={()=> {datosDelPartidoHome(
                         homeTeam._id,

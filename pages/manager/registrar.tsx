@@ -1,10 +1,10 @@
-import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
+import { Button, CircularProgress, Grid, Tooltip, useMediaQuery } from "@mui/material";
 import { Form } from "../../components/form/Form";
 import { useContext, useState } from "react";
 import Context from "../../context/contextPrincipal";
 import { ListaEquipoRegistro } from "../../components/Shared/ListaEquipoRegistro";
-import { useQuery } from "react-query";
-import { equiposGet } from "../../service/equipos";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { equiposGet, resetEquiposJugador } from "../../service/equipos";
 import { GiSandsOfTime as Espera } from 'react-icons/gi';
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from '@mui/material/styles';
@@ -15,6 +15,8 @@ import { MenuTabla } from "../../components/MaterialUi/MenuTabla";
 import { LogoRegister } from "../../components/Shared/LogoRegister";
 import { TbError404 as Err404 } from 'react-icons/tb';
 import { filterEstado } from "../../utils/utils";
+import { BiReset as Reset } from 'react-icons/bi'
+import { alertaSubmit } from "../../utils/alert";
 
 const opcionSelectEquipos =[
     {id:0, name: 'Equipos en la liga', icono: <Register size={30} />},
@@ -27,6 +29,9 @@ const Registrar = () => {
     const [data, setData] = useState([]);
     const [value, setValue] = useState(0);
     const theme = useTheme();
+    const { mutate: reseteoEquipos } = useMutation(resetEquiposJugador);
+    const queryClient = useQueryClient();
+    const [isLoadinng, setIsLoadinng] = useState(false);
 
     const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {
         refetchOnWindowFocus: false,
@@ -34,6 +39,25 @@ const Registrar = () => {
             setData(data);
         },
     })
+
+    const editarReset = async (setIsLoading, queryClient) => {
+        setIsLoading(true);
+        data.forEach(equiposdata =>{
+            reseteoEquipos({equipoID: equiposdata._id }, {
+                onSuccess: (success) => {
+                    queryClient.invalidateQueries(["/api/liga"]);
+                    alertaSubmit(true, success?.message);
+                    setIsLoading(false);
+                },
+                onError: (err: any) => {
+                    const errorMessage = err?.response?.data?.message || err.message;
+                    alertaSubmit(false, errorMessage);
+                    setIsLoading(false);
+                },
+            });
+        })
+        
+      };
 
     const handleChange = (newValue) => {
         setValue(newValue);
@@ -78,6 +102,13 @@ const Registrar = () => {
                     </Grid>
                     <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
                         <TabPanel value={value} index={0} dir={theme.direction}>
+                            <Tooltip title="Resetea los datos de los equipos, es recomendable al terminar la liga o temporada" placement="top">
+                                <Button
+                                onClick={()=>{editarReset(setIsLoadinng,queryClient)}}
+                                >
+                                    <Reset size={30}/>
+                                </Button>
+                            </Tooltip>
                             <Grid mt={2} sx={{width: '100%',display:filterEstado(data, 'registrado').length === 0 || isError || isLoading ? 'flex' : 'grid',gridTemplateColumns: !mobile ? 'repeat(5, 1fr)' : 'repeat(2, 1fr)',gap: '20px',}}>
                             {isLoading ?
                                 <Grid mt={8} item sx={stylesRow}>

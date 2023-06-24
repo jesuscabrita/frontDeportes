@@ -375,19 +375,20 @@ export const editarSuspencion = (
     let jornada = jornadaSuspendido;
     let acumulada = tarjetasAcumuladas;
 
-    if (jornada >= 1) {
-        jornada -= 1;
-        if (jornada === 0) {
-            suspencion = 'No';
-        }
-    }
-    if (suspencion === 'Si') {
-        jornada += 1;
-    }
-
-    if (acumulada === 2){
+    if (acumulada === 2) {
         suspencion = 'Si';
         acumulada = 0;
+        jornada += 1;
+    } else {
+        if (jornada >= 1) {
+            jornada -= 1;
+            if (jornada === 0) {
+                suspencion = 'No';
+            }
+        }
+        if (suspencion === 'Si') {
+            jornada += 1;
+        }
     }
 
     const formData = {
