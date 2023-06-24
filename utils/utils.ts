@@ -159,3 +159,23 @@ export const editarJugadores = (equipoId: string, jugadorId: string, name: strin
             },
         });
     }
+
+export const editarReset = async (setIsLoading, queryClient, data, reseteoEquipos) => {
+    alertaQuestion("", {}, () => {
+        setIsLoading(true);
+        filterEstado(data, 'registrado').forEach(equiposdata => {
+            reseteoEquipos({ equipoID: equiposdata._id }, {
+                onSuccess: (success) => {
+                    queryClient.invalidateQueries(["/api/liga"]);
+                    // alertaSubmit(true, success?.message);
+                    setIsLoading(false);
+                },
+                onError: (err: any) => {
+                    const errorMessage = err?.response?.data?.message || err.message;
+                    alertaSubmit(false, errorMessage);
+                    setIsLoading(false);
+                },
+            });
+        });
+    }, 'Si, Resetear!', 'Reinicio de Equipos', '¡Los equipos fueron reseteados correctamente!', 'Los equipos no fueron reseteados', );
+};

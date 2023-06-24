@@ -14,9 +14,10 @@ import { TbMoodEmpty as Vacio } from 'react-icons/tb';
 import { MenuTabla } from "../../components/MaterialUi/MenuTabla";
 import { LogoRegister } from "../../components/Shared/LogoRegister";
 import { TbError404 as Err404 } from 'react-icons/tb';
-import { filterEstado } from "../../utils/utils";
+import { editarReset, filterEstado } from "../../utils/utils";
 import { BiReset as Reset } from 'react-icons/bi'
 import { alertaSubmit } from "../../utils/alert";
+import { AiOutlineWarning as Warning } from 'react-icons/ai'
 
 const opcionSelectEquipos =[
     {id:0, name: 'Equipos en la liga', icono: <Register size={30} />},
@@ -40,24 +41,23 @@ const Registrar = () => {
         },
     })
 
-    const editarReset = async (setIsLoading, queryClient) => {
-        setIsLoading(true);
-        data.forEach(equiposdata =>{
-            reseteoEquipos({equipoID: equiposdata._id }, {
-                onSuccess: (success) => {
-                    queryClient.invalidateQueries(["/api/liga"]);
-                    alertaSubmit(true, success?.message);
-                    setIsLoading(false);
-                },
-                onError: (err: any) => {
-                    const errorMessage = err?.response?.data?.message || err.message;
-                    alertaSubmit(false, errorMessage);
-                    setIsLoading(false);
-                },
-            });
-        })
-        
-      };
+    // const editarReset = async (setIsLoading, queryClient) => {
+    //     setIsLoading(true);
+    //     filterEstado(data, 'registrado').forEach(equiposdata =>{
+    //         reseteoEquipos({equipoID: equiposdata._id }, {
+    //             onSuccess: (success) => {
+    //                 queryClient.invalidateQueries(["/api/liga"]);
+    //                 alertaSubmit(true, success?.message);
+    //                 setIsLoading(false);
+    //             },
+    //             onError: (err: any) => {
+    //                 const errorMessage = err?.response?.data?.message || err.message;
+    //                 alertaSubmit(false, errorMessage);
+    //                 setIsLoading(false);
+    //             },
+    //         });
+    //     })
+    // };
 
     const handleChange = (newValue) => {
         setValue(newValue);
@@ -89,7 +89,7 @@ const Registrar = () => {
     }
 
     return (
-        <Grid sx={{ height: !mobile ? '180vh' : '100%', }}>
+        <Grid sx={{ height: !mobile ? '190vh' : '100%', }}>
             <Grid container flexDirection={'column'} sx={{ paddingTop: !mobile ? '100px' : '90px', paddingBottom: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
                 <LogoRegister name={'Registrar equipo'}/>
                 <Form />
@@ -104,9 +104,10 @@ const Registrar = () => {
                         <TabPanel value={value} index={0} dir={theme.direction}>
                             <Tooltip title="Resetea los datos de los equipos, es recomendable al terminar la liga o temporada" placement="top">
                                 <Button
-                                onClick={()=>{editarReset(setIsLoadinng,queryClient)}}
+                                onClick={()=>{editarReset(setIsLoadinng, queryClient, data, reseteoEquipos)}}
                                 >
                                     <Reset size={30}/>
+                                    <Warning size={30} color={'var(--warnning)'}/>
                                 </Button>
                             </Tooltip>
                             <Grid mt={2} sx={{width: '100%',display:filterEstado(data, 'registrado').length === 0 || isError || isLoading ? 'flex' : 'grid',gridTemplateColumns: !mobile ? 'repeat(5, 1fr)' : 'repeat(2, 1fr)',gap: '20px',}}>
@@ -155,6 +156,11 @@ const Registrar = () => {
                     </SwipeableViews>
                 </Grid>                   
             </Grid>
+            {isLoadinng && ( 
+                <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '180vh' : '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <CircularProgress color="primary" />
+                </div>
+            )}
         </Grid>
     );
 };

@@ -51,7 +51,7 @@ const Tabla = () => {
 
     return (
     <>
-        <Grid item sx={{ height: !mobile ? '160vh' : '100%', width: '100%', paddingTop: '90px', }}>
+        <Grid item sx={{ minHeight: !mobile ? '180vh' : '100%', width: '100%', paddingTop: '90px', }}>
             <Grid item sx={{ padding: '18px', width: '100%' }}>
                 <Grid item container justifyContent={'center'}>
                     <LogoRegister name={'Tablas'} />
