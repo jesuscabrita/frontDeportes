@@ -95,7 +95,7 @@ const Equipo = () => {
               </Grid>
                 <Grid item sx={{fontSize: '24px', color: light ? 'var(--dark2)' : 'var(--cero)'}}>{data?.equipo?.name}</Grid>
               <Grid sx={{padding:'18px',width:'100%'}}>
-                <EquipoDetalle data={data?.equipo} isLoading={isLoading}/>
+                <EquipoDetalle data={data?.equipo} isLoading={isLoading} equipo_id={equipo_id}/>
               </Grid>
             </Grid>
         </Grid>

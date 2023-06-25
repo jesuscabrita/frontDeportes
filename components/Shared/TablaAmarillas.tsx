@@ -8,7 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { CircularProgress, Grid, useMediaQuery } from '@mui/material';
+import { Avatar, CircularProgress, Grid, useMediaQuery } from '@mui/material';
 import { TbError404 as Err404 } from 'react-icons/tb';
 import { TbMoodEmpty as Vacio } from 'react-icons/tb';
 
@@ -48,10 +48,45 @@ export const TablaAmarillas = ({ data, isLoading, isError }) => {
         if (!isLoading) {
             const timeoutId = setTimeout(() => {
                 setShowImage(true);
-            }, 2000);
+            }, 1000);
             return () => clearTimeout(timeoutId);
         }
     }, [isLoading]);
+
+    function stringToColor(string: string) {
+        let hash = 0;
+        let i;
+        /* eslint-disable no-bitwise */
+        for (i = 0; i < string.length; i += 1) {
+            hash = string.charCodeAt(i) + ((hash << 5) - hash);
+        }
+
+        let color = '#';
+        for (i = 0; i < 3; i += 1) {
+            const value = (hash >> (i * 8)) & 0xff;
+            color += `00${value.toString(16)}`.slice(-2);
+        }
+        /* eslint-enable no-bitwise */
+        return color;
+    }
+
+    function stringAvatar(name: string) {
+        const nameParts = name.split(' ');
+
+        let children = '';
+        if (nameParts.length >= 2) {
+            children = `${nameParts[0][0]}${nameParts[1][0]}`;
+        } else if (nameParts.length === 1) {
+            children = nameParts[0][0];
+        }
+
+        return {
+            sx: {
+                bgcolor: stringToColor(name),
+            },
+            children: children,
+        };
+    }
 
     return (
     <>
@@ -89,10 +124,15 @@ export const TablaAmarillas = ({ data, isLoading, isError }) => {
                                             <Grid sx={{ background: 'var(--warnning)', height: '35px', width: '10px', whiteSpace: 'nowrap' }}></Grid>}
                                     </Grid>
                                     <Grid item container alignItems={'center'} justifyContent={'center'} sx={{width:'55px',height: '35px'}}>
-                                        {isLoading || !showImage ? 
-                                            (<CircularProgress style={{color:light ? 'var(--dark2)': 'var(--cero)'}} size={20} />) 
-                                        :    showImage ? <img src={jugador.foto} alt={'.'} style={{ height: '35px' }} /> 
-                                        : null}
+                                        {isLoading || !showImage ? (
+                                            <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} size={20} />
+                                            ) : showImage ? (
+                                            jugador?.foto ? (
+                                                <img style={{ height: '30px' }} src={jugador.foto} alt={'.'} />
+                                            ) : (
+                                                <Avatar {...stringAvatar(jugador.name)} sx={{ height: '35px', width:'35px' }} />
+                                            )
+                                        ) : null}
                                     </Grid>
                                     <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width:'130px'}}>
                                         {jugador.name} 

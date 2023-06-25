@@ -1,4 +1,4 @@
-import { CircularProgress, Grid, useMediaQuery } from "@mui/material"
+import { Button, CircularProgress, Grid, useMediaQuery } from "@mui/material"
 import { useContext, useEffect, useState } from "react";
 import Context from "../../context/contextPrincipal";
 import { TbRectangleVertical as Tarjeta } from 'react-icons/tb';
@@ -23,6 +23,12 @@ import { TabPanel } from "../MaterialUi/TabPanel";
 import { ModalJugador } from "../modals/ModalJugador";
 import { TablaPlantilla } from "../MaterialUi/TablaPlantilla";
 import { TablaEstadisticas } from "../MaterialUi/TablaEstadisticas";
+import { useQuery } from "react-query";
+import { equiposGet } from "../../service/equipos";
+import { filterEstado } from "../../utils/utils";
+import { ArrowP } from "./ArrowP";
+import { IoIosCreate as CreatePlayer } from 'react-icons/io';
+import { ModalDT } from "../modals/ModalDT";
 
 const opcionSelectEquipo =[
     {id:0, name: 'Plantilla', icono: <Plantilla size={30} />},
@@ -33,13 +39,46 @@ const opcionSelectEquipo =[
     {id:5, name: 'Fichajes', icono: <Fichaje size={30} />},
 ]
 
-export const EquipoDetalle =({data, isLoading})=>{
+export const EquipoDetalle =({data, isLoading, equipo_id})=>{
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [light] = useContext(Context);
     const [showImage, setShowImage] = useState(false);
     const [value, setValue] = useState(0);
     const theme = useTheme();
     const [modalJugador, setModalJugador] = useState(false);
+    const [modalDT, setModalDT] = useState(false);
+    const [ equipo, setEquipo ] = useState([])
+
+    const {  isError } = useQuery(["/api/liga"], equiposGet, {
+        refetchOnWindowFocus: false,
+        onSuccess: (data) => {
+            setEquipo(data);
+        },
+    })
+
+    const ordenequipos = filterEstado(equipo, 'registrado').sort((a, b) => {
+        if (a.puntos > b.puntos) {
+            return -1;
+        } else if (a.puntos < b.puntos) {
+            return 1;
+        }
+        else if (a.diferencia_de_Goles > b.diferencia_de_Goles) {
+            return -1;
+        }
+        else if (a.diferencia_de_Goles < b.diferencia_de_Goles) {
+            return 1;
+        }
+        else if (a.tarjetasAmarillas < b.tarjetasAmarillas) {
+            return -1;
+        }
+        else if (a.tarjetasAmarillas > b.tarjetasAmarillas) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+
+    const equipoIndex = ordenequipos.findIndex((equipo) => equipo._id === equipo_id);
 
     const handleChange = (newValue) => {
         setValue(newValue);
@@ -57,17 +96,6 @@ export const EquipoDetalle =({data, isLoading})=>{
             return () => clearTimeout(timeoutId);
         }
     }, [isLoading]);
-
-    const orden = data.jugadores.sort((a, b) => {
-        if (a.goles > b.goles) {
-            return -1;
-        } else if (a.goles < b.goles) {
-            return 1;
-        }
-        else {
-            return 0;
-        }
-    });
 
     return (
         <>
@@ -94,7 +122,13 @@ export const EquipoDetalle =({data, isLoading})=>{
                         </Grid>
                     </Grid>
                     <Grid sx={{display:'flex', flexDirection:'column',color: light ?'var(--dark2)':'var(--neutral)'}}>
-                        <Grid sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:'8px'}}><Position color={light ? 'var(--dark2)': 'var(--cero)'}/>Posicion: #1</Grid>
+                        <Grid sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:'8px'}}><Position color={light ? 'var(--dark2)': 'var(--cero)'}/>
+                            Posicion: # {equipoIndex +1}
+                            {data.partidosJugados >= 1 &&
+                            <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ whiteSpace: 'nowrap', width: '30px' }}>
+                                <ArrowP currentPos={equipoIndex} prevPos={data.puntaje_anterior} />
+                            </Grid>}
+                        </Grid>
                         <Grid sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:'8px'}}><Instagram size={!mobile ?17: 10} color={light ? 'var(--dark2)': 'var(--cero)'}/> Intagram: {!data?.instagram ? 'No definido' : data?.instagram}</Grid>
                         <Grid sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:'8px'}}><Email color={light ? 'var(--dark2)': 'var(--cero)'}/> {!data?.correo ? 'No definido' : data?.correo}</Grid>
                     </Grid>
@@ -128,26 +162,37 @@ export const EquipoDetalle =({data, isLoading})=>{
         </Grid>
         <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
             <TabPanel value={value} index={0} dir={theme.direction}>
-                <Grid onClick={()=>{setModalJugador(!modalJugador)}}>Plantilla</Grid>
-                <TablaPlantilla jugadores={data.jugadores} equipo={data} isLoading={isLoading}/>
+                <Grid item mt={1} mb={1} sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:'10px'}}>
+                    <Button onClick={()=>{setModalJugador(!modalJugador)}} sx={{display:'flex', alignItems:'center',justifyContent:'center' ,gap:'8px',color:light ? 'var(--dark2)': 'var(--neutral)', border:'solid 1px var(--neutral)'}}>
+                        {'Crear Jugador'} <CreatePlayer size={20} color={'var(--check)'}/>
+                    </Button>
+                    <Button onClick={()=>{setModalDT(!modalDT)}} sx={{display:'flex', alignItems:'center',justifyContent:'center' ,gap:'8px',color:light ? 'var(--dark2)': 'var(--neutral)', border:'solid 1px var(--neutral)'}}>
+                        {'Crear DT'} <CreatePlayer size={20} color={'var(--check)'}/>
+                    </Button>
+                    <Button onClick={()=>{}} sx={{display:'flex', alignItems:'center',justifyContent:'center' ,gap:'8px',color:light ? 'var(--dark2)': 'var(--neutral)', border:'solid 1px var(--neutral)'}}>
+                        {'Crear Delegado'} <CreatePlayer size={20} color={'var(--check)'}/>
+                    </Button>
+                </Grid>
+                <TablaPlantilla jugadores={data.jugadores} equipo={data} isLoading={isLoading} director_tecnico={data.director_tecnico}/>
             </TabPanel>
             <TabPanel value={value} index={1} dir={theme.direction}>
-                <TablaEstadisticas jugadores={orden} label={'Goles'} isLoading={isLoading}/>
+                <TablaEstadisticas jugadores={data.jugadores} label={'Goles'} isLoading={isLoading} goles={true} amarillas={false} asistencias={false} rojas={false}/>
             </TabPanel>
             <TabPanel value={value} index={2} dir={theme.direction}>
-                <TablaEstadisticas jugadores={data.jugadores} label={'Asistencias'} isLoading={isLoading}/>
+                <TablaEstadisticas jugadores={data.jugadores} label={'Asistencias'} isLoading={isLoading} asistencias={true} amarillas={false} goles={false} rojas={false}/>
             </TabPanel>
             <TabPanel value={value} index={3} dir={theme.direction}>
-                <TablaEstadisticas jugadores={data.jugadores} label={'Tarjetas amarillas'} isLoading={isLoading}/>
+                <TablaEstadisticas jugadores={data.jugadores} label={'Tarjetas amarillas'} isLoading={isLoading} amarillas={true} asistencias={false} goles={false} rojas={false}/>
             </TabPanel>
             <TabPanel value={value} index={4} dir={theme.direction}>
-                <TablaEstadisticas jugadores={data.jugadores} label={'Tarjetas rojas'} isLoading={isLoading}/>
+                <TablaEstadisticas jugadores={data.jugadores} label={'Tarjetas rojas'} isLoading={isLoading} rojas={true} amarillas={false} asistencias={false} goles={false}/>
             </TabPanel>
             <TabPanel value={value} index={5} dir={theme.direction}>
                 Fichajes
             </TabPanel>
         </SwipeableViews>
         {modalJugador && <ModalJugador open={modalJugador} setOpen={setModalJugador} id={data?._id}/>}
+        {modalDT && <ModalDT open={modalDT} setOpen={setModalDT} id={data?._id}/>}
         </>
     )
 }

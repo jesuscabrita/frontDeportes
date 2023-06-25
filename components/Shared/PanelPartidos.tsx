@@ -31,7 +31,6 @@ export const PanelPartidos =()=>{
         setCurrentRound(currentRound - 1);
     }
 
-
     return(
     <>
     <Grid item sx={{ fontSize: '16px', color: light ? 'black' : 'var(--cero)' }}>Jornada {currentRound + 1}</Grid>

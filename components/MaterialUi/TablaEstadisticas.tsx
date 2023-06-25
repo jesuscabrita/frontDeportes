@@ -1,4 +1,4 @@
-import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
+import { Avatar, CircularProgress, Grid, useMediaQuery } from "@mui/material";
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -11,7 +11,7 @@ import { useContext } from "react";
 import Context from "../../context/contextPrincipal";
 import { TbMoodEmpty as Vacio } from 'react-icons/tb';
 
-export const TablaEstadisticas =({jugadores, label, isLoading})=>{
+export const TablaEstadisticas =({jugadores, label, isLoading, goles, asistencias, amarillas, rojas})=>{
     const [light] = useContext(Context);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
 
@@ -37,6 +37,54 @@ export const TablaEstadisticas =({jugadores, label, isLoading})=>{
             },
         }),
     )(TableRow);
+
+    function stringToColor(string: string) {
+        let hash = 0;
+        let i;
+        /* eslint-disable no-bitwise */
+        for (i = 0; i < string.length; i += 1) {
+            hash = string.charCodeAt(i) + ((hash << 5) - hash);
+        }
+
+        let color = '#';
+        for (i = 0; i < 3; i += 1) {
+            const value = (hash >> (i * 8)) & 0xff;
+            color += `00${value.toString(16)}`.slice(-2);
+        }
+        /* eslint-enable no-bitwise */
+        return color;
+    }
+
+    function stringAvatar(name: string) {
+        const nameParts = name.split(' ');
+
+        let children = '';
+        if (nameParts.length >= 2) {
+            children = `${nameParts[0][0]}${nameParts[1][0]}`;
+        } else if (nameParts.length === 1) {
+            children = nameParts[0][0];
+        }
+
+        return {
+            sx: {
+                bgcolor: stringToColor(name),
+            },
+            children: children,
+        };
+    }
+
+    let jugadoresOrdenados;
+    if (goles) {
+        jugadoresOrdenados = jugadores.sort((a, b) => b.goles - a.goles);
+    } else if (asistencias) {
+        jugadoresOrdenados = jugadores.sort((a, b) => b.asistencias - a.asistencias);
+    } else if (amarillas) {
+        jugadoresOrdenados = jugadores.sort((a, b) => b.tarjetas_amarillas - a.tarjetas_amarillas);
+    } else if (rojas) {
+        jugadoresOrdenados = jugadores.sort((a, b) => b.tarjetas_roja - a.tarjetas_roja);
+    } else {
+        jugadoresOrdenados = jugadores;
+    }
 
     return(
         <>
@@ -76,7 +124,7 @@ export const TablaEstadisticas =({jugadores, label, isLoading})=>{
                     </TableRow>
                 </TableHead>
                 <TableBody style={{background:light ? 'var(--cero)':'var(--dark3)'}}>
-                {jugadores.map((jugador, index)=>{
+                {jugadoresOrdenados.map((jugador, index)=>{
                     return(
                         <StyledTableRow key={jugador.id}>
                             <StyledTableCell  component="th" scope="row">
@@ -94,12 +142,26 @@ export const TablaEstadisticas =({jugadores, label, isLoading})=>{
                             </StyledTableCell>
                             <StyledTableCell align="right" style={{whiteSpace: 'nowrap'}}>
                                 <Grid sx={{display:'flex', alignItems:'center', whiteSpace: 'nowrap', gap:'18px'}} >
-                                    <img src={jugador.foto} alt={'.'} style={{ height: '35px'}} />
+                                    {jugador?.foto ? (
+                                            <img style={{ height: '30px' }} src={jugador.foto} alt={'.'} />
+                                        ) : (
+                                            <Avatar {...stringAvatar(jugador.name)} sx={{ height: '35px', width: '35px' }} />
+                                        )}
                                     <Grid sx={{whiteSpace: 'nowrap', paddingRight: mobile &&'30px', fontSize:index === 0 && '18px', fontWeight: index === 0 && 700}}>{jugador.name}</Grid>
                                 </Grid>
                             </StyledTableCell>
                             <StyledTableCell align="left" style={{fontWeight: index === 0 ? 700: 500,fontSize: index === 0 ?'18px': '15px'}}>
+                            {goles ? (
                                 <Grid item>{jugador.goles}</Grid>
+                                ) : asistencias ? (
+                                <Grid item>{jugador.asistencias}</Grid>
+                                ) : amarillas ? (
+                                <Grid item>{jugador.tarjetas_amarillas}</Grid>
+                                ) : rojas ? (
+                                <Grid item>{jugador.tarjetas_roja}</Grid>
+                                ) : (
+                                null
+                                )}
                             </StyledTableCell>
                         </StyledTableRow>
                     )
