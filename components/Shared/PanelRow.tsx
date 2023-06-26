@@ -243,6 +243,23 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                             </Tooltip>
                         </Grid>
                         <Grid mb={2} item sx={{ background: 'var(--primario)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--cero)', padding: '2px' }}>{homeTeam?.name}</Grid>
+                        {filterPartido(homeTeam?.director_tecnico,'Si',currentRound).map((dt)=>{
+                            return(
+                                <>
+                                <Grid mt={1} item gap={2} sx={{ color: light ? 'var(--dark2)' : 'var(--gris)', display:'flex', flexDirection:!mobile ?'row':'column', alignItems:'center', background: dt.suspendido === 'Si' ? 'var(--danger2)' : dt.azul_partido[currentRound] === 1 ? 'var(--primario2)' : dt.amarilla_partido[currentRound] === 1 ? 'var(--warnning2)' : '', borderRadius:'8px' }}>
+                                    <Grid item sx={{display:'flex', gap:'8px'}}>
+                                        <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', fontWeight: 600 }}>..DT</Grid>
+                                        <Grid item width={!mobile?'250px':'150px'} sx={{ cursor: 'pointer', display: 'flex', alignItems:'center', gap:'6px', justifyContent:mobile && 'center' }}>{dt.name}</Grid>
+                                    </Grid>
+                                    <Grid item container flexDirection={'column'} alignItems={'center'}>
+                                        <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} sx={{borderBottom:light ? '1px solid var(--dark3)' :'1px solid var(--cero)',justifyContent:mobile && 'center'}}>
+                                            
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                                </>
+                            )
+                        })}
                         {filterPartido(homeTeam?.jugadores,'Si',currentRound).map((jugador, index) => {
                             return (
                                 <>
