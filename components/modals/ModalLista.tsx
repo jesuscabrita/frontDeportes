@@ -28,7 +28,7 @@ export const ModalLista =({open, setOpen, data, currentRound })=>{
         if (!isLoading) {
             const timeoutId = setTimeout(() => {
                 setShowImage(true);
-            }, 2000);
+            },1000);
             return () => clearTimeout(timeoutId);
         }
     }, [isLoading]);

@@ -249,14 +249,64 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                 <Grid mt={1} item gap={2} sx={{ color: light ? 'var(--dark2)' : 'var(--gris)', display:'flex', flexDirection:!mobile ?'row':'column', alignItems:'center', background: dt.suspendido === 'Si' ? 'var(--danger2)' : dt.azul_partido[currentRound] === 1 ? 'var(--primario2)' : dt.amarilla_partido[currentRound] === 1 ? 'var(--warnning2)' : '', borderRadius:'8px' }}>
                                     <Grid item sx={{display:'flex', gap:'8px'}}>
                                         <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', fontWeight: 600 }}>..DT</Grid>
-                                        <Grid item width={!mobile?'250px':'150px'} sx={{ cursor: 'pointer', display: 'flex', alignItems:'center', gap:'6px', justifyContent:mobile && 'center' }}>{dt.name}</Grid>
+                                        <Grid item width={!mobile?'250px':'150px'} sx={{ cursor: 'pointer', display: 'flex', alignItems:'center', gap:'6px', justifyContent:mobile && 'center' }}>{dt.name} {dt.figura_partido[currentRound] === 1 && <Figura style={{color:'var(--warnning)'}}/>}</Grid>
                                     </Grid>
                                     <Grid item container flexDirection={'column'} alignItems={'center'}>
                                         <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} sx={{borderBottom:light ? '1px solid var(--dark3)' :'1px solid var(--cero)',justifyContent:mobile && 'center'}}>
-                                            
+                                            <Tooltip title="Tarjeta amarilla" placement="top">
+                                                <Grid item sx={{ cursor: 'pointer' }}
+                                                    onClick={()=>{}}>
+                                                    <Tarjeta color={'var(--warnning)'} />
+                                                </Grid>
+                                            </Tooltip>
+                                            <Tooltip title="Tarjeta roja" placement="top">
+                                                <Grid item sx={{ cursor: 'pointer' }}
+                                                    onClick={()=>{ }}>
+                                                    <Tarjeta color={'var(--danger)'} />
+                                                </Grid>
+                                            </Tooltip>
+                                            <Tooltip title="Tarjeta azul" placement="top">
+                                                <Grid item sx={{ cursor: 'pointer' }}
+                                                    onClick={()=>{ }}>
+                                                    <Tarjeta color={'var(--primario)'} />
+                                                </Grid>
+                                            </Tooltip>
+                                            <Tooltip title="Director tecnico figura" placement="top">
+                                                <Grid item sx={{ cursor: 'pointer','&:hover':{color:light?'var(--neutral)':'var(--dark3)'} }}
+                                                    onClick={()=>{ }}>
+                                                    <Figura/>
+                                                </Grid>
+                                            </Tooltip>
+                                        </Grid>
+                                        <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} sx={{justifyContent:mobile && 'center'}} >
+                                            <Tooltip title="Anular tarjeta amarilla" placement="top">
+                                                <Grid item sx={{ cursor: 'pointer' }}
+                                                    onClick={()=>{ }}>
+                                                    <Tarjeta color={'var(--warnning)'} />
+                                                </Grid>
+                                            </Tooltip>
+                                            <Tooltip title="Anular tarjeta roja" placement="top">
+                                                <Grid item sx={{ cursor: 'pointer' }}
+                                                    onClick={()=>{ }}>
+                                                    <Tarjeta color={'var(--danger)'} />
+                                                </Grid>
+                                            </Tooltip>
+                                            <Tooltip title="Anular tarjeta azul" placement="top">
+                                                <Grid item sx={{ cursor: 'pointer' }}
+                                                    onClick={()=>{ }}>
+                                                    <Tarjeta color={'var(--primario)'} />
+                                                </Grid>
+                                            </Tooltip>
+                                            <Tooltip title="Anular director tecnico figura" placement="top">
+                                                <Grid item sx={{ cursor: 'pointer',color:'var(--danger)','&:hover':{color:light?'var(--neutral)':'var(--dark3)'} }}
+                                                    onClick={()=>{ }}>
+                                                    <Figura/>
+                                                </Grid>
+                                            </Tooltip>
                                         </Grid>
                                     </Grid>
                                 </Grid>
+                                <Grid item sx={{borderTop:light ? '1px solid var(--dark3)' :'1px solid var(--cero)'}}></Grid>
                                 </>
                             )
                         })}
@@ -561,6 +611,73 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                             </Button>
                             </Tooltip>
                         <Grid mb={2} item sx={{ background: 'var(--check)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--cero)', padding: '2px' }}>{awayTeam?.name}</Grid>
+                        {filterPartido(awayTeam?.director_tecnico,'Si',currentRound).map((dt)=>{
+                            return(
+                                <>
+                                <Grid mt={1} item gap={2} sx={{ color: light ? 'var(--dark2)' : 'var(--gris)', display:'flex', flexDirection:!mobile ?'row':'column', alignItems:'center', background: dt.suspendido === 'Si' ? 'var(--danger2)' : dt.azul_partido[currentRound] === 1 ? 'var(--primario2)' : dt.amarilla_partido[currentRound] === 1 ? 'var(--warnning2)' : '', borderRadius:'8px' }}>
+                                    <Grid item sx={{display:'flex', gap:'8px'}}>
+                                        <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', fontWeight: 600 }}>..DT</Grid>
+                                        <Grid item width={!mobile?'250px':'150px'} sx={{ cursor: 'pointer', display: 'flex', alignItems:'center', gap:'6px', justifyContent:mobile && 'center' }}>{dt.name} {dt.figura_partido[currentRound] === 1 && <Figura style={{color:'var(--warnning)'}}/>}</Grid>
+                                    </Grid>
+                                    <Grid item container flexDirection={'column'} alignItems={'center'}>
+                                        <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} sx={{borderBottom:light ? '1px solid var(--dark3)' :'1px solid var(--cero)',justifyContent:mobile && 'center'}}>
+                                            <Tooltip title="Tarjeta amarilla" placement="top">
+                                                <Grid item sx={{ cursor: 'pointer' }}
+                                                    onClick={()=>{}}>
+                                                    <Tarjeta color={'var(--warnning)'} />
+                                                </Grid>
+                                            </Tooltip>
+                                            <Tooltip title="Tarjeta roja" placement="top">
+                                                <Grid item sx={{ cursor: 'pointer' }}
+                                                    onClick={()=>{ }}>
+                                                    <Tarjeta color={'var(--danger)'} />
+                                                </Grid>
+                                            </Tooltip>
+                                            <Tooltip title="Tarjeta azul" placement="top">
+                                                <Grid item sx={{ cursor: 'pointer' }}
+                                                    onClick={()=>{ }}>
+                                                    <Tarjeta color={'var(--primario)'} />
+                                                </Grid>
+                                            </Tooltip>
+                                            <Tooltip title="Director tecnico figura" placement="top">
+                                                <Grid item sx={{ cursor: 'pointer','&:hover':{color:light?'var(--neutral)':'var(--dark3)'} }}
+                                                    onClick={()=>{ }}>
+                                                    <Figura/>
+                                                </Grid>
+                                            </Tooltip>
+                                        </Grid>
+                                        <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} sx={{justifyContent:mobile && 'center'}} >
+                                            <Tooltip title="Anular tarjeta amarilla" placement="top">
+                                                <Grid item sx={{ cursor: 'pointer' }}
+                                                    onClick={()=>{ }}>
+                                                    <Tarjeta color={'var(--warnning)'} />
+                                                </Grid>
+                                            </Tooltip>
+                                            <Tooltip title="Anular tarjeta roja" placement="top">
+                                                <Grid item sx={{ cursor: 'pointer' }}
+                                                    onClick={()=>{ }}>
+                                                    <Tarjeta color={'var(--danger)'} />
+                                                </Grid>
+                                            </Tooltip>
+                                            <Tooltip title="Anular tarjeta azul" placement="top">
+                                                <Grid item sx={{ cursor: 'pointer' }}
+                                                    onClick={()=>{ }}>
+                                                    <Tarjeta color={'var(--primario)'} />
+                                                </Grid>
+                                            </Tooltip>
+                                            <Tooltip title="Anular director tecnico figura" placement="top">
+                                                <Grid item sx={{ cursor: 'pointer',color:'var(--danger)','&:hover':{color:light?'var(--neutral)':'var(--dark3)'} }}
+                                                    onClick={()=>{ }}>
+                                                    <Figura/>
+                                                </Grid>
+                                            </Tooltip>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                                <Grid item sx={{borderTop:light ? '1px solid var(--dark3)' :'1px solid var(--cero)'}}></Grid>
+                                </>
+                            )
+                        })}
                         {filterPartido(awayTeam?.jugadores,'Si',currentRound).map((jugador, index) => {
                             return (
                                 <>
