@@ -19,6 +19,8 @@ import { anularAmarilla, anularAsistencia, anularAutoGol, anularAzul, anularFigu
 import Tooltip from '@mui/material/Tooltip';
 import { FaListAlt as Lista } from 'react-icons/fa';
 import { ModalLista } from '../modals/ModalLista';
+import { DTPut_amarillas, DTPut_azul, DTPut_figura, DTPut_rojas } from '../../service/dt';
+import { anularAmarillaDT, anularAzulDT, anularFiguraDT, anularRojaDT, editarAmarillaDT, editarAzulDT, editarFiguraDT, editarRojaDT } from '../../utils/utilsDT';
 
 export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -50,6 +52,10 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
     const [isLoadinng, setIsLoadinng] = useState(false);
     const [modalLista, setModalLista] = useState(false);
     const [modalListaAway, setModalListaAway] = useState(false);
+    const { mutate: editarAmarillaDTs } = useMutation(DTPut_amarillas);
+    const { mutate: editarRojasDTs } = useMutation(DTPut_rojas);
+    const { mutate: editarAzulDTs } = useMutation(DTPut_azul);
+    const { mutate: editarFiguraDTs } = useMutation(DTPut_figura);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -255,25 +261,80 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                         <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} sx={{borderBottom:light ? '1px solid var(--dark3)' :'1px solid var(--cero)',justifyContent:mobile && 'center'}}>
                                             <Tooltip title="Tarjeta amarilla" placement="top">
                                                 <Grid item sx={{ cursor: 'pointer' }}
-                                                    onClick={()=>{}}>
+                                                    onClick={()=>{editarAmarillaDT(
+                                                        homeTeam._id, 
+                                                        dt._id, 
+                                                        1,
+                                                        currentRound,
+                                                        dt.amarilla_partido[currentRound],
+                                                        dt.name, 
+                                                        dt.tarjetas_amarillas,
+                                                        homeTeam.tarjetasAmarillas,
+                                                        homeTeam.director_tecnico[index].amarilla_partido,
+                                                        homeTeam.director_tecnico[index].roja_partido,
+                                                        dt.roja_partido[currentRound],
+                                                        homeTeam.tarjetasRojas,
+                                                        dt.tarjetas_rojas,
+                                                        dt.suspendido,
+                                                        dt.suspendido_numero,
+                                                        setIsLoadinng,
+                                                        editarAmarillaDTs,
+                                                        queryClient,
+                                                        dt.tarjetas_acumuladas
+                                                    )}}>
                                                     <Tarjeta color={'var(--warnning)'} />
                                                 </Grid>
                                             </Tooltip>
                                             <Tooltip title="Tarjeta roja" placement="top">
                                                 <Grid item sx={{ cursor: 'pointer' }}
-                                                    onClick={()=>{ }}>
+                                                    onClick={()=>{editarRojaDT(
+                                                        homeTeam._id, 
+                                                        dt._id, 
+                                                        currentRound,
+                                                        dt.roja_partido[currentRound],
+                                                        dt.name, 
+                                                        dt.tarjetas_rojas,
+                                                        homeTeam.tarjetasRojas,
+                                                        homeTeam.director_tecnico[index].roja_partido,
+                                                        dt.suspendido_numero,
+                                                        setIsLoadinng,
+                                                        editarRojasDTs,
+                                                        queryClient
+                                                    )}}>
                                                     <Tarjeta color={'var(--danger)'} />
                                                 </Grid>
                                             </Tooltip>
                                             <Tooltip title="Tarjeta azul" placement="top">
                                                 <Grid item sx={{ cursor: 'pointer' }}
-                                                    onClick={()=>{ }}>
+                                                    onClick={()=>{editarAzulDT(
+                                                        homeTeam._id, 
+                                                        dt._id, 
+                                                        currentRound,
+                                                        dt.azul_partido[currentRound],
+                                                        dt.name, 
+                                                        dt.tarjetas_azul,
+                                                        homeTeam.director_tecnico[index].azul_partido,
+                                                        setIsLoadinng,
+                                                        editarAzulDTs,
+                                                        queryClient
+                                                    ) }}>
                                                     <Tarjeta color={'var(--primario)'} />
                                                 </Grid>
                                             </Tooltip>
                                             <Tooltip title="Director tecnico figura" placement="top">
                                                 <Grid item sx={{ cursor: 'pointer','&:hover':{color:light?'var(--neutral)':'var(--dark3)'} }}
-                                                    onClick={()=>{ }}>
+                                                    onClick={()=>{editarFiguraDT(
+                                                        homeTeam._id, 
+                                                        dt._id, 
+                                                        currentRound,
+                                                        dt.figura_partido[currentRound],
+                                                        dt.name, 
+                                                        dt.figura,
+                                                        homeTeam.director_tecnico[index].figura_partido,
+                                                        setIsLoadinng,
+                                                        editarFiguraDTs,
+                                                        queryClient
+                                                    ) }}>
                                                     <Figura/>
                                                 </Grid>
                                             </Tooltip>
@@ -281,25 +342,80 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                         <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} sx={{justifyContent:mobile && 'center'}} >
                                             <Tooltip title="Anular tarjeta amarilla" placement="top">
                                                 <Grid item sx={{ cursor: 'pointer' }}
-                                                    onClick={()=>{ }}>
+                                                    onClick={()=>{anularAmarillaDT(
+                                                        homeTeam._id, 
+                                                        dt._id, 
+                                                        1,
+                                                        currentRound,
+                                                        dt.amarilla_partido[currentRound],
+                                                        dt.name, 
+                                                        dt.tarjetas_amarillas,
+                                                        homeTeam.tarjetasAmarillas,
+                                                        homeTeam.director_tecnico[index].amarilla_partido,
+                                                        homeTeam.director_tecnico[index].roja_partido,
+                                                        dt.roja_partido[currentRound],
+                                                        homeTeam.tarjetasRojas,
+                                                        dt.tarjetas_rojas,
+                                                        dt.suspendido,
+                                                        dt.suspendido_numero,
+                                                        setIsLoadinng,
+                                                        editarAmarillaDTs,
+                                                        queryClient,
+                                                        dt.tarjetas_acumuladas
+                                                    ) }}>
                                                     <Tarjeta color={'var(--warnning)'} />
                                                 </Grid>
                                             </Tooltip>
                                             <Tooltip title="Anular tarjeta roja" placement="top">
                                                 <Grid item sx={{ cursor: 'pointer' }}
-                                                    onClick={()=>{ }}>
+                                                    onClick={()=>{anularRojaDT(
+                                                        homeTeam._id, 
+                                                        dt._id, 
+                                                        currentRound,
+                                                        dt.roja_partido[currentRound],
+                                                        dt.name, 
+                                                        dt.tarjetas_rojas,
+                                                        homeTeam.tarjetasRojas,
+                                                        homeTeam.director_tecnico[index].roja_partido,
+                                                        dt.suspendido_numero,
+                                                        setIsLoadinng,
+                                                        editarRojasDTs,
+                                                        queryClient
+                                                    ) }}>
                                                     <Tarjeta color={'var(--danger)'} />
                                                 </Grid>
                                             </Tooltip>
                                             <Tooltip title="Anular tarjeta azul" placement="top">
                                                 <Grid item sx={{ cursor: 'pointer' }}
-                                                    onClick={()=>{ }}>
+                                                    onClick={()=>{anularAzulDT(
+                                                        homeTeam._id, 
+                                                        dt._id, 
+                                                        currentRound,
+                                                        dt.azul_partido[currentRound],
+                                                        dt.name, 
+                                                        dt.tarjetas_azul,
+                                                        homeTeam.director_tecnico[index].azul_partido,
+                                                        setIsLoadinng,
+                                                        editarAzulDTs,
+                                                        queryClient
+                                                    ) }}>
                                                     <Tarjeta color={'var(--primario)'} />
                                                 </Grid>
                                             </Tooltip>
                                             <Tooltip title="Anular director tecnico figura" placement="top">
                                                 <Grid item sx={{ cursor: 'pointer',color:'var(--danger)','&:hover':{color:light?'var(--neutral)':'var(--dark3)'} }}
-                                                    onClick={()=>{ }}>
+                                                    onClick={()=>{anularFiguraDT(
+                                                        homeTeam._id, 
+                                                        dt._id, 
+                                                        currentRound,
+                                                        dt.figura_partido[currentRound],
+                                                        dt.name, 
+                                                        dt.figura,
+                                                        homeTeam.director_tecnico[index].figura_partido,
+                                                        setIsLoadinng,
+                                                        editarFiguraDTs,
+                                                        queryClient
+                                                    ) }}>
                                                     <Figura/>
                                                 </Grid>
                                             </Tooltip>
@@ -623,25 +739,80 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                         <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} sx={{borderBottom:light ? '1px solid var(--dark3)' :'1px solid var(--cero)',justifyContent:mobile && 'center'}}>
                                             <Tooltip title="Tarjeta amarilla" placement="top">
                                                 <Grid item sx={{ cursor: 'pointer' }}
-                                                    onClick={()=>{}}>
+                                                    onClick={()=>{editarAmarillaDT(
+                                                        awayTeam._id, 
+                                                        dt._id, 
+                                                        1,
+                                                        currentRound,
+                                                        dt.amarilla_partido[currentRound],
+                                                        dt.name, 
+                                                        dt.tarjetas_amarillas,
+                                                        awayTeam.tarjetasAmarillas,
+                                                        awayTeam.director_tecnico[index].amarilla_partido,
+                                                        awayTeam.director_tecnico[index].roja_partido,
+                                                        dt.roja_partido[currentRound],
+                                                        awayTeam.tarjetasRojas,
+                                                        dt.tarjetas_rojas,
+                                                        dt.suspendido,
+                                                        dt.suspendido_numero,
+                                                        setIsLoadinng,
+                                                        editarAmarillaDTs,
+                                                        queryClient,
+                                                        dt.tarjetas_acumuladas
+                                                    )}}>
                                                     <Tarjeta color={'var(--warnning)'} />
                                                 </Grid>
                                             </Tooltip>
                                             <Tooltip title="Tarjeta roja" placement="top">
                                                 <Grid item sx={{ cursor: 'pointer' }}
-                                                    onClick={()=>{ }}>
+                                                    onClick={()=>{editarRojaDT(
+                                                        awayTeam._id, 
+                                                        dt._id, 
+                                                        currentRound,
+                                                        dt.roja_partido[currentRound],
+                                                        dt.name, 
+                                                        dt.tarjetas_rojas,
+                                                        awayTeam.tarjetasRojas,
+                                                        awayTeam.director_tecnico[index].roja_partido,
+                                                        dt.suspendido_numero,
+                                                        setIsLoadinng,
+                                                        editarRojasDTs,
+                                                        queryClient
+                                                    ) }}>
                                                     <Tarjeta color={'var(--danger)'} />
                                                 </Grid>
                                             </Tooltip>
                                             <Tooltip title="Tarjeta azul" placement="top">
                                                 <Grid item sx={{ cursor: 'pointer' }}
-                                                    onClick={()=>{ }}>
+                                                    onClick={()=>{editarAzulDT(
+                                                        awayTeam._id, 
+                                                        dt._id, 
+                                                        currentRound,
+                                                        dt.azul_partido[currentRound],
+                                                        dt.name, 
+                                                        dt.tarjetas_azul,
+                                                        awayTeam.director_tecnico[index].azul_partido,
+                                                        setIsLoadinng,
+                                                        editarAzulDTs,
+                                                        queryClient
+                                                    ) }}>
                                                     <Tarjeta color={'var(--primario)'} />
                                                 </Grid>
                                             </Tooltip>
                                             <Tooltip title="Director tecnico figura" placement="top">
                                                 <Grid item sx={{ cursor: 'pointer','&:hover':{color:light?'var(--neutral)':'var(--dark3)'} }}
-                                                    onClick={()=>{ }}>
+                                                    onClick={()=>{editarFiguraDT(
+                                                        awayTeam._id, 
+                                                        dt._id, 
+                                                        currentRound,
+                                                        dt.figura_partido[currentRound],
+                                                        dt.name, 
+                                                        dt.figura,
+                                                        awayTeam.director_tecnico[index].figura_partido,
+                                                        setIsLoadinng,
+                                                        editarFiguraDTs,
+                                                        queryClient
+                                                    ) }}>
                                                     <Figura/>
                                                 </Grid>
                                             </Tooltip>
@@ -649,25 +820,80 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                         <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} sx={{justifyContent:mobile && 'center'}} >
                                             <Tooltip title="Anular tarjeta amarilla" placement="top">
                                                 <Grid item sx={{ cursor: 'pointer' }}
-                                                    onClick={()=>{ }}>
+                                                    onClick={()=>{anularAmarillaDT(
+                                                        awayTeam._id, 
+                                                        dt._id, 
+                                                        1,
+                                                        currentRound,
+                                                        dt.amarilla_partido[currentRound],
+                                                        dt.name, 
+                                                        dt.tarjetas_amarillas,
+                                                        awayTeam.tarjetasAmarillas,
+                                                        awayTeam.director_tecnico[index].amarilla_partido,
+                                                        awayTeam.director_tecnico[index].roja_partido,
+                                                        dt.roja_partido[currentRound],
+                                                        awayTeam.tarjetasRojas,
+                                                        dt.tarjetas_rojas,
+                                                        dt.suspendido,
+                                                        dt.suspendido_numero,
+                                                        setIsLoadinng,
+                                                        editarAmarillaDTs,
+                                                        queryClient,
+                                                        dt.tarjetas_acumuladas
+                                                    ) }}>
                                                     <Tarjeta color={'var(--warnning)'} />
                                                 </Grid>
                                             </Tooltip>
                                             <Tooltip title="Anular tarjeta roja" placement="top">
                                                 <Grid item sx={{ cursor: 'pointer' }}
-                                                    onClick={()=>{ }}>
+                                                    onClick={()=>{anularRojaDT(
+                                                        awayTeam._id, 
+                                                        dt._id, 
+                                                        currentRound,
+                                                        dt.roja_partido[currentRound],
+                                                        dt.name, 
+                                                        dt.tarjetas_rojas,
+                                                        awayTeam.tarjetasRojas,
+                                                        awayTeam.director_tecnico[index].roja_partido,
+                                                        dt.suspendido_numero,
+                                                        setIsLoadinng,
+                                                        editarRojasDTs,
+                                                        queryClient
+                                                    ) }}>
                                                     <Tarjeta color={'var(--danger)'} />
                                                 </Grid>
                                             </Tooltip>
                                             <Tooltip title="Anular tarjeta azul" placement="top">
                                                 <Grid item sx={{ cursor: 'pointer' }}
-                                                    onClick={()=>{ }}>
+                                                    onClick={()=>{anularAzulDT(
+                                                        awayTeam._id, 
+                                                        dt._id, 
+                                                        currentRound,
+                                                        dt.azul_partido[currentRound],
+                                                        dt.name, 
+                                                        dt.tarjetas_azul,
+                                                        awayTeam.director_tecnico[index].azul_partido,
+                                                        setIsLoadinng,
+                                                        editarAzulDTs,
+                                                        queryClient
+                                                    ) }}>
                                                     <Tarjeta color={'var(--primario)'} />
                                                 </Grid>
                                             </Tooltip>
                                             <Tooltip title="Anular director tecnico figura" placement="top">
                                                 <Grid item sx={{ cursor: 'pointer',color:'var(--danger)','&:hover':{color:light?'var(--neutral)':'var(--dark3)'} }}
-                                                    onClick={()=>{ }}>
+                                                    onClick={()=>{anularFiguraDT(
+                                                        awayTeam._id, 
+                                                        dt._id, 
+                                                        currentRound,
+                                                        dt.figura_partido[currentRound],
+                                                        dt.name, 
+                                                        dt.figura,
+                                                        awayTeam.director_tecnico[index].figura_partido,
+                                                        setIsLoadinng,
+                                                        editarFiguraDTs,
+                                                        queryClient
+                                                    ) }}>
                                                     <Figura/>
                                                 </Grid>
                                             </Tooltip>

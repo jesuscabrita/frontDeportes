@@ -39,3 +39,43 @@ export const DTPut_partidos = async ({ form, equipoId, dtId }) => {
         throw new Error(message);
     }
 }
+
+export const DTPut_amarillas = async ({ form, equipoId, dtId }) => {
+    try {
+        const data = await api.put(`/api/liga/${equipoId}/amarillasDT/${dtId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
+
+export const DTPut_rojas = async ({ form, equipoId, dtId }) => {
+    try {
+        const data = await api.put(`/api/liga/${equipoId}/rojasDT/${dtId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
+
+export const DTPut_azul = async ({ form, equipoId, dtId }) => {
+    try {
+        const data = await api.put(`/api/liga/${equipoId}/azulDT/${dtId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
+
+export const DTPut_figura = async ({ form, equipoId, dtId }) => {
+    try {
+        const data = await api.put(`/api/liga/${equipoId}/figurasDT/${dtId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
