@@ -129,15 +129,7 @@ export const TablaGoleadores = ({ data, isLoading, isError  }) => {
                                             <Grid sx={{ background: 'var(--check)', height: '35px', width: '10px', whiteSpace: 'nowrap' }}></Grid>}
                                     </Grid>
                                     <Grid item container alignItems={'center'} justifyContent={'center'} sx={{width:'55px',height: '35px'}}>
-                                        {isLoading || !showImage ? (
-                                            <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} size={20} />
-                                            ) : showImage ? (
-                                            jugador?.foto ? (
-                                                <img style={{ height: '30px' }} src={jugador.foto} alt={'.'} />
-                                            ) : (
-                                                <Avatar {...stringAvatar(jugador.name)} sx={{ height: '35px', width:'35px' }} />
-                                            )
-                                        ) : null}
+                                        <Avatar {...stringAvatar(jugador.name)} sx={{ height: '35px', width:'35px' }} />
                                     </Grid>
                                     <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width:'130px'}}>
                                         {jugador.name} 
@@ -147,10 +139,7 @@ export const TablaGoleadores = ({ data, isLoading, isError  }) => {
                             <StyledTableCell align="center">
                                 <Grid sx={{display:'flex', alignItems:'center', gap:'18px'}} >
                                     <Grid item container alignItems={'center'} justifyContent={'center'} sx={{width:'55px',height: '35px'}}>
-                                        {isLoading || !showImage ? 
-                                            (<CircularProgress style={{color:light ? 'var(--dark2)': 'var(--cero)'}} size={20} />) 
-                                        :    showImage ? <img src={jugador.logo} alt={jugador.name} style={{ height: '35px' }} /> 
-                                        : null}
+                                        <img src={jugador.logo} alt={jugador.name} style={{ height: '35px' }} /> 
                                     </Grid>
                                     {!mobile &&
                                     <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width:'130px'}}>

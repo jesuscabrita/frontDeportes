@@ -188,11 +188,7 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
                                             </StyledTableCell>
                                             <StyledTableCell align="right" style={{ whiteSpace: 'nowrap' }}>
                                                 <Grid sx={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', gap: '18px' }} >
-                                                    {dt?.foto ? (
-                                                        <img style={{ height: '30px' }} src={dt.foto} alt={'.'} />
-                                                    ) : (
-                                                        <Avatar src="/broken-image.jpg" sx={{ height: '35px', width: '35px' }} />
-                                                    )}
+                                                    <Avatar src="/broken-image.jpg" sx={{ height: '35px', width: '35px' }} />
                                                     <Grid sx={{ whiteSpace: 'nowrap', paddingRight: mobile && '30px' }}>{dt.name}</Grid>
                                                 </Grid>
                                             </StyledTableCell>
@@ -230,11 +226,7 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
                                             </StyledTableCell>
                                             <StyledTableCell align="right" style={{ whiteSpace: 'nowrap' }}>
                                                 <Grid sx={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', gap: '18px' }} >
-                                                    {jugador?.foto ? (
-                                                        <img style={{ height: '30px' }} src={jugador.foto} alt={'.'} />
-                                                    ) : (
-                                                        <Avatar {...stringAvatar(jugador.name)} sx={{ height: '35px', width: '35px' }} />
-                                                    )}
+                                                    <Avatar {...stringAvatar(jugador.name)} sx={{ height: '35px', width: '35px' }} />
                                                     <Grid sx={{ whiteSpace: 'nowrap', paddingRight: mobile && '30px' }}>{jugador.name}</Grid>
                                                 </Grid>
                                             </StyledTableCell>

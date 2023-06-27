@@ -84,15 +84,7 @@ export const ModalLista =({open, setOpen, data, currentRound })=>{
                         <Grid item container p={1} flexDirection={'row'} alignItems={'center'} sx={{color: light ?'var(--dark2)':'var(--cero)', background: dt.suspendido === 'Si' && 'var(--danger2)', borderRadius:'8px'}}>
                             <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', fontWeight: 600 }}>..DT</Grid>
                             <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: '55px', height: '35px' }}>
-                            {isLoading || !showImage ? (
-                                <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} size={20} />
-                                ) : showImage ? (
-                                dt?.foto ? (
-                                    <img style={{ height: '30px' }} src={dt.foto} alt={'.'} />
-                                ) : (
-                                    <Avatar src="/broken-image.jpg" sx={{ height: '35px', width:'35px' }} />
-                                )
-                                ) : null}
+                                <Avatar src="/broken-image.jpg" sx={{ height: '35px', width:'35px' }} />
                             </Grid>
                             <Grid item sx={{display:'flex'}}>
                                 <Grid item width={'350px'} gap={1} sx={{ cursor:dt.suspendido === 'Si'? 'default': 'pointer',display:'flex', alignItems:'center' }}>
@@ -151,15 +143,7 @@ export const ModalLista =({open, setOpen, data, currentRound })=>{
                             <Grid item container p={1} flexDirection={'row'} alignItems={'center'} sx={{color: light ?'var(--dark2)':'var(--cero)', background: jugador.suspendido === 'Si' && 'var(--danger2)', borderRadius:'8px'}}>
                                 <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', fontWeight: 600 }}>#{jugador.dorsal}</Grid>
                                 <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: '55px', height: '35px' }}>
-                                    {isLoading || !showImage ? (
-                                        <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} size={20} />
-                                        ) : showImage ? (
-                                        jugador?.foto ? (
-                                            <img style={{ height: '30px' }} src={jugador.foto} alt={'.'} />
-                                        ) : (
-                                            <Avatar {...stringAvatar(jugador.name)} sx={{ height: '35px', width:'35px' }} />
-                                        )
-                                        ) : null}
+                                    <Avatar {...stringAvatar(jugador.name)} sx={{ height: '35px', width:'35px' }} />
                                 </Grid>
                                 <Grid item sx={{display:'flex'}}>
                                     <Grid item width={'350px'} gap={1} sx={{ cursor:jugador.suspendido === 'Si'? 'default': 'pointer',display:'flex', alignItems:'center' }}>

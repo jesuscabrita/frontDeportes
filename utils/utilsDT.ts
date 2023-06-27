@@ -509,3 +509,54 @@ export const anularFiguraDT = (
         },
     });
 };
+
+export const editarSuspencionDT = (
+    equipoId: string,
+    dtId: string,
+    jugadorSuspendido: string,
+    jugador_name: string,
+    jornadaSuspendido: number,
+    setIsLoading,
+    editarSupendido,
+    queryClient,
+    tarjetasAcumuladas,
+) => {
+    setIsLoading(true);
+    let suspencion = jugadorSuspendido;
+    let jornada = jornadaSuspendido;
+    let acumulada = tarjetasAcumuladas;
+
+    if (acumulada === 2) {
+        suspencion = 'Si';
+        acumulada = 0;
+        jornada += 1;
+    } else {
+        if (jornada >= 1) {
+            jornada -= 1;
+            if (jornada === 0) {
+                suspencion = 'No';
+            }
+        }
+        if (suspencion === 'Si') {
+            jornada += 1;
+        }
+    }
+
+    const formData = {
+        suspendido: suspencion,
+        jornadas_suspendido: jornada,
+        tarjetas_acumuladas: acumulada,
+    };
+    editarSupendido({ form: formData, equipoId, dtId }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["/api/liga"]);
+            alertaSubmit(true, `${jugador_name} se le modifico su suspencion!`);
+            setIsLoading(false);
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+};

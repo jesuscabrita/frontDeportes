@@ -79,3 +79,13 @@ export const DTPut_figura = async ({ form, equipoId, dtId }) => {
         throw new Error(message);
     }
 }
+
+export const DTPut_suspencion = async ({ form, equipoId, dtId }) => {
+    try {
+        const data = await api.put(`/api/liga/${equipoId}/suspencionDT/${dtId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}

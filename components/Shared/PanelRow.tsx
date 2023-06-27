@@ -19,8 +19,8 @@ import { anularAmarilla, anularAsistencia, anularAutoGol, anularAzul, anularFigu
 import Tooltip from '@mui/material/Tooltip';
 import { FaListAlt as Lista } from 'react-icons/fa';
 import { ModalLista } from '../modals/ModalLista';
-import { DTPut_amarillas, DTPut_azul, DTPut_figura, DTPut_rojas } from '../../service/dt';
-import { anularAmarillaDT, anularAzulDT, anularFiguraDT, anularRojaDT, editarAmarillaDT, editarAzulDT, editarFiguraDT, editarRojaDT } from '../../utils/utilsDT';
+import { DTPut_amarillas, DTPut_azul, DTPut_figura, DTPut_rojas, DTPut_suspencion } from '../../service/dt';
+import { anularAmarillaDT, anularAzulDT, anularFiguraDT, anularRojaDT, editarAmarillaDT, editarAzulDT, editarFiguraDT, editarRojaDT, editarSuspencionDT } from '../../utils/utilsDT';
 
 export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -56,6 +56,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
     const { mutate: editarRojasDTs } = useMutation(DTPut_rojas);
     const { mutate: editarAzulDTs } = useMutation(DTPut_azul);
     const { mutate: editarFiguraDTs } = useMutation(DTPut_figura);
+    const { mutate: editarSuspencionDTs } = useMutation(DTPut_suspencion);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -194,7 +195,31 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                             editarSuspendido,
                             queryClient,
                             jugador.tarjetas_acumuladas
-                            );});
+                            );}),
+                            homeTeam?.director_tecnico.forEach(dt => {
+                                editarSuspencionDT(
+                                homeTeam._id,
+                                dt._id,
+                                dt.suspendido,
+                                dt.name,
+                                dt.jornadas_suspendido,
+                                setIsLoadinng,
+                                editarSuspencionDTs,
+                                queryClient,
+                                dt.tarjetas_acumuladas
+                                );}),
+                            awayTeam?.director_tecnico.forEach(dt => {
+                                editarSuspencionDT(
+                                awayTeam._id,
+                                dt._id,
+                                dt.suspendido,
+                                dt.name,
+                                dt.jornadas_suspendido,
+                                setIsLoadinng,
+                                editarSuspencionDTs,
+                                queryClient,
+                                dt.tarjetas_acumuladas
+                                );})
                 }}>
                     Calcular partido
                 </Button>
@@ -255,7 +280,17 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                 <Grid mt={1} item gap={2} sx={{ color: light ? 'var(--dark2)' : 'var(--gris)', display:'flex', flexDirection:!mobile ?'row':'column', alignItems:'center', background: dt.suspendido === 'Si' ? 'var(--danger2)' : dt.azul_partido[currentRound] === 1 ? 'var(--primario2)' : dt.amarilla_partido[currentRound] === 1 ? 'var(--warnning2)' : '', borderRadius:'8px' }}>
                                     <Grid item sx={{display:'flex', gap:'8px'}}>
                                         <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', fontWeight: 600 }}>..DT</Grid>
-                                        <Grid item width={!mobile?'250px':'150px'} sx={{ cursor: 'pointer', display: 'flex', alignItems:'center', gap:'6px', justifyContent:mobile && 'center' }}>{dt.name} {dt.figura_partido[currentRound] === 1 && <Figura style={{color:'var(--warnning)'}}/>}</Grid>
+                                        <Grid item width={!mobile?'250px':'150px'} sx={{ cursor: 'pointer', display: 'flex', alignItems:'center', gap:'6px', justifyContent:mobile && 'center' }}>
+                                            {dt.name} 
+                                            {dt.figura_partido[currentRound] === 1 && <Figura style={{color:'var(--warnning)'}}/>}
+                                            {dt.amarilla_partido[currentRound] >=1 && 
+                                            <Grid item sx={{display:'flex', alignItems:'center'}}> 
+                                                <Grid sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{dt.amarilla_partido[currentRound]}</Grid>
+                                                <Grid sx={{ background: 'var(--warnning)', height: '13px', width: '9px', borderRadius: '2px' }} />
+                                            </Grid>}
+                                            {dt.roja_partido[currentRound] >=1 && <Grid sx={{ background: 'var(--danger)', height: '13px', width: '9px', borderRadius: '2px' }} />}
+                                            {dt.azul_partido[currentRound] >=1 && <Grid sx={{ background: 'var(--primario)', height: '13px', width: '9px', borderRadius: '2px' }} />}
+                                        </Grid>
                                     </Grid>
                                     <Grid item container flexDirection={'column'} alignItems={'center'}>
                                         <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} sx={{borderBottom:light ? '1px solid var(--dark3)' :'1px solid var(--cero)',justifyContent:mobile && 'center'}}>
@@ -432,7 +467,27 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                 <Grid mt={1} item gap={2} sx={{ color: light ? 'var(--dark2)' : 'var(--gris)', display:'flex', flexDirection:!mobile ?'row':'column', alignItems:'center', background: jugador.suspendido === 'Si' ? 'var(--danger2)' : jugador.azul_partido_individual[currentRound] === 1 ? 'var(--primario2)' : jugador.amarilla_partido_individual[currentRound] === 1 ? 'var(--warnning2)' : '', borderRadius:'8px' }}>
                                     <Grid item sx={{display:'flex', gap:'8px'}}>
                                         <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', fontWeight: 600 }}>#{jugador.dorsal}</Grid>
-                                        <Grid item width={!mobile?'250px':'150px'} sx={{ cursor: 'pointer', display: 'flex', alignItems:'center', gap:'6px', justifyContent:mobile && 'center' }}>{jugador.name} {jugador.jugador_figura_individual[currentRound] === 1 && <Figura style={{color:'var(--warnning)'}}/>} </Grid>
+                                        <Grid item width={!mobile?'250px':'150px'} sx={{ cursor: 'pointer', display: 'flex', alignItems:'center', gap:'6px', justifyContent:mobile && 'center' }}>
+                                            {jugador.name} 
+                                            {jugador.jugador_figura_individual[currentRound] === 1 && <Figura style={{color:'var(--warnning)'}}/>} 
+                                            {jugador.amarilla_partido_individual[currentRound] >=1 && 
+                                            <Grid item sx={{display:'flex', alignItems:'center'}}> 
+                                                <Grid sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{jugador.amarilla_partido_individual[currentRound]}</Grid>
+                                                <Grid sx={{ background: 'var(--warnning)', height: '13px', width: '9px', borderRadius: '2px' }} />
+                                            </Grid>}
+                                            {jugador.roja_partido_individual[currentRound] >=1 && <Grid sx={{ background: 'var(--danger)', height: '13px', width: '9px', borderRadius: '2px' }} />}
+                                            {jugador.azul_partido_individual[currentRound] >=1 && <Grid sx={{ background: 'var(--primario)', height: '13px', width: '9px', borderRadius: '2px' }} />}
+                                            {jugador.asistencia_partido_individual[currentRound] >= 1 && 
+                                            <Grid item sx={{display:'flex', alignItems:'center'}}> 
+                                                <Grid sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{jugador.asistencia_partido_individual[currentRound]}</Grid>
+                                                <Asistir color={light ? 'var(--dark2)' : 'var(--cero)'} />
+                                            </Grid>} 
+                                            {jugador.gol_partido_individual[currentRound] >= 1 && 
+                                            <Grid item sx={{display:'flex', alignItems:'center'}}> 
+                                                <Grid sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{jugador.gol_partido_individual[currentRound]}</Grid>
+                                                <Gol color={light ? 'var(--dark2)' : 'var(--cero)'} />
+                                            </Grid>} 
+                                        </Grid>
                                     </Grid>
                                     <Grid item container flexDirection={'column'} alignItems={'center'}>
                                         <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} sx={{borderBottom:light ? '1px solid var(--dark3)' :'1px solid var(--cero)',justifyContent:mobile && 'center'}}>
@@ -733,7 +788,17 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                 <Grid mt={1} item gap={2} sx={{ color: light ? 'var(--dark2)' : 'var(--gris)', display:'flex', flexDirection:!mobile ?'row':'column', alignItems:'center', background: dt.suspendido === 'Si' ? 'var(--danger2)' : dt.azul_partido[currentRound] === 1 ? 'var(--primario2)' : dt.amarilla_partido[currentRound] === 1 ? 'var(--warnning2)' : '', borderRadius:'8px' }}>
                                     <Grid item sx={{display:'flex', gap:'8px'}}>
                                         <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', fontWeight: 600 }}>..DT</Grid>
-                                        <Grid item width={!mobile?'250px':'150px'} sx={{ cursor: 'pointer', display: 'flex', alignItems:'center', gap:'6px', justifyContent:mobile && 'center' }}>{dt.name} {dt.figura_partido[currentRound] === 1 && <Figura style={{color:'var(--warnning)'}}/>}</Grid>
+                                        <Grid item width={!mobile?'250px':'150px'} sx={{ cursor: 'pointer', display: 'flex', alignItems:'center', gap:'6px', justifyContent:mobile && 'center' }}>
+                                            {dt.name} 
+                                            {dt.figura_partido[currentRound] === 1 && <Figura style={{color:'var(--warnning)'}}/>}
+                                            {dt.amarilla_partido[currentRound] >=1 && 
+                                            <Grid item sx={{display:'flex', alignItems:'center'}}> 
+                                                <Grid sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{dt.amarilla_partido[currentRound]}</Grid>
+                                                <Grid sx={{ background: 'var(--warnning)', height: '13px', width: '9px', borderRadius: '2px' }} />
+                                            </Grid>}
+                                            {dt.roja_partido[currentRound] >=1 && <Grid sx={{ background: 'var(--danger)', height: '13px', width: '9px', borderRadius: '2px' }} />}
+                                            {dt.azul_partido[currentRound] >=1 && <Grid sx={{ background: 'var(--primario)', height: '13px', width: '9px', borderRadius: '2px' }} />}
+                                        </Grid>
                                     </Grid>
                                     <Grid item container flexDirection={'column'} alignItems={'center'}>
                                         <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} sx={{borderBottom:light ? '1px solid var(--dark3)' :'1px solid var(--cero)',justifyContent:mobile && 'center'}}>
@@ -910,7 +975,27 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                 <Grid mt={1} item gap={2} sx={{ color: light ? 'var(--dark2)' : 'var(--gris)', display:'flex', flexDirection:!mobile ?'row':'column', alignItems:'center', background: jugador.suspendido === 'Si' ? 'var(--danger2)' : jugador.azul_partido_individual[currentRound] === 1 ? 'var(--primario2)' : jugador.amarilla_partido_individual[currentRound] === 1 ? 'var(--warnning2)' : '', borderRadius:'8px' }}>
                                     <Grid item sx={{display:'flex', gap:'8px'}}>
                                         <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', fontWeight: 600 }}>#{jugador.dorsal}</Grid>
-                                        <Grid item width={!mobile?'250px':'150px'} sx={{ cursor: 'pointer', display: 'flex', alignItems:'center', gap:'6px', justifyContent:mobile && 'center' }}>{jugador.name} {jugador.jugador_figura_individual[currentRound] === 1 && <Figura style={{color:'var(--warnning)'}}/>} </Grid>
+                                        <Grid item width={!mobile?'250px':'150px'} sx={{ cursor: 'pointer', display: 'flex', alignItems:'center', gap:'6px', justifyContent:mobile && 'center' }}>
+                                            {jugador.name} 
+                                            {jugador.jugador_figura_individual[currentRound] === 1 && <Figura style={{color:'var(--warnning)'}}/>} 
+                                            {jugador.amarilla_partido_individual[currentRound] >=1 && 
+                                            <Grid item sx={{display:'flex', alignItems:'center'}}> 
+                                                <Grid sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{jugador.amarilla_partido_individual[currentRound]}</Grid>
+                                                <Grid sx={{ background: 'var(--warnning)', height: '13px', width: '9px', borderRadius: '2px' }} />
+                                            </Grid>}
+                                            {jugador.roja_partido_individual[currentRound] >=1 && <Grid sx={{ background: 'var(--danger)', height: '13px', width: '9px', borderRadius: '2px' }} />}
+                                            {jugador.azul_partido_individual[currentRound] >=1 && <Grid sx={{ background: 'var(--primario)', height: '13px', width: '9px', borderRadius: '2px' }} />}
+                                            {jugador.asistencia_partido_individual[currentRound] >= 1 && 
+                                            <Grid item sx={{display:'flex', alignItems:'center'}}> 
+                                                <Grid sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{jugador.asistencia_partido_individual[currentRound]}</Grid>
+                                                <Asistir color={light ? 'var(--dark2)' : 'var(--cero)'} />
+                                            </Grid>} 
+                                            {jugador.gol_partido_individual[currentRound] >= 1 && 
+                                            <Grid item sx={{display:'flex', alignItems:'center'}}> 
+                                                <Grid sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{jugador.gol_partido_individual[currentRound]}</Grid>
+                                                <Gol color={light ? 'var(--dark2)' : 'var(--cero)'} />
+                                            </Grid>} 
+                                        </Grid>
                                     </Grid>
                                     <Grid item container flexDirection={'column'} alignItems={'center'}>
                                         <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ?2: 3} p={1} sx={{borderBottom:light ? '1px solid var(--dark3)' :'1px solid var(--cero)',justifyContent:mobile && 'center'}}>
