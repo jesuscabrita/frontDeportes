@@ -129,3 +129,33 @@ export const calcularDatosPartido = async ({ form, equipoId }) => {
         throw new Error(message);
     }
 }
+
+export const jugadoresPut_lesion = async ({ form, equipoId, jugadorId }) => {
+    try {
+        const data = await api.put(`/api/liga/${equipoId}/lesion/${jugadorId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
+
+export const jugadoresPut_jornada = async ({ form, equipoId, jugadorId }) => {
+    try {
+        const data = await api.put(`/api/liga/${equipoId}/jornada/${jugadorId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
+
+export const jugadoresPut_capitan = async ({ form, equipoId, jugadorId }) => {
+    try {
+        const data = await api.put(`/api/liga/${equipoId}/capitan/${jugadorId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}

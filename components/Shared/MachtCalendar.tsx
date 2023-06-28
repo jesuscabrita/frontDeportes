@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button, CircularProgress, Grid, useMediaQuery } from "@mui/material";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -22,7 +22,7 @@ export const MatchCalendar = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [data, setData] = useState([]);
 
-    const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {
+    const { isLoading, isError, refetch } = useQuery(["/api/liga"], equiposGet, {
         refetchOnWindowFocus: false,
         onSuccess: (data) => {
             setData(data);
@@ -38,6 +38,14 @@ export const MatchCalendar = () => {
     function handlePrevRound() {
         setCurrentRound(currentRound - 1);
     }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            refetch();
+        }, 5000);
+    
+        return () => clearInterval(interval);
+    }, [refetch]);
 
     return (
         <Grid container width={'100%'} alignItems={'center'} alignContent={'center'}>

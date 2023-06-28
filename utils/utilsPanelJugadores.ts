@@ -1,4 +1,4 @@
-import { alertaSubmit } from "./alert";
+import { alertaQuestion, alertaSubmit } from "./alert";
 
 export const editarRoja = (
     equipoId: string,
@@ -475,3 +475,161 @@ export const datosDelPartidoHome = (
         },
     });
 }
+
+export const lesionJugadores = (equipoId: string, jugadorId: string, lesionJugador,queryClient, lesion) => {
+    alertaQuestion(equipoId, {}, (equipoId: string) => {
+        const formData = {
+            lesion: lesion,
+        };
+        lesionJugador({form: formData, equipoId, jugadorId }, {
+            onSuccess: (success) => {
+                queryClient.invalidateQueries(["equipos"]);
+                alertaSubmit(true, success?.message);
+            },
+            onError: (err: any) => {
+                const errorMessage = err?.response?.data?.message || err.message;
+                alertaSubmit(false, errorMessage);
+            },
+        });
+    }, 'Si, Lesionar!', 'Jugador Lesionado!', 'El jugador ha sido lesionado.', 'El jugador no se lesiono :)')
+}
+
+export const lesionJugadoresNO = (equipoId: string, jugadorId: string, lesionJugador,queryClient, lesion) => {
+    alertaQuestion(equipoId, {}, (equipoId: string) => {
+        const formData = {
+            lesion: lesion,
+        };
+        lesionJugador({form: formData, equipoId, jugadorId }, {
+            onSuccess: (success) => {
+                queryClient.invalidateQueries(["equipos"]);
+                alertaSubmit(true, success?.message);
+            },
+            onError: (err: any) => {
+                const errorMessage = err?.response?.data?.message || err.message;
+                alertaSubmit(false, errorMessage);
+            },
+        });
+    }, 'Si, Recuperar!', 'Jugador Recuperado!', 'El jugador ha sido recuperado.', 'El jugador no se recupero :)')
+}
+
+export const editarJornada = (
+    equipoId: string,
+    jugadorId: string,
+    jugador_name: string,
+    partidoJornada: number,
+    setIsLoading,
+    editarPartidos,
+    queryClient,
+    value,
+    handleClose,
+    setJornada
+) => {
+    setIsLoading(true);
+    const formData = {
+        jornadas_suspendido: partidoJornada + parseInt(value, 10),
+    };
+    editarPartidos({ form: formData, equipoId, jugadorId }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["equipos"]);
+            alertaSubmit(true, `${jugador_name} se le modifico la jornadas suspendias!`);
+            setIsLoading(false);
+            setJornada('')
+            handleClose()
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+};
+
+export const editarJornadaResta = (
+    equipoId: string,
+    jugadorId: string,
+    jugador_name: string,
+    partidoJornada: number,
+    setIsLoading,
+    editarPartidos,
+    queryClient,
+    value,
+    handleClose,
+    setJornada
+) => {
+    setIsLoading(true);
+    const formData = {
+        jornadas_suspendido: partidoJornada - parseInt(value, 10),
+    };
+    editarPartidos({ form: formData, equipoId, jugadorId }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["equipos"]);
+            alertaSubmit(true, `${jugador_name} se le modifico la jornadas suspendias!`);
+            setIsLoading(false);
+            setJornada('')
+            handleClose()
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+};
+
+export const editarCapitan = (
+    equipoId: string,
+    jugadorId: string,
+    jugador_name: string,
+    setIsLoading,
+    editarCapitan,
+    queryClient,
+    valueCapitan,
+    handleClose,
+) => {
+    setIsLoading(true);
+    const formData = {
+        capitan: valueCapitan,
+    };
+    editarCapitan({ form: formData, equipoId, jugadorId }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["equipos"]);
+            alertaSubmit(true, `${jugador_name} es capitan!`);
+            setIsLoading(false);
+            handleClose()
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+};
+
+export const editarCapitanNo = (
+    equipoId: string,
+    jugadorId: string,
+    jugador_name: string,
+    setIsLoading,
+    editarCapitan,
+    queryClient,
+    valueCapitan,
+    handleClose,
+) => {
+    setIsLoading(true);
+    const formData = {
+        capitan: valueCapitan,
+    };
+    editarCapitan({ form: formData, equipoId, jugadorId }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["equipos"]);
+            alertaSubmit(true, `${jugador_name} ya no es capitan!`);
+            setIsLoading(false);
+            handleClose()
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+};

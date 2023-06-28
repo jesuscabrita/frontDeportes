@@ -166,6 +166,18 @@ export const Row = ({ homeTeam, awayTeam, currentRound,isLoading }) => {
                                                     <Grid sx={{ background: 'var(--danger)', height: '13px', width: '9px', borderRadius: '2px' }} />
                                                     <Grid item ml={2} sx={{ display: 'flex', alignItems: 'center' }}>{tecnico.name} <Dt size={16} color={light ? 'var(--dark2)' : 'var(--cero)'} />DT </Grid>
                                                 </Grid>}
+                                                {tecnico.azul_partido[currentRound] !== 0 &&
+                                                <Grid item container alignItems={'center'} sx={{ color: light ? 'var(--dark2)' : 'var(--gris)' }}>
+                                                    <Grid item sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{tecnico.azul_partido[currentRound]}</Grid>
+                                                    <Grid sx={{ background: 'var(--primario)', height: '13px', width: '9px', borderRadius: '2px' }} />
+                                                    <Grid item ml={2} sx={{ display: 'flex', alignItems: 'center' }}>{tecnico.name} <Dt size={16} color={light ? 'var(--dark2)' : 'var(--cero)'} />DT </Grid>
+                                                </Grid>}
+                                                {tecnico.figura_partido[currentRound] !== 0 &&
+                                                <Grid item container alignItems={'center'} sx={{ color: light ? 'var(--dark2)' : 'var(--gris)' }}>
+                                                    <Grid sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{tecnico.figura_partido[currentRound]}</Grid>
+                                                    <Figura color={'var(--warnning)'} />
+                                                    <Grid ml={2} item>{tecnico.name} </Grid>
+                                                </Grid>}
                                             </>
                                         )
                                     })}
@@ -228,6 +240,18 @@ export const Row = ({ homeTeam, awayTeam, currentRound,isLoading }) => {
                                                     <Grid item sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{tecnico.roja_partido[currentRound]}</Grid>
                                                     <Grid sx={{ background: 'var(--danger)', height: '13px', width: '9px', borderRadius: '2px' }} />
                                                     <Grid item ml={2} sx={{ display: 'flex', alignItems: 'center' }}>{tecnico.name} <Dt size={16} color={light ? 'var(--dark2)' : 'var(--cero)'} />DT </Grid>
+                                                </Grid>}
+                                                {tecnico.azul_partido[currentRound] !== 0 &&
+                                                <Grid item container alignItems={'center'} sx={{ color: light ? 'var(--dark2)' : 'var(--gris)' }}>
+                                                    <Grid item sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{tecnico.azul_partido[currentRound]}</Grid>
+                                                    <Grid sx={{ background: 'var(--primario)', height: '13px', width: '9px', borderRadius: '2px' }} />
+                                                    <Grid item ml={2} sx={{ display: 'flex', alignItems: 'center' }}>{tecnico.name} <Dt size={16} color={light ? 'var(--dark2)' : 'var(--cero)'} />DT </Grid>
+                                                </Grid>}
+                                                {tecnico.figura_partido[currentRound] !== 0 &&
+                                                <Grid item container alignItems={'center'} sx={{ color: light ? 'var(--dark2)' : 'var(--gris)' }}>
+                                                    <Grid sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{tecnico.figura_partido[currentRound]}</Grid>
+                                                    <Figura color={'var(--warnning)'} />
+                                                    <Grid ml={2} item>{tecnico.name} </Grid>
                                                 </Grid>}
                                             </>
                                         )

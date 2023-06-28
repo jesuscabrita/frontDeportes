@@ -14,6 +14,7 @@ import { bajarPartido } from "../../utils/utilsPanelAnular";
 import { TbRectangleVertical as Tarjeta } from 'react-icons/tb';
 import { DTPut_partidos } from "../../service/dt";
 import { bajarPartidoDT, editarPartidoDT } from "../../utils/utilsDT";
+import { MdLocalHospital as Lesion } from 'react-icons/md';
 
 export const ModalLista =({open, setOpen, data, currentRound })=>{
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -84,7 +85,9 @@ export const ModalLista =({open, setOpen, data, currentRound })=>{
                         <Grid item container p={1} flexDirection={'row'} alignItems={'center'} sx={{color: light ?'var(--dark2)':'var(--cero)', background: dt.suspendido === 'Si' && 'var(--danger2)', borderRadius:'8px'}}>
                             <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', fontWeight: 600 }}>..DT</Grid>
                             <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: '55px', height: '35px' }}>
-                                <Avatar src="/broken-image.jpg" sx={{ height: '35px', width:'35px' }} />
+                                <Tooltip title={dt.foto ? <img src={dt.foto} alt="Imagen" style={{ width: '150px', height: '150px' }} /> : <Avatar src="/broken-image.jpg" sx={{ width: '150px', height: '150px' }} />} arrow placement="top">
+                                    <Avatar src="/broken-image.jpg" sx={{ width: '35px', height: '35px' }} />
+                                </Tooltip>
                             </Grid>
                             <Grid item sx={{display:'flex'}}>
                                 <Grid item width={'350px'} gap={1} sx={{ cursor:dt.suspendido === 'Si'? 'default': 'pointer',display:'flex', alignItems:'center' }}>
@@ -143,7 +146,9 @@ export const ModalLista =({open, setOpen, data, currentRound })=>{
                             <Grid item container p={1} flexDirection={'row'} alignItems={'center'} sx={{color: light ?'var(--dark2)':'var(--cero)', background: jugador.suspendido === 'Si' && 'var(--danger2)', borderRadius:'8px'}}>
                                 <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', fontWeight: 600 }}>#{jugador.dorsal}</Grid>
                                 <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: '55px', height: '35px' }}>
-                                    <Avatar {...stringAvatar(jugador.name)} sx={{ height: '35px', width:'35px' }} />
+                                    <Tooltip title={jugador.foto ? <img src={jugador.foto} alt="Imagen" style={{ width: '150px', height: '150px' }} /> : <Avatar {...stringAvatar(jugador.name)} sx={{  width: '150px', height: '150px' }} />} arrow placement="top">
+                                        <Avatar {...stringAvatar(jugador.name)} sx={{ height: '35px', width:'35px' }} />
+                                    </Tooltip>
                                 </Grid>
                                 <Grid item sx={{display:'flex'}}>
                                     <Grid item width={'350px'} gap={1} sx={{ cursor:jugador.suspendido === 'Si'? 'default': 'pointer',display:'flex', alignItems:'center' }}>
@@ -157,6 +162,11 @@ export const ModalLista =({open, setOpen, data, currentRound })=>{
                                         <Tooltip title={`${jugador.name} fue expulsado y esta suspendido por ${jugador.jornadas_suspendido} jornada`} placement="top">
                                             <Grid item sx={{color:'var(--neutral)'}}>(Expulsado)</Grid>
                                         </Tooltip>}
+                                        {jugador.lesion === 'Si' &&  
+                                        <Grid item sx={{display:'flex', alignItems:'center',gap:'6px'}}>
+                                            <Lesion size={20}/>
+                                            <Grid sx={{color:'var(--neutral)'}}>{'(Lesion)'}</Grid>
+                                        </Grid>}
                                     </Grid>
                                 </Grid>
                                 <Grid item sx={{cursor: jugador.suspendido === 'Si'? 'default': 'pointer', color:jugador.partidos_individual[currentRound] === 'Si'? 'var(--check)':'var(--neutral)'}}
