@@ -11,11 +11,14 @@ import Paper from '@material-ui/core/Paper';
 import { Avatar, CircularProgress, Grid, useMediaQuery } from '@mui/material';
 import { TbError404 as Err404 } from 'react-icons/tb';
 import { TbMoodEmpty as Vacio } from 'react-icons/tb';
+import { ModalJugadorInfo } from "../modals/ModalInfoJugador";
 
 export const TablaAmarillas = ({ data, isLoading, isError }) => {
     const [light] = useContext(Context);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [showImage, setShowImage] = useState(false);
+    const [modalJugadorInfo, setModalJugadorInfo] = useState(false);
+    const [jugadorSeleccionado, setJugadorSeleccionado] = useState(null);
 
     const jugadoresMasAmarillas = data.flatMap((equipo) => equipo.jugadores)
     .sort((a, b) => b.tarjetas_amarillas - a.tarjetas_amarillas)
@@ -88,6 +91,12 @@ export const TablaAmarillas = ({ data, isLoading, isError }) => {
         };
     }
 
+    const seleccionarJugadorInfo = (jugador) => {
+        setJugadorSeleccionado(jugador);
+        setModalJugadorInfo(true);
+    }
+
+
     return (
     <>
     {isLoading ?
@@ -123,10 +132,10 @@ export const TablaAmarillas = ({ data, isLoading, isError }) => {
                                         {(index + 1 == 1 ) &&
                                             <Grid sx={{ background: 'var(--warnning)', height: '35px', width: '10px', whiteSpace: 'nowrap' }}></Grid>}
                                     </Grid>
-                                    <Grid item container alignItems={'center'} justifyContent={'center'} sx={{width:'55px',height: '35px'}}>
+                                    <Grid item container alignItems={'center'} justifyContent={'center'} sx={{width:'55px',height: '35px', cursor:'pointer'}} onClick={() => { seleccionarJugadorInfo(jugador) }}>
                                         <Avatar {...stringAvatar(jugador.name)} sx={{ height: '35px', width:'35px' }} />
                                     </Grid>
-                                    <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width:'130px'}}>
+                                    <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width:'130px', cursor:'pointer'}}  onClick={() => { seleccionarJugadorInfo(jugador) }}>
                                         {jugador.name} 
                                     </Grid>
                                 </Grid>
@@ -151,6 +160,7 @@ export const TablaAmarillas = ({ data, isLoading, isError }) => {
         </TableContainer>
     </Grid>
     }
+    {jugadorSeleccionado && (<ModalJugadorInfo open={modalJugadorInfo} setOpen={setModalJugadorInfo} jugador={jugadorSeleccionado}/>)}
     </>
     );
 }

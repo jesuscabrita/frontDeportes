@@ -13,11 +13,13 @@ import Context from '../../context/contextPrincipal';
 import { ArrowP } from './ArrowP';
 import { TbError404 as Err404 } from 'react-icons/tb';
 import { TbMoodEmpty as Vacio } from 'react-icons/tb';
+import { useRouter } from 'next/router';
 
 export const PositionTable = ({ data, isLoading, isError }) => {
     const [light] = useContext(Context);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [showImage, setShowImage] = useState(false);
+    const router = useRouter();
 
     const orden = data.sort((a, b) => {
         if (a.puntos > b.puntos) {
@@ -141,13 +143,13 @@ export const PositionTable = ({ data, isLoading, isError }) => {
                                                                     <Grid sx={{ background: 'var(--warnning)', height: '35px', width: '10px', whiteSpace: 'nowrap' }}></Grid>}
                                                                 <Grid>{index + 1}</Grid>
                                                             </Grid>
-                                                            <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: '55px', height: '35px' }}>
+                                                            <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: '55px', height: '35px', cursor:'pointer' }} onClick={()=>{router.push(`/manager/${row._id}`)}}>
                                                                 {isLoading || !showImage ?
                                                                     (<CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} size={20} />)
                                                                     : showImage ? <img src={row.logo} alt={row.name} style={{ height: '35px' }} />
                                                                         : null}
                                                             </Grid>
-                                                            <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width: '130px' }}>
+                                                            <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width: '130px',cursor:'pointer' }} onClick={()=>{router.push(`/manager/${row._id}`)}}>
                                                                 {row.name}
                                                             </Grid>
                                                             {row.partidosJugados >= 1 &&

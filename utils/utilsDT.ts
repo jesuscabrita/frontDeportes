@@ -560,3 +560,67 @@ export const editarSuspencionDT = (
         },
     });
 };
+
+export const editarJornadaDT = (
+    equipoId: string,
+    dtId: string,
+    jugador_name: string,
+    partidoJornada: number,
+    setIsLoading,
+    editarJornada,
+    queryClient,
+    value,
+    handleClose,
+    setJornada
+) => {
+    setIsLoading(true);
+    const formData = {
+        jornadas_suspendido: partidoJornada + parseInt(value, 10),
+    };
+    editarJornada({ form: formData, equipoId, dtId }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["equipos"]);
+            alertaSubmit(true, `${jugador_name} se le modifico la jornadas suspendias!`);
+            setIsLoading(false);
+            setJornada('')
+            handleClose()
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+};
+
+export const editarJornadaRestaDT = (
+    equipoId: string,
+    dtId: string,
+    jugador_name: string,
+    partidoJornada: number,
+    setIsLoading,
+    editarPartidos,
+    queryClient,
+    value,
+    handleClose,
+    setJornada
+) => {
+    setIsLoading(true);
+    const formData = {
+        jornadas_suspendido: partidoJornada - parseInt(value, 10),
+    };
+    editarPartidos({ form: formData, equipoId, dtId }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["equipos"]);
+            alertaSubmit(true, `${jugador_name} se le modifico la jornadas suspendias!`);
+            setIsLoading(false);
+            setJornada('')
+            handleClose()
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+};

@@ -24,6 +24,7 @@ import { VscSearchStop as Expulsado } from 'react-icons/vsc';
 import { ModalJugadorInfo } from '../modals/ModalInfoJugador';
 import { IoLogoClosedCaptioning as Capitan } from 'react-icons/io'; 
 import { ModalJugadorCapitan } from '../modals/ModalCapital';
+import { ModalJornadaDT } from '../modals/ModalJornadaDT';
 
 export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico }) => {
     const [light] = useContext(Context);
@@ -35,6 +36,7 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
     const [modalEditarJornada, setModalEditarJornada] = useState(false);
     const [modalJugadorInfo, setModalJugadorInfo] = useState(false);
     const [modalJugadorCapitan, setModalJugadorCapitan] = useState(false);
+    const [modalJornadaDT, setModalJornadaDT] = useState(false);
     const queryClient = useQueryClient();
     const { mutate: eliminarJugador } = useMutation(JugadorDelete);
     const { mutate: eliminarDT } = useMutation(DTDelete);
@@ -99,6 +101,12 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
         setModalJugadorCapitan(true);
     }
 
+    const seleccionarDTJornada = (dt) => {
+        setDtSeleccionado(dt);
+        setModalJornadaDT(true);
+        console.log('dt',setDtSeleccionado(dt));
+        
+    }
 
     const eliminarJugadores = (equipoId: string, jugadorId: string) => {
         alertaQuestion(equipoId, {}, (equipoId: string) => {
@@ -251,7 +259,7 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
                                                 <Button disabled onClick={() => {  }}>Capitan</Button>
                                             </StyledTableCell>
                                             <StyledTableCell>
-                                                <Button disabled={dt.jornadas_suspendido < 1} onClick={() => {  }}>suspencion</Button>
+                                                <Button disabled={dt.jornadas_suspendido < 1} onClick={() => { seleccionarDTJornada(dt) }}>suspencion</Button>
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     )
@@ -337,6 +345,7 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
             {jugadorSeleccionado &&(<ModalJornada open={modalEditarJornada} setOpen={setModalEditarJornada} id={jugadorSeleccionado._id} equipoId={equipo?._id} data={jugadorSeleccionado}/>)}
             {jugadorSeleccionado && (<ModalJugadorInfo open={modalJugadorInfo} setOpen={setModalJugadorInfo} jugador={jugadorSeleccionado}/>)}
             {jugadorSeleccionado && (<ModalJugadorCapitan open={modalJugadorCapitan} setOpen={setModalJugadorCapitan} jugador={jugadorSeleccionado} equipoId={equipo?._id}/>)}
+            {dtSeleccionado && (<ModalJornadaDT open={modalJornadaDT} setOpen={setModalJornadaDT} id={dtSeleccionado._id} equipoId={equipo?._id}  data={dtSeleccionado} />)}
         </>
     )
 }
