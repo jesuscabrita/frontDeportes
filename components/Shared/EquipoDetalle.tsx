@@ -23,12 +23,21 @@ import { TabPanel } from "../MaterialUi/TabPanel";
 import { ModalJugador } from "../modals/ModalJugador";
 import { TablaPlantilla } from "../MaterialUi/TablaPlantilla";
 import { TablaEstadisticas } from "../MaterialUi/TablaEstadisticas";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { equiposGet } from "../../service/equipos";
 import { filterEstado } from "../../utils/utils";
 import { ArrowP } from "./ArrowP";
 import { IoIosCreate as CreatePlayer } from 'react-icons/io';
 import { ModalDT } from "../modals/ModalDT";
+import { DelegadoDelete } from "../../service/delegado";
+import { alertaQuestion, alertaSubmit } from "../../utils/alert";
+import { MdDelete as Borrar } from 'react-icons/md';
+import Tooltip from '@mui/material/Tooltip';
+import { ModalDelegado } from "../modals/ModalDelegado";
+import { AiOutlineEdit as Editar } from 'react-icons/ai';
+import { ModalDelegadoEditar } from "../modals/ModalDelegadoEdit";
+import { BsFillChatLeftDotsFill as Chat } from "react-icons/bs";
+import { ModalChatDelegado } from "../modals/ModalChat";
 
 const opcionSelectEquipo =[
     {id:0, name: 'Plantilla', icono: <Plantilla size={30} />},
@@ -47,7 +56,28 @@ export const EquipoDetalle =({data, isLoading, equipo_id})=>{
     const theme = useTheme();
     const [modalJugador, setModalJugador] = useState(false);
     const [modalDT, setModalDT] = useState(false);
-    const [ equipo, setEquipo ] = useState([])
+    const [modalDelegado, setModalDelegado] = useState(false);
+    const [modalDelegadoEditar, setModalDelegadoEditar] = useState(false);
+    const [ equipo, setEquipo ] = useState([]);
+    const { mutate: eliminarDelegado } = useMutation(DelegadoDelete);
+    const queryClient = useQueryClient();
+    const [delegadoSeleccionado, setDelegadoSeleccionado] = useState(null);
+    const [modalDelegadoChat, setModalDelegadoChat] = useState(false);
+
+    const eliminarDelegados = (equipoId: string, delegadoId: string) => {
+        alertaQuestion(equipoId, {}, (equipoId: string) => {
+            eliminarDelegado({ equipoId, delegadoId }, {
+                onSuccess: (success) => {
+                    queryClient.invalidateQueries(["equipos"]);
+                    alertaSubmit(true, success?.message);
+                },
+                onError: (err: any) => {
+                    const errorMessage = err?.response?.data?.message || err.message;
+                    alertaSubmit(false, errorMessage);
+                },
+            });
+        }, 'Si, Eliminar!', 'Eliminado de el equipo!', 'El delegado ha sido eliminado.', 'El delegado sigue en el equipo :)')
+    }
 
     const {  isError } = useQuery(["/api/liga"], equiposGet, {
         refetchOnWindowFocus: false,
@@ -97,6 +127,16 @@ export const EquipoDetalle =({data, isLoading, equipo_id})=>{
         }
     }, [isLoading]);
 
+    const seleccionarDelegados = (delegados) => {
+        setDelegadoSeleccionado(delegados);
+        setModalDelegadoEditar(true);
+    }
+
+    const seleccionarDelegadosChat = (delegados) => {
+        setDelegadoSeleccionado(delegados);
+        setModalDelegadoChat(true);
+    }
+
     return (
         <>
         <Grid container sx={{ 
@@ -136,7 +176,27 @@ export const EquipoDetalle =({data, isLoading, equipo_id})=>{
                 <Grid sx={{display:'flex', flexDirection:'column',color: light ?'var(--dark2)':'var(--neutral)',fontSize:!mobile?'20px':'14px'}}>
                     <Grid sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:'8px'}}><Categoria color={light ? 'var(--dark2)': 'var(--cero)'}/>categoria: {!data?.categoria ? 'No definido': data?.categoria }</Grid>
                     <Grid sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:'8px'}}><Estadio color={light ? 'var(--dark2)': 'var(--cero)'}/>Estadio: {!data?.estadio ? 'No definido' : data?.estadio }</Grid>
-                    <Grid sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:'8px'}}><Delegado color={light ? 'var(--dark2)': 'var(--cero)'}/> delegado: {!data?.delegado.name ? 'No definido': data?.delegado.name }</Grid>
+                    <Grid sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:'8px'}}><Delegado color={light ? 'var(--dark2)': 'var(--cero)'}/>
+                        delegado: 
+                        {data?.delegado.length === 0 ? ' No definido': ' '+data?.delegado[0].name }
+                        {data?.delegado.length > 0 && 
+                        <Tooltip title="Elimina el delegado" placement="top">
+                        <Grid sx={{cursor:'pointer'}} onClick={()=>{eliminarDelegados(equipo_id, data?.delegado[0]._id)}}>
+                            <Borrar size={20} color={'var(--danger)'}/>
+                        </Grid>
+                        </Tooltip>}
+                        {data?.delegado.length > 0 && 
+                        <Tooltip title="Editar el delegado" placement="top">
+                        <Grid sx={{cursor:'pointer'}} onClick={()=>{seleccionarDelegados(data?.delegado)}}>
+                            <Editar size={20}/>
+                        </Grid>
+                        </Tooltip>}
+                        <Tooltip title="Contactar al delegado del equipo" placement="top">
+                        <Grid sx={{cursor:'pointer'}} onClick={()=>{seleccionarDelegadosChat(data?.delegado)}}>
+                            <Chat size={20}/>
+                        </Grid>
+                        </Tooltip>
+                    </Grid>
                 </Grid>
                 <Grid sx={{display:'flex', flexDirection:'column',color: light ?'var(--dark2)':'var(--neutral)',fontSize:!mobile?'20px':'14px'}}>
                     <Grid sx={{display:'flex', flexDirection:'row', alignItems:'center', gap:'8px'}}><Tarjeta color={'var(--warnning)'}/>tarjetas amarillas:{data?.tarjetasAmarillas}</Grid>
@@ -169,7 +229,7 @@ export const EquipoDetalle =({data, isLoading, equipo_id})=>{
                     <Button onClick={()=>{setModalDT(!modalDT)}} sx={{display:'flex', alignItems:'center',justifyContent:'center' ,gap:'8px',color:light ? 'var(--dark2)': 'var(--neutral)', border:'solid 1px var(--neutral)'}}>
                         {'Crear DT'} <CreatePlayer size={20} color={'var(--check)'}/>
                     </Button>
-                    <Button onClick={()=>{}} sx={{display:'flex', alignItems:'center',justifyContent:'center' ,gap:'8px',color:light ? 'var(--dark2)': 'var(--neutral)', border:'solid 1px var(--neutral)'}}>
+                    <Button onClick={()=>{setModalDelegado(!modalDelegado)}} sx={{display:'flex', alignItems:'center',justifyContent:'center' ,gap:'8px',color:light ? 'var(--dark2)': 'var(--neutral)', border:'solid 1px var(--neutral)'}}>
                         {'Crear Delegado'} <CreatePlayer size={20} color={'var(--check)'}/>
                     </Button>
                 </Grid>
@@ -193,6 +253,9 @@ export const EquipoDetalle =({data, isLoading, equipo_id})=>{
         </SwipeableViews>
         {modalJugador && <ModalJugador open={modalJugador} setOpen={setModalJugador} id={data?._id}/>}
         {modalDT && <ModalDT open={modalDT} setOpen={setModalDT} id={data?._id}/>}
+        {modalDelegado && <ModalDelegado open={modalDelegado} setOpen={setModalDelegado} id={data?._id}/>}
+        {delegadoSeleccionado && <ModalDelegadoEditar open={modalDelegadoEditar} setOpen={setModalDelegadoEditar} id={data?._id} data={data?.delegado[0]}/>}
+        {delegadoSeleccionado && <ModalChatDelegado open={modalDelegadoChat} setOpen={setModalDelegadoChat} data={data?.delegado[0]}/>}
         </>
     )
 }

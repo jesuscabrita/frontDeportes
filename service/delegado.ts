@@ -1,0 +1,31 @@
+import { api } from "./api";
+
+export const delegadoPost = async ({ form, eid }) => {
+    try {
+        const data = await api.post(`/api/liga/${eid}/delegado`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
+
+export const DelegadoPut = async ({ form, equipoId, delegadoId }) => {
+    try {
+        const data = await api.put(`/api/liga/${equipoId}/delegado/${delegadoId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
+
+export const DelegadoDelete = async ({ equipoId, delegadoId}) => {
+    try {
+        const data = await api.delete(`/api/liga/${equipoId}/delegado/${delegadoId}`).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}

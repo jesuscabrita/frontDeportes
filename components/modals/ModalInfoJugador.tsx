@@ -196,11 +196,11 @@ export const ModalJugadorInfo =({open, setOpen, jugador})=>{
                             <Grid container alignItems={'center'} gap={2}>
                                 <Grid item sx={{display:'flex', alignItems:'center',gap:'6px',color: light ? 'var(--dark2)' : 'var(--cero)'}}>
                                     <Insta size={25}/>
-                                    {jugador.instagram}
+                                    @{jugador.instagram}
                                 </Grid>
                                 <Grid item sx={{display:'flex', alignItems:'center',gap:'6px',color: light ? 'var(--dark2)' : 'var(--cero)'}}>
                                     <Twitter size={25}/>
-                                    {jugador.twitter}
+                                    @{jugador.twitter}
                                 </Grid>
                             </Grid>
                         </Grid>
