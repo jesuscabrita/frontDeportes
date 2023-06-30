@@ -1,23 +1,18 @@
-import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { Avatar, Button, CircularProgress, Grid, Tooltip, useMediaQuery } from '@mui/material';
+import { Avatar, CircularProgress, Grid, useMediaQuery } from '@mui/material';
 import { useContext, useState } from 'react';
 import Context from '../../context/contextPrincipal';
 import { ModalEditarJugador } from '../modals/ModalEditarJugador';
 import { useMutation, useQueryClient } from 'react-query';
 import { JugadorDelete, jugadoresPut_lesion } from '../../service/jugadores';
-import { alertaQuestion, alertaSubmit } from '../../utils/alert';
 import { TbMoodEmpty as Vacio } from 'react-icons/tb';
 import { ModalEditarDT } from '../modals/ModalEditarDT';
 import { DTDelete } from '../../service/dt';
 import { MdLocalHospital as Lesion } from 'react-icons/md';
-import { lesionJugadores, lesionJugadoresNO } from '../../utils/utilsPanelJugadores';
+import { eliminarJugadores, lesionJugadores, lesionJugadoresNO } from '../../utils/utilsPanelJugadores';
 import { ModalJornada } from '../modals/ModalJornada';
 import { TbRectangleVertical as Tarjeta } from 'react-icons/tb';
 import { VscSearchStop as Expulsado } from 'react-icons/vsc';
@@ -25,6 +20,16 @@ import { ModalJugadorInfo } from '../modals/ModalInfoJugador';
 import { IoLogoClosedCaptioning as Capitan } from 'react-icons/io'; 
 import { ModalJugadorCapitan } from '../modals/ModalCapital';
 import { ModalJornadaDT } from '../modals/ModalJornadaDT';
+import { StyledTableRow } from '../Material/StyledTableRow';
+import { StyledTableCell } from '../Material/StyledTableCell';
+import { CustomTableHead } from '../Material/CustomTableHead';
+import { planilla, posicionesOrdenadas } from '../../utils/arrays';
+import { ordenarJugadores, seleccionarData, stringAvatar } from '../../utils/utils';
+import { eliminarDTs } from '../../utils/utilsDT';
+import { ButtonSend } from '../Material/ButtonSend';
+import { AiFillEdit as Edit } from 'react-icons/ai';
+import { MdDelete as Eliminar } from 'react-icons/md';
+import { MdOutlinePersonOff as Suspender } from 'react-icons/md'; 
 
 export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico }) => {
     const [light] = useContext(Context);
@@ -42,137 +47,6 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
     const { mutate: eliminarDT } = useMutation(DTDelete);
     const { mutate: lesion_jugador } = useMutation(jugadoresPut_lesion);
 
-    const StyledTableCell = withStyles((theme: Theme) =>
-        createStyles({
-            head: {
-                backgroundColor: 'var(--dark2)',
-                color: 'var(--cero)',
-            },
-            body: {
-                fontSize: 12,
-                color: light ? 'black' : 'var(--cero)'
-            },
-        }),
-    )(TableCell);
-
-    const StyledTableRow = withStyles((theme: Theme) =>
-        createStyles({
-            root: {
-                '&:nth-of-type(odd)': {
-                    backgroundColor: light ? theme.palette.action.hover : 'var(--dark)',
-                },
-            },
-        }),
-    )(TableRow);
-
-    const posicionesOrdenadas = {
-        'Portero': 1,
-        'Defensa': 2,
-        'Medio': 3,
-        'Delantero': 4,
-    };
-
-    const jugadoresOrdenados = jugadores.sort((a, b) => {
-        return posicionesOrdenadas[a.posicion] - posicionesOrdenadas[b.posicion];
-    });
-
-    const seleccionarJugador = (jugador) => {
-        setJugadorSeleccionado(jugador);
-        setModalEditarJugador(true);
-    }
-
-    const seleccionarDT = (dt) => {
-        setDtSeleccionado(dt);
-        setModalEditarDT(true);
-    }
-
-    const seleccionarJugadorJornada = (jugador) => {
-        setJugadorSeleccionado(jugador);
-        setModalEditarJornada(true);
-    }
-
-    const seleccionarJugadorInfo = (jugador) => {
-        setJugadorSeleccionado(jugador);
-        setModalJugadorInfo(true);
-    }
-
-    const seleccionarJugadorCapitan = (jugador) => {
-        setJugadorSeleccionado(jugador);
-        setModalJugadorCapitan(true);
-    }
-
-    const seleccionarDTJornada = (dt) => {
-        setDtSeleccionado(dt);
-        setModalJornadaDT(true);
-        console.log('dt',setDtSeleccionado(dt));
-        
-    }
-
-    const eliminarJugadores = (equipoId: string, jugadorId: string) => {
-        alertaQuestion(equipoId, {}, (equipoId: string) => {
-            eliminarJugador({ equipoId, jugadorId }, {
-                onSuccess: (success) => {
-                    queryClient.invalidateQueries(["equipos"]);
-                    alertaSubmit(true, success?.message);
-                },
-                onError: (err: any) => {
-                    const errorMessage = err?.response?.data?.message || err.message;
-                    alertaSubmit(false, errorMessage);
-                },
-            });
-        }, 'Si, Eliminar!', 'Eliminado de el equipo!', 'El jugador ha sido eliminado.', 'El jugador sigue en el equipo :)')
-    }
-
-    const eliminarDTs = (equipoId: string, dtId: string) => {
-        alertaQuestion(equipoId, {}, (equipoId: string) => {
-            eliminarDT({ equipoId, dtId }, {
-                onSuccess: (success) => {
-                    queryClient.invalidateQueries(["equipos"]);
-                    alertaSubmit(true, success?.message);
-                },
-                onError: (err: any) => {
-                    const errorMessage = err?.response?.data?.message || err.message;
-                    alertaSubmit(false, errorMessage);
-                },
-            });
-        }, 'Si, Eliminar!', 'Eliminado de el equipo!', 'El director tecnico ha sido eliminado.', 'El director  tecnico sigue en el equipo :)')
-    }
-
-    function stringToColor(string: string) {
-        let hash = 0;
-        let i;
-        /* eslint-disable no-bitwise */
-        for (i = 0; i < string.length; i += 1) {
-            hash = string.charCodeAt(i) + ((hash << 5) - hash);
-        }
-
-        let color = '#';
-        for (i = 0; i < 3; i += 1) {
-            const value = (hash >> (i * 8)) & 0xff;
-            color += `00${value.toString(16)}`.slice(-2);
-        }
-        /* eslint-enable no-bitwise */
-        return color;
-    }
-
-    function stringAvatar(name: string) {
-        const nameParts = name.split(' ');
-
-        let children = '';
-        if (nameParts.length >= 2) {
-            children = `${nameParts[0][0]}${nameParts[1][0]}`;
-        } else if (nameParts.length === 1) {
-            children = nameParts[0][0];
-        }
-
-        return {
-            sx: {
-                bgcolor: stringToColor(name),
-            },
-            children: children,
-        };
-    }
-
     return (
         <>
             {isLoading ?
@@ -187,7 +61,7 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
                 }}>
                     <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} />
                 </Grid>
-                : jugadoresOrdenados.length === 0 && director_tecnico.length === 0 ?
+                : ordenarJugadores(jugadores, posicionesOrdenadas).length === 0 && director_tecnico.length === 0 ?
                     <Grid mt={8} item sx={{
                         display: 'flex',
                         flexDirection: 'row',
@@ -202,30 +76,18 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
                     :
                     <TableContainer component={Paper} style={{ width: '100%', overflowX: 'auto' }}>
                         <Table aria-label="customized table" style={{ width: '100%' }} >
-                            <TableHead>
-                                <TableRow>
-                                    <StyledTableCell>Posicion</StyledTableCell>
-                                    <StyledTableCell align="left">Nombre</StyledTableCell>
-                                    <StyledTableCell align="left">Dorsal</StyledTableCell>
-                                    <StyledTableCell align="center">Pais</StyledTableCell>
-                                    <StyledTableCell />
-                                    <StyledTableCell />
-                                    <StyledTableCell />
-                                    <StyledTableCell />
-                                    <StyledTableCell />
-                                </TableRow>
-                            </TableHead>
+                            <CustomTableHead headers={planilla} />
                             <TableBody style={{ background: light ? 'var(--cero)' : 'var(--dark3)' }}>
                                 {director_tecnico.map((dt, index) => {
                                     return (
-                                        <StyledTableRow key={dt.id} style={{background: dt.suspendido === 'Si' && 'var(--danger2)'}}>
-                                            <StyledTableCell component="th" scope="row">
+                                        <StyledTableRow light={light} key={dt.id} style={{background: dt.suspendido === 'Si' && 'var(--danger2)'}}>
+                                            <StyledTableCell light={light} component="th" scope="row">
                                                 <Grid container alignItems={'center'} gap={2} sx={{ whiteSpace: 'nowrap', width: '70px' }}>
                                                     <Grid>..</Grid>
                                                     <Grid sx={{ color: 'var(--neutral)', fontWeight: 700, fontSize: '17px' }}>DT</Grid>
                                                 </Grid>
                                             </StyledTableCell>
-                                            <StyledTableCell align="right" style={{ whiteSpace: 'nowrap' }}>
+                                            <StyledTableCell light={light} align="right" style={{ whiteSpace: 'nowrap' }}>
                                                 <Grid sx={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', gap: '18px' }} >
                                                     <Avatar src="/broken-image.jpg" sx={{ height: '35px', width:'35px' }} />
                                                     <Grid sx={{ whiteSpace: 'nowrap', paddingRight: mobile && '30px', display:'flex', alignItems:'center',gap:'6px' }}>
@@ -239,35 +101,35 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
                                                     </Grid>
                                                 </Grid>
                                             </StyledTableCell>
-                                            <StyledTableCell align="left" style={{ fontWeight: 700, fontSize: '15px' }}>
+                                            <StyledTableCell light={light} align="left" style={{ fontWeight: 700, fontSize: '15px' }}>
                                                 <Grid container gap={1}>
                                                     <Grid item>#</Grid>
                                                     <Grid item>NO</Grid>
                                                 </Grid>
                                             </StyledTableCell>
-                                            <StyledTableCell align="center">{dt.nacionalidad}</StyledTableCell>
-                                            <StyledTableCell>
-                                                <Button onClick={() => { seleccionarDT(dt) }}>Editar</Button>
+                                            <StyledTableCell light={light} align="center">{dt.nacionalidad}</StyledTableCell>
+                                            <StyledTableCell light={light}>
+                                                <ButtonSend title={'Editar'} icon={Edit} disable={false} handle={()=>{seleccionarData(dt,setDtSeleccionado,setModalEditarDT)}} iconSize={20} iconColor={''}/>
                                             </StyledTableCell>
-                                            <StyledTableCell>
-                                                <Button onClick={() => { eliminarDTs(equipo._id, dt._id) }}> eliminar</Button>
+                                            <StyledTableCell light={light}>
+                                                <ButtonSend title={'Eliminar'} icon={Eliminar} disable={false} handle={()=>{eliminarDTs(equipo._id, dt._id,eliminarDT, queryClient)}} iconSize={20} iconColor={'var(--danger)'}/>
                                             </StyledTableCell>
-                                            <StyledTableCell>
-                                                <Button disabled onClick={() => {  }}>Lesion</Button>
+                                            <StyledTableCell light={light}>
+                                                <ButtonSend title={'Lesion'} icon={Lesion} disable={true} handle={()=>{null}} iconSize={20} iconColor={''}/>
                                             </StyledTableCell>
-                                            <StyledTableCell>
-                                                <Button disabled onClick={() => {  }}>Capitan</Button>
+                                            <StyledTableCell light={light}>
+                                                <ButtonSend title={'Capitan'} icon={Capitan} disable={true} handle={()=>{null}} iconSize={20} iconColor={''}/>
                                             </StyledTableCell>
-                                            <StyledTableCell>
-                                                <Button disabled={dt.jornadas_suspendido < 1} onClick={() => { seleccionarDTJornada(dt) }}>suspencion</Button>
+                                            <StyledTableCell light={light}>
+                                                <ButtonSend title={'Suspencion'} icon={Suspender} disable={dt.jornadas_suspendido < 1} handle={()=>{seleccionarData(dt,setDtSeleccionado,setModalJornadaDT)}} iconSize={20} iconColor={''}/>
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     )
                                 })}
-                                {jugadoresOrdenados.map((jugador, index) => {
+                                {ordenarJugadores(jugadores, posicionesOrdenadas).map((jugador, index) => {
                                     return (
-                                        <StyledTableRow key={jugador.id} style={{background: jugador.suspendido === 'Si' && 'var(--danger2)'}}>
-                                            <StyledTableCell component="th" scope="row">
+                                        <StyledTableRow light={light} key={jugador.id} style={{background: jugador.suspendido === 'Si' && 'var(--danger2)'}}>
+                                            <StyledTableCell light={light} component="th" scope="row">
                                                 <Grid container alignItems={'center'} gap={2} sx={{ whiteSpace: 'nowrap', width: '70px' }}>
                                                     <Grid>{index + 1}</Grid>
                                                     {(jugador.posicion == 'Portero') &&
@@ -280,8 +142,8 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
                                                         <Grid sx={{ color: 'var(--primario)', fontWeight: 700, fontSize: '17px' }}>DEL</Grid>}
                                                 </Grid>
                                             </StyledTableCell>
-                                            <StyledTableCell align="right" style={{ whiteSpace: 'nowrap' }}>
-                                                <Grid sx={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', gap: '18px', cursor:'pointer' }} onClick={() => { seleccionarJugadorInfo(jugador) }}>
+                                            <StyledTableCell light={light} align="right" style={{ whiteSpace: 'nowrap' }}>
+                                                <Grid sx={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', gap: '18px', cursor:'pointer' }} onClick={() => { seleccionarData(jugador,setJugadorSeleccionado,setModalJugadorInfo) }}>
                                                     <Avatar {...stringAvatar(jugador.name)} sx={{ height: '35px', width: '35px' }} />
                                                     <Grid sx={{ whiteSpace: 'nowrap', paddingRight: mobile && '30px', display:'flex', alignItems:'center',gap:'6px' }}>
                                                         {jugador.name}
@@ -305,34 +167,30 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
                                                     </Grid>
                                                 </Grid>
                                             </StyledTableCell>
-                                            <StyledTableCell align="left" style={{ fontWeight: 700, fontSize: '15px' }}>
+                                            <StyledTableCell light={light} align="left" style={{ fontWeight: 700, fontSize: '15px' }}>
                                                 <Grid container gap={1}>
                                                     <Grid item>#</Grid>
                                                     <Grid item>{jugador.dorsal}</Grid>
                                                 </Grid>
                                             </StyledTableCell>
-                                            <StyledTableCell align="center">{jugador.nacionalidad}</StyledTableCell>
-                                            <StyledTableCell>
-                                                <Button onClick={() => { seleccionarJugador(jugador) }}>Editar</Button>
+                                            <StyledTableCell light={light} align="center">{jugador.nacionalidad}</StyledTableCell>
+                                            <StyledTableCell light={light}>
+                                                <ButtonSend title={'Editar'} icon={Edit} disable={false} handle={()=>{seleccionarData(jugador,setJugadorSeleccionado,setModalEditarJugador)}} iconSize={20} iconColor={''}/>
                                             </StyledTableCell>
-                                            <StyledTableCell>
-                                                <Button onClick={() => { eliminarJugadores(equipo._id, jugador._id) }}> eliminar</Button>
+                                            <StyledTableCell light={light}>
+                                                <ButtonSend title={'Eliminar'} icon={Eliminar} disable={false} handle={()=>{eliminarJugadores(equipo._id, jugador._id,eliminarJugador,queryClient)}} iconSize={20} iconColor={'var(--danger)'}/>
                                             </StyledTableCell>
-                                            <StyledTableCell>
+                                            <StyledTableCell light={light}>
                                                 {jugador.lesion === 'No' &&
-                                                    <Button onClick={() => { lesionJugadores(
-                                                    equipo._id,jugador._id, lesion_jugador,queryClient, 'Si'
-                                                ) }}>Lesion</Button>}
+                                                <ButtonSend title={'Lesion'} icon={Lesion} disable={false} handle={()=>{lesionJugadores(equipo._id,jugador._id, lesion_jugador,queryClient, 'Si')}} iconSize={20} iconColor={''}/>}
                                                 {jugador.lesion === 'Si' &&
-                                                    <Button onClick={() => { lesionJugadoresNO(
-                                                    equipo._id,jugador._id, lesion_jugador,queryClient, 'No'
-                                                ) }}>Recuperar</Button>}
+                                                <ButtonSend title={'Recuperar'} icon={Lesion} disable={false} handle={()=>{lesionJugadoresNO(equipo._id,jugador._id, lesion_jugador,queryClient, 'No')}} iconSize={20} iconColor={''}/>}
                                             </StyledTableCell>
-                                            <StyledTableCell>
-                                                <Button onClick={() => { seleccionarJugadorCapitan(jugador) }}>Capitan</Button>
+                                            <StyledTableCell light={light}>
+                                                <ButtonSend title={'Capitan'} icon={Capitan} disable={false} handle={()=>{seleccionarData(jugador,setJugadorSeleccionado,setModalJugadorCapitan)}} iconSize={20} iconColor={''}/>
                                             </StyledTableCell>
-                                            <StyledTableCell>
-                                                <Button disabled={jugador.jornadas_suspendido < 1} onClick={() => {seleccionarJugadorJornada(jugador) }}>suspencion</Button>
+                                            <StyledTableCell light={light}>
+                                                <ButtonSend title={'Suspencion'} icon={Suspender} disable={jugador.jornadas_suspendido < 1} handle={()=>{seleccionarData(jugador,setJugadorSeleccionado,setModalEditarJornada)}} iconSize={20} iconColor={''}/>
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     )

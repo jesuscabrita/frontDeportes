@@ -1,12 +1,12 @@
 import { Button, CircularProgress, Grid, useMediaQuery } from "@mui/material"
 import { useContext, useState, useEffect } from "react";
-import Context from "../../context/contextPrincipal";
+import Context from "../../../context/contextPrincipal";
 import { useMutation, useQueryClient } from "react-query";
-import { equiposDelete, equiposPut } from "../../service/equipos";
+import { equiposDelete, equiposPut } from "../../../service/equipos";
 import { TiDeleteOutline as Delete } from 'react-icons/ti';
 import { AiTwotoneEdit as Edit } from 'react-icons/ai';
-import { ModalEditarEquipo } from "../modals/ModalEditarEquipo";
-import { editarEstado, eliminarEquipos } from "../../utils/utils";
+import { ModalEditarEquipo } from "../../modals/ModalEditarEquipo";
+import { editarEstado, eliminarEquipos } from "../../../utils/utils";
 
 export const ListaEquipoRegistro = ({ data, isLoading}) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });

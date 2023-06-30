@@ -1,12 +1,12 @@
 import { Grid, useMediaQuery } from "@mui/material";
-import { PositionTable } from "../components/Shared/Table";
+import { PositionTable } from "../components/Tabla/Table";
 import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@mui/material/styles';
 import { useContext, useState } from "react";
-import { TablaGoleadores } from "../components/Shared/TablaGoleadores";
-import { TablaAsistidores } from "../components/Shared/TablaAsistidores";
-import { TablaAmarillas } from "../components/Shared/TablaAmarillas";
-import { TablaRojas } from "../components/Shared/TablaRojas";
+import { TablaGoleadores } from "../components/Tabla/TablaGoleadores";
+import { TablaAsistidores } from "../components/Tabla/TablaAsistidores";
+import { TablaAmarillas } from "../components/Tabla/TablaAmarillas";
+import { TablaRojas } from "../components/Tabla/TablaRojas";
 import { TabPanel } from "../components/MaterialUi/TabPanel";
 import Context from "../context/contextPrincipal";
 import { MdOutlineTableChart as Tablas } from 'react-icons/md';
@@ -50,38 +50,38 @@ const Tabla = () => {
     })
 
     return (
-    <>
-        <Grid item sx={{ minHeight: !mobile ? '180vh' : '100%', width: '100%', paddingTop: '90px', }}>
-            <Grid item sx={{ padding: '18px', width: '100%' }}>
-                <Grid item container justifyContent={'center'}>
-                    <LogoRegister name={'Tablas'} />
+        <>
+            <Grid item sx={{ minHeight: !mobile ? '180vh' : '100%', width: '100%', paddingTop: '90px', }}>
+                <Grid item sx={{ padding: '18px', width: '100%' }}>
+                    <Grid item container justifyContent={'center'}>
+                        <LogoRegister name={'Tablas'} />
+                    </Grid>
+                    <Grid item container sx={{ height: 'min-content' }}>
+                        {opcionSelect.map(opcion => (
+                            <MenuTabla opcion={opcion} valueSelect={value} handleChange={handleChange} />
+                        ))}
+                        <Grid container sx={{ borderBottom: light ? '2px solid var(--gris)' : '2px solid var(--neutral)', marginTop: '-10px' }}></Grid>
+                    </Grid>
+                    <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
+                        <TabPanel value={value} index={0} dir={theme.direction}>
+                            <PositionTable data={filterEstado(data, 'registrado')} isLoading={isLoading} isError={isError} />
+                        </TabPanel>
+                        <TabPanel value={value} index={1} dir={theme.direction}>
+                            <TablaGoleadores data={filterEstado(data, 'registrado')} isLoading={isLoading} isError={isError} />
+                        </TabPanel>
+                        <TabPanel value={value} index={2} dir={theme.direction}>
+                            <TablaAsistidores data={filterEstado(data, 'registrado')} isLoading={isLoading} isError={isError} />
+                        </TabPanel>
+                        <TabPanel value={value} index={3} dir={theme.direction}>
+                            <TablaAmarillas data={filterEstado(data, 'registrado')} isLoading={isLoading} isError={isError} />
+                        </TabPanel>
+                        <TabPanel value={value} index={4} dir={theme.direction}>
+                            <TablaRojas data={filterEstado(data, 'registrado')} isLoading={isLoading} isError={isError} />
+                        </TabPanel>
+                    </SwipeableViews>
                 </Grid>
-                <Grid item container sx={{ height: 'min-content' }}>
-                    {opcionSelect.map(opcion => (
-                        <MenuTabla opcion={opcion} valueSelect={value} handleChange={handleChange} />
-                    ))}
-                    <Grid container sx={{ borderBottom: light ? '2px solid var(--gris)' : '2px solid var(--neutral)', marginTop: '-10px' }}></Grid>
-                </Grid>
-                <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
-                    <TabPanel value={value} index={0} dir={theme.direction}>
-                        <PositionTable data={filterEstado(data, 'registrado')} isLoading={isLoading} isError={isError} />
-                    </TabPanel>
-                    <TabPanel value={value} index={1} dir={theme.direction}>
-                        <TablaGoleadores data={filterEstado(data, 'registrado')} isLoading={isLoading} isError={isError}/>
-                    </TabPanel>
-                    <TabPanel value={value} index={2} dir={theme.direction}>
-                        <TablaAsistidores data={filterEstado(data, 'registrado')} isLoading={isLoading} isError={isError} />
-                    </TabPanel>
-                    <TabPanel value={value} index={3} dir={theme.direction}>
-                        <TablaAmarillas data={filterEstado(data, 'registrado')} isLoading={isLoading} isError={isError} />
-                    </TabPanel>
-                    <TabPanel value={value} index={4} dir={theme.direction}>
-                        <TablaRojas data={filterEstado(data, 'registrado')} isLoading={isLoading} isError={isError} />
-                    </TabPanel>
-                </SwipeableViews>
             </Grid>
-        </Grid>
-    </>
+        </>
     );
 };
 export default Tabla;

@@ -2,12 +2,12 @@ import { Button, CircularProgress, Grid, useMediaQuery } from "@mui/material";
 import { useContext, useState } from "react";
 import { RiImageAddFill as Add } from 'react-icons/ri';
 import { useMutation, useQueryClient } from "react-query";
-import { equiposPost } from "../../service/equipos";
-import Context from "../../context/contextPrincipal";
-import { InputText } from "../MaterialUi/InputTex";
+import { equiposPost } from "../../../service/equipos";
+import Context from "../../../context/contextPrincipal";
+import { InputText } from "../../MaterialUi/InputTex";
 import { IoMdImages as Images } from 'react-icons/io';
 import { TiDeleteOutline as Delete } from 'react-icons/ti';
-import { nuevoEquipo } from "../../utils/utils";
+import { nuevoEquipo } from "../../../utils/utils";
 
 export const Form = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -16,7 +16,7 @@ export const Form = () => {
     const [image, setImage] = useState(null);
     const [correo, setCorreo] = useState('');
     const [instagram, setInstagram] = useState('');
-    const [isLoading, setIsLoading] = useState(false); 
+    const [isLoading, setIsLoading] = useState(false);
     const { mutate: crearEquipo } = useMutation(equiposPost);
     const [logoAdded, setLogoAdded] = useState(false);
     const [imageName, setImageName] = useState('');
@@ -88,12 +88,12 @@ export const Form = () => {
                     </Grid>
                 </Grid>
             )}
-            {isLoading && ( 
+            {isLoading && (
                 <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '180vh' : '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <CircularProgress color="primary" />
                 </div>
             )}
-            <Button onClick={() => { nuevoEquipo(name, image, correo, instagram, setIsLoading, crearEquipo, queryClient, setName, setImage, setCorreo, setInstagram, setLogoAdded, setImageName ) }} sx={{ color: 'var(--primario)', fontSize: '16px' }}>Registrar</Button>
+            <Button onClick={() => { nuevoEquipo(name, image, correo, instagram, setIsLoading, crearEquipo, queryClient, setName, setImage, setCorreo, setInstagram, setLogoAdded, setImageName) }} sx={{ color: 'var(--primario)', fontSize: '16px' }}>Registrar</Button>
         </Grid>
     )
 }

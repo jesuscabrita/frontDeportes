@@ -1,40 +1,55 @@
-import { alertaSubmit } from "./alert";
+import { alertaQuestion, alertaSubmit } from "./alert";
 
-export const creardt = (id: string, name: string, fecha_nacimiento: string ,nacionalidad: string, instagram: string, telefono ,foto: string, setIsLoading, creardirectorTecnico, queryClient, handleClose) => {
+export const creardt = (id: string, name: string, fecha_nacimiento: string, nacionalidad: string, instagram: string, telefono, foto: string, setIsLoading, creardirectorTecnico, queryClient, handleClose) => {
     setIsLoading(true);
-    const formData = { name, fecha_nacimiento, nacionalidad ,instagram,telefono ,foto };
-        creardirectorTecnico({ form: formData, eid: id }, {
+    const formData = { name, fecha_nacimiento, nacionalidad, instagram, telefono, foto };
+    creardirectorTecnico({ form: formData, eid: id }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["equipos"]);
+            alertaSubmit(true, success?.message);
+            setIsLoading(false);
+            handleClose()
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+}
+
+export const editarDTs = (equipoId: string, dtId: string, name: string, fecha_nacimiento: string, nacionalidad: string, instagram: string, telefono, foto: string, setIsLoading, editardt, queryClient, handleClose) => {
+    setIsLoading(true);
+    const formData = { name, fecha_nacimiento, nacionalidad, instagram, telefono, foto };
+    editardt({ form: formData, equipoId, dtId }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["equipos"]);
+            alertaSubmit(true, success?.message);
+            setIsLoading(false);
+            handleClose()
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+}
+
+export const eliminarDTs = (equipoId: string, dtId: string, eliminarDT, queryClient) => {
+    alertaQuestion(equipoId, {}, (equipoId: string) => {
+        eliminarDT({ equipoId, dtId }, {
             onSuccess: (success) => {
                 queryClient.invalidateQueries(["equipos"]);
                 alertaSubmit(true, success?.message);
-                setIsLoading(false);
-                handleClose()
             },
             onError: (err: any) => {
                 const errorMessage = err?.response?.data?.message || err.message;
                 alertaSubmit(false, errorMessage);
-                setIsLoading(false);
             },
         });
-    }
-
-export const editarDTs = (equipoId: string, dtId: string, name: string, fecha_nacimiento: string ,nacionalidad: string, instagram: string, telefono, foto: string, setIsLoading, editardt, queryClient, handleClose) => {
-    setIsLoading(true);
-    const formData = { name, fecha_nacimiento, nacionalidad ,instagram,telefono ,foto };
-        editardt({ form: formData, equipoId, dtId}, {
-            onSuccess: (success) => {
-                queryClient.invalidateQueries(["equipos"]);
-                alertaSubmit(true, success?.message);
-                setIsLoading(false);
-                handleClose()
-            },
-            onError: (err: any) => {
-                const errorMessage = err?.response?.data?.message || err.message;
-                alertaSubmit(false, errorMessage);
-                setIsLoading(false);
-            },
-        });
-    }
+    }, 'Si, Eliminar!', 'Eliminado de el equipo!', 'El director tecnico ha sido eliminado.', 'El director  tecnico sigue en el equipo :)')
+}
 
 export const editarPartidoDT = (
     equipoId: string,
@@ -72,16 +87,16 @@ export const editarPartidoDT = (
 };
 
 export const bajarPartidoDT = (
-    equipoId: string, 
-    dtId: string, 
-    index: number, 
-    jugador_name: string, 
-    partido: number, 
+    equipoId: string,
+    dtId: string,
+    index: number,
+    jugador_name: string,
+    partido: number,
     partidoIndividual,
     setIsLoading,
     editarPartidosDT,
     queryClient
-    ) => {
+) => {
     setIsLoading(true);
     let updatedpartidoArr = [...partidoIndividual];
     let updatedpartido = 'No';
@@ -304,25 +319,25 @@ export const editarRojaDT = (
 };
 
 export const anularRojaDT = (
-    equipoId: string, 
-    dtId: string, 
-    index: number, 
-    jugador_roja: number, 
-    jugador_name: string, 
-    rojas: number, 
-    rojasAFavor: number, 
+    equipoId: string,
+    dtId: string,
+    index: number,
+    jugador_roja: number,
+    jugador_name: string,
+    rojas: number,
+    rojasAFavor: number,
     rojaPartidoIndividual,
     suspendidoNumero: number,
     setIsLoading,
     editarRojasDTs,
     queryClient
-    ) => {
+) => {
     setIsLoading(true);
     let updatedRojaspartidoArr = [...rojaPartidoIndividual];
     let updatedRojapartido = jugador_roja - 1;
     updatedRojaspartidoArr[index] = updatedRojapartido;
     let restaRojasaFavor = rojasAFavor - 1;
-    let restaRojas = rojas - 1; 
+    let restaRojas = rojas - 1;
     let restarSuspencion = suspendidoNumero - 1;
     if (jugador_roja < 1) {
         alertaSubmit(false, 'no puedes anular si no tiene tarjeta roja');
@@ -333,8 +348,8 @@ export const anularRojaDT = (
         roja_partido: updatedRojaspartidoArr,
         tarjetas_rojas: restaRojas,
         tarjetasRojas: restaRojasaFavor,
-        suspendido_numero :restarSuspencion,
-        suspendido : 'No',
+        suspendido_numero: restarSuspencion,
+        suspendido: 'No',
     };
     editarRojasDTs({ form: formData, equipoId, dtId }, {
         onSuccess: (success) => {
@@ -391,22 +406,22 @@ export const editarAzulDT = (
 };
 
 export const anularAzulDT = (
-    equipoId: string, 
-    dtId: string, 
-    index: number, 
-    jugador_azul: number, 
-    jugador_name: string, 
-    azul: number, 
+    equipoId: string,
+    dtId: string,
+    index: number,
+    jugador_azul: number,
+    jugador_name: string,
+    azul: number,
     azulPartidoIndividual,
     setIsLoading,
     editarAzules,
     queryClient
-    ) => {
+) => {
     setIsLoading(true);
     let updatedAzulpartidoArr = [...azulPartidoIndividual];
     let updatedAzulpartido = jugador_azul - 1;
     updatedAzulpartidoArr[index] = updatedAzulpartido;
-    let sumaAzul = azul - 1; 
+    let sumaAzul = azul - 1;
     if (jugador_azul < 1) {
         alertaSubmit(false, 'no puedes anular si no tiene tarjeta azul');
         setIsLoading(false);
@@ -471,17 +486,17 @@ export const editarFiguraDT = (
 };
 
 export const anularFiguraDT = (
-    equipoId: string, 
-    dtId: string, 
-    index: number, 
-    jugador_figura: number, 
-    jugador_name: string, 
-    figura: number, 
+    equipoId: string,
+    dtId: string,
+    index: number,
+    jugador_figura: number,
+    jugador_name: string,
+    figura: number,
     figuraPartidoIndividual,
     setIsLoading,
     editarFiguraDT,
     queryClient
-    ) => {
+) => {
     setIsLoading(true);
     let updatedFigurapartidoArr = [...figuraPartidoIndividual];
     let updatedFigurapartido = jugador_figura - 1;

@@ -4,7 +4,7 @@ import { Grid } from '@mui/material';
 import { ButtonNavbar } from './ButtonNavbar';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useContext } from 'react';
-import Context from '../../context/contextPrincipal';
+import Context from '../../../context/contextPrincipal';
 import { MaterialUISwitch } from './MaterialUISwitch';
 
 export const Navbar = () => {

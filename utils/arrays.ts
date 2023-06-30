@@ -1,15 +1,15 @@
 export const posiciones = [
-    {value: 'Portero', label: 'Portero'},
-    {value: 'Defensa', label: 'Defensa'},
-    {value: 'Medio', label: 'Medio'},
-    {value: 'Delantero', label: 'Delantero'}
+    { value: 'Portero', label: 'Portero' },
+    { value: 'Defensa', label: 'Defensa' },
+    { value: 'Medio', label: 'Medio' },
+    { value: 'Delantero', label: 'Delantero' }
 ]
 
 export const arbitros = [
-    {value: 'Negreira', label: 'Negreira'},
-    {value: 'Fulanito Perez', label: 'Fulanito Perez'},
-    {value: 'Jesus Cabrita', label: 'Jesus Cabrita'},
-    {value: 'Gil Manzano', label: 'Gil Manzano'}
+    { value: 'Negreira', label: 'Negreira' },
+    { value: 'Fulanito Perez', label: 'Fulanito Perez' },
+    { value: 'Jesus Cabrita', label: 'Jesus Cabrita' },
+    { value: 'Gil Manzano', label: 'Gil Manzano' }
 ]
 
 export const nationalities = [
@@ -32,3 +32,35 @@ export const nationalities = [
     { value: 'Ecuador', label: 'Ecuador' },
     { value: 'Venezuela', label: 'Venezuela' },
 ];
+
+export const headers = [
+    { label: 'Club', align: 'left' },
+    { label: 'PTS', align: 'right' },
+    { label: 'PJ', align: 'right' },
+    { label: 'G', align: 'right' },
+    { label: 'E', align: 'right' },
+    { label: 'P', align: 'right' },
+    { label: 'GF', align: 'right' },
+    { label: 'GC', align: 'right' },
+    { label: 'DG', align: 'right' },
+    { label: 'Ultimos 5', align: 'center' },
+];
+
+export const planilla = [
+    { label: 'Posicion', align: '' },
+    { label: 'Nombre', align: 'left' },
+    { label: 'Dorsal', align: 'left' },
+    { label: 'Pais', align: 'center' },
+    { label: '', align: '' },
+    { label: '', align: '' },
+    { label: '', align: '' },
+    { label: '', align: '' },
+    { label: '', align: '' },
+];
+
+export  const posicionesOrdenadas = {
+    'Portero': 1,
+    'Defensa': 2,
+    'Medio': 3,
+    'Delantero': 4,
+};

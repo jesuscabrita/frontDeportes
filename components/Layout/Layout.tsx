@@ -3,7 +3,7 @@ import { useMediaQuery } from "@mui/material";
 import { Grid } from '@mui/material';
 import { useContext } from "react";
 import Context from "../../context/contextPrincipal";
-import { Navbar } from "../home/Navbar";
+import { Navbar } from "./Navbar/Navbar";
 
 export const Layout = ({ children }) => {
     const [light] = useContext(Context);

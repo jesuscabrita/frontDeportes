@@ -1,5 +1,20 @@
 import { alertaQuestion, alertaSubmit } from "./alert";
 
+export const eliminarJugadores = (equipoId: string, jugadorId: string, eliminarJugador, queryClient) => {
+    alertaQuestion(equipoId, {}, (equipoId: string) => {
+        eliminarJugador({ equipoId, jugadorId }, {
+            onSuccess: (success) => {
+                queryClient.invalidateQueries(["equipos"]);
+                alertaSubmit(true, success?.message);
+            },
+            onError: (err: any) => {
+                const errorMessage = err?.response?.data?.message || err.message;
+                alertaSubmit(false, errorMessage);
+            },
+        });
+    }, 'Si, Eliminar!', 'Eliminado de el equipo!', 'El jugador ha sido eliminado.', 'El jugador sigue en el equipo :)')
+}
+
 export const editarRoja = (
     equipoId: string,
     jugadorId: string,
@@ -476,12 +491,12 @@ export const datosDelPartidoHome = (
     });
 }
 
-export const lesionJugadores = (equipoId: string, jugadorId: string, lesionJugador,queryClient, lesion) => {
+export const lesionJugadores = (equipoId: string, jugadorId: string, lesionJugador, queryClient, lesion) => {
     alertaQuestion(equipoId, {}, (equipoId: string) => {
         const formData = {
             lesion: lesion,
         };
-        lesionJugador({form: formData, equipoId, jugadorId }, {
+        lesionJugador({ form: formData, equipoId, jugadorId }, {
             onSuccess: (success) => {
                 queryClient.invalidateQueries(["equipos"]);
                 alertaSubmit(true, success?.message);
@@ -494,12 +509,12 @@ export const lesionJugadores = (equipoId: string, jugadorId: string, lesionJugad
     }, 'Si, Lesionar!', 'Jugador Lesionado!', 'El jugador ha sido lesionado.', 'El jugador no se lesiono :)')
 }
 
-export const lesionJugadoresNO = (equipoId: string, jugadorId: string, lesionJugador,queryClient, lesion) => {
+export const lesionJugadoresNO = (equipoId: string, jugadorId: string, lesionJugador, queryClient, lesion) => {
     alertaQuestion(equipoId, {}, (equipoId: string) => {
         const formData = {
             lesion: lesion,
         };
-        lesionJugador({form: formData, equipoId, jugadorId }, {
+        lesionJugador({ form: formData, equipoId, jugadorId }, {
             onSuccess: (success) => {
                 queryClient.invalidateQueries(["equipos"]);
                 alertaSubmit(true, success?.message);
