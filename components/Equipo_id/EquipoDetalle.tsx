@@ -12,17 +12,17 @@ import { AiOutlineNumber as Puntos } from 'react-icons/ai';
 import { FaEquals as Empate } from 'react-icons/fa';
 import { MdVerified as Ganado } from 'react-icons/md';
 import { AiOutlineCloseCircle as Perdido } from 'react-icons/ai';
-import { MenuTabla } from "../MaterialUi/MenuTabla";
+import { MenuTabla } from "../Material/MenuTabla";
 import { TbTemplate as Plantilla } from 'react-icons/tb';
 import { GiSoccerKick as Asistir } from 'react-icons/gi';
 import { GiSoccerBall as Goles } from 'react-icons/gi';
 import { BiTransfer as Fichaje } from 'react-icons/bi';
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from '@mui/material/styles';
-import { TabPanel } from "../MaterialUi/TabPanel";
-import { ModalJugador } from "../modals/ModalJugador";
+import { TabPanel } from "../Material/TabPanel";
+import { ModalCrearJugador } from "../modals/Jugador/ModalCrearJugador";
 import { TablaPlantilla } from "./TablaPlantilla";
-import { TablaEstadisticas } from "../MaterialUi/TablaEstadisticas";
+import { TablaEstadisticas } from "./TablaEstadisticas";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { equiposGet } from "../../service/equipos";
 import { filterEstado, ordenPosition, seleccionarData } from "../../utils/utils";
@@ -135,18 +135,18 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
                         {data?.delegado.length === 0 ? ' No definido' : ' ' + data?.delegado[0].name}
                         {data?.delegado.length > 0 &&
                             <Tooltip title="Elimina el delegado" placement="top">
-                                <Grid sx={{ cursor: 'pointer' }} onClick={() => { eliminarDelegados(equipo_id, data?.delegado[0]._id,eliminarDelegado,queryClient) }}>
+                                <Grid sx={{ cursor: 'pointer' }} onClick={() => { eliminarDelegados(equipo_id, data?.delegado[0]._id, eliminarDelegado, queryClient) }}>
                                     <Borrar size={20} color={'var(--danger)'} />
                                 </Grid>
                             </Tooltip>}
                         {data?.delegado.length > 0 &&
                             <Tooltip title="Editar el delegado" placement="top">
-                                <Grid sx={{ cursor: 'pointer' }} onClick={() => { seleccionarData(data?.delegado,setDelegadoSeleccionado,setModalDelegadoEditar) }}>
+                                <Grid sx={{ cursor: 'pointer' }} onClick={() => { seleccionarData(data?.delegado, setDelegadoSeleccionado, setModalDelegadoEditar) }}>
                                     <Editar size={20} />
                                 </Grid>
                             </Tooltip>}
                         <Tooltip title="Contactar al delegado del equipo" placement="top">
-                            <Grid sx={{ cursor: 'pointer' }} onClick={() => { seleccionarData(data?.delegado,setDelegadoSeleccionado, setModalDelegadoChat) }}>
+                            <Grid sx={{ cursor: 'pointer' }} onClick={() => { seleccionarData(data?.delegado, setDelegadoSeleccionado, setModalDelegadoChat) }}>
                                 <Chat size={20} />
                             </Grid>
                         </Tooltip>
@@ -177,9 +177,9 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
             <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
                 <TabPanel value={value} index={0} dir={theme.direction}>
                     <Grid item mt={1} mb={1} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px' }}>
-                        <ButtonSend title={'Fichar jugador libre'} icon={CreatePlayer} disable={false} handle={()=>{setModalJugador(!modalJugador)}} iconSize={20} iconColor={'var(--check)'}/>
-                        <ButtonSend title={'Fichar DT'} icon={CreatePlayer} disable={data.director_tecnico.length > 0} handle={()=>{setModalDT(!modalDT)}} iconSize={20} iconColor={'var(--check)'}/>
-                        <ButtonSend title={'Fichar Delegado'} icon={CreatePlayer} disable={data?.delegado.length > 0} handle={()=>{setModalDelegado(!modalDelegado)}} iconSize={20} iconColor={'var(--check)'}/>
+                        <ButtonSend title={'Fichar jugador libre'} icon={CreatePlayer} disable={false} handle={() => { setModalJugador(!modalJugador) }} iconSize={20} iconColor={'var(--check)'} />
+                        <ButtonSend title={'Fichar DT'} icon={CreatePlayer} disable={data.director_tecnico.length > 0} handle={() => { setModalDT(!modalDT) }} iconSize={20} iconColor={'var(--check)'} />
+                        <ButtonSend title={'Fichar Delegado'} icon={CreatePlayer} disable={data?.delegado.length > 0} handle={() => { setModalDelegado(!modalDelegado) }} iconSize={20} iconColor={'var(--check)'} />
                     </Grid>
                     <TablaPlantilla jugadores={data.jugadores} equipo={data} isLoading={isLoading} director_tecnico={data.director_tecnico} />
                 </TabPanel>
@@ -199,7 +199,7 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
                     Fichajes
                 </TabPanel>
             </SwipeableViews>
-            {modalJugador && <ModalJugador open={modalJugador} setOpen={setModalJugador} id={data?._id} />}
+            {modalJugador && <ModalCrearJugador open={modalJugador} setOpen={setModalJugador} id={data?._id} />}
             {modalDT && <ModalDT open={modalDT} setOpen={setModalDT} id={data?._id} />}
             {modalDelegado && <ModalDelegado open={modalDelegado} setOpen={setModalDelegado} id={data?._id} />}
             {delegadoSeleccionado && <ModalDelegadoEditar open={modalDelegadoEditar} setOpen={setModalDelegadoEditar} id={data?._id} data={data?.delegado[0]} />}

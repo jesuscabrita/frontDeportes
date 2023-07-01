@@ -1,11 +1,21 @@
 export const posiciones = [
+    { value: 'Seleccionar', label: 'Seleccionar' },
     { value: 'Portero', label: 'Portero' },
     { value: 'Defensa', label: 'Defensa' },
     { value: 'Medio', label: 'Medio' },
     { value: 'Delantero', label: 'Delantero' }
 ]
 
+export const optionJornada = [
+    { value: 'Seleccionar', label: 'Seleccionar' },
+    { value: 1, label: '1 jornada' },
+    { value: 2, label: '2 jornadas' },
+    { value: 3, label: '3 jornadas' },
+    { value: 4, label: '4 jornadas' }
+]
+
 export const arbitros = [
+    { value: 'Seleccionar', label: 'Seleccionar' },
     { value: 'Negreira', label: 'Negreira' },
     { value: 'Fulanito Perez', label: 'Fulanito Perez' },
     { value: 'Jesus Cabrita', label: 'Jesus Cabrita' },
@@ -13,6 +23,7 @@ export const arbitros = [
 ]
 
 export const nationalities = [
+    { value: 'Seleccionar', label: 'Seleccionar' },
     { value: 'Argentina', label: 'Argentina' },
     { value: 'Armenia', label: 'Armenia' },
     { value: 'Alemania', label: 'Alemania' },

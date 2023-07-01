@@ -2,7 +2,6 @@ import { Button } from "@mui/material"
 import { useContext } from "react";
 import Context from "../../context/contextPrincipal";
 
-
 export const ButtonSend = ({ title, handle, disable, icon: IconComponent, iconSize, iconColor }) => {
     const [light] = useContext(Context);
 

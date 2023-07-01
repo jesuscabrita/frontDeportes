@@ -1,6 +1,6 @@
 import { Avatar, Button, Grid, useMediaQuery, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { useContext, useState } from "react";
-import Context from "../../context/contextPrincipal";
+import { useContext } from "react";
+import Context from "../../../context/contextPrincipal";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -12,7 +12,10 @@ import { GiSoccerKick as Asistir } from 'react-icons/gi';
 import { MdLocalHospital as Lesion } from 'react-icons/md';
 import { BsInstagram as Insta } from 'react-icons/bs';
 import { BsTwitter as Twitter } from 'react-icons/bs';
+import { BiExit as Salir } from 'react-icons/bi';
 import moment from "moment";
+import { calcularPromedio, formatoPesosArgentinos, stringAvatar } from "../../../utils/utils";
+import { ButtonSend } from "../../Material/ButtonSend";
 
 export const ModalJugadorInfo =({open, setOpen, jugador})=>{
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -23,54 +26,6 @@ export const ModalJugadorInfo =({open, setOpen, jugador})=>{
     const handleClose = () => {
         setOpen(false);
     };
-
-    function stringToColor(string: string) {
-        let hash = 0;
-        let i;
-        /* eslint-disable no-bitwise */
-        for (i = 0; i < string.length; i += 1) {
-            hash = string.charCodeAt(i) + ((hash << 5) - hash);
-        }
-
-        let color = '#';
-        for (i = 0; i < 3; i += 1) {
-            const value = (hash >> (i * 8)) & 0xff;
-            color += `00${value.toString(16)}`.slice(-2);
-        }
-        /* eslint-enable no-bitwise */
-        return color;
-    }
-
-    function stringAvatar(name: string) {
-        const nameParts = name.split(' ');
-
-        let children = '';
-        if (nameParts.length >= 2) {
-            children = `${nameParts[0][0]}${nameParts[1][0]}`;
-        } else if (nameParts.length === 1) {
-            children = nameParts[0][0];
-        }
-
-        return {
-            sx: {
-                bgcolor: stringToColor(name),
-            },
-            children: children,
-        };
-    }
-
-    const calcularPromedio = (jugador, partidos)=> {
-        const promedio = (jugador / partidos).toFixed(2);
-        const promedioNumber = parseFloat(promedio);
-        const promedioFormatted = isNaN(promedioNumber) ? '-' : promedioNumber.toFixed(2);
-        return promedioFormatted;
-    }
-
-    
-    const formatoPesosArgentinos=(valor)=> {
-        let formato = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
-        return formato.format(valor);
-    }
 
     return(
         <Grid>
@@ -207,7 +162,7 @@ export const ModalJugadorInfo =({open, setOpen, jugador})=>{
                     </Grid>
                 </DialogContent>
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
-                    <Button onClick={handleClose} sx={{ color: 'var(--primario)' }}>Cancelar</Button>
+                    <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
                 </DialogActions>
             </Dialog>
         </Grid>

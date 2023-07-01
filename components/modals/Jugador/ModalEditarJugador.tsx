@@ -1,35 +1,39 @@
-import { Button, CircularProgress, Grid, useMediaQuery } from "@mui/material";
+import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
-import Context from "../../context/contextPrincipal";
+import Context from "../../../context/contextPrincipal";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { InputText } from "../Material/InputTex";
+import { InputText } from "../../Material/InputTex";
 import { useMutation, useQueryClient } from "react-query";
 import moment from "moment";
-import { InputSelect } from "../Material/InputSelect";
-import { nationalities, posiciones } from "../../utils/arrays";
-import { InputFecha } from "../Material/InputFecha";
-import { InputImagen } from "../Shared/InputImagen";
-import { DTPut } from "../../service/dt";
-import { alertaSubmit } from "../../utils/alert";
-import { editarDTs } from "../../utils/utilsDT";
+import { InputSelect } from "../../Material/InputSelect";
+import { nationalities, posiciones } from "../../../utils/arrays";
+import { InputFecha } from "../../Material/InputFecha";
+import { InputImagen } from "../../Shared/InputImagen";
+import { jugadoresPut } from "../../../service/jugadores";
+import { editarJugadores } from "../../../utils/utils";
+import { ButtonSend } from "../../Material/ButtonSend";
+import { BiExit as Salir } from 'react-icons/bi';
+import { BiEditAlt as Editar } from 'react-icons/bi';
 
-export const ModalEditarDT = ({ open, setOpen, equipoId, directorTecnicoId, data }) => {
+export const ModalEditarJugador = ({ open, setOpen, equipoId, jugadorId, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [light] = useContext(Context);
     const [name, setName] = useState(data?.name);
-    const [telefono, setTelefono] = useState(data?.telefono);
+    const [edad, setEdad] = useState(data?.edad);
+    const [posicion, setPosicion] = useState(data?.posicion);
     const [fecha, setFecha] = useState(data?.fecha_nacimiento ? moment(data.fecha_nacimiento) : null);
     const [nacionalidad, setNacionalidad] = useState(data?.nacionalidad);
+    const [dorsal, setDorsal] = useState(data?.dorsal);
     const [instagram, setInstagram] = useState(data?.instagram);
     const [foto, setFoto] = useState(data?.foto);
     const [fotoAdded, setFotoAdded] = useState(false);
     const [fotoName, setFotoName] = useState('');
     const queryClient = useQueryClient();
     const [isLoading, setIsLoading] = useState(false);
-    const { mutate: editardt } = useMutation(DTPut);
+    const { mutate: editarJugador } = useMutation(jugadoresPut);
 
     const handleClose = () => {
         setOpen(false);
@@ -37,10 +41,12 @@ export const ModalEditarDT = ({ open, setOpen, equipoId, directorTecnicoId, data
 
     useEffect(() => {
         setName(data?.name);
-        setTelefono(data?.telefono);
+        setEdad(data?.edad);
+        setPosicion(data?.posicion);
         setNacionalidad(data?.nacionalidad);
         setInstagram(data?.instagram);
         setFoto(data?.foto);
+        setDorsal(data?.dorsal)
         setFecha(data?.fecha_nacimiento ? moment(data.fecha_nacimiento) : null)
     }, [data]);
 
@@ -48,19 +54,23 @@ export const ModalEditarDT = ({ open, setOpen, equipoId, directorTecnicoId, data
         <Grid>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle sx={{ padding: '20px', color: light ? 'var(dark2)' : 'var(--cero)', background: light ? 'var(--cero)' : 'var(--dark)' }}>
-                    {"Crear Jugador"}
+                    {"Editar Jugador"}
                 </DialogTitle>
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     <Grid container alignItems={'center'} gap={2}>
-                        <InputText label={'Nombre'} setValue={setName} value={name} />
-                        <InputFecha value={fecha} setValue={setFecha} />
+                        <InputText placeholder={'Nombre'} label={'Nombre'} setValue={setName} value={name} />
+                        <InputText placeholder={'Edad'} label={'Edad'} setValue={setEdad} value={edad} />
                     </Grid>
                     <Grid container alignItems={'center'} gap={2}>
-                        <InputText label={'Instagram'} setValue={setInstagram} value={instagram} />
-                        <InputSelect label={'Nacionalidad'} value={nacionalidad} setValue={setNacionalidad} selectData={nationalities} />
+                        <InputSelect disable={false} label={'Posicion'} value={posicion} setValue={setPosicion} selectData={posiciones} />
+                        <InputFecha label={'Fecha de nacimiento'} value={fecha} setValue={setFecha} />
                     </Grid>
                     <Grid container alignItems={'center'} gap={2}>
-                        <InputText label={'Telefono'} setValue={setTelefono} value={telefono} />
+                        <InputSelect disable={false} label={'Nacionalidad'} value={nacionalidad} setValue={setNacionalidad} selectData={nationalities} />
+                        <InputText placeholder={'Dorsal'} label={'Dorsal'} setValue={setDorsal} value={dorsal} />
+                    </Grid>
+                    <Grid container alignItems={'center'} gap={2}>
+                        <InputText placeholder={'Instagram'} label={'Instagram'} setValue={setInstagram} value={instagram} />
                     </Grid>
                     <Grid container alignItems={'center'} gap={2} flexDirection={'column'}>
                         <InputImagen setValue={setFoto} value={foto} setValueAdded={setFotoAdded} setValueName={setFotoName} valueAdded={fotoAdded} valueName={fotoName} />
@@ -72,8 +82,8 @@ export const ModalEditarDT = ({ open, setOpen, equipoId, directorTecnicoId, data
                     </Grid>
                 )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
-                    <Button onClick={handleClose} sx={{ color: 'var(--primario)' }}>Cancelar</Button>
-                    <Button onClick={() => { editarDTs(equipoId, directorTecnicoId, name, moment(fecha).format('YYYY-MM-DD HH:mm:ss'), nacionalidad, instagram, telefono, foto, setIsLoading, editardt, queryClient, handleClose) }} autoFocus sx={{ color: 'var(--primario)' }}>Editar</Button>
+                    <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
+                    <ButtonSend disable={false} handle={() => { editarJugadores(equipoId, jugadorId, name, edad, posicion, moment(fecha).format('YYYY-MM-DD HH:mm:ss'), nacionalidad, dorsal, instagram, foto, setIsLoading, editarJugador, queryClient, handleClose) }} title={'Editar'} icon={Editar} iconColor={''} iconSize={20} />
                 </DialogActions>
             </Dialog>
         </Grid>

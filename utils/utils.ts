@@ -151,6 +151,17 @@ export const ordenarJugadores = (jugadores, posicionesOrdenadas) => {
     });
 }
 
+export const calcularPromedio = (jugador, partidos)=> {
+    const promedio = (jugador / partidos).toFixed(2);
+    const promedioNumber = parseFloat(promedio);
+    const promedioFormatted = isNaN(promedioNumber) ? '-' : promedioNumber.toFixed(2);
+    return promedioFormatted;
+}
+
+export const formatoPesosArgentinos=(valor)=> {
+    let formato = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
+    return formato.format(valor);
+}
 
 
 

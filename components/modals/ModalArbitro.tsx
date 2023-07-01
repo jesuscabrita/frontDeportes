@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Context from '../../context/contextPrincipal';
 import { CircularProgress, Grid, useMediaQuery } from '@mui/material';
-import { InputSelect } from '../MaterialUi/InputSelect';
+import { InputSelect } from '../Material/InputSelect';
 import { arbitros } from '../../utils/arrays';
 import { useMutation, useQueryClient } from 'react-query';
 import { equiposPut } from '../../service/equipos';
@@ -31,7 +31,7 @@ export const ModalArbitro = ({ open, setOpen, data, index, id }) => {
                     {"Editar Arbitro"}
                 </DialogTitle>
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
-                    <InputSelect label={'Arbitro'} value={arbitro} setValue={setArbitro} selectData={arbitros}/>
+                    <InputSelect label={'Arbitro'} value={arbitro} setValue={setArbitro} selectData={arbitros} />
                 </DialogContent>
                 {isLoading && (
                     <Grid sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '100%' : '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -40,7 +40,7 @@ export const ModalArbitro = ({ open, setOpen, data, index, id }) => {
                 )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
                     <Button onClick={handleClose} sx={{ color: 'var(--primario)' }}>Cancelar</Button>
-                    <Button onClick={()=>{editarArbitros(id, arbitro, index, setIsLoading, editarArbitro, queryClient, handleClose, data)}} autoFocus sx={{ color: 'var(--primario)' }}>Editar</Button>
+                    <Button onClick={() => { editarArbitros(id, arbitro, index, setIsLoading, editarArbitro, queryClient, handleClose, data) }} autoFocus sx={{ color: 'var(--primario)' }}>Editar</Button>
                 </DialogActions>
             </Dialog>
         </Grid>

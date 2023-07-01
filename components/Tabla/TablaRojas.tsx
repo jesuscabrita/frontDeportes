@@ -9,7 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import { Avatar, CircularProgress, Grid, useMediaQuery } from '@mui/material';
 import { TbError404 as Err404 } from 'react-icons/tb';
 import { TbMoodEmpty as Vacio } from 'react-icons/tb';
-import { ModalJugadorInfo } from "../modals/ModalInfoJugador";
+import { ModalJugadorInfo } from "../modals/Jugador/ModalInfoJugador";
 import { jugadoresRojas, seleccionarData, stringAvatar } from "../../utils/utils";
 import { StyledTableCell } from "../Material/StyledTableCell";
 import { StyledTableRow } from "../Material/StyledTableRow";
@@ -31,69 +31,69 @@ export const TablaRojas = ({ data, isLoading, isError }) => {
     }, [isLoading]);
 
     return (
-    <>
-    {isLoading ?
-        <Grid mt={8} item sx={{display: 'flex',flexDirection: 'row',gap: '16px',minWidth: !mobile ? '960px' : '100%',height: '500px',justifyContent: 'center',color: light ? 'var(--dark2)' : 'var(--cero)'}}>
-            <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} />
-        </Grid>
-    : isError ?
-        <Grid mt={mobile ? 0 : 8} item sx={{display: 'flex',flexDirection: 'column',gap: '16px',minWidth: !mobile ? '960px' : '100%',height: '500px',justifyContent: 'center',alignItems: 'center',color: light ? 'var(--dark2)' : 'var(--cero)'}}>
-            Ha ocurrido un error al cargar los jugadores <Err404 size={85} />
-        </Grid>
-    : jugadoresRojas(data,10).length === 0 ?
-        <Grid mt={8} item sx={{display: 'flex',flexDirection: 'row',gap: '16px',minWidth: !mobile ? '960px' : '100%',height: '500px',justifyContent: 'center',color: light ? 'var(--dark2)' : 'var(--cero)'}}>
-            No hay jugadores en la liga <Vacio size={25} />
-        </Grid>
-    :  <Grid mt={2}>
-            <TableContainer component={Paper} >
-                <Table aria-label="customized table">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell light={light} align="left">Nombre</StyledTableCell>
-                            <StyledTableCell light={light} align="left">Equipo</StyledTableCell>
-                            <StyledTableCell light={light} align={!mobile ? "center" : "right"} style={{ whiteSpace: 'nowrap' }}>Tarjetas Rojas</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody style={{ background: light ? 'var(--cero)' : 'var(--dark3)' }}>
-                        {jugadoresRojas(data,10).map((jugador, index) => {
-                            return (
-                                <StyledTableRow light={light} key={jugador._id}>
-                                    <StyledTableCell light={light} component="th" scope="row">
-                                        <Grid container alignItems={'center'} width={'250px'} flexDirection={'row'} sx={{ whiteSpace: 'nowrap' }}>
-                                            <Grid container sx={{ gap: '8px', alignItems: 'center', whiteSpace: 'nowrap', width: '40px' }}>
-                                                <Grid>{index + 1}</Grid>
-                                                {(index + 1 == 1) &&
-                                                    <Grid sx={{ background: 'var(--danger)', height: '35px', width: '10px', whiteSpace: 'nowrap' }}></Grid>}
-                                            </Grid>
-                                            <Grid item container alignItems={'center'} justifyContent={'center'} sx={{width:'55px',height: '35px', cursor:'pointer'}} onClick={() => { seleccionarData(jugador,setJugadorSeleccionado,setModalJugadorInfo) }}>
-                                                <Avatar {...stringAvatar(jugador.name)} sx={{ height: '35px', width:'35px' }} />
-                                            </Grid>
-                                            <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width:'130px', cursor:'pointer'}}  onClick={() => { seleccionarData(jugador,setJugadorSeleccionado,setModalJugadorInfo) }}>
-                                                {jugador.name} 
-                                            </Grid>
-                                        </Grid>
-                                    </StyledTableCell>
-                                    <StyledTableCell light={light} align="center">
-                                        <Grid sx={{ display: 'flex', alignItems: 'center', gap: '18px' }} >
-                                            <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: '55px', height: '35px' }}>
-                                                <img src={jugador.logo} alt={jugador.name} style={{ height: '35px' }} />
-                                            </Grid>
-                                            {!mobile &&
-                                                <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width: '130px' }}>
-                                                    {jugador.equipo}
-                                                </Grid>}
-                                        </Grid>
-                                    </StyledTableCell>
-                                    <StyledTableCell light={light} align="center" style={{ fontWeight: 700, fontSize: '15px' }}>{jugador.tarjetas_roja}</StyledTableCell>
-                                </StyledTableRow>
-                            )
-                        })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Grid>
-    }
-    {jugadorSeleccionado && (<ModalJugadorInfo open={modalJugadorInfo} setOpen={setModalJugadorInfo} jugador={jugadorSeleccionado}/>)}
-    </>
+        <>
+            {isLoading ?
+                <Grid mt={8} item sx={{ display: 'flex', flexDirection: 'row', gap: '16px', minWidth: !mobile ? '960px' : '100%', height: '500px', justifyContent: 'center', color: light ? 'var(--dark2)' : 'var(--cero)' }}>
+                    <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} />
+                </Grid>
+                : isError ?
+                    <Grid mt={mobile ? 0 : 8} item sx={{ display: 'flex', flexDirection: 'column', gap: '16px', minWidth: !mobile ? '960px' : '100%', height: '500px', justifyContent: 'center', alignItems: 'center', color: light ? 'var(--dark2)' : 'var(--cero)' }}>
+                        Ha ocurrido un error al cargar los jugadores <Err404 size={85} />
+                    </Grid>
+                    : jugadoresRojas(data, 10).length === 0 ?
+                        <Grid mt={8} item sx={{ display: 'flex', flexDirection: 'row', gap: '16px', minWidth: !mobile ? '960px' : '100%', height: '500px', justifyContent: 'center', color: light ? 'var(--dark2)' : 'var(--cero)' }}>
+                            No hay jugadores en la liga <Vacio size={25} />
+                        </Grid>
+                        : <Grid mt={2}>
+                            <TableContainer component={Paper} >
+                                <Table aria-label="customized table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <StyledTableCell light={light} align="left">Nombre</StyledTableCell>
+                                            <StyledTableCell light={light} align="left">Equipo</StyledTableCell>
+                                            <StyledTableCell light={light} align={!mobile ? "center" : "right"} style={{ whiteSpace: 'nowrap' }}>Tarjetas Rojas</StyledTableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody style={{ background: light ? 'var(--cero)' : 'var(--dark3)' }}>
+                                        {jugadoresRojas(data, 10).map((jugador, index) => {
+                                            return (
+                                                <StyledTableRow light={light} key={jugador._id}>
+                                                    <StyledTableCell light={light} component="th" scope="row">
+                                                        <Grid container alignItems={'center'} width={'250px'} flexDirection={'row'} sx={{ whiteSpace: 'nowrap' }}>
+                                                            <Grid container sx={{ gap: '8px', alignItems: 'center', whiteSpace: 'nowrap', width: '40px' }}>
+                                                                <Grid>{index + 1}</Grid>
+                                                                {(index + 1 == 1) &&
+                                                                    <Grid sx={{ background: 'var(--danger)', height: '35px', width: '10px', whiteSpace: 'nowrap' }}></Grid>}
+                                                            </Grid>
+                                                            <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: '55px', height: '35px', cursor: 'pointer' }} onClick={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalJugadorInfo) }}>
+                                                                <Avatar {...stringAvatar(jugador.name)} sx={{ height: '35px', width: '35px' }} />
+                                                            </Grid>
+                                                            <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width: '130px', cursor: 'pointer' }} onClick={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalJugadorInfo) }}>
+                                                                {jugador.name}
+                                                            </Grid>
+                                                        </Grid>
+                                                    </StyledTableCell>
+                                                    <StyledTableCell light={light} align="center">
+                                                        <Grid sx={{ display: 'flex', alignItems: 'center', gap: '18px' }} >
+                                                            <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: '55px', height: '35px' }}>
+                                                                <img src={jugador.logo} alt={jugador.name} style={{ height: '35px' }} />
+                                                            </Grid>
+                                                            {!mobile &&
+                                                                <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width: '130px' }}>
+                                                                    {jugador.equipo}
+                                                                </Grid>}
+                                                        </Grid>
+                                                    </StyledTableCell>
+                                                    <StyledTableCell light={light} align="center" style={{ fontWeight: 700, fontSize: '15px' }}>{jugador.tarjetas_roja}</StyledTableCell>
+                                                </StyledTableRow>
+                                            )
+                                        })}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
+            }
+            {jugadorSeleccionado && (<ModalJugadorInfo open={modalJugadorInfo} setOpen={setModalJugadorInfo} jugador={jugadorSeleccionado} />)}
+        </>
     );
 }

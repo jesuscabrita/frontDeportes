@@ -4,7 +4,7 @@ import { RiImageAddFill as Add } from 'react-icons/ri';
 import { useMutation, useQueryClient } from "react-query";
 import { equiposPost } from "../../../service/equipos";
 import Context from "../../../context/contextPrincipal";
-import { InputText } from "../../MaterialUi/InputTex";
+import { InputText } from "../../Material/InputTex";
 import { IoMdImages as Images } from 'react-icons/io';
 import { TiDeleteOutline as Delete } from 'react-icons/ti';
 import { nuevoEquipo } from "../../../utils/utils";
