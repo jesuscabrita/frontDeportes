@@ -18,7 +18,7 @@ import { datosDelPartidoHome, editarAmarilla, editarAsistencia, editarAutoGol, e
 import { anularAmarilla, anularAsistencia, anularAutoGol, anularAzul, anularFigura, anularGoles, anularRoja } from '../../utils/utilsPanelAnular';
 import Tooltip from '@mui/material/Tooltip';
 import { FaListAlt as Lista } from 'react-icons/fa';
-import { ModalLista } from '../modals/ModalLista';
+import { ModalLista } from '../modals/Panel/ModalLista';
 import { DTPut_amarillas, DTPut_azul, DTPut_figura, DTPut_rojas, DTPut_suspencion } from '../../service/dt';
 import { anularAmarillaDT, anularAzulDT, anularFiguraDT, anularRojaDT, editarAmarillaDT, editarAzulDT, editarFiguraDT, editarRojaDT, editarSuspencionDT } from '../../utils/utilsDT';
 
@@ -173,58 +173,58 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                     calcularDatosPartidos,
                                     queryClient
                                 ),
-                                homeTeam?.jugadores.forEach(jugador => {
-                                    editarSuspencion(
-                                        homeTeam._id,
-                                        jugador._id,
-                                        jugador.suspendido,
-                                        jugador.name,
-                                        jugador.jornadas_suspendido,
-                                        setIsLoadinng,
-                                        editarSuspendido,
-                                        queryClient,
-                                        jugador.tarjetas_acumuladas
-                                    );
-                                }),
-                                awayTeam?.jugadores.forEach(jugador => {
-                                    editarSuspencion(
-                                        awayTeam._id,
-                                        jugador._id,
-                                        jugador.suspendido,
-                                        jugador.name,
-                                        jugador.jornadas_suspendido,
-                                        setIsLoadinng,
-                                        editarSuspendido,
-                                        queryClient,
-                                        jugador.tarjetas_acumuladas
-                                    );
-                                }),
-                                homeTeam?.director_tecnico.forEach(dt => {
-                                    editarSuspencionDT(
-                                        homeTeam._id,
-                                        dt._id,
-                                        dt.suspendido,
-                                        dt.name,
-                                        dt.jornadas_suspendido,
-                                        setIsLoadinng,
-                                        editarSuspencionDTs,
-                                        queryClient,
-                                        dt.tarjetas_acumuladas
-                                    );
-                                }),
-                                awayTeam?.director_tecnico.forEach(dt => {
-                                    editarSuspencionDT(
-                                        awayTeam._id,
-                                        dt._id,
-                                        dt.suspendido,
-                                        dt.name,
-                                        dt.jornadas_suspendido,
-                                        setIsLoadinng,
-                                        editarSuspencionDTs,
-                                        queryClient,
-                                        dt.tarjetas_acumuladas
-                                    );
-                                })
+                                    homeTeam?.jugadores.forEach(jugador => {
+                                        editarSuspencion(
+                                            homeTeam._id,
+                                            jugador._id,
+                                            jugador.suspendido,
+                                            jugador.name,
+                                            jugador.jornadas_suspendido,
+                                            setIsLoadinng,
+                                            editarSuspendido,
+                                            queryClient,
+                                            jugador.tarjetas_acumuladas
+                                        );
+                                    }),
+                                    awayTeam?.jugadores.forEach(jugador => {
+                                        editarSuspencion(
+                                            awayTeam._id,
+                                            jugador._id,
+                                            jugador.suspendido,
+                                            jugador.name,
+                                            jugador.jornadas_suspendido,
+                                            setIsLoadinng,
+                                            editarSuspendido,
+                                            queryClient,
+                                            jugador.tarjetas_acumuladas
+                                        );
+                                    }),
+                                    homeTeam?.director_tecnico.forEach(dt => {
+                                        editarSuspencionDT(
+                                            homeTeam._id,
+                                            dt._id,
+                                            dt.suspendido,
+                                            dt.name,
+                                            dt.jornadas_suspendido,
+                                            setIsLoadinng,
+                                            editarSuspencionDTs,
+                                            queryClient,
+                                            dt.tarjetas_acumuladas
+                                        );
+                                    }),
+                                    awayTeam?.director_tecnico.forEach(dt => {
+                                        editarSuspencionDT(
+                                            awayTeam._id,
+                                            dt._id,
+                                            dt.suspendido,
+                                            dt.name,
+                                            dt.jornadas_suspendido,
+                                            setIsLoadinng,
+                                            editarSuspencionDTs,
+                                            queryClient,
+                                            dt.tarjetas_acumuladas
+                                        );
+                                    })
                             }}>
                             Calcular partido
                         </Button>

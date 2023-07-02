@@ -4,15 +4,18 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import Context from '../../context/contextPrincipal';
+import Context from '../../../context/contextPrincipal';
 import { CircularProgress, Grid, useMediaQuery } from '@mui/material';
 import { IoMdImages as Images } from 'react-icons/io';
 import { TiDeleteOutline as Delete } from 'react-icons/ti';
-import { InputText } from '../Material/InputTex';
+import { InputText } from '../../Material/InputTex';
 import { RiImageAddFill as Add } from 'react-icons/ri';
 import { useMutation, useQueryClient } from 'react-query';
-import { equiposPut } from '../../service/equipos';
-import { editarEquipos } from '../../utils/utils';
+import { equiposPut } from '../../../service/equipos';
+import { editarEquipos } from '../../../utils/utils';
+import { BiExit as Salir } from 'react-icons/bi';
+import { BiEditAlt as Editar } from 'react-icons/bi';
+import { ButtonSend } from '../../Material/ButtonSend';
 
 export const ModalEditarEquipo = ({ open, setOpen, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -58,9 +61,9 @@ export const ModalEditarEquipo = ({ open, setOpen, data }) => {
                     {"Editar Equipo"}
                 </DialogTitle>
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                    <InputText label={'Nombre'} setValue={setName} value={name} />
-                    <InputText label={'Correo'} setValue={setCorreo} value={correo} />
-                    <InputText label={'Instagram'} setValue={setInstagram} value={instagram} />
+                    <InputText placeholder={'Nombre'} label={'Nombre'} setValue={setName} value={name} />
+                    <InputText placeholder={'Correo'} label={'Correo'} setValue={setCorreo} value={correo} />
+                    <InputText placeholder={'Instagram'} label={'Instagram'} setValue={setInstagram} value={instagram} />
                     {image && (
                         <img src={image} alt="Logo del equipo" style={{ maxWidth: "100%", maxHeight: "150px" }} />
                     )}
@@ -123,8 +126,8 @@ export const ModalEditarEquipo = ({ open, setOpen, data }) => {
                     </div>
                 )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
-                    <Button onClick={handleClose} sx={{ color: 'var(--primario)' }}>Cancelar</Button>
-                    <Button onClick={() => { editarEquipos(data?._id, name, image, correo, instagram, setIsLoading, editarEquipo, queryClient, handleClose) }} autoFocus sx={{ color: 'var(--primario)' }}>Editar</Button>
+                    <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
+                    <ButtonSend disable={false} handle={() => { editarEquipos(data?._id, name, image, correo, instagram, setIsLoading, editarEquipo, queryClient, handleClose) }} title={'Editar'} icon={Editar} iconColor={''} iconSize={20} />
                 </DialogActions>
             </Dialog>
         </Grid>

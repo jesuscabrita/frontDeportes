@@ -1,16 +1,18 @@
 import { useContext, useEffect, useState } from 'react';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { MobileDateTimePicker } from '@mui/x-date-pickers';
-import Context from '../../context/contextPrincipal';
+import Context from '../../../context/contextPrincipal';
 import { CircularProgress, Grid, useMediaQuery } from '@mui/material';
 import moment from 'moment';
 import { useMutation, useQueryClient } from 'react-query';
-import { alertaSubmit } from '../../utils/alert';
-import { equiposPut } from '../../service/equipos';
+import { alertaSubmit } from '../../../utils/alert';
+import { equiposPut } from '../../../service/equipos';
+import { BiExit as Salir } from 'react-icons/bi';
+import { BiEditAlt as Editar } from 'react-icons/bi';
+import { ButtonSend } from '../../Material/ButtonSend';
 
 export const ModalEdit = ({ open, setOpen, id, data, index }) => {
     const [light] = useContext(Context);
@@ -27,9 +29,9 @@ export const ModalEdit = ({ open, setOpen, id, data, index }) => {
     const editarFechas = (id: string, index) => {
         setIsLoading(true);
         const updatedFecha = moment(fecha).format('YYYY-MM-DD HH:mm:ss');
-        const updatedFechaArr = [...data.fecha]; 
-        updatedFechaArr[index] = updatedFecha; 
-        const formData = {fecha: updatedFechaArr};
+        const updatedFechaArr = [...data.fecha];
+        updatedFechaArr[index] = updatedFecha;
+        const formData = { fecha: updatedFechaArr };
         editarFecha({ form: formData, id }, {
             onSuccess: (success) => {
                 queryClient.invalidateQueries(["/api/liga"]);
@@ -56,15 +58,15 @@ export const ModalEdit = ({ open, setOpen, id, data, index }) => {
                     {"Editar fecha"}
                 </DialogTitle>
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
-                <MobileDateTimePicker
-                    value={fecha}
-                    onChange={(date) => setFecha(date)}
-                    sx={{
-                        '& .MuiInputBase-root': {
-                        border: light ? '1px solid var(--dark2)' : '1px solid var(--cero)',
-                        color: light ? 'var(--dark2)' : 'var(--cero)',
-                        }
-                    }}
+                    <MobileDateTimePicker
+                        value={fecha}
+                        onChange={(date) => setFecha(date)}
+                        sx={{
+                            '& .MuiInputBase-root': {
+                                border: light ? '1px solid var(--dark2)' : '1px solid var(--cero)',
+                                color: light ? 'var(--dark2)' : 'var(--cero)',
+                            }
+                        }}
                     />
                 </DialogContent>
                 {isLoading && (
@@ -73,8 +75,8 @@ export const ModalEdit = ({ open, setOpen, id, data, index }) => {
                     </Grid>
                 )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
-                    <Button onClick={handleClose} sx={{ color: 'var(--primario)' }}>Cancelar</Button>
-                    <Button onClick={() => { editarFechas(id,index)}}>Editar</Button>
+                    <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
+                    <ButtonSend disable={false} handle={() => { editarFechas(id, index) }} title={'Editar'} icon={Editar} iconColor={''} iconSize={20} />
                 </DialogActions>
             </Dialog>
         </Grid>

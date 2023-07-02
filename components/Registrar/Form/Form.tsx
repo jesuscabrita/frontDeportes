@@ -8,6 +8,8 @@ import { InputText } from "../../Material/InputTex";
 import { IoMdImages as Images } from 'react-icons/io';
 import { TiDeleteOutline as Delete } from 'react-icons/ti';
 import { nuevoEquipo } from "../../../utils/utils";
+import { FaRegRegistered as Crear } from 'react-icons/fa';
+import { ButtonSend } from "../../Material/ButtonSend";
 
 export const Form = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -35,9 +37,9 @@ export const Form = () => {
 
     return (
         <Grid container flexDirection={'column'} gap={2} alignItems={'center'}>
-            <InputText label={'Nombre'} setValue={setName} value={name} />
-            <InputText label={'Correo'} setValue={setCorreo} value={correo} />
-            <InputText label={'Instagram'} setValue={setInstagram} value={instagram} />
+            <InputText placeholder={'Nombre'} label={'Nombre'} setValue={setName} value={name} />
+            <InputText placeholder={'Correo'} label={'Correo'} setValue={setCorreo} value={correo} />
+            <InputText placeholder={'Instagram'} label={'Instagram'} setValue={setInstagram} value={instagram} />
             <Button variant="contained" component="label"
                 sx={{
                     display: 'flex',
@@ -93,7 +95,7 @@ export const Form = () => {
                     <CircularProgress color="primary" />
                 </div>
             )}
-            <Button onClick={() => { nuevoEquipo(name, image, correo, instagram, setIsLoading, crearEquipo, queryClient, setName, setImage, setCorreo, setInstagram, setLogoAdded, setImageName) }} sx={{ color: 'var(--primario)', fontSize: '16px' }}>Registrar</Button>
+            <ButtonSend disable={false} handle={() => { nuevoEquipo(name, image, correo, instagram, setIsLoading, crearEquipo, queryClient, setName, setImage, setCorreo, setInstagram, setLogoAdded, setImageName) }} title={'Registrar'} icon={Crear} iconColor={'var(--check)'} iconSize={20} />
         </Grid>
     )
 }

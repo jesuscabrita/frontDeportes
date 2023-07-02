@@ -1,12 +1,14 @@
 import { Button, Grid, useMediaQuery } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
-import Context from "../../context/contextPrincipal";
+import Context from "../../../context/contextPrincipal";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { IoLogoWhatsapp as Chat } from 'react-icons/io';
 import { MdEmail as Correo } from 'react-icons/md';
+import { BiExit as Salir } from 'react-icons/bi';
+import { ButtonSend } from "../../Material/ButtonSend";
 
 export const ModalChatDelegado = ({ open, setOpen, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -25,15 +27,15 @@ export const ModalChatDelegado = ({ open, setOpen, data }) => {
     }, [data]);
 
     const handleChatClick = () => {
-        const numeroArgentina = `+54${telefono}`; // Número de teléfono de Argentina
-        const mensaje = encodeURIComponent(mensajeAutomatico); // Codifica el mensaje automático para que se incluya correctamente en el enlace de WhatsApp
-        const whatsappLink = `https://api.whatsapp.com/send?phone=${numeroArgentina}&text=${mensaje}`; // Enlace de WhatsApp con el número de teléfono y el mensaje automático
-        window.open(whatsappLink, '_blank'); // Abre el enlace en una nueva pestaña
+        const numeroArgentina = `+54${telefono}`;
+        const mensaje = encodeURIComponent(mensajeAutomatico);
+        const whatsappLink = `https://api.whatsapp.com/send?phone=${numeroArgentina}&text=${mensaje}`;
+        window.open(whatsappLink, '_blank');
     };
 
     const handleCorreoClick = () => {
-        const correoLink = `mailto:${correo}?subject=Solicitud&body=${mensajeAutomatico}`; // Enlace de correo electrónico con la dirección de correo, asunto y cuerpo predefinidos
-        window.open(correoLink); // Abre el enlace en el cliente de correo electrónico predeterminado
+        const correoLink = `mailto:${correo}?subject=Solicitud&body=${mensajeAutomatico}`;
+        window.open(correoLink);
     }
 
     return (
@@ -51,7 +53,7 @@ export const ModalChatDelegado = ({ open, setOpen, data }) => {
                     </Grid>
                 </DialogContent>
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
-                    <Button onClick={handleClose} sx={{ color: 'var(--primario)' }}>Cancelar</Button>
+                    <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
                 </DialogActions>
             </Dialog>
         </Grid>

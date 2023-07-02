@@ -163,9 +163,6 @@ export const formatoPesosArgentinos=(valor)=> {
     return formato.format(valor);
 }
 
-
-
-
 export const nuevoEquipo = (nombre: string, logo: string, correo: string, instagram: string, setIsLoading, crearEquipo, queryClient, setName, setImage, setCorreo, setInstagram, setLogoAdded, setImageName) => {
     setIsLoading(true);
     const formData = { form: { name: nombre, logo, correo, instagram } };

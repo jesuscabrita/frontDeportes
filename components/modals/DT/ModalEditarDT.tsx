@@ -1,20 +1,22 @@
-import { Button, CircularProgress, Grid, useMediaQuery } from "@mui/material";
+import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
-import Context from "../../context/contextPrincipal";
+import Context from "../../../context/contextPrincipal";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { InputText } from "../Material/InputTex";
+import { InputText } from "../../Material/InputTex";
 import { useMutation, useQueryClient } from "react-query";
 import moment from "moment";
-import { InputSelect } from "../Material/InputSelect";
-import { nationalities, posiciones } from "../../utils/arrays";
-import { InputFecha } from "../Material/InputFecha";
-import { InputImagen } from "../Shared/InputImagen";
-import { DTPut } from "../../service/dt";
-import { alertaSubmit } from "../../utils/alert";
-import { editarDTs } from "../../utils/utilsDT";
+import { InputSelect } from "../../Material/InputSelect";
+import { nationalities, posiciones } from "../../../utils/arrays";
+import { InputFecha } from "../../Material/InputFecha";
+import { InputImagen } from "../../Shared/InputImagen";
+import { DTPut } from "../../../service/dt";
+import { editarDTs } from "../../../utils/utilsDT";
+import { BiExit as Salir } from 'react-icons/bi';
+import { BiEditAlt as Editar } from 'react-icons/bi';
+import { ButtonSend } from "../../Material/ButtonSend";
 
 export const ModalEditarDT = ({ open, setOpen, equipoId, directorTecnicoId, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -48,19 +50,19 @@ export const ModalEditarDT = ({ open, setOpen, equipoId, directorTecnicoId, data
         <Grid>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle sx={{ padding: '20px', color: light ? 'var(dark2)' : 'var(--cero)', background: light ? 'var(--cero)' : 'var(--dark)' }}>
-                    {"Crear Jugador"}
+                    {"Editar DT"}
                 </DialogTitle>
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     <Grid container alignItems={'center'} gap={2}>
-                        <InputText label={'Nombre'} setValue={setName} value={name} />
-                        <InputFecha value={fecha} setValue={setFecha} />
+                        <InputText placeholder={'Nombre'} label={'Nombre'} setValue={setName} value={name} />
+                        <InputFecha label={'Fecha de nacimiento'} value={fecha} setValue={setFecha} />
                     </Grid>
                     <Grid container alignItems={'center'} gap={2}>
-                        <InputText label={'Instagram'} setValue={setInstagram} value={instagram} />
-                        <InputSelect label={'Nacionalidad'} value={nacionalidad} setValue={setNacionalidad} selectData={nationalities} />
+                        <InputText placeholder={'Instagram'} label={'Instagram'} setValue={setInstagram} value={instagram} />
+                        <InputSelect disable={false} label={'Nacionalidad'} value={nacionalidad} setValue={setNacionalidad} selectData={nationalities} />
                     </Grid>
                     <Grid container alignItems={'center'} gap={2}>
-                        <InputText label={'Telefono'} setValue={setTelefono} value={telefono} />
+                        <InputText placeholder={'Telefono'} label={'Telefono'} setValue={setTelefono} value={telefono} />
                     </Grid>
                     <Grid container alignItems={'center'} gap={2} flexDirection={'column'}>
                         <InputImagen setValue={setFoto} value={foto} setValueAdded={setFotoAdded} setValueName={setFotoName} valueAdded={fotoAdded} valueName={fotoName} />
@@ -72,8 +74,8 @@ export const ModalEditarDT = ({ open, setOpen, equipoId, directorTecnicoId, data
                     </Grid>
                 )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
-                    <Button onClick={handleClose} sx={{ color: 'var(--primario)' }}>Cancelar</Button>
-                    <Button onClick={() => { editarDTs(equipoId, directorTecnicoId, name, moment(fecha).format('YYYY-MM-DD HH:mm:ss'), nacionalidad, instagram, telefono, foto, setIsLoading, editardt, queryClient, handleClose) }} autoFocus sx={{ color: 'var(--primario)' }}>Editar</Button>
+                    <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
+                    <ButtonSend disable={false} handle={() => { editarDTs(equipoId, directorTecnicoId, name, moment(fecha).format('YYYY-MM-DD HH:mm:ss'), nacionalidad, instagram, telefono, foto, setIsLoading, editardt, queryClient, handleClose) }} title={'Editar'} icon={Editar} iconColor={''} iconSize={20} />
                 </DialogActions>
             </Dialog>
         </Grid>
