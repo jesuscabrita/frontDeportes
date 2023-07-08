@@ -11,7 +11,9 @@ export const InfoContextProvider = ({ children }) => {
     }, []);
 
     return (
-        <Context.Provider value={[light, setLight]}>{children}</Context.Provider>
+        <Context.Provider value={[light, setLight]}>
+            {children}
+        </Context.Provider>
     );
 };
 export default Context;

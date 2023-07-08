@@ -1,6 +1,6 @@
 import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Grid } from '@mui/material';
+import { Grid, useMediaQuery } from '@mui/material';
 import { ButtonNavbar } from './ButtonNavbar';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useContext } from 'react';
@@ -9,6 +9,7 @@ import { MaterialUISwitch } from './MaterialUISwitch';
 
 export const Navbar = () => {
     const [light, setLight] = useContext(Context);
+    const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
 
     const setChangeDark = () => {
         setLight(light ? false : true);
@@ -66,11 +67,13 @@ export const Navbar = () => {
                                     label=""
                                     control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked={!light ? true : false} />}
                                 />
+                                {!mobile && <ButtonNavbar href='/login'>Login</ButtonNavbar>}
                             </Grid>
                         </Grid>
                     </Grid>
                     <Disclosure.Panel className="sm:hidden">
                         <Grid className="space-y-1 px-2 pt-2 pb-3">
+                            <ButtonNavbar href='/login'>Login</ButtonNavbar>
                             <ButtonNavbar href='/'>Home</ButtonNavbar>
                             <ButtonNavbar href='/calendario'>Calendario</ButtonNavbar>
                             <ButtonNavbar href='/tabla'>Tabla</ButtonNavbar>

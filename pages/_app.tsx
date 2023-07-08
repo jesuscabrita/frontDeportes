@@ -5,6 +5,7 @@ import { InfoContextProvider } from "../context/contextPrincipal";
 import Head from "next/head";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { InfoContextRefac } from "../context/contextLogin";
 
 const MyApp = ({ Component, pageProps }) => {
     const queryClient = new QueryClient({
@@ -24,12 +25,15 @@ const MyApp = ({ Component, pageProps }) => {
                         <title>La liga</title>
                         <link rel="icon" type="image/x-icon" href="https://assets.laliga.com/assets/logos/laliga-v/laliga-v-1200x1200.png" />
                     </Head>
-                    <Layout>
-                        <Component {...pageProps}/>
-                    </Layout>
+                        <Layout>
+                            <InfoContextRefac>
+                                <Component {...pageProps}/>
+                            </InfoContextRefac>
+                        </Layout>
                 </InfoContextProvider>
             </QueryClientProvider>
         </LocalizationProvider>
     );
 };
+
 export default MyApp;
