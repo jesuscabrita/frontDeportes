@@ -110,8 +110,8 @@ const stringToColor = (string: string) => {
     let hash = 0;
     let i;
     /* eslint-disable no-bitwise */
-    for (i = 0; i < string.length; i += 1) {
-        hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    for (i = 0; i < string?.length; i += 1) {
+        hash = string?.charCodeAt(i) + ((hash << 5) - hash);
     }
 
     let color = '#';
@@ -124,12 +124,12 @@ const stringToColor = (string: string) => {
 }
 
 export const stringAvatar = (name: string) => {
-    const nameParts = name.split(' ');
+    const nameParts = name?.split(' ');
 
     let children = '';
-    if (nameParts.length >= 2) {
+    if (nameParts?.length >= 2) {
         children = `${nameParts[0][0]}${nameParts[1][0]}`;
-    } else if (nameParts.length === 1) {
+    } else if (nameParts?.length === 1) {
         children = nameParts[0][0];
     }
     return {

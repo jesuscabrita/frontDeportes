@@ -39,6 +39,7 @@ import { BsFillChatLeftDotsFill as Chat } from "react-icons/bs";
 import { ModalChatDelegado } from "../modals/Delegado/ModalChat";
 import { eliminarDelegados } from "../../utils/utilsDelegado";
 import { ButtonSend } from "../Material/ButtonSend";
+import ContextRefac from "../../context/contextLogin";
 
 const opcionSelectEquipo = [
     { id: 0, name: 'Plantilla', icono: <Plantilla size={30} /> },
@@ -64,6 +65,21 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
     const queryClient = useQueryClient();
     const [delegadoSeleccionado, setDelegadoSeleccionado] = useState(null);
     const [modalDelegadoChat, setModalDelegadoChat] = useState(false);
+    const { state: { user } }: any = useContext(ContextRefac);
+    const [isUserAdmin, setIsUserAdmin] = useState(false);
+    const [isSameEmail, setIsSameEmail] = useState(false);
+
+    useEffect(() => {
+        if (user?.email === data?.correo) {
+            setIsSameEmail(true);
+        } else {
+            setIsSameEmail(false);
+        }
+    }, [user, data]);
+
+    useEffect(() => {
+        setIsUserAdmin(user?.role === 'super_admin' || user?.role === 'admin');
+    }, [user]);
 
     const { isError } = useQuery(["/api/liga"], equiposGet, {
         refetchOnWindowFocus: false,
@@ -133,13 +149,13 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
                     <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Delegado color={light ? 'var(--dark2)' : 'var(--cero)'} />
                         delegado:
                         {data?.delegado.length === 0 ? ' No definido' : ' ' + data?.delegado[0].name}
-                        {data?.delegado.length > 0 &&
+                        {isUserAdmin && (data?.delegado.length > 0) &&
                             <Tooltip title="Elimina el delegado" placement="top">
                                 <Grid sx={{ cursor: 'pointer' }} onClick={() => { eliminarDelegados(equipo_id, data?.delegado[0]._id, eliminarDelegado, queryClient) }}>
                                     <Borrar size={20} color={'var(--danger)'} />
                                 </Grid>
                             </Tooltip>}
-                        {data?.delegado.length > 0 &&
+                        {isUserAdmin && (data?.delegado.length > 0) &&
                             <Tooltip title="Editar el delegado" placement="top">
                                 <Grid sx={{ cursor: 'pointer' }} onClick={() => { seleccionarData(data?.delegado, setDelegadoSeleccionado, setModalDelegadoEditar) }}>
                                     <Editar size={20} />
@@ -177,9 +193,9 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
             <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
                 <TabPanel value={value} index={0} dir={theme.direction}>
                     <Grid item mt={1} mb={1} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px' }}>
-                        <ButtonSend title={'Fichar jugador libre'} icon={CreatePlayer} disable={false} handle={() => { setModalJugador(!modalJugador) }} iconSize={20} iconColor={'var(--check)'} />
-                        <ButtonSend title={'Fichar DT'} icon={CreatePlayer} disable={data.director_tecnico.length > 0} handle={() => { setModalDT(!modalDT) }} iconSize={20} iconColor={'var(--check)'} />
-                        <ButtonSend title={'Fichar Delegado'} icon={CreatePlayer} disable={data?.delegado.length > 0} handle={() => { setModalDelegado(!modalDelegado) }} iconSize={20} iconColor={'var(--check)'} />
+                        {isUserAdmin || isSameEmail && <ButtonSend title={'Fichar jugador libre'} icon={CreatePlayer} disable={false} handle={() => { setModalJugador(!modalJugador) }} iconSize={20} iconColor={'var(--check)'} />}
+                        {isUserAdmin || isSameEmail && <ButtonSend title={'Fichar DT'} icon={CreatePlayer} disable={data.director_tecnico.length > 0} handle={() => { setModalDT(!modalDT) }} iconSize={20} iconColor={'var(--check)'} />}
+                        {isUserAdmin || isSameEmail && <ButtonSend title={'Fichar Delegado'} icon={CreatePlayer} disable={data?.delegado.length > 0} handle={() => { setModalDelegado(!modalDelegado) }} iconSize={20} iconColor={'var(--check)'} />}
                     </Grid>
                     <TablaPlantilla jugadores={data.jugadores} equipo={data} isLoading={isLoading} director_tecnico={data.director_tecnico} />
                 </TabPanel>

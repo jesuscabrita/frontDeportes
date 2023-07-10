@@ -20,6 +20,7 @@ import { ModalArbitro } from "../modals/Calendario/ModalArbitro";
 import { GiSoccerKick as Asistir } from 'react-icons/gi';
 import { BsFillStarFill as Figura } from 'react-icons/bs';
 import { status } from "../../utils/utils";
+import ContextRefac from "../../context/contextLogin";
 
 export const Row = ({ homeTeam, awayTeam, currentRound, isLoading }) => {
     const [light] = useContext(Context);
@@ -40,6 +41,12 @@ export const Row = ({ homeTeam, awayTeam, currentRound, isLoading }) => {
     const TIEMPO_PARTIDO = 55;
     const tiempoRestante = fechaBD.diff(hoy, 'minutes') + TIEMPO_PARTIDO;
     const fechaFinalPartido = fechaBD.clone().add(TIEMPO_PARTIDO, 'minutes');
+    const { state: { user } }: any = useContext(ContextRefac);
+    const [isUserAdmin, setIsUserAdmin] = useState(false);
+
+    useEffect(() => {
+        setIsUserAdmin(user?.role === 'super_admin' || user?.role === 'admin');
+    }, [user]);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -79,9 +86,10 @@ export const Row = ({ homeTeam, awayTeam, currentRound, isLoading }) => {
                             <Grid item sx={{ fontSize: '16px' }}>{homeTeam?.fecha[currentRound] === 'No definido' ? 'No definido' : formatoFecha}</Grid>
                             <Grid item sx={{ fontSize: '12px' }}>{homeTeam?.fecha[currentRound] === 'No definido' ? 'No definida' : formatoHora}</Grid>
                         </Grid>
+                        {isUserAdmin &&
                         <Grid item>
                             <Edit style={{ cursor: 'pointer' }} fontSize={20} onClick={() => { setOpenFecha(!openFecha) }} />
-                        </Grid>
+                        </Grid>}
                     </Grid>
                 </TableCell>
                 {!mobile &&
@@ -115,9 +123,10 @@ export const Row = ({ homeTeam, awayTeam, currentRound, isLoading }) => {
                     <TableCell align="left" sx={{ whiteSpace: 'nowrap', color: light ? 'var(--dark2)' : 'var(--cero)' }}>
                         <Grid container alignItems={'center'} gap={2} width={'140px'}>
                             <Grid item>{arbitro_home}</Grid>
-                            <Grid item>
+                            {isUserAdmin &&
+                                <Grid item>
                                 <Arbitro style={{ cursor: 'pointer' }} fontSize={20} onClick={() => { setOpenArbitro(!openArbitro) }} />
-                            </Grid>
+                            </Grid>}
                         </Grid>
                     </TableCell>}
             </TableRow>

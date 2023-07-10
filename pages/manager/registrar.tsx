@@ -1,6 +1,6 @@
 import { Button, CircularProgress, Grid, Tooltip, useMediaQuery } from "@mui/material";
 import { Form } from "../../components/Registrar/Form/Form";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Context from "../../context/contextPrincipal";
 import { ListaEquipoRegistro } from "../../components/Registrar/ListaEquipos/ListaEquipoRegistro";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -16,8 +16,8 @@ import { LogoRegister } from "../../components/Shared/LogoRegister";
 import { TbError404 as Err404 } from 'react-icons/tb';
 import { editarReset, filterEstado } from "../../utils/utils";
 import { BiReset as Reset } from 'react-icons/bi'
-import { alertaSubmit } from "../../utils/alert";
 import { AiOutlineWarning as Warning } from 'react-icons/ai'
+import ContextRefac from "../../context/contextLogin";
 
 const opcionSelectEquipos = [
     { id: 0, name: 'Equipos en la liga', icono: <Register size={30} /> },
@@ -33,6 +33,14 @@ const Registrar = () => {
     const { mutate: reseteoEquipos } = useMutation(resetEquiposJugador);
     const queryClient = useQueryClient();
     const [isLoadinng, setIsLoadinng] = useState(false);
+    const { state: { user } }: any = useContext(ContextRefac);
+    const [isUserAdmin, setIsUserAdmin] = useState(false);
+    const [superAdmin, setSuperAdmin] = useState(false);
+
+    useEffect(() => {
+        setIsUserAdmin(user?.role === 'super_admin' || user?.role === 'admin');
+        setSuperAdmin(user?.role === 'super_admin')
+    }, [user]);
 
     const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {
         refetchOnWindowFocus: false,
@@ -41,23 +49,7 @@ const Registrar = () => {
         },
     })
 
-    // const editarReset = async (setIsLoading, queryClient) => {
-    //     setIsLoading(true);
-    //     filterEstado(data, 'registrado').forEach(equiposdata =>{
-    //         reseteoEquipos({equipoID: equiposdata._id }, {
-    //             onSuccess: (success) => {
-    //                 queryClient.invalidateQueries(["/api/liga"]);
-    //                 alertaSubmit(true, success?.message);
-    //                 setIsLoading(false);
-    //             },
-    //             onError: (err: any) => {
-    //                 const errorMessage = err?.response?.data?.message || err.message;
-    //                 alertaSubmit(false, errorMessage);
-    //                 setIsLoading(false);
-    //             },
-    //         });
-    //     })
-    // };
+    const isUserEmailInData = filterEstado(data, 'registrado').some((equipo) => equipo.correo === user?.email);  
 
     const handleChange = (newValue) => {
         setValue(newValue);
@@ -92,8 +84,10 @@ const Registrar = () => {
         <Grid sx={{ height: !mobile ? '190vh' : '100%', }}>
             <Grid container flexDirection={'column'} sx={{ paddingTop: !mobile ? '100px' : '90px', paddingBottom: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
                 <LogoRegister name={'Registrar equipo'} />
-                <Form />
-                <Grid item mt={4}>
+                {!isUserEmailInData || isUserAdmin ?
+                    <Form /> :  <Grid item sx={{color: light ? 'var(--dark2)' : 'var(--cero)', fontSize:'18px'}}>Ya tienes un equipo registrado</Grid>}
+                {isUserAdmin &&
+                    <Grid item mt={4}>
                     <Grid item container sx={{ height: 'min-content' }}>
                         {opcionSelectEquipos.map(opcion => (
                             <MenuTabla opcion={opcion} valueSelect={value} handleChange={handleChange} />
@@ -103,12 +97,11 @@ const Registrar = () => {
                     <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
                         <TabPanel value={value} index={0} dir={theme.direction}>
                             <Tooltip title="Resetea los datos de los equipos, es recomendable al terminar la liga o temporada" placement="top">
-                                <Button
-                                    onClick={() => { editarReset(setIsLoadinng, queryClient, data, reseteoEquipos) }}
-                                >
+                                {superAdmin &&
+                                <Button onClick={() => { editarReset(setIsLoadinng, queryClient, data, reseteoEquipos) }}>
                                     <Reset size={30} />
                                     <Warning size={30} color={'var(--warnning)'} />
-                                </Button>
+                                </Button>}
                             </Tooltip>
                             <Grid mt={2} sx={{ width: '100%', display: filterEstado(data, 'registrado').length === 0 || isError || isLoading ? 'flex' : 'grid', gridTemplateColumns: !mobile ? 'repeat(5, 1fr)' : 'repeat(2, 1fr)', gap: '20px', }}>
                                 {isLoading ?
@@ -154,7 +147,7 @@ const Registrar = () => {
                             </Grid>
                         </TabPanel>
                     </SwipeableViews>
-                </Grid>
+                </Grid>}
             </Grid>
             {isLoadinng && (
                 <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '180vh' : '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

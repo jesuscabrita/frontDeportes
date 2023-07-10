@@ -3,7 +3,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
 import { Avatar, CircularProgress, Grid, useMediaQuery } from '@mui/material';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Context from '../../context/contextPrincipal';
 import { ModalEditarJugador } from '../modals/Jugador/ModalEditarJugador';
 import { useMutation, useQueryClient } from 'react-query';
@@ -30,6 +30,7 @@ import { ButtonSend } from '../Material/ButtonSend';
 import { AiFillEdit as Edit } from 'react-icons/ai';
 import { MdDelete as Eliminar } from 'react-icons/md';
 import { MdOutlinePersonOff as Suspender } from 'react-icons/md';
+import ContextRefac from '../../context/contextLogin';
 
 export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico }) => {
     const [light] = useContext(Context);
@@ -46,6 +47,21 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
     const { mutate: eliminarJugador } = useMutation(JugadorDelete);
     const { mutate: eliminarDT } = useMutation(DTDelete);
     const { mutate: lesion_jugador } = useMutation(jugadoresPut_lesion);
+    const { state: { user } }: any = useContext(ContextRefac);
+    const [isUserAdmin, setIsUserAdmin] = useState(false);
+    const [isSameEmail, setIsSameEmail] = useState(false);
+
+    useEffect(() => {
+        if (user?.email === equipo?.correo) {
+            setIsSameEmail(true);
+        } else {
+            setIsSameEmail(false);
+        }
+    }, [user, equipo]);
+
+    useEffect(() => {
+        setIsUserAdmin(user?.role === 'super_admin' || user?.role === 'admin');
+    }, [user]);
 
     return (
         <>
@@ -76,7 +92,7 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
                     :
                     <TableContainer component={Paper} style={{ width: '100%', overflowX: 'auto' }}>
                         <Table aria-label="customized table" style={{ width: '100%' }} >
-                            <CustomTableHead headers={planilla} />
+                            <CustomTableHead headers={planilla(isUserAdmin, isSameEmail)} />
                             <TableBody style={{ background: light ? 'var(--cero)' : 'var(--dark3)' }}>
                                 {director_tecnico.map((dt, index) => {
                                     return (
@@ -108,21 +124,26 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
                                                 </Grid>
                                             </StyledTableCell>
                                             <StyledTableCell light={light} align="center">{dt.nacionalidad}</StyledTableCell>
+                                            {isUserAdmin &&
                                             <StyledTableCell light={light}>
                                                 <ButtonSend title={'Editar'} icon={Edit} disable={false} handle={() => { seleccionarData(dt, setDtSeleccionado, setModalEditarDT) }} iconSize={20} iconColor={''} />
-                                            </StyledTableCell>
+                                            </StyledTableCell>}
+                                            {isUserAdmin &&
                                             <StyledTableCell light={light}>
                                                 <ButtonSend title={'Eliminar'} icon={Eliminar} disable={false} handle={() => { eliminarDTs(equipo._id, dt._id, eliminarDT, queryClient) }} iconSize={20} iconColor={'var(--danger)'} />
-                                            </StyledTableCell>
+                                            </StyledTableCell>}
+                                            {isUserAdmin &&
                                             <StyledTableCell light={light}>
                                                 <ButtonSend title={'Lesion'} icon={Lesion} disable={true} handle={() => { null }} iconSize={20} iconColor={''} />
-                                            </StyledTableCell>
+                                            </StyledTableCell>}
+                                            {isUserAdmin &&
                                             <StyledTableCell light={light}>
                                                 <ButtonSend title={'Capitan'} icon={Capitan} disable={true} handle={() => { null }} iconSize={20} iconColor={''} />
-                                            </StyledTableCell>
+                                            </StyledTableCell>}
+                                            {isUserAdmin &&
                                             <StyledTableCell light={light}>
                                                 <ButtonSend title={'Suspencion'} icon={Suspender} disable={dt.jornadas_suspendido < 1} handle={() => { seleccionarData(dt, setDtSeleccionado, setModalJornadaDT) }} iconSize={20} iconColor={''} />
-                                            </StyledTableCell>
+                                            </StyledTableCell>}
                                         </StyledTableRow>
                                     )
                                 })}
@@ -174,24 +195,29 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
                                                 </Grid>
                                             </StyledTableCell>
                                             <StyledTableCell light={light} align="center">{jugador.nacionalidad}</StyledTableCell>
+                                            {isUserAdmin &&
                                             <StyledTableCell light={light}>
                                                 <ButtonSend title={'Editar'} icon={Edit} disable={false} handle={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalEditarJugador) }} iconSize={20} iconColor={''} />
-                                            </StyledTableCell>
+                                            </StyledTableCell>}
+                                            {isUserAdmin &&
                                             <StyledTableCell light={light}>
                                                 <ButtonSend title={'Eliminar'} icon={Eliminar} disable={false} handle={() => { eliminarJugadores(equipo._id, jugador._id, eliminarJugador, queryClient) }} iconSize={20} iconColor={'var(--danger)'} />
-                                            </StyledTableCell>
+                                            </StyledTableCell>}
+                                            {isUserAdmin &&
                                             <StyledTableCell light={light}>
                                                 {jugador.lesion === 'No' &&
                                                     <ButtonSend title={'Lesion'} icon={Lesion} disable={false} handle={() => { lesionJugadores(equipo._id, jugador._id, lesion_jugador, queryClient, 'Si') }} iconSize={20} iconColor={''} />}
                                                 {jugador.lesion === 'Si' &&
                                                     <ButtonSend title={'Recuperar'} icon={Lesion} disable={false} handle={() => { lesionJugadoresNO(equipo._id, jugador._id, lesion_jugador, queryClient, 'No') }} iconSize={20} iconColor={''} />}
-                                            </StyledTableCell>
+                                            </StyledTableCell>}
+                                            {isUserAdmin || isSameEmail &&
                                             <StyledTableCell light={light}>
                                                 <ButtonSend title={'Capitan'} icon={Capitan} disable={false} handle={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalJugadorCapitan) }} iconSize={20} iconColor={''} />
-                                            </StyledTableCell>
+                                            </StyledTableCell>}
+                                            {isUserAdmin &&
                                             <StyledTableCell light={light}>
                                                 <ButtonSend title={'Suspencion'} icon={Suspender} disable={jugador.jornadas_suspendido < 1} handle={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalEditarJornada) }} iconSize={20} iconColor={''} />
-                                            </StyledTableCell>
+                                            </StyledTableCell>}
                                         </StyledTableRow>
                                     )
                                 })}

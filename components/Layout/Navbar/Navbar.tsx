@@ -1,20 +1,45 @@
 import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Grid, useMediaQuery } from '@mui/material';
+import { Grid, useMediaQuery, Avatar } from '@mui/material';
 import { ButtonNavbar } from './ButtonNavbar';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Context from '../../../context/contextPrincipal';
 import { MaterialUISwitch } from './MaterialUISwitch';
+import ContextRefac from '../../../context/contextLogin';
+import { useMutation } from 'react-query';
+import { logoutRequest } from '../../../service/session';
+import { useRouter } from 'next/router';
+import { UserMenu } from './UserMenu';
+import { stringAvatar } from '../../../utils/utils';
 
 export const Navbar = () => {
     const [light, setLight] = useContext(Context);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
+    const { state: { user },dispatch }: any = useContext(ContextRefac);
+    const { mutate:cerrarSesion } = useMutation(logoutRequest);
+    const router = useRouter();
+    const [isLoggedIn, setIsLoggedIn] = useState(!!user);
 
     const setChangeDark = () => {
         setLight(light ? false : true);
         localStorage.setItem("light", "false");
     };
+
+    const handleLogout = () => {
+        cerrarSesion();
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        localStorage.removeItem("lastActivity");
+        setIsLoggedIn(false);
+        dispatch({ type: "SET_USER", payload: null });
+        dispatch({ type: "LOGOUT" })
+        router.push("/login");
+    }
+
+    useEffect(() => {
+        setIsLoggedIn(!!user);
+    }, [user]);
 
     return (
         <Disclosure as="nav" className="bg-gray-800 fixed top-0 left-0 right-0 z-10">
@@ -31,7 +56,7 @@ export const Navbar = () => {
                                     )}
                                 </Disclosure.Button>
                             </Grid>
-                            <Grid className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                            <Grid className="flex flex-1 items-center justify-center sm:items-sr4tretch sm:justify-start">
                                 <Grid className="flex flex-shrink-0 items-center">
                                     <img
                                         className="block h-8 w-auto lg:hidden"
@@ -56,8 +81,8 @@ export const Navbar = () => {
                                         <ButtonNavbar href='/calendario'>Calendario</ButtonNavbar>
                                         <ButtonNavbar href='/tabla'>Tabla</ButtonNavbar>
                                         <ButtonNavbar href='/noticias'>Noticias</ButtonNavbar>
-                                        <ButtonNavbar href='/manager/registrar'>Registrar</ButtonNavbar>
-                                        <ButtonNavbar href='/admin/panel'>Panel</ButtonNavbar>
+                                        {isLoggedIn && user && <ButtonNavbar href='/manager/registrar'>Registrar equipo</ButtonNavbar>}
+                                        {isLoggedIn && (user?.role === 'super_admin' || user?.role === 'admin') && <ButtonNavbar href='/admin/panel'>Panel</ButtonNavbar>}
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -67,19 +92,36 @@ export const Navbar = () => {
                                     label=""
                                     control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked={!light ? true : false} />}
                                 />
-                                {!mobile && <ButtonNavbar href='/login'>Login</ButtonNavbar>}
+                                {isLoggedIn && !mobile ? (
+                                <UserMenu handleLogout={handleLogout} user={user} router={router} />
+                                ) : (
+                                !mobile && <ButtonNavbar href="/login">Login</ButtonNavbar>
+                                )}
                             </Grid>
                         </Grid>
                     </Grid>
                     <Disclosure.Panel className="sm:hidden">
                         <Grid className="space-y-1 px-2 pt-2 pb-3">
-                            <ButtonNavbar href='/login'>Login</ButtonNavbar>
+                            {!isLoggedIn && <ButtonNavbar href='/login'>Login</ButtonNavbar>}
                             <ButtonNavbar href='/'>Home</ButtonNavbar>
                             <ButtonNavbar href='/calendario'>Calendario</ButtonNavbar>
                             <ButtonNavbar href='/tabla'>Tabla</ButtonNavbar>
                             <ButtonNavbar href='/noticias'>Noticias</ButtonNavbar>
-                            <ButtonNavbar href='/manager/registrar'>Registrar</ButtonNavbar>
-                            <ButtonNavbar href='/admin/panel'>Panel</ButtonNavbar>
+                            {isLoggedIn && user &&<ButtonNavbar href='/manager/registrar'>Registrar equipo</ButtonNavbar>}
+                            {isLoggedIn && (user?.role === 'super_admin' || user?.role === 'admin') &&<ButtonNavbar href='/admin/panel'>Panel</ButtonNavbar>}
+                            {isLoggedIn &&
+                            <>
+                            <Grid item sx={{ border: '1px solid var(--primario)' }} />
+                            <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primario)', paddingTop: '10px' }}>
+                                <Avatar {...stringAvatar(user?.nombre)} sx={{ height: '35px', width: '35px' }} />
+                                <Grid>{`${user?.nombre} ${user?.apellido}`}</Grid>
+                            </Grid>
+                            <ButtonNavbar href='/perfil'>Perfil</ButtonNavbar>
+                            {user?.role === 'super_admin' && <ButtonNavbar href='/usuarios'>Usuarios</ButtonNavbar>}
+                            <Grid onClick={() => { handleLogout(); } } className="text-blue hover:bg-gray-700" item sx={{ color: 'var(--primario)', cursor: 'pointer', display: "block", padding: "8px 12px 8px 12px", borderRadius: "6px", fontSize: "16px" }}>
+                                Cerrar cesion
+                            </Grid>
+                            </>}
                         </Grid>
                     </Disclosure.Panel>
                 </>

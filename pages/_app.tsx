@@ -25,11 +25,11 @@ const MyApp = ({ Component, pageProps }) => {
                         <title>La liga</title>
                         <link rel="icon" type="image/x-icon" href="https://assets.laliga.com/assets/logos/laliga-v/laliga-v-1200x1200.png" />
                     </Head>
+                    <InfoContextRefac>
                         <Layout>
-                            <InfoContextRefac>
-                                <Component {...pageProps}/>
-                            </InfoContextRefac>
+                            <Component {...pageProps} />
                         </Layout>
+                    </InfoContextRefac>
                 </InfoContextProvider>
             </QueryClientProvider>
         </LocalizationProvider>

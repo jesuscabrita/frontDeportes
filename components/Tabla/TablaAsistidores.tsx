@@ -81,7 +81,7 @@ export const TablaAsistidores = ({ data, isLoading, isError }) => {
                                                     <StyledTableCell light={light} align="center">
                                                         <Grid sx={{ display: 'flex', alignItems: 'center', gap: '18px' }} >
                                                             <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: '55px', height: '35px' }}>
-                                                                <img src={jugador.logo} alt={jugador.name} style={{ height: '35px' }} />
+                                                                <img src={jugador.logo} alt='.' style={{ height: '35px' }} />
                                                             </Grid>
                                                             {!mobile &&
                                                                 <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width: '130px' }}>

@@ -57,19 +57,30 @@ export const headers = [
     { label: 'Ultimos 5', align: 'center' },
 ];
 
-export const planilla = [
-    { label: 'Posicion', align: '' },
-    { label: 'Nombre', align: 'left' },
-    { label: 'Dorsal', align: 'left' },
-    { label: 'Pais', align: 'center' },
-    { label: '', align: '' },
-    { label: '', align: '' },
-    { label: '', align: '' },
-    { label: '', align: '' },
-    { label: '', align: '' },
-];
+export const planilla = ( isUserAdmin, isSameEmail ) => {
+    const planillas = [
+        { label: 'Posicion', align: '' },
+        { label: 'Nombre', align: 'left' },
+        { label: 'Dorsal', align: 'left' },
+        { label: 'Pais', align: 'center' },
+    ];
 
-export  const posicionesOrdenadas = {
+    if (isUserAdmin) {
+        planillas.push({ label: '', align: '' });
+        planillas.push({ label: '', align: '' });
+        planillas.push({ label: '', align: '' });
+        planillas.push({ label: '', align: '' });
+        planillas.push({ label: '', align: '' });
+    }
+
+    if(isSameEmail){
+        planillas.push({ label: '', align: '' });
+    }
+
+    return planillas;
+};
+
+export const posicionesOrdenadas = {
     'Portero': 1,
     'Defensa': 2,
     'Medio': 3,

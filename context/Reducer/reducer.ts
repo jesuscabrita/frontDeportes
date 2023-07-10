@@ -10,6 +10,11 @@ export const ReducerApp = (state, action) => {
                 ...state,
                 loginError: action?.payload,
             };
+        case 'LOGOUT':
+            return {
+                ...state,
+                user: null,
+            };
         default:
             return state;
     }
