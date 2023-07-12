@@ -193,9 +193,13 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
             <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
                 <TabPanel value={value} index={0} dir={theme.direction}>
                     <Grid item mt={1} mb={1} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px' }}>
-                        {isUserAdmin || isSameEmail && <ButtonSend title={'Fichar jugador libre'} icon={CreatePlayer} disable={false} handle={() => { setModalJugador(!modalJugador) }} iconSize={20} iconColor={'var(--check)'} />}
-                        {isUserAdmin || isSameEmail && <ButtonSend title={'Fichar DT'} icon={CreatePlayer} disable={data.director_tecnico.length > 0} handle={() => { setModalDT(!modalDT) }} iconSize={20} iconColor={'var(--check)'} />}
-                        {isUserAdmin || isSameEmail && <ButtonSend title={'Fichar Delegado'} icon={CreatePlayer} disable={data?.delegado.length > 0} handle={() => { setModalDelegado(!modalDelegado) }} iconSize={20} iconColor={'var(--check)'} />}
+                        {isUserAdmin && <ButtonSend title={'Fichar jugador libre'} icon={CreatePlayer} disable={false} handle={() => { setModalJugador(!modalJugador) }} iconSize={20} iconColor={'var(--check)'} />}
+                        {isUserAdmin && <ButtonSend title={'Fichar DT'} icon={CreatePlayer} disable={data.director_tecnico.length > 0} handle={() => { setModalDT(!modalDT) }} iconSize={20} iconColor={'var(--check)'} />}
+                        {isUserAdmin && <ButtonSend title={'Fichar Delegado'} icon={CreatePlayer} disable={data?.delegado.length > 0} handle={() => { setModalDelegado(!modalDelegado) }} iconSize={20} iconColor={'var(--check)'} />}
+
+                        {isSameEmail && <ButtonSend title={'Fichar jugador libre'} icon={CreatePlayer} disable={false} handle={() => { setModalJugador(!modalJugador) }} iconSize={20} iconColor={'var(--check)'} />}
+                        {isSameEmail && <ButtonSend title={'Fichar DT'} icon={CreatePlayer} disable={data.director_tecnico.length > 0} handle={() => { setModalDT(!modalDT) }} iconSize={20} iconColor={'var(--check)'} />}
+                        {isSameEmail && <ButtonSend title={'Fichar Delegado'} icon={CreatePlayer} disable={data?.delegado.length > 0} handle={() => { setModalDelegado(!modalDelegado) }} iconSize={20} iconColor={'var(--check)'} />}
                     </Grid>
                     <TablaPlantilla jugadores={data.jugadores} equipo={data} isLoading={isLoading} director_tecnico={data.director_tecnico} />
                 </TabPanel>
