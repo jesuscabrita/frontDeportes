@@ -75,8 +75,9 @@ export const Row = ({ homeTeam, awayTeam, currentRound, isLoading }) => {
     return (
         <React.Fragment>
             <TableRow sx={{ '& > *': { borderBottom: 'unset', background: light ? 'rgba(0, 0, 0, 0.04)' : 'var(--dark3)', cursor: 'pointer' } }} onClick={() => setOpen(!open)}>
-                <TableCell sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', whiteSpace: 'nowrap' }}>
-                    <Grid container width={'190px'} flexDirection={'row'} alignItems={'center'}>
+                {!mobile &&
+                    <TableCell sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', whiteSpace: 'nowrap' }}>
+                        <Grid container width={'190px'} flexDirection={'row'} alignItems={'center'}>
                         <Grid item>
                             <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)} sx={{ color: light ? 'black' : 'var(--cero)' }}>
                                 {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -91,14 +92,15 @@ export const Row = ({ homeTeam, awayTeam, currentRound, isLoading }) => {
                             <Edit style={{ cursor: 'pointer' }} fontSize={20} onClick={() => { setOpenFecha(!openFecha) }} />
                         </Grid>}
                     </Grid>
-                </TableCell>
+                </TableCell>}
                 {!mobile &&
                     <TableCell align="center" sx={{ whiteSpace: 'nowrap', color: light ? 'var(--dark2)' : 'var(--cero)' }}>{homeTeam?.estadio}</TableCell>}
                 <TableCell align="center" sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>
                     <Grid container width={'470px'} flexDirection={'row'} alignItems={'center'}>
+                        {!mobile &&
                         <Grid item container alignItems={'center'} justifyContent={'end'} sx={{ whiteSpace: 'nowrap', width: '130px' }}>
                             {homeTeam?.name}
-                        </Grid>
+                        </Grid>}
                         <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: '55px', height: '35px' }}>
                             {isLoading || !showImage ?
                                 (<CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} size={20} />)
@@ -114,9 +116,10 @@ export const Row = ({ homeTeam, awayTeam, currentRound, isLoading }) => {
                                 : showImage ? <img style={{ height: '30px' }} src={awayTeam?.logo} alt={awayTeam?.name} />
                                     : null}
                         </Grid>
-                        <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width: '130px' }}>
+                        {!mobile &&
+                            <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width: '130px' }}>
                             {awayTeam?.name}
-                        </Grid>
+                        </Grid>}
                     </Grid>
                 </TableCell>
                 {!mobile &&

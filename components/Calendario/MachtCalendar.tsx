@@ -63,14 +63,20 @@ export const MatchCalendar = () => {
                 <Grid container alignItems={'center'} justifyContent={'center'}>
                     <TableContainer component={Paper}>
                         <Table aria-label="collapsible table">
-                            <TableHead sx={{ background: 'var(--dark2)' }}>
+                            <TableHead sx={{ background: 'var(--dark2)', display: mobile && 'flex'}}>
                                 <TableRow>
-                                    <TableCell sx={{ color: 'var(--cero)' }} align="center">Fecha</TableCell>
-                                    {!mobile &&
-                                        <TableCell sx={{ color: 'var(--cero)' }} align="center">Ubicacion</TableCell>}
-                                    <TableCell sx={{ color: 'var(--cero)' }} align="center">Partidos</TableCell>
-                                    {!mobile &&
-                                        <TableCell sx={{ color: 'var(--cero)' }} align="center">Arbitro</TableCell>}
+                                    {!mobile && <TableCell sx={{ color: 'var(--cero)' }} align="center">Fecha</TableCell>}
+                                    {!mobile && <TableCell sx={{ color: 'var(--cero)' }} align="center">Ubicacion</TableCell>}
+                                    <TableCell sx={{ color: 'var(--cero)' }} align={"center"}>Partidos</TableCell>
+                                    {mobile && <TableCell sx={{ color: 'var(--cero)' }} align={"center"}></TableCell>}
+                                    {mobile && <TableCell sx={{ color: 'var(--cero)' }} align={"center"}></TableCell>}
+                                    {mobile && <TableCell sx={{ color: 'var(--cero)' }} align={"center"}></TableCell>}
+                                    {mobile && <TableCell sx={{ color: 'var(--cero)' }} align={"center"}></TableCell>}
+                                    {mobile && <TableCell sx={{ color: 'var(--cero)' }} align={"center"}></TableCell>}
+                                    {mobile && <TableCell sx={{ color: 'var(--cero)' }} align={"center"}></TableCell>}
+                                    {mobile && <TableCell sx={{ color: 'var(--cero)' }} align={"center"}></TableCell>}
+                                    {mobile && <TableCell sx={{ color: 'var(--cero)' }} align={"center"}></TableCell>}
+                                    {!mobile && <TableCell sx={{ color: 'var(--cero)' }} align="center">Arbitro</TableCell>}
                                 </TableRow>
                             </TableHead>
                             <TableBody>

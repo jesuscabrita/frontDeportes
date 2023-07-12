@@ -64,7 +64,7 @@ export const TablaEstadisticas =({jugadores, label, isLoading, goles, asistencia
             <Table  aria-label="customized table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell light={light}>{label}</StyledTableCell>
+                        <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>{label}</Grid></StyledTableCell>
                         <StyledTableCell light={light}/>
                         <StyledTableCell light={light}/>
                     </TableRow>

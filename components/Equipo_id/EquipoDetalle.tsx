@@ -139,8 +139,22 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
                                     <ArrowP currentPos={equipoIndex} prevPos={data.puntaje_anterior} />
                                 </Grid>}
                         </Grid>
-                        <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Instagram size={!mobile ? 17 : 10} color={light ? 'var(--dark2)' : 'var(--cero)'} /> Intagram: {!data?.instagram ? 'No definido' : data?.instagram}</Grid>
-                        <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Email color={light ? 'var(--dark2)' : 'var(--cero)'} /> {!data?.correo ? 'No definido' : data?.correo}</Grid>
+                        {!mobile ? 
+                            <a href={`https://www.instagram.com/${data?.instagram}`} target="_blank">
+                                <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}>
+                                    <Instagram size={!mobile ? 17 : 10} color={light ? 'var(--dark2)' : 'var(--cero)'} />
+                                    Intagram:  @{!data?.instagram ? 'No definido' : data?.instagram}
+                                </Grid>
+                            </a>
+                            :
+                            <a href={`https://www.instagram.com/${data?.instagram}`} target="_blank">
+                                <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}>
+                                    <Instagram size={!mobile ? 17 : 10} color={light ? 'var(--dark2)' : 'var(--cero)'} />
+                                    @{!data?.instagram ? 'No definido' : data?.instagram}
+                                </Grid>
+                            </a>
+                        }
+                        {!mobile && <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Email color={light ? 'var(--dark2)' : 'var(--cero)'} /> {!data?.correo ? 'No definido' : data?.correo}</Grid>}
                     </Grid>
                 </Grid>
                 <Grid sx={{ display: 'flex', flexDirection: 'column', color: light ? 'var(--dark2)' : 'var(--neutral)', fontSize: !mobile ? '20px' : '14px' }}>
@@ -193,13 +207,13 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
             <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
                 <TabPanel value={value} index={0} dir={theme.direction}>
                     <Grid item mt={1} mb={1} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px' }}>
-                        {isUserAdmin && <ButtonSend title={'Fichar jugador libre'} icon={CreatePlayer} disable={false} handle={() => { setModalJugador(!modalJugador) }} iconSize={20} iconColor={'var(--check)'} />}
-                        {isUserAdmin && <ButtonSend title={'Fichar DT'} icon={CreatePlayer} disable={data.director_tecnico.length > 0} handle={() => { setModalDT(!modalDT) }} iconSize={20} iconColor={'var(--check)'} />}
-                        {isUserAdmin && <ButtonSend title={'Fichar Delegado'} icon={CreatePlayer} disable={data?.delegado.length > 0} handle={() => { setModalDelegado(!modalDelegado) }} iconSize={20} iconColor={'var(--check)'} />}
+                        {isUserAdmin && <ButtonSend title={!mobile ?'Fichar jugador libre' : 'Jugador'} icon={CreatePlayer} disable={false} handle={() => { setModalJugador(!modalJugador) }} iconSize={20} iconColor={'var(--check)'} />}
+                        {isUserAdmin && <ButtonSend title={!mobile ?'Fichar DT': 'DT'} icon={CreatePlayer} disable={data.director_tecnico.length > 0} handle={() => { setModalDT(!modalDT) }} iconSize={20} iconColor={'var(--check)'} />}
+                        {isUserAdmin && <ButtonSend title={!mobile ?'Fichar Delegado': 'Delegado'} icon={CreatePlayer} disable={data?.delegado.length > 0} handle={() => { setModalDelegado(!modalDelegado) }} iconSize={20} iconColor={'var(--check)'} />}
 
-                        {isSameEmail && <ButtonSend title={'Fichar jugador libre'} icon={CreatePlayer} disable={false} handle={() => { setModalJugador(!modalJugador) }} iconSize={20} iconColor={'var(--check)'} />}
-                        {isSameEmail && <ButtonSend title={'Fichar DT'} icon={CreatePlayer} disable={data.director_tecnico.length > 0} handle={() => { setModalDT(!modalDT) }} iconSize={20} iconColor={'var(--check)'} />}
-                        {isSameEmail && <ButtonSend title={'Fichar Delegado'} icon={CreatePlayer} disable={data?.delegado.length > 0} handle={() => { setModalDelegado(!modalDelegado) }} iconSize={20} iconColor={'var(--check)'} />}
+                        {isSameEmail && <ButtonSend title={!mobile ?'Fichar jugador libre' : 'Jugador'} icon={CreatePlayer} disable={false} handle={() => { setModalJugador(!modalJugador) }} iconSize={20} iconColor={'var(--check)'} />}
+                        {isSameEmail && <ButtonSend title={!mobile ?'Fichar DT': 'DT'} icon={CreatePlayer} disable={data.director_tecnico.length > 0} handle={() => { setModalDT(!modalDT) }} iconSize={20} iconColor={'var(--check)'} />}
+                        {isSameEmail && <ButtonSend title={!mobile ?'Fichar Delegado': 'Delegado'} icon={CreatePlayer} disable={data?.delegado.length > 0} handle={() => { setModalDelegado(!modalDelegado) }} iconSize={20} iconColor={'var(--check)'} />}
                     </Grid>
                     <TablaPlantilla jugadores={data.jugadores} equipo={data} isLoading={isLoading} director_tecnico={data.director_tecnico} />
                 </TabPanel>

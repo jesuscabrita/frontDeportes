@@ -31,7 +31,7 @@ export const ModalJugadorInfo =({open, setOpen, jugador})=>{
         <Grid>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle sx={{ padding: '20px', color: light ? 'var(--dark2)' : 'var(--cero)', background: light ? 'var(--cero)' : 'var(--dark)' }}>
-                    <Grid item sx={{display:'flex', alignItems:'center', gap:'8px'}}>
+                    <Grid item sx={{display:'flex', alignItems:'center', gap:'8px', whiteSpace: 'nowrap', fontSize: mobile?'15px':'20px'}}>
                         <img src={jugador.logo} alt='.' style={{ height: '35px' }} />
                         {jugador.name}
                         <Grid item sx={{color:'var(--neutral)', fontSize:'10px'}}>{`(${jugador.equipo})`}</Grid>
@@ -150,12 +150,16 @@ export const ModalJugadorInfo =({open, setOpen, jugador})=>{
                             </TableContainer>
                             <Grid container alignItems={'center'} gap={2}>
                                 <Grid item sx={{display:'flex', alignItems:'center',gap:'6px',color: light ? 'var(--dark2)' : 'var(--cero)'}}>
-                                    <Insta size={25}/>
-                                    @{jugador.instagram}
+                                    <a href={`https://www.instagram.com/${jugador?.instagram}`} target="_blank">
+                                        <Insta size={25}/>
+                                        @{jugador.instagram}
+                                    </a>
                                 </Grid>
                                 <Grid item sx={{display:'flex', alignItems:'center',gap:'6px',color: light ? 'var(--dark2)' : 'var(--cero)'}}>
-                                    <Twitter size={25}/>
-                                    @{jugador.twitter}
+                                    <a href={`https://www.twitter.com/${jugador?.twitter}`} target="_blank">
+                                        <Twitter size={25} />
+                                        @{jugador.twitter}
+                                    </a>
                                 </Grid>
                             </Grid>
                         </Grid>
