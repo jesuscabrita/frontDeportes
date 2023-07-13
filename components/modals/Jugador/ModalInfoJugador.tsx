@@ -150,14 +150,14 @@ export const ModalJugadorInfo =({open, setOpen, jugador})=>{
                             </TableContainer>
                             <Grid container alignItems={'center'} gap={2}>
                                 <Grid item sx={{display:'flex', alignItems:'center',gap:'6px',color: light ? 'var(--dark2)' : 'var(--cero)'}}>
-                                    <a href={`https://www.instagram.com/${jugador?.instagram}`} target="_blank">
-                                        <Insta size={25}/>
+                                    <a style={{fontSize: mobile ?'12px':'', display:'flex', alignItems:'center', gap:'6px'}} href={`https://www.instagram.com/${jugador?.instagram}`} target="_blank">
+                                        <Insta size={mobile? 16 : 25}/>
                                         @{jugador.instagram}
                                     </a>
                                 </Grid>
                                 <Grid item sx={{display:'flex', alignItems:'center',gap:'6px',color: light ? 'var(--dark2)' : 'var(--cero)'}}>
-                                    <a href={`https://www.twitter.com/${jugador?.twitter}`} target="_blank">
-                                        <Twitter size={25} />
+                                    <a style={{fontSize: mobile ?'12px':'', display:'flex', alignItems:'center', gap:'6px'}} href={`https://www.twitter.com/${jugador?.twitter}`} target="_blank">
+                                        <Twitter size={mobile? 16 : 25} />
                                         @{jugador.twitter}
                                     </a>
                                 </Grid>

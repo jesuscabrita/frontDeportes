@@ -93,10 +93,22 @@ export const Row = ({ homeTeam, awayTeam, currentRound, isLoading }) => {
                         </Grid>}
                     </Grid>
                 </TableCell>}
-                {!mobile &&
-                    <TableCell align="center" sx={{ whiteSpace: 'nowrap', color: light ? 'var(--dark2)' : 'var(--cero)' }}>{homeTeam?.estadio}</TableCell>}
-                <TableCell align="center" sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>
-                    <Grid container width={'470px'} flexDirection={'row'} alignItems={'center'}>
+                {mobile && isUserAdmin &&
+                <TableCell sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', whiteSpace: 'nowrap' }}>
+                    <Grid sx={{display:'flex',flexDirection:'row', alignItems:'center', width:'100%', justifyContent:'center'}}>
+                        <Grid item>
+                            <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)} sx={{ color: light ? 'black' : 'var(--cero)' }}>
+                                {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                            </IconButton>
+                        </Grid>
+                        <Grid item>
+                            <Edit style={{ cursor: 'pointer' }} fontSize={20} onClick={() => { setOpenFecha(!openFecha) }} />
+                        </Grid>
+                    </Grid>
+                </TableCell>}
+                {!mobile && <TableCell align="center" sx={{ whiteSpace: 'nowrap', color: light ? 'var(--dark2)' : 'var(--cero)' }}>{homeTeam?.estadio}</TableCell>}
+                <TableCell align="center" sx={{ color: light ? 'var(--dark2)' : 'var(--cero)',width:'100%',whiteSpace: 'nowrap' }}>
+                    <Grid sx={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'center',width:!mobile ?'470px': '100%',whiteSpace: 'nowrap'}}>
                         {!mobile &&
                         <Grid item container alignItems={'center'} justifyContent={'end'} sx={{ whiteSpace: 'nowrap', width: '130px' }}>
                             {homeTeam?.name}
@@ -106,15 +118,21 @@ export const Row = ({ homeTeam, awayTeam, currentRound, isLoading }) => {
                                 (<CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} size={20} />)
                                 : showImage ? <img style={{ height: '30px' }} src={homeTeam?.logo} alt={homeTeam?.name} />
                                     : null}
+                                    {mobile && <Grid item sx={{fontSize:'8px',whiteSpace: 'nowrap',color:light ? 'var(--dark2)' : 'var(--gris)'}}>{homeTeam?.name}</Grid>}
                         </Grid>
                         <Grid item>
+                            {mobile && <Grid item sx={{fontSize:'7px',whiteSpace: 'nowrap',color:light ? 'var(--dark2)' : 'var(--gris)'}}>{homeTeam?.fecha[currentRound] === 'No definido' ? 'No definido' : formatoFecha}</Grid>}
+                            {mobile && <Grid item sx={{fontSize:'6px',whiteSpace: 'nowrap',color:light ? 'var(--dark2)' : 'var(--gris)'}}>{homeTeam?.fecha[currentRound] === 'No definido' ? 'No definida' : formatoHora}</Grid>}
                             <ButtonStatus status={status(hoy, fechaFinalPartido, tiempoRestante, TIEMPO_PARTIDO)} gol_away={gol_away} gol_home={gol_home} minutosTranscurridos={minutosTranscurridos} />
+                            {mobile && <Grid item sx={{fontSize:'7px',whiteSpace: 'nowrap',color:light ? 'var(--dark2)' : 'var(--gris)'}}>Arbitro:</Grid>}
+                            {mobile && <Grid item sx={{fontSize:'6px',whiteSpace: 'nowrap',color:light ? 'var(--dark2)' : 'var(--gris)'}}>{arbitro_home}</Grid>}
                         </Grid>
                         <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: '55px', height: '35px' }}>
                             {isLoading || !showImage ?
                                 (<CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} size={20} />)
                                 : showImage ? <img style={{ height: '30px' }} src={awayTeam?.logo} alt={awayTeam?.name} />
                                     : null}
+                                {mobile && <Grid item sx={{fontSize:'8px',whiteSpace: 'nowrap',color:light ? 'var(--dark2)' : 'var(--gris)'}}>{awayTeam?.name}</Grid>}
                         </Grid>
                         {!mobile &&
                             <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width: '130px' }}>
@@ -132,12 +150,18 @@ export const Row = ({ homeTeam, awayTeam, currentRound, isLoading }) => {
                             </Grid>}
                         </Grid>
                     </TableCell>}
+                    {mobile && isUserAdmin &&
+                    <TableCell align="center" sx={{ whiteSpace: 'nowrap', color: light ? 'var(--dark2)' : 'var(--cero)' }}>
+                        <Grid item sx={{display:'flex', alignItems:'center', justifyContent:'center'}}>
+                            <Arbitro style={{ cursor: 'pointer' }} fontSize={20} onClick={() => { setOpenArbitro(!openArbitro) }} />
+                        </Grid>
+                    </TableCell>}
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0, background: light ? 'var(--cero)' : 'var(--dark)' }} colSpan={8}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box sx={{ margin: 1 }}>
-                            <Typography variant="h6" gutterBottom component="div" sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>
+                            <Typography variant="h6" gutterBottom component="div" sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', fontSize:mobile?'13px':'18px' }}>
                                 Historial
                             </Typography>
                             <Grid container gap={6}>

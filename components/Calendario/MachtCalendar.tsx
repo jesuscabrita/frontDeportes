@@ -18,12 +18,19 @@ import { filterEstado, handleNextRound, handlePrevRound } from "../../utils/util
 import { ButtonSend } from "../Material/ButtonSend";
 import { BsFillArrowLeftCircleFill as Atras } from 'react-icons/bs';
 import { BsFillArrowRightCircleFill as Lef } from 'react-icons/bs';
+import ContextRefac from "../../context/contextLogin";
 
 export const MatchCalendar = () => {
     const [light] = useContext(Context);
     const [currentRound, setCurrentRound] = useState(0);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [data, setData] = useState([]);
+    const { state: { user } }: any = useContext(ContextRefac);
+    const [isUserAdmin, setIsUserAdmin] = useState(false);
+
+    useEffect(() => {
+        setIsUserAdmin(user?.role === 'super_admin' || user?.role === 'admin');
+    }, [user]);
 
     const { isLoading, isError, refetch } = useQuery(["/api/liga"], equiposGet, {
         refetchOnWindowFocus: false,
@@ -63,20 +70,14 @@ export const MatchCalendar = () => {
                 <Grid container alignItems={'center'} justifyContent={'center'}>
                     <TableContainer component={Paper}>
                         <Table aria-label="collapsible table">
-                            <TableHead sx={{ background: 'var(--dark2)', display: mobile && 'flex'}}>
+                            <TableHead sx={{ background: 'var(--dark2)'}}>
                                 <TableRow>
                                     {!mobile && <TableCell sx={{ color: 'var(--cero)' }} align="center">Fecha</TableCell>}
+                                    {mobile && isUserAdmin && <TableCell sx={{ color: 'var(--cero)' }} align="center">Fecha</TableCell>}
                                     {!mobile && <TableCell sx={{ color: 'var(--cero)' }} align="center">Ubicacion</TableCell>}
                                     <TableCell sx={{ color: 'var(--cero)' }} align={"center"}>Partidos</TableCell>
-                                    {mobile && <TableCell sx={{ color: 'var(--cero)' }} align={"center"}></TableCell>}
-                                    {mobile && <TableCell sx={{ color: 'var(--cero)' }} align={"center"}></TableCell>}
-                                    {mobile && <TableCell sx={{ color: 'var(--cero)' }} align={"center"}></TableCell>}
-                                    {mobile && <TableCell sx={{ color: 'var(--cero)' }} align={"center"}></TableCell>}
-                                    {mobile && <TableCell sx={{ color: 'var(--cero)' }} align={"center"}></TableCell>}
-                                    {mobile && <TableCell sx={{ color: 'var(--cero)' }} align={"center"}></TableCell>}
-                                    {mobile && <TableCell sx={{ color: 'var(--cero)' }} align={"center"}></TableCell>}
-                                    {mobile && <TableCell sx={{ color: 'var(--cero)' }} align={"center"}></TableCell>}
                                     {!mobile && <TableCell sx={{ color: 'var(--cero)' }} align="center">Arbitro</TableCell>}
+                                    {mobile && isUserAdmin && <TableCell sx={{ color: 'var(--cero)' }} align="center">Arbitro</TableCell>}
                                 </TableRow>
                             </TableHead>
                             <TableBody>
