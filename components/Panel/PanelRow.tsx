@@ -21,6 +21,9 @@ import { FaListAlt as Lista } from 'react-icons/fa';
 import { ModalLista } from '../modals/Panel/ModalLista';
 import { DTPut_amarillas, DTPut_azul, DTPut_figura, DTPut_rojas, DTPut_suspencion } from '../../service/dt';
 import { anularAmarillaDT, anularAzulDT, anularFiguraDT, anularRojaDT, editarAmarillaDT, editarAzulDT, editarFiguraDT, editarRojaDT, editarSuspencionDT } from '../../utils/utilsDT';
+import { MdCalculate as Calculo } from 'react-icons/md';
+import { ButtonSend } from '../Material/ButtonSend';
+import { FaClipboardList as List } from 'react-icons/fa';
 
 export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -89,7 +92,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
 
     return (
         <>
-            <Grid item gap={!mobile ? 4 : 0} container width={'100%'} flexDirection={'row'} alignItems={'center'} sx={{ padding: '20px' }}>
+            <Grid item gap={!mobile ? 4 : 0} sx={{ padding: '20px', display:'flex',flexDirection:'row',alignItems:'center',width:'100%', borderBottom:'1px solid var(--danger)' }}>
                 <Grid item>
                     <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)} sx={{ color: light ? 'black' : 'var(--cero)' }}>
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -97,12 +100,12 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                 </Grid>
                 <Grid item sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>
                     <Grid item width={!mobile ? '110px' : '80px'} container flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
-                        <Grid item>Partido {index + 1}</Grid>
-                        <Grid item sx={{ fontSize: !mobile ? '16px' : '14px' }}>{homeTeam?.fecha[currentRound] === 'No definido' ? 'No definido' : formatoFecha}</Grid>
-                        <Grid item sx={{ fontSize: !mobile ? '12px' : '10px' }}>{homeTeam?.fecha[currentRound] === 'No definido' ? 'No definida' : formatoHora}</Grid>
+                        <Grid item sx={{ fontSize: !mobile ? '16px' : '12px' }}>Partido {index + 1}</Grid>
+                        <Grid item sx={{ fontSize: !mobile ? '16px' : '10px' }}>{homeTeam?.fecha[currentRound] === 'No definido' ? 'No definido' : formatoFecha}</Grid>
+                        <Grid item sx={{ fontSize: !mobile ? '12px' : '9px' }}>{homeTeam?.fecha[currentRound] === 'No definido' ? 'No definida' : formatoHora}</Grid>
                     </Grid>
                 </Grid>
-                <Grid container width={!mobile ? '470px' : '210px'} flexDirection={'row'} alignItems={'center'} sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>
+                <Grid item sx={{display:'flex',flexDirection:'row',alignItems:'center',width: !mobile ? '470px' : '180px',color: light ? 'var(--dark2)' : 'var(--cero)' }}>
                     {!mobile &&
                         <Grid item container alignItems={'center'} justifyContent={'end'} sx={{ whiteSpace: 'nowrap', width: '130px' }}>
                             {homeTeam?.name}
@@ -128,158 +131,47 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                         </Grid>}
                 </Grid>
             </Grid>
-            <Collapse in={open} timeout="auto" unmountOnExit>
+            <Collapse in={open} timeout="auto" unmountOnExit sx={{background:light ? 'var(--cero)':'var(--dark4)'}}>
                 <Grid p={5}>
                     <Tooltip title="Calcular los datos del partidos, se recomienda usarlo despues de terminado" placement="top">
-                        <Button sx={{ color: 'var(--primario)', marginBottom: '10px' }}
-                            disabled={
+                        <ButtonSend title={'Calcular Partido'} icon={Calculo} iconColor={'var(--check)'} iconSize={20}
+                            disable={
                                 status(hoy, fechaFinalPartido, tiempoRestante, TIEMPO_PARTIDO) === 'noEmpezado' ||
                                 (status(hoy, fechaFinalPartido, tiempoRestante, TIEMPO_PARTIDO) === 'fechaInvalida') ||
                                 (status(hoy, fechaFinalPartido, tiempoRestante, TIEMPO_PARTIDO) === 'finPartido' && tiempoRestante <= -5)
                             }
-                            onClick={() => {
-                                datosDelPartidoHome(
-                                    homeTeam._id,
-                                    homeTeam.partidosJugados,
-                                    homeTeam.gol_partido[currentRound],
-                                    awayTeam.gol_partido[currentRound],
-                                    homeTeam.ganados,
-                                    homeTeam.empates,
-                                    homeTeam.perdidos,
-                                    homeTeam.goles_en_Contra,
-                                    homeTeam.goles_a_Favor,
-                                    homeTeam.puntos,
-                                    homeTeam.last5,
-                                    currentRound,
-                                    setIsLoadinng,
-                                    data,
-                                    calcularDatosPartidos,
-                                    queryClient
-                                ), datosDelPartidoHome(
-                                    awayTeam._id,
-                                    awayTeam.partidosJugados,
-                                    awayTeam.gol_partido[currentRound],
-                                    homeTeam.gol_partido[currentRound],
-                                    awayTeam.ganados,
-                                    awayTeam.empates,
-                                    awayTeam.perdidos,
-                                    awayTeam.goles_en_Contra,
-                                    awayTeam.goles_a_Favor,
-                                    awayTeam.puntos,
-                                    awayTeam.last5,
-                                    currentRound,
-                                    setIsLoadinng,
-                                    data,
-                                    calcularDatosPartidos,
-                                    queryClient
-                                ),
-                                    homeTeam?.jugadores.forEach(jugador => {
-                                        editarSuspencion(
-                                            homeTeam._id,
-                                            jugador._id,
-                                            jugador.suspendido,
-                                            jugador.name,
-                                            jugador.jornadas_suspendido,
-                                            setIsLoadinng,
-                                            editarSuspendido,
-                                            queryClient,
-                                            jugador.tarjetas_acumuladas
-                                        );
-                                    }),
-                                    awayTeam?.jugadores.forEach(jugador => {
-                                        editarSuspencion(
-                                            awayTeam._id,
-                                            jugador._id,
-                                            jugador.suspendido,
-                                            jugador.name,
-                                            jugador.jornadas_suspendido,
-                                            setIsLoadinng,
-                                            editarSuspendido,
-                                            queryClient,
-                                            jugador.tarjetas_acumuladas
-                                        );
-                                    }),
-                                    homeTeam?.director_tecnico.forEach(dt => {
-                                        editarSuspencionDT(
-                                            homeTeam._id,
-                                            dt._id,
-                                            dt.suspendido,
-                                            dt.name,
-                                            dt.jornadas_suspendido,
-                                            setIsLoadinng,
-                                            editarSuspencionDTs,
-                                            queryClient,
-                                            dt.tarjetas_acumuladas
-                                        );
-                                    }),
-                                    awayTeam?.director_tecnico.forEach(dt => {
-                                        editarSuspencionDT(
-                                            awayTeam._id,
-                                            dt._id,
-                                            dt.suspendido,
-                                            dt.name,
-                                            dt.jornadas_suspendido,
-                                            setIsLoadinng,
-                                            editarSuspencionDTs,
-                                            queryClient,
-                                            dt.tarjetas_acumuladas
-                                        );
-                                    })
-                            }}>
-                            Calcular partido
-                        </Button>
+                            handle={() => {
+                                datosDelPartidoHome(homeTeam._id,homeTeam.partidosJugados,homeTeam.gol_partido[currentRound],awayTeam.gol_partido[currentRound],homeTeam.ganados,homeTeam.empates,homeTeam.perdidos,homeTeam.goles_en_Contra,homeTeam.goles_a_Favor,homeTeam.puntos,homeTeam.last5,currentRound,setIsLoadinng,data,calcularDatosPartidos,queryClient), 
+                                datosDelPartidoHome(awayTeam._id,awayTeam.partidosJugados,awayTeam.gol_partido[currentRound],homeTeam.gol_partido[currentRound],awayTeam.ganados,awayTeam.empates,awayTeam.perdidos,awayTeam.goles_en_Contra,awayTeam.goles_a_Favor,awayTeam.puntos,awayTeam.last5,currentRound,setIsLoadinng,data,calcularDatosPartidos,queryClient),
+                                homeTeam?.jugadores.forEach(jugador => {
+                                    editarSuspencion(homeTeam._id,jugador._id,jugador.suspendido,jugador.name,jugador.jornadas_suspendido,setIsLoadinng,editarSuspendido,queryClient,jugador.tarjetas_acumuladas);
+                                }),
+                                awayTeam?.jugadores.forEach(jugador => {
+                                    editarSuspencion(awayTeam._id,jugador._id,jugador.suspendido,jugador.name,jugador.jornadas_suspendido,setIsLoadinng,editarSuspendido,queryClient,jugador.tarjetas_acumuladas);
+                                }),
+                                homeTeam?.director_tecnico.forEach(dt => {
+                                    editarSuspencionDT(homeTeam._id,dt._id,dt.suspendido,dt.name,dt.jornadas_suspendido,setIsLoadinng,editarSuspencionDTs,queryClient,dt.tarjetas_acumuladas);
+                                }),
+                                awayTeam?.director_tecnico.forEach(dt => {
+                                    editarSuspencionDT(awayTeam._id,dt._id,dt.suspendido,dt.name,dt.jornadas_suspendido,setIsLoadinng,editarSuspencionDTs,queryClient,dt.tarjetas_acumuladas);
+                                })
+                            }}/>
                     </Tooltip>
                     <Grid container gap={6}>
                         <Grid item>
-                            <Grid container gap={2} flexDirection={'row'} alignItems={'center'}>
+                            <Grid mb={2} gap={2} sx={{display:'flex',flexDirection:'row', alignItems:'center'}}>
+                                <Tooltip title="Lista de convocados: podes pasar lista y verificar jugadores" placement="top">
+                                    <ButtonSend icon={List} disable={false} iconColor={'var(--check)'} iconSize={mobile?12:20} title={'Lista'} handle={() => {setModalLista(!modalLista)}}/>
+                                </Tooltip>
                                 <Tooltip title="Autogol: sumara un gol pero no es de ningun jugador de la plantilla" placement="top">
-                                    <Button sx={{ color: light ? 'var(--primario)' : 'var(--cero)', marginBottom: '10px', gap: '6px' }}
-                                        onClick={() => {
-                                            editarAutoGol(
-                                                homeTeam._id,
-                                                1,
-                                                currentRound,
-                                                homeTeam.gol_partido[currentRound],
-                                                homeTeam.autogol_partido[currentRound],
-                                                homeTeam.goles_a_Favor,
-                                                homeTeam.gol_partido,
-                                                homeTeam.autogol_partido,
-                                                setIsLoadinng,
-                                                editarAutogoles,
-                                                queryClient
-                                            )
-                                        }}>
-                                        Auto gol <Gol />
-                                    </Button>
+                                    <ButtonSend icon={Gol} disable={false} title={'Auto gol'} iconColor={''} iconSize={mobile?12:20}
+                                        handle={() => {editarAutoGol(homeTeam._id,1,currentRound,homeTeam.gol_partido[currentRound],homeTeam.autogol_partido[currentRound],homeTeam.goles_a_Favor,homeTeam.gol_partido,homeTeam.autogol_partido,setIsLoadinng,editarAutogoles,queryClient)
+                                        }}/>
                                 </Tooltip>
                                 <Tooltip title="Anulara el autogol del partido" placement="top">
-                                    <Button sx={{ color: 'var(--danger)', marginBottom: '10px', gap: '6px' }}
-                                        disabled={homeTeam.autogol_partido[currentRound] === 0}
-                                        onClick={() => {
-                                            anularAutoGol(
-                                                homeTeam._id,
-                                                1,
-                                                currentRound,
-                                                homeTeam.gol_partido[currentRound],
-                                                homeTeam.autogol_partido[currentRound],
-                                                homeTeam.goles_a_Favor,
-                                                homeTeam.gol_partido,
-                                                homeTeam.autogol_partido,
-                                                setIsLoadinng,
-                                                editarAutogoles,
-                                                queryClient
-                                            )
-                                        }}>
-                                        - Anular auto gol <Gol />
-                                    </Button>
-                                </Tooltip>
-                                <Tooltip title="Lista de convocados: podes pasar lista y verificar jugadores" placement="top">
-                                    <Button sx={{ color: 'var(--primario)', marginBottom: '10px', gap: '6px' }}
-                                        onClick={() => {
-                                            setModalLista(!modalLista)
-                                        }}>
-                                        Convocados <Lista />
-                                    </Button>
+                                    <ButtonSend icon={Gol} disable={homeTeam.autogol_partido[currentRound] === 0} title={'- gol'} iconColor={''} iconSize={mobile?12:20}
+                                        handle={() => { anularAutoGol(homeTeam._id,1,currentRound,homeTeam.gol_partido[currentRound],homeTeam.autogol_partido[currentRound],homeTeam.goles_a_Favor,homeTeam.gol_partido,homeTeam.autogol_partido,setIsLoadinng,editarAutogoles,queryClient)
+                                        }}/>
                                 </Tooltip>
                             </Grid>
                             <Grid mb={2} item sx={{ background: 'var(--primario)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--cero)', padding: '2px' }}>{homeTeam?.name}</Grid>
@@ -786,24 +678,9 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                         </Grid>
                         <Grid item>
                             <Tooltip title="Autogol: sumara un gol pero no es de ningun jugador de la plantilla" placement="top">
-                                <Button sx={{ color: light ? 'var(--primario)' : 'var(--cero)', marginBottom: '10px', gap: '6px' }}
-                                    onClick={() => {
-                                        editarAutoGol(
-                                            awayTeam._id,
-                                            1,
-                                            currentRound,
-                                            awayTeam.gol_partido[currentRound],
-                                            awayTeam.autogol_partido[currentRound],
-                                            awayTeam.goles_a_Favor,
-                                            awayTeam.gol_partido,
-                                            awayTeam.autogol_partido,
-                                            setIsLoadinng,
-                                            editarAutogoles,
-                                            queryClient
-                                        )
-                                    }}>
-                                    Auto gol <Gol />
-                                </Button>
+                                <ButtonSend icon={Gol} disable={false} title={'Auto gol'} iconColor={''} iconSize={mobile?12:20}
+                                    handle={() => { editarAutoGol(awayTeam._id,1,currentRound,awayTeam.gol_partido[currentRound],awayTeam.autogol_partido[currentRound],awayTeam.goles_a_Favor,awayTeam.gol_partido,awayTeam.autogol_partido,setIsLoadinng,editarAutogoles,queryClient)
+                                }}/>
                             </Tooltip>
                             <Tooltip title="Anulara el autogol del partido" placement="top">
                                 <Button sx={{ color: 'var(--danger)', marginBottom: '10px', gap: '6px' }}

@@ -85,7 +85,9 @@ const Registrar = () => {
             <Grid container flexDirection={'column'} sx={{ paddingTop: !mobile ? '100px' : '90px', paddingBottom: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
                 <LogoRegister name={'Registrar equipo'} />
                 {!isUserEmailInData || isUserAdmin ?
-                    <Form /> :  <Grid item sx={{color: light ? 'var(--dark2)' : 'var(--cero)', fontSize:'18px'}}>Ya tienes un equipo registrado</Grid>}
+                    <Form /> :  
+                    <Grid item sx={{color: light ? 'var(--dark2)' : 'var(--cero)', fontSize:'18px',height:mobile?'100vh':'100vh'}}>Ya tienes un equipo registrado</Grid>
+                }
                 {isUserAdmin &&
                     <Grid item mt={4}>
                     <Grid item container sx={{ height: 'min-content' }}>

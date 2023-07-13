@@ -23,7 +23,7 @@ export const ButtonSend = ({ title, handle, disable, icon: IconComponent, iconSi
         >
             {title}
             {IconComponent && (
-                <IconComponent size={iconSize} color={iconColor} />
+                <IconComponent size={iconSize} color={disable ? 'var(--dark3)' : iconColor} />
             )}
         </Button>
     );
