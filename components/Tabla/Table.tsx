@@ -54,7 +54,7 @@ export const PositionTable = ({ data, isLoading, isError }) => {
                                     return (
                                         <StyledTableRow light={light} key={row._id}>
                                             <StyledTableCell light={light} component="th" scope="row">
-                                                <Grid container alignItems={'center'} width={'300px'} flexDirection={'row'} sx={{ whiteSpace: 'nowrap' }}>
+                                                <Grid item sx={{display:'flex', alignItems:'center', flexDirection:'row',whiteSpace: 'nowrap', width:!mobile?'300px':'100%'}}>
                                                     <Grid container sx={{ gap: '8px', alignItems: 'center', whiteSpace: 'nowrap', width: '40px' }}>
                                                         {(index + 1 == 1) &&
                                                             <Grid sx={{ background: 'var(--check)', height: '35px', width: '10px', whiteSpace: 'nowrap' }}></Grid>}
@@ -66,17 +66,17 @@ export const PositionTable = ({ data, isLoading, isError }) => {
                                                             <Grid sx={{ background: 'var(--warnning)', height: '35px', width: '10px', whiteSpace: 'nowrap' }}></Grid>}
                                                         <Grid>{index + 1}</Grid>
                                                     </Grid>
-                                                    <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: '55px', height: '35px', cursor: 'pointer' }} onClick={() => { router.push(`/manager/${row._id}`) }}>
+                                                    <Grid item sx={{display:'flex',alignItems:'center',justifyContent:'center', width: '55px', height: '35px', cursor: 'pointer' }} onClick={() => { router.push(`/manager/${row._id}`) }}>
                                                         {isLoading || !showImage ?
                                                             (<CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} size={20} />)
                                                             : showImage ? <img src={row.logo} alt={row.name} style={{ height: '35px' }} />
                                                                 : null}
                                                     </Grid>
-                                                    <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width: '130px', cursor: 'pointer' }} onClick={() => { router.push(`/manager/${row._id}`) }}>
+                                                    <Grid item sx={{display:'flex',alignItems:'center', whiteSpace: 'nowrap', width:!mobile?'130px':'110px', cursor: 'pointer' }} onClick={() => { router.push(`/manager/${row._id}`) }}>
                                                         {row.name}
                                                     </Grid>
                                                     {row.partidosJugados >= 1 &&
-                                                        <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ whiteSpace: 'nowrap', width: '30px' }}>
+                                                        <Grid item sx={{display:'flex',alignItems:'center',justifyContent:'center' ,whiteSpace: 'nowrap', width:'30px' }}>
                                                             <ArrowP currentPos={index} prevPos={row.puntaje_anterior} />
                                                         </Grid>}
                                                 </Grid>

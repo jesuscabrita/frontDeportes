@@ -59,7 +59,7 @@ export const TablaAmarillas = ({ data, isLoading, isError }) => {
                                             return (
                                                 <StyledTableRow light={light} key={jugador._id}>
                                                     <StyledTableCell light={light} component="th" scope="row">
-                                                        <Grid container alignItems={'center'} width={'250px'} flexDirection={'row'} sx={{ whiteSpace: 'nowrap' }}>
+                                                        <Grid item sx={{display:'flex',alignItems:'center',flexDirection:'row',width:!mobile?'250px':'100%', whiteSpace: 'nowrap' }}>
                                                             <Grid container sx={{ gap: '8px', alignItems: 'center', whiteSpace: 'nowrap', width: '40px' }}>
                                                                 <Grid>{index + 1}</Grid>
                                                                 {(index + 1 == 1) &&
@@ -68,7 +68,7 @@ export const TablaAmarillas = ({ data, isLoading, isError }) => {
                                                             <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: '55px', height: '35px', cursor: 'pointer' }} onClick={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalJugadorInfo) }}>
                                                                 <Avatar {...stringAvatar(jugador.name)} sx={{ height: '35px', width: '35px' }} />
                                                             </Grid>
-                                                            <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width: '130px', cursor: 'pointer' }} onClick={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalJugadorInfo) }}>
+                                                            <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width:!mobile? '130px':'90px', cursor: 'pointer' }} onClick={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalJugadorInfo) }}>
                                                                 {jugador.name}
                                                             </Grid>
                                                         </Grid>
