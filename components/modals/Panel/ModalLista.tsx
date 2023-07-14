@@ -16,6 +16,8 @@ import { DTPut_partidos } from "../../../service/dt";
 import { bajarPartidoDT, editarPartidoDT } from "../../../utils/utilsDT";
 import { MdLocalHospital as Lesion } from 'react-icons/md';
 import { stringAvatar } from "../../../utils/utils";
+import { MdOutlinePersonOff as Susp } from 'react-icons/md';
+import { RiUserUnfollowFill as Baja } from 'react-icons/ri';
 
 export const ModalLista = ({ open, setOpen, data, currentRound }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -40,7 +42,7 @@ export const ModalLista = ({ open, setOpen, data, currentRound }) => {
     };
 
     return (
-        <Grid>
+        <Grid item>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle sx={{ padding: '20px', color: light ? 'var(dark2)' : 'var(--cero)', background: light ? 'var(--cero)' : 'var(--dark)' }}>
                     {"Lista Convocados"}
@@ -48,133 +50,89 @@ export const ModalLista = ({ open, setOpen, data, currentRound }) => {
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     {data?.director_tecnico.map((dt, index) => {
                         return (
-                            <Grid item container p={1} flexDirection={'row'} alignItems={'center'} sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', background: dt.suspendido === 'Si' && 'var(--danger2)', borderRadius: '8px' }}>
-                                <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', fontWeight: 600 }}>..DT</Grid>
-                                <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: '55px', height: '35px' }}>
+                            <Grid item gap={1} p={1} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', color: light ? 'var(--dark2)' : 'var(--cero)', background: dt.suspendido === 'Si' && 'var(--danger2)', borderRadius: '8px' }}>
+                                <Grid item sx={{ fontSize: mobile ? '15px' : '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: mobile ? '20px' : '40px', fontWeight: 600 }}>..DT</Grid>
+                                <Grid item sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: mobile ? '20px' : '35px', height: mobile ? '20px' : '35px' }}>
                                     <Tooltip title={dt.foto ? <img src={dt.foto} alt="Imagen" style={{ width: '150px', height: '150px' }} /> : <Avatar src="/broken-image.jpg" sx={{ width: '150px', height: '150px' }} />} arrow placement="top">
-                                        <Avatar src="/broken-image.jpg" sx={{ width: '35px', height: '35px' }} />
+                                        <Avatar src="/broken-image.jpg" sx={{ width: mobile ? '20px' : '35px', height: mobile ? '20px' : '35px' }} />
                                     </Tooltip>
                                 </Grid>
                                 <Grid item sx={{ display: 'flex' }}>
-                                    <Grid item width={'350px'} gap={1} sx={{ cursor: dt.suspendido === 'Si' ? 'default' : 'pointer', display: 'flex', alignItems: 'center' }}>
+                                    <Grid item gap={1} sx={{ width: mobile ? '100%' : '350px', cursor: dt.suspendido === 'Si' ? 'default' : 'pointer', display: 'flex', alignItems: 'center', fontSize: mobile ? '10px' : '16px', whiteSpace: 'nowrap' }}>
                                         {dt.name}
                                         {dt.tarjetas_acumuladas > 0 && (<Grid item sx={{ display: 'flex', alignItems: 'center' }}>{dt.tarjetas_acumuladas}<Tarjeta color={'var(--warnning)'} /></Grid>)}
                                         {dt.partidos_individual[currentRound] === 'Si' &&
-                                            <Grid item sx={{ color: 'var(--check)' }}>(Convocado)</Grid>}
+                                            <Grid item sx={{ color: 'var(--check)' }}>{mobile ? '(Si)' : '(Convocado)'}</Grid>}
                                         {dt.partidos_individual[currentRound] === 'No' &&
-                                            <Grid item sx={{ color: 'var(--neutral)' }}>(No convocado)</Grid>}
+                                            <Grid item sx={{ color: 'var(--neutral)' }}>{mobile ? '(No)' : '(No convocado)'}</Grid>}
                                         {dt.suspendido === 'Si' &&
                                             <Tooltip title={`${dt.name} fue expulsado y esta suspendido por ${dt.jornadas_suspendido} jornada`} placement="top">
-                                                <Grid item sx={{ color: 'var(--neutral)' }}>(Expulsado)</Grid>
+                                                <Grid item sx={{ color: 'var(--neutral)' }}>{mobile ? <Susp /> : '(Expulsado)'}</Grid>
                                             </Tooltip>}
                                     </Grid>
                                 </Grid>
-                                <Grid item sx={{ cursor: dt.suspendido === 'Si' ? 'default' : 'pointer', color: dt.partidos_individual[currentRound] === 'Si' ? 'var(--check)' : 'var(--neutral)' }}
+                                <Grid item sx={{ cursor: dt.suspendido === 'Si' ? 'default' : 'pointer', color: dt.suspendido === 'Si' ? 'var(--neutral)' : dt.partidos_individual[currentRound] === 'Si' ? 'var(--check)' : 'var(--primario)' }}
                                     onClick={() => {
                                         dt.suspendido === 'Si' ? null :
-                                        editarPartidoDT(
-                                            data._id,
-                                            dt._id,
-                                            currentRound,
-                                            dt.name,
-                                            dt.partidos,
-                                            dt.partidos_individual,
-                                            setIsLoading,
-                                            editarPartidosDTs,
-                                            queryClient
-                                        )
-                                    }}
-                                >
-                                    <Check size={20} />
+                                            editarPartidoDT(data._id, dt._id, currentRound, dt.name, dt.partidos, dt.partidos_individual, setIsLoading, editarPartidosDTs, queryClient)
+                                    }}>
+                                    <Check size={mobile ? 15 : 20} />
                                 </Grid>
                                 {dt.partidos_individual[currentRound] === 'Si' &&
-                                    <Button
-                                        disabled={dt.suspendido === 'Si'}
-                                        sx={{ color: 'var(--danger)' }}
+                                    <Grid sx={{ cursor: dt.suspendido === 'Si' ? 'default' : 'pointer', color: dt.suspendido === 'Si' ? 'var(--neutral)' : 'var(--danger)' }}
                                         onClick={() => {
-                                            bajarPartidoDT(
-                                                data._id,
-                                                dt._id,
-                                                currentRound,
-                                                dt.name,
-                                                dt.partidos,
-                                                dt.partidos_individual,
-                                                setIsLoading,
-                                                editarPartidosDTs,
-                                                queryClient
-                                            )
+                                            dt.suspendido === 'Si' ? null :
+                                                bajarPartidoDT(data._id, dt._id, currentRound, dt.name, dt.partidos, dt.partidos_individual, setIsLoading, editarPartidosDTs, queryClient)
                                         }}>
-                                        Bajar
-                                    </Button>
+                                        <Baja />
+                                    </Grid>
                                 }
                             </Grid>
                         )
                     })}
                     {data?.jugadores.map((jugador, index) => {
                         return (
-                            <Grid item container p={1} flexDirection={'row'} alignItems={'center'} sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', background: jugador.suspendido === 'Si' && 'var(--danger2)', borderRadius: '8px' }}>
-                                <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', fontWeight: 600 }}>#{jugador.dorsal}</Grid>
-                                <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: '55px', height: '35px' }}>
+                            <Grid item gap={1} p={1} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', color: light ? 'var(--dark2)' : 'var(--cero)', background: jugador.suspendido === 'Si' && 'var(--danger2)', borderRadius: '8px' }}>
+                                <Grid item sx={{ fontSize: mobile ? '15px' : '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: mobile ? '20px' : '40px', fontWeight: 600 }}>#{jugador.dorsal}</Grid>
+                                <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: mobile ? '20px' : '35px', height: mobile ? '20px' : '35px' }}>
                                     <Tooltip title={jugador.foto ? <img src={jugador.foto} alt="Imagen" style={{ width: '150px', height: '150px' }} /> : <Avatar {...stringAvatar(jugador.name)} sx={{ width: '150px', height: '150px' }} />} arrow placement="top">
-                                        <Avatar {...stringAvatar(jugador.name)} sx={{ height: '35px', width: '35px' }} />
+                                        <Avatar {...stringAvatar(jugador.name)} sx={{ width: mobile ? '20px' : '35px', height: mobile ? '20px' : '35px' }} />
                                     </Tooltip>
                                 </Grid>
                                 <Grid item sx={{ display: 'flex' }}>
-                                    <Grid item width={'350px'} gap={1} sx={{ cursor: jugador.suspendido === 'Si' ? 'default' : 'pointer', display: 'flex', alignItems: 'center' }}>
+                                    <Grid item gap={1} sx={{ width: mobile ? '100%' : '350px', cursor: jugador.suspendido === 'Si' ? 'default' : 'pointer', display: 'flex', alignItems: 'center', fontSize: mobile ? '10px' : '16px', whiteSpace: 'nowrap' }}>
                                         {jugador.name}
                                         {jugador.tarjetas_acumuladas > 0 && (<Grid item sx={{ display: 'flex', alignItems: 'center' }}>{jugador.tarjetas_acumuladas}<Tarjeta color={'var(--warnning)'} /></Grid>)}
                                         {jugador.partidos_individual[currentRound] === 'Si' &&
-                                            <Grid item sx={{ color: 'var(--check)' }}>(Convocado)</Grid>}
+                                            <Grid item sx={{ color: 'var(--check)' }}>{mobile ? '(Si)' : '(Convocado)'}</Grid>}
                                         {jugador.partidos_individual[currentRound] === 'No' &&
-                                            <Grid item sx={{ color: 'var(--neutral)' }}>(No convocado)</Grid>}
+                                            <Grid item sx={{ color: 'var(--neutral)' }}>{mobile ? '(No)' : '(No convocado)'}</Grid>}
                                         {jugador.suspendido === 'Si' &&
                                             <Tooltip title={`${jugador.name} fue expulsado y esta suspendido por ${jugador.jornadas_suspendido} jornada`} placement="top">
-                                                <Grid item sx={{ color: 'var(--neutral)' }}>(Expulsado)</Grid>
+                                                <Grid item sx={{ color: 'var(--neutral)' }}>{mobile ? <Susp /> : '(Expulsado)'}</Grid>
                                             </Tooltip>}
                                         {jugador.lesion === 'Si' &&
                                             <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                                <Lesion size={20} />
-                                                <Grid sx={{ color: 'var(--neutral)' }}>{'(Lesion)'}</Grid>
+                                                <Lesion size={mobile ? 15 : 20} />
+                                                <Grid sx={{ color: 'var(--neutral)' }}>{mobile ? '(L)' : '(Lesion)'}</Grid>
                                             </Grid>}
                                     </Grid>
                                 </Grid>
-                                <Grid item sx={{ cursor: jugador.suspendido === 'Si' ? 'default' : 'pointer', color: jugador.partidos_individual[currentRound] === 'Si' ? 'var(--check)' : 'var(--neutral)' }}
+                                <Grid item sx={{ cursor: jugador.suspendido === 'Si' ? 'default' : 'pointer', color: jugador.suspendido === 'Si' ? 'var(--neutral)' : jugador.partidos_individual[currentRound] === 'Si' ? 'var(--check)' : 'var(--primario)' }}
                                     onClick={() => {
                                         jugador.suspendido === 'Si' ? null :
-                                        editarPartido(
-                                            data._id,
-                                            jugador._id,
-                                            currentRound,
-                                            jugador.name,
-                                            jugador.partidos,
-                                            jugador.partidos_individual,
-                                            setIsLoading,
-                                            editarPartidos,
-                                            queryClient
-                                        )
-                                    }}
-                                >
-                                    <Check size={20} />
+                                        editarPartido(data._id, jugador._id, currentRound, jugador.name, jugador.partidos, jugador.partidos_individual, setIsLoading, editarPartidos, queryClient)
+                                    }}>
+                                    <Check size={mobile ? 15 : 20} />
                                 </Grid>
                                 {jugador.partidos_individual[currentRound] === 'Si' &&
-                                    <Button
-                                        disabled={jugador.suspendido === 'Si'}
-                                        sx={{ color: 'var(--danger)' }}
+                                    <Grid sx={{ cursor: jugador.suspendido === 'Si' ? 'default' : 'pointer', color: jugador.suspendido === 'Si' ? 'var(--neutral)' : 'var(--danger)' }}
                                         onClick={() => {
-                                            bajarPartido(
-                                                data._id,
-                                                jugador._id,
-                                                currentRound,
-                                                jugador.name,
-                                                jugador.partidos,
-                                                jugador.partidos_individual,
-                                                setIsLoading,
-                                                editarPartidos,
-                                                queryClient
-                                            )
+                                            jugador.suspendido === 'Si' ? null :
+                                            bajarPartido(data._id, jugador._id, currentRound, jugador.name, jugador.partidos, jugador.partidos_individual, setIsLoading, editarPartidos, queryClient)
                                         }}>
-                                        Bajar
-                                    </Button>
+                                        <Baja />
+                                    </Grid>
                                 }
                             </Grid>
                         )

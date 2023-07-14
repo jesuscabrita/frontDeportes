@@ -1,4 +1,4 @@
-import { CircularProgress, Grid } from "@mui/material"
+import { CircularProgress, Grid, useMediaQuery } from "@mui/material"
 import { useContext } from "react"
 import Context from "../../../context/contextPrincipal";
 import Link from "next/link";
@@ -7,6 +7,7 @@ import { TbError404 as Err404 } from 'react-icons/tb';
 
 export const Equipos = ({ data, isLoading, isError }) => {
     const [light] = useContext(Context);
+    const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
 
     return (
         <>
@@ -26,10 +27,10 @@ export const Equipos = ({ data, isLoading, isError }) => {
                             {data.map((equipo) => (
                                 <Link href={`/manager/${equipo._id}`} key={equipo._id}>
                                     <Grid sx={{
-                                        display: "flex", padding: "10px", minHeight: "120px", minWidth: "140px", justifyContent: "center",
+                                        display: "flex", padding: mobile ? '2px' : "10px", minHeight: mobile ? '65px' : "120px", minWidth: mobile ? '65px' : "140px", justifyContent: "center", alignItems: 'center',
                                         "&:hover": { background: !light ? "var(--dark2)" : "var(--gris)", borderRadius: "16px", },
                                     }}>
-                                        <img src={equipo.logo} alt={equipo.name} style={{ height: "80px", cursor: "pointer" }} />
+                                        <img src={equipo.logo} alt={equipo.name} style={{ height: mobile ? '40px' : "80px", cursor: "pointer" }} />
                                     </Grid>
                                 </Link>
                             ))}
