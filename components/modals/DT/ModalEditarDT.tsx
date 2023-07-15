@@ -53,15 +53,15 @@ export const ModalEditarDT = ({ open, setOpen, equipoId, directorTecnicoId, data
                     {"Editar DT"}
                 </DialogTitle>
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                    <Grid container alignItems={'center'} gap={2}>
+                    <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
                         <InputText placeholder={'Nombre'} label={'Nombre'} setValue={setName} value={name} />
                         <InputFecha label={'Fecha de nacimiento'} value={fecha} setValue={setFecha} />
                     </Grid>
-                    <Grid container alignItems={'center'} gap={2}>
+                    <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
                         <InputText placeholder={'Instagram'} label={'Instagram'} setValue={setInstagram} value={instagram} />
                         <InputSelect disable={false} label={'Nacionalidad'} value={nacionalidad} setValue={setNacionalidad} selectData={nationalities} />
                     </Grid>
-                    <Grid container alignItems={'center'} gap={2}>
+                    <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
                         <InputText placeholder={'Telefono'} label={'Telefono'} setValue={setTelefono} value={telefono} />
                     </Grid>
                     <Grid container alignItems={'center'} gap={2} flexDirection={'column'}>

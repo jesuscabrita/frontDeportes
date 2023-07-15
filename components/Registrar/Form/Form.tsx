@@ -37,9 +37,11 @@ export const Form = () => {
 
     return (
         <Grid container flexDirection={'column'} gap={2} alignItems={'center'}>
-            <InputText placeholder={'Nombre'} label={'Nombre'} setValue={setName} value={name} />
-            <InputText placeholder={'Correo'} label={'Correo'} setValue={setCorreo} value={correo} />
-            <InputText placeholder={'Instagram'} label={'Instagram'} setValue={setInstagram} value={instagram} />
+            <Grid item container gap={1} sx={{ width: !mobile ? '300px' : '100%', padding: mobile ? '30px' : '0px' }}>
+                <InputText placeholder={'Nombre'} label={'Nombre'} setValue={setName} value={name} />
+                <InputText placeholder={'Correo'} label={'Correo'} setValue={setCorreo} value={correo} />
+                <InputText placeholder={'Instagram'} label={'Instagram'} setValue={setInstagram} value={instagram} />
+            </Grid>
             <Button variant="contained" component="label"
                 sx={{
                     display: 'flex',

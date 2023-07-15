@@ -1,18 +1,17 @@
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useContext } from 'react';
 import Context from '../../context/contextPrincipal';
-import { Grid, useMediaQuery } from '@mui/material';
+import { Grid } from '@mui/material';
 
 export const InputFecha = ({ value, setValue, label }) => {
     const [light] = useContext(Context);
-    const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
 
     return (
-        <Grid item sx={{ display: 'flex', flexDirection: 'column', color: light ? 'var(--dark2)' : 'var(--cero)', fontSize: '10px' }}>
+        <Grid item sx={{ width: '100%', display: 'flex', flexDirection: 'column', color: light ? 'var(--dark2)' : 'var(--cero)', fontSize: '10px' }}>
             {label}
             <DatePicker
                 sx={{
-                    '& .MuiInputBase-input': { width: !mobile ? '160px' : '100%' },
+                    '& .MuiInputBase-input': { width: '100%' },
                     '& .MuiInputBase-root': {
                         color: light ? 'var(--dark2)' : 'var(--cero)',
                         border: light ? '1px solid var(--dark2)' : '1px solid var(--cero)',

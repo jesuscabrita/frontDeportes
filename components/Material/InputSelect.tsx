@@ -3,12 +3,11 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useContext } from 'react';
 import Context from '../../context/contextPrincipal';
-import { Grid, useMediaQuery } from '@mui/material';
+import { Grid } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 export const InputSelect = ({ value, setValue, label, selectData, disable }) => {
     const [light] = useContext(Context);
-    const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
 
     const handleChange = (event: SelectChangeEvent) => {
         setValue(event.target.value);
@@ -21,9 +20,9 @@ export const InputSelect = ({ value, setValue, label, selectData, disable }) => 
     }));
 
     return (
-        <Grid item sx={{ display: 'flex', flexDirection: 'column', color: light ? 'var(--dark2)' : 'var(--cero)', fontSize: '10px' }}>
+        <Grid item sx={{ width: '100%', display: 'flex', flexDirection: 'column', color: light ? 'var(--dark2)' : 'var(--cero)', fontSize: '10px' }}>
             {label}
-            <FormControl sx={{ width: 225 }}>
+            <FormControl sx={{ width: '100%' }}>
                 <StyledSelect
                     disabled={disable}
                     value={value}

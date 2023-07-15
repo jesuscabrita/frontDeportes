@@ -6,7 +6,7 @@ export const InputText = ({ value, label, setValue, placeholder }) => {
     const [light] = useContext(Context);
 
     return (
-        <Grid item sx={{ display: "flex", flexDirection: "column", color: light ? "var(--dark2)" : "var(--cero)", fontSize: "10px" }}>
+        <Grid item sx={{ width: '100%', display: "flex", flexDirection: "column", color: light ? "var(--dark2)" : "var(--cero)", fontSize: "10px" }}>
             {label}
             <TextField
                 placeholder={placeholder}
@@ -19,6 +19,7 @@ export const InputText = ({ value, label, setValue, placeholder }) => {
                         borderRadius: "6px",
                         color: light ? "var(--dark2)" : "var(--cero)",
                         outline: "none",
+                        width: '100%'
                     },
                     "& .MuiInputLabel-root": {
                         color: light ? "var(--dark2)" : "var(--cero)",
