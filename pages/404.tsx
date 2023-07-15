@@ -9,10 +9,6 @@ const Page404 = () => {
     const [light] = useContext(Context);
     const router = useRouter();
 
-    const handleGoBack = () => {
-        router.back();
-    };
-
     return (
         <Grid container direction="column" alignItems="center" justifyContent="center" sx={{ height: "100vh" }}>
             <Grid item sx={{ fontSize: "100px", fontWeight: "bold", mb: 4, color: light ? "var(--dark2)" : "var(--cero)" }}>
@@ -22,7 +18,7 @@ const Page404 = () => {
                 Lo sentimos, la página que buscas no existe.
             </Grid>
             <Grid item>
-                <ButtonSend icon={''} disable={false} iconColor={''} iconSize={''} title={'Volver'} handle={handleGoBack} />
+                <ButtonSend icon={''} disable={false} iconColor={''} iconSize={''} title={'Volver'} handle={() => { router.push('/'); }} />
             </Grid>
         </Grid>
     );

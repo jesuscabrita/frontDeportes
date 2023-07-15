@@ -1,17 +1,17 @@
 import { api } from "./api";
 
-export const SignInRequest = async({email, password}) => {
+export const SignInRequest = async ({ email, password }) => {
     try {
-        const data = await api.post('api/user/login', {email, password})
+        const data = await api.post('api/user/login', { email, password })
         return data;
     }
     catch (err) {
         const message = err?.response?.data?.message || err.message;
         throw new Error(message);
-    }        
+    }
 }
 
-export const logoutRequest = async() => {
+export const logoutRequest = async () => {
     try {
         const data = await api.post('api/user/logout')
         return data;
@@ -19,5 +19,16 @@ export const logoutRequest = async() => {
     catch (err) {
         const message = err?.response?.data?.message || err.message;
         throw new Error(message);
-    }        
+    }
+}
+
+export const RegisterRequest = async ({ form }) => {
+    try {
+        const data = await api.post('api/user/register', form)
+        return data;
+    }
+    catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
 }

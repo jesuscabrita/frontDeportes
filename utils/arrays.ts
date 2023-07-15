@@ -33,11 +33,12 @@ export const nationalities = [
     { value: 'Costa Rica', label: 'Costa Rica' },
     { value: 'Cuba', label: 'Cuba' },
     { value: 'Republica Dominicana', label: 'Republica Dominicana' },
-    // { value: 'Paraguay', label: 'Paraguay' },
-    // { value: 'Uruguay', label: 'Uruguay' },
-    // { value: 'Mexico', label: 'Mexico' },
-    // { value: 'Ecuador', label: 'Ecuador' },
-    // { value: 'Venezuela', label: 'Venezuela' },
+    { value: 'Paraguay', label: 'Paraguay' },
+    { value: 'Uruguay', label: 'Uruguay' },
+    { value: 'Mexico', label: 'Mexico' },
+    { value: 'Ecuador', label: 'Ecuador' },
+    { value: 'Venezuela', label: 'Venezuela' },
+    { value: 'Estados Unidos', label: 'Estados Unidos' },
 ];
 
 export const headers = [

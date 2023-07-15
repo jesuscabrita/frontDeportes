@@ -8,6 +8,11 @@ import costaricaFlag from '../../public/images/costarica.png';
 import cubaFlag from '../../public/images/cuba.png';
 import dominicanrepublicFlag from '../../public/images/dominicanrepublic.png';
 import paraguayFlag from '../../public/images/paraguay.png';
+import ecuadorFlag from '../../public/images/ecuador.png';
+import mexicoFlag from '../../public/images/mexico.png';
+import unitedstatesFlag from '../../public/images/unitedstates.png';
+import uruguayFlag from '../../public/images/uruguay.png';
+import venezuelaFlag from '../../public/images/venezuela.png';
 import peruFlag from '../../public/images/peru.png';
 import { useMediaQuery } from "@mui/material";
 
@@ -36,6 +41,16 @@ export const FlagIcon = ({ nacionalidad }) => {
                 return paraguayFlag;
             case 'Peru':
                 return peruFlag;
+            case 'Ecuador':
+                return ecuadorFlag;
+            case 'Mexico':
+                return mexicoFlag;
+            case 'Estados Unidos':
+                return unitedstatesFlag;
+            case 'Uruguay':
+                return uruguayFlag;
+            case 'Venezuela':
+                return venezuelaFlag;
             default:
                 return null;
         }
