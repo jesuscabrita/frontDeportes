@@ -31,6 +31,7 @@ import { AiFillEdit as Edit } from 'react-icons/ai';
 import { MdDelete as Eliminar } from 'react-icons/md';
 import { MdOutlinePersonOff as Suspender } from 'react-icons/md';
 import ContextRefac from '../../context/contextLogin';
+import { FlagIcon } from './FlagIcon';
 
 export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico }) => {
     const [light] = useContext(Context);
@@ -123,7 +124,7 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
                                                     <Grid item>NO</Grid>
                                                 </Grid>
                                             </StyledTableCell>
-                                            <StyledTableCell light={light} align="center">{dt.nacionalidad}</StyledTableCell>
+                                            <StyledTableCell light={light} align="center"><FlagIcon nacionalidad={dt.nacionalidad} /></StyledTableCell>
                                             {isUserAdmin &&
                                                 <StyledTableCell light={light}>
                                                     <ButtonSend title={'Editar'} icon={Edit} disable={false} handle={() => { seleccionarData(dt, setDtSeleccionado, setModalEditarDT) }} iconSize={20} iconColor={''} />
@@ -194,7 +195,7 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
                                                     <Grid item>{jugador.dorsal}</Grid>
                                                 </Grid>
                                             </StyledTableCell>
-                                            <StyledTableCell light={light} align="center">{jugador.nacionalidad}</StyledTableCell>
+                                            <StyledTableCell light={light} align="center"><FlagIcon nacionalidad={jugador.nacionalidad} /></StyledTableCell>
                                             {isUserAdmin &&
                                                 <StyledTableCell light={light}>
                                                     <ButtonSend title={'Editar'} icon={Edit} disable={false} handle={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalEditarJugador) }} iconSize={20} iconColor={''} />

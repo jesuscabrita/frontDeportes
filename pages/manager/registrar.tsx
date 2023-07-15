@@ -49,7 +49,7 @@ const Registrar = () => {
         },
     })
 
-    const isUserEmailInData = filterEstado(data, 'registrado').some((equipo) => equipo.correo === user?.email);  
+    const isUserEmailInData = filterEstado(data, 'registrado').some((equipo) => equipo.correo === user?.email);
 
     const handleChange = (newValue) => {
         setValue(newValue);
@@ -81,75 +81,75 @@ const Registrar = () => {
     }
 
     return (
-        <Grid sx={{ height: !mobile ? '190vh' : '100%', }}>
+        <Grid sx={{ height: !mobile ? '190vh' : isUserAdmin ? '100%' : '120vh' }}>
             <Grid container flexDirection={'column'} sx={{ paddingTop: !mobile ? '100px' : '90px', paddingBottom: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
                 <LogoRegister name={'Registrar equipo'} />
                 {!isUserEmailInData || isUserAdmin ?
-                    <Form /> :  
-                    <Grid item sx={{color: light ? 'var(--dark2)' : 'var(--cero)', fontSize:'18px',height:mobile?'100vh':'100vh'}}>Ya tienes un equipo registrado</Grid>
+                    <Form /> :
+                    <Grid item sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', fontSize: '18px', height: mobile ? '100vh' : '100vh' }}>Ya tienes un equipo registrado</Grid>
                 }
                 {isUserAdmin &&
                     <Grid item mt={4}>
-                    <Grid item container sx={{ height: 'min-content' }}>
-                        {opcionSelectEquipos.map(opcion => (
-                            <MenuTabla opcion={opcion} valueSelect={value} handleChange={handleChange} />
-                        ))}
-                        <Grid container sx={{ borderBottom: light ? '2px solid var(--gris)' : '2px solid var(--neutral)', marginTop: '-10px' }}></Grid>
-                    </Grid>
-                    <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
-                        <TabPanel value={value} index={0} dir={theme.direction}>
-                            <Tooltip title="Resetea los datos de los equipos, es recomendable al terminar la liga o temporada" placement="top">
-                                {superAdmin &&
-                                <Button onClick={() => { editarReset(setIsLoadinng, queryClient, data, reseteoEquipos) }}>
-                                    <Reset size={30} />
-                                    <Warning size={30} color={'var(--warnning)'} />
-                                </Button>}
-                            </Tooltip>
-                            <Grid mt={2} sx={{ width: '100%', display: filterEstado(data, 'registrado').length === 0 || isError || isLoading ? 'flex' : 'grid', gridTemplateColumns: !mobile ? 'repeat(5, 1fr)' : 'repeat(2, 1fr)', gap: '20px', }}>
-                                {isLoading ?
-                                    <Grid mt={8} item sx={stylesRow}>
-                                        <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} />
-                                    </Grid>
-                                    : isError ?
-                                        <Grid mt={mobile ? 0 : 8} item sx={stylesColumn}>
-                                            Ha ocurrido un error al cargar los equipos <Err404 size={85} />
+                        <Grid item container sx={{ height: 'min-content' }}>
+                            {opcionSelectEquipos.map(opcion => (
+                                <MenuTabla opcion={opcion} valueSelect={value} handleChange={handleChange} />
+                            ))}
+                            <Grid container sx={{ borderBottom: light ? '2px solid var(--gris)' : '2px solid var(--neutral)', marginTop: '-10px' }}></Grid>
+                        </Grid>
+                        <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
+                            <TabPanel value={value} index={0} dir={theme.direction}>
+                                <Tooltip title="Resetea los datos de los equipos, es recomendable al terminar la liga o temporada" placement="top">
+                                    {superAdmin &&
+                                        <Button onClick={() => { editarReset(setIsLoadinng, queryClient, data, reseteoEquipos) }}>
+                                            <Reset size={30} />
+                                            <Warning size={30} color={'var(--warnning)'} />
+                                        </Button>}
+                                </Tooltip>
+                                <Grid mt={2} sx={{ width: '100%', display: filterEstado(data, 'registrado').length === 0 || isError || isLoading ? 'flex' : 'grid', gridTemplateColumns: !mobile ? 'repeat(5, 1fr)' : 'repeat(2, 1fr)', gap: '20px', }}>
+                                    {isLoading ?
+                                        <Grid mt={8} item sx={stylesRow}>
+                                            <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} />
                                         </Grid>
-                                        : filterEstado(data, 'registrado').length === 0 ?
-                                            <Grid mt={8} item sx={stylesRow}>
-                                                No hay equipos en la liga <Vacio size={25} />
+                                        : isError ?
+                                            <Grid mt={mobile ? 0 : 8} item sx={stylesColumn}>
+                                                Ha ocurrido un error al cargar los equipos <Err404 size={85} />
                                             </Grid>
-                                            : filterEstado(data, 'registrado').map((equipo, index) => (
-                                                <Grid key={index}>
-                                                    <ListaEquipoRegistro data={equipo} isLoading={isLoading} />
+                                            : filterEstado(data, 'registrado').length === 0 ?
+                                                <Grid mt={8} item sx={stylesRow}>
+                                                    No hay equipos en la liga <Vacio size={25} />
                                                 </Grid>
-                                            ))
-                                }
-                            </Grid>
-                        </TabPanel>
-                        <TabPanel value={value} index={1} dir={theme.direction} >
-                            <Grid mt={2} sx={{ width: '100%', display: filterEstado(data, 'enCola').length === 0 || isError || isLoading ? 'flex' : 'grid', gridTemplateColumns: !mobile ? 'repeat(5, 1fr)' : 'repeat(2, 1fr)', gap: '20px' }}>
-                                {isLoading ?
-                                    <Grid mt={8} item sx={stylesRow}>
-                                        <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} />
-                                    </Grid>
-                                    : isError ?
-                                        <Grid mt={mobile ? 0 : 8} item sx={stylesColumn}>
-                                            Ha ocurrido un error al cargar los equipos <Err404 size={85} />
+                                                : filterEstado(data, 'registrado').map((equipo, index) => (
+                                                    <Grid key={index}>
+                                                        <ListaEquipoRegistro data={equipo} isLoading={isLoading} />
+                                                    </Grid>
+                                                ))
+                                    }
+                                </Grid>
+                            </TabPanel>
+                            <TabPanel value={value} index={1} dir={theme.direction} >
+                                <Grid mt={2} sx={{ width: '100%', display: filterEstado(data, 'enCola').length === 0 || isError || isLoading ? 'flex' : 'grid', gridTemplateColumns: !mobile ? 'repeat(5, 1fr)' : 'repeat(2, 1fr)', gap: '20px' }}>
+                                    {isLoading ?
+                                        <Grid mt={8} item sx={stylesRow}>
+                                            <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} />
                                         </Grid>
-                                        : filterEstado(data, 'enCola').length === 0 ?
-                                            <Grid mt={8} item sx={stylesRow}>
-                                                No hay equipos en cola <Vacio size={25} />
+                                        : isError ?
+                                            <Grid mt={mobile ? 0 : 8} item sx={stylesColumn}>
+                                                Ha ocurrido un error al cargar los equipos <Err404 size={85} />
                                             </Grid>
-                                            : filterEstado(data, 'enCola').map((equipo, index) => (
-                                                <Grid key={index}>
-                                                    <ListaEquipoRegistro data={equipo} isLoading={isLoading} />
+                                            : filterEstado(data, 'enCola').length === 0 ?
+                                                <Grid mt={8} item sx={stylesRow}>
+                                                    No hay equipos en cola <Vacio size={25} />
                                                 </Grid>
-                                            ))
-                                }
-                            </Grid>
-                        </TabPanel>
-                    </SwipeableViews>
-                </Grid>}
+                                                : filterEstado(data, 'enCola').map((equipo, index) => (
+                                                    <Grid key={index}>
+                                                        <ListaEquipoRegistro data={equipo} isLoading={isLoading} />
+                                                    </Grid>
+                                                ))
+                                    }
+                                </Grid>
+                            </TabPanel>
+                        </SwipeableViews>
+                    </Grid>}
             </Grid>
             {isLoadinng && (
                 <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '180vh' : '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
