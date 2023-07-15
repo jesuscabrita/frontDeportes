@@ -1,5 +1,6 @@
 import { Grid, useMediaQuery } from "@mui/material";
 import { PanelPartidos } from "../../components/Panel/PanelPartidos";
+import { WithAuth } from "../../components/Shared/WithAuth";
 
 const Panel = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -12,4 +13,4 @@ const Panel = () => {
         </Grid>
     );
 };
-export default Panel;
+export default WithAuth(Panel);
