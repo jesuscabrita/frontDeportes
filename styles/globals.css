@@ -15,6 +15,7 @@
     --danger2: #c0606068;
     --check: #38ab59;
     --gris: #cdd2d4;
+    --gris2: rgb(130, 132, 132);
     --warnning: #ece25d;
     --warnning2: #e8df686b;
     --neutral: #8ca9a2;
@@ -30,15 +31,15 @@
 
 @keyframes fade {
     0% {
-        border-color: #CC4746;
+        border-color: #cc4746;
     }
 
     20% {
-        border-color: #CC4746;
+        border-color: #cc4746;
     }
 
     50% {
-        border-color: #CC4746;
+        border-color: #cc4746;
     }
 
     70% {
@@ -46,7 +47,7 @@
     }
 
     100% {
-        border-color: #CC4746;
+        border-color: #cc4746;
     }
 }
 
