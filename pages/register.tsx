@@ -7,8 +7,9 @@ import { ButtonSend } from "../components/Material/ButtonSend";
 import { RegisterRequest } from "../service/session";
 import { useMutation, useQueryClient } from "react-query";
 import moment from "moment";
-import { crearUser } from "../utils/user";
+import { crearUser } from "../utils/utilsUser";
 import { FaRegistered as Reg } from 'react-icons/fa';
+import { useRouter } from "next/router";
 
 const Register = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -23,6 +24,7 @@ const Register = () => {
     const [isLoading, setIsLoading] = useState(false)
     const { mutate: crearUsers } = useMutation(RegisterRequest);
     const queryClient = useQueryClient();
+    const router = useRouter();
 
     return (
         <Grid item pb={5} sx={{ height: '100%', paddingTop: '100px' }}>
@@ -58,7 +60,7 @@ const Register = () => {
                         <InputText label="Nombre de tu equipo" placeholder="Nombre de tu equipo" setValue={setEquipo} value={equipo} />
                     </Grid>
                     <Grid item mt={2}>
-                        <ButtonSend disable={false} icon="" iconColor="" iconSize={20} title="Registrar" handle={() => { crearUser(nombre, apellido, moment(fecha_de_nacimiento).format('YYYY-MM-DD'), email, password, repeated_password, equipo, setIsLoading, crearUsers, queryClient) }} />
+                        <ButtonSend disable={false} icon="" iconColor="" iconSize={20} title="Registrar" handle={() => { crearUser(nombre, apellido, moment(fecha_de_nacimiento).format('YYYY-MM-DD'), email, password, repeated_password, equipo, setIsLoading, crearUsers, queryClient,router) }} />
                     </Grid>
                 </Paper>
                 {isLoading && (
