@@ -26,6 +26,10 @@ const Register = () => {
     const queryClient = useQueryClient();
     const router = useRouter();
 
+    const navigateToLogin = () => {
+        router.push("/login");
+    };
+
     return (
         <Grid item pb={5} sx={{ height: '100%', paddingTop: '100px' }}>
             <Grid container direction="column" alignItems="center" justifyContent="center" gap={2} style={{ height: '100%', padding: mobile ? "0 20px" : "0 50px" }}>
@@ -62,6 +66,11 @@ const Register = () => {
                     <Grid item mt={2}>
                         <ButtonSend disable={false} icon="" iconColor="" iconSize={20} title="Registrar" handle={() => { crearUser(nombre, apellido, moment(fecha_de_nacimiento).format('YYYY-MM-DD'), email, password, repeated_password, equipo, setIsLoading, crearUsers, queryClient,router) }} />
                     </Grid>
+                    <Grid item mt={2}>
+                    <Typography variant="body2" sx={{ color: light ? "var(--dark3)" : "var(--gris2)", cursor: 'pointer', textDecoration: 'underline' }} onClick={navigateToLogin}>
+                        Volver a iniciar sesión
+                    </Typography>
+                </Grid>
                 </Paper>
                 {isLoading && (
                     <Grid sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '160vh' : '130vh', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
