@@ -43,3 +43,14 @@ export const SolicitarContraseñaRequest = async ({ form }) => {
         throw new Error(message);
     }
 }
+
+export const CambiarContraseñaRequest = async ({ form }) => {
+    try {
+        const data = await api.post('api/user/cambiar', form)
+        return data;
+    }
+    catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
