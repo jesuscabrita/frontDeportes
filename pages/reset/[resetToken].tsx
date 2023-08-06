@@ -10,7 +10,6 @@ import { useMutation, useQueryClient } from "react-query";
 import { CambiarContraseñaRequest } from "../../service/session";
 import { alertaSubmit } from "../../utils/alert";
 
-
 const ResetToken = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [light] = useContext(Context);
@@ -39,7 +38,6 @@ const ResetToken = () => {
                 router.push("/login");
             },
             onError: (err: any) => {
-                console.log('err',err);
                 const errorMessage = err?.response?.data?.message || err.message;
                 alertaSubmit(false, errorMessage);
                 setIsLoading(false);

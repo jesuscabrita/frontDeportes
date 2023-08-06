@@ -117,7 +117,7 @@ export const Navbar = () => {
                                 <Grid>{`${user?.nombre} ${user?.apellido}`}</Grid>
                             </Grid>
                             <ButtonNavbar href='/perfil'>Perfil</ButtonNavbar>
-                            {user?.role === 'super_admin' && <ButtonNavbar href='/usuarios'>Usuarios</ButtonNavbar>}
+                            {user?.role === 'super_admin' && <ButtonNavbar href='/admin/usuarios'>Usuarios</ButtonNavbar>}
                             <Grid onClick={() => { handleLogout(); } } className="text-blue hover:bg-gray-700" item sx={{ color: 'var(--primario)', cursor: 'pointer', display: "block", padding: "8px 12px 8px 12px", borderRadius: "6px", fontSize: "16px" }}>
                                 Cerrar cesion
                             </Grid>

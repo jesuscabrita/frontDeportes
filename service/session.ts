@@ -54,3 +54,14 @@ export const CambiarContraseñaRequest = async ({ form }) => {
         throw new Error(message);
     }
 }
+
+export const UserGet = async () => {
+    try {
+        const { data } = await api.get('api/user')
+        return data;
+    }
+    catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}

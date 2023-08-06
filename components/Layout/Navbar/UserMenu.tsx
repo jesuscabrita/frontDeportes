@@ -35,7 +35,7 @@ export const UserMenu = ({ handleLogout, user, router }) => {
                     </Grid>
                     {user?.role === 'super_admin' && 
                     <Grid className="block px-4 py-2 text-sm text-gray-700" sx={{ cursor: 'pointer', '&:hover': { backgroundColor: 'var(--neutral)' } }} role="menuitem" tabIndex={-1} id="user-menu-item-1"
-                        onClick={() => { router.push("/usuarios"); handleMenuClose(); }}>
+                        onClick={() => { router.push("/admin/usuarios"); handleMenuClose(); }}>
                         Usuarios
                     </Grid>}
                     <Grid className="block px-4 py-2 text-sm text-gray-700" sx={{ cursor: 'pointer', '&:hover': { backgroundColor: 'var(--neutral)' } }} role="menuitem" tabIndex={-1} id="user-menu-item-2"
