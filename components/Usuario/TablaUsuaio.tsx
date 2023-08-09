@@ -17,12 +17,17 @@ import moment from 'moment';
 import { ModalUser } from '../modals/User/ModalUser';
 import { GoVerified as Very } from 'react-icons/go';
 import { MdOutlineVerifiedUser as Admin } from 'react-icons/md';
+import { eliminarUsuarios } from '../../utils/utilsUser';
+import { userDelete } from '../../service/session';
+import { useMutation, useQueryClient } from 'react-query';
 
 export const TablaUser =({data,searchQuery})=>{
     const [light] = useContext(Context);
     const [openModal, setOpenModal] = useState(false);
     const [userSeleccionado, setUserSeleccionado] = useState(null);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
+    const { mutate: eliminarUsuario } = useMutation(userDelete);
+    const queryClient = useQueryClient();
 
     return(
         <>
@@ -100,7 +105,7 @@ export const TablaUser =({data,searchQuery})=>{
                                     <ButtonSend title={'Editar'} icon={Edit} disable={false} handle={() => { seleccionarData(usuario,setUserSeleccionado,setOpenModal) }} iconSize={20} iconColor={''} />
                                 </StyledTableCell>
                                 <StyledTableCell light={light}>
-                                    <ButtonSend title={'Eliminar'} icon={Eliminar} disable={false} handle={() => { null }} iconSize={20} iconColor={'var(--danger)'} />
+                                    <ButtonSend title={'Eliminar'} icon={Eliminar} disable={false} handle={() => { eliminarUsuarios(usuario?._id,eliminarUsuario,queryClient) }} iconSize={20} iconColor={'var(--danger)'} />
                                 </StyledTableCell>
                             </StyledTableRow>
                         )

@@ -8,7 +8,7 @@ import { InputPassword } from "../../components/Material/InputPassword";
 import { ButtonSend } from "../../components/Material/ButtonSend";
 import { useMutation, useQueryClient } from "react-query";
 import { CambiarContraseñaRequest } from "../../service/session";
-import { alertaSubmit } from "../../utils/alert";
+import { handleResetPassword } from "../../utils/utilsUser";
 
 const ResetToken = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -25,24 +25,6 @@ const ResetToken = () => {
 
     const handleAtrasClick = () => {
         router.back();
-    };
-
-    const handleResetPassword = () => {
-        setIsLoading(true);
-        cambiarContraseñas({ form: { email, password, repeated_password } }, {
-            onSuccess: (success:any) => {
-                console.log('success',success);
-                queryClient.invalidateQueries(["login"]);
-                alertaSubmit(true, success?.data.message);
-                setIsLoading(false);
-                router.push("/login");
-            },
-            onError: (err: any) => {
-                const errorMessage = err?.response?.data?.message || err.message;
-                alertaSubmit(false, errorMessage);
-                setIsLoading(false);
-            },
-        });
     };
 
     return (
@@ -64,7 +46,7 @@ const ResetToken = () => {
                     <InputPassword label="Repetir Contraseña" placeholder="Repetir Contraseña" setValue={setRepeated_password} value={repeated_password} />
                 </Grid>
                 <Grid item mt={2}>
-                    <ButtonSend disable={false} icon="" iconColor="" iconSize={20} title="Restablecer contraseña" handle={handleResetPassword} />
+                    <ButtonSend disable={false} icon="" iconColor="" iconSize={20} title="Restablecer contraseña" handle={()=> {handleResetPassword(setIsLoading, cambiarContraseñas, email, password, repeated_password, queryClient, router)}} />
                 </Grid>
                 <Grid item mt={2}>
                     <Typography variant="body2" sx={{ color: light ? "var(--dark3)" : "var(--gris2)", cursor: 'pointer', textDecoration: 'underline' }} onClick={handleAtrasClick}>

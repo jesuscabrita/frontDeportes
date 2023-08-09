@@ -75,3 +75,13 @@ export const userPut = async ({ form, userId }) => {
         throw new Error(message);
     }
 }
+
+export const userDelete = async ({ userId }) => {
+    try {
+        const data = await api.delete(`/api/user/${userId}`).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}

@@ -1,5 +1,41 @@
 import { alertaQuestion, alertaSubmit } from "./alert";
 
+export const crearJugadores = (id: string, name: string, edad: string, posicion: string, fecha_nacimiento: string, nacionalidad: string, dorsal: string, instagram: string, foto: string, setIsLoading, crearJugador, queryClient, handleClose) => {
+    setIsLoading(true);
+    const formData = { name, edad, posicion, fecha_nacimiento, nacionalidad, dorsal, instagram, foto };
+    crearJugador({ form: formData, eid: id }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["equipos"]);
+            alertaSubmit(true, success?.message);
+            setIsLoading(false);
+            handleClose()
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+}
+
+export const editarJugadores = (equipoId: string, jugadorId: string, name: string, edad: string, posicion: string, fecha_nacimiento: string, nacionalidad: string, dorsal: string, instagram: string, foto: string, setIsLoading, editarJugador, queryClient, handleClose) => {
+    setIsLoading(true);
+    const formData = { name, edad, posicion, fecha_nacimiento, nacionalidad, dorsal, instagram, foto };
+    editarJugador({ form: formData, equipoId, jugadorId }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["equipos"]);
+            alertaSubmit(true, success?.message);
+            setIsLoading(false);
+            handleClose()
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+}
+
 export const eliminarJugadores = (equipoId: string, jugadorId: string, eliminarJugador, queryClient) => {
     alertaQuestion(equipoId, {}, (equipoId: string) => {
         eliminarJugador({ equipoId, jugadorId }, {

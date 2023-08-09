@@ -13,10 +13,10 @@ import { nationalities, posiciones } from "../../../utils/arrays";
 import { InputFecha } from "../../Material/InputFecha";
 import { InputImagen } from "../../Shared/InputImagen";
 import { jugadoresPut } from "../../../service/jugadores";
-import { editarJugadores } from "../../../utils/utils";
 import { ButtonSend } from "../../Material/ButtonSend";
 import { BiExit as Salir } from 'react-icons/bi';
 import { BiEditAlt as Editar } from 'react-icons/bi';
+import { editarJugadores } from "../../../utils/utilsPanelJugadores";
 
 export const ModalEditarJugador = ({ open, setOpen, equipoId, jugadorId, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });

@@ -7,9 +7,9 @@ import Context from "../../../context/contextPrincipal";
 import { InputText } from "../../Material/InputTex";
 import { IoMdImages as Images } from 'react-icons/io';
 import { TiDeleteOutline as Delete } from 'react-icons/ti';
-import { nuevoEquipo } from "../../../utils/utils";
 import { FaRegRegistered as Crear } from 'react-icons/fa';
 import { ButtonSend } from "../../Material/ButtonSend";
+import { nuevoEquipo } from "../../../utils/utilsEquipos";
 
 export const Form = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });

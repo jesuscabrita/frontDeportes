@@ -14,10 +14,11 @@ import { TbMoodEmpty as Vacio } from 'react-icons/tb';
 import { MenuTabla } from "../../components/Material/MenuTabla";
 import { LogoRegister } from "../../components/Shared/LogoRegister";
 import { TbError404 as Err404 } from 'react-icons/tb';
-import { editarReset, filterEstado } from "../../utils/utils";
+import { filterEstado } from "../../utils/utils";
 import { BiReset as Reset } from 'react-icons/bi'
 import { AiOutlineWarning as Warning } from 'react-icons/ai'
 import ContextRefac from "../../context/contextLogin";
+import { editarReset } from "../../utils/utilsEquipos";
 
 const opcionSelectEquipos = [
     { id: 0, name: 'Equipos en la liga', icono: <Register size={30} /> },

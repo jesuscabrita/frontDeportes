@@ -13,10 +13,10 @@ import { nationalities, posiciones } from "../../../utils/arrays";
 import { InputFecha } from "../../Material/InputFecha";
 import { InputImagen } from "../../Shared/InputImagen";
 import { jugadoresPost } from "../../../service/jugadores";
-import { crearJugadores } from "../../../utils/utils";
 import { ButtonSend } from "../../Material/ButtonSend";
 import { BiExit as Salir } from 'react-icons/bi';
 import { MdGroupAdd as Crear } from 'react-icons/md';
+import { crearJugadores } from "../../../utils/utilsPanelJugadores";
 
 export const ModalCrearJugador = ({ open, setOpen, id }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });

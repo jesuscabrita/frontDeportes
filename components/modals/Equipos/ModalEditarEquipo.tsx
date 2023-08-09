@@ -12,10 +12,10 @@ import { InputText } from '../../Material/InputTex';
 import { RiImageAddFill as Add } from 'react-icons/ri';
 import { useMutation, useQueryClient } from 'react-query';
 import { equiposPut } from '../../../service/equipos';
-import { editarEquipos } from '../../../utils/utils';
 import { BiExit as Salir } from 'react-icons/bi';
 import { BiEditAlt as Editar } from 'react-icons/bi';
 import { ButtonSend } from '../../Material/ButtonSend';
+import { editarEquipos } from '../../../utils/utilsEquipos';
 
 export const ModalEditarEquipo = ({ open, setOpen, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });

@@ -75,7 +75,7 @@ export const MatchCalendar = () => {
                                     {!mobile && <TableCell sx={{ color: 'var(--cero)' }} align="center">Fecha</TableCell>}
                                     {mobile && isUserAdmin && <TableCell sx={{ color: 'var(--cero)' }} align="center">Fecha</TableCell>}
                                     {!mobile && <TableCell sx={{ color: 'var(--cero)' }} align="center">Ubicacion</TableCell>}
-                                    <TableCell sx={{ color: 'var(--cero)' }} align={"center"}>Partidos</TableCell>
+                                    <TableCell sx={{ color: 'var(--cero)' }} align="center">Partidos</TableCell>
                                     {!mobile && <TableCell sx={{ color: 'var(--cero)' }} align="center">Arbitro</TableCell>}
                                     {mobile && isUserAdmin && <TableCell sx={{ color: 'var(--cero)' }} align="center">Arbitro</TableCell>}
                                 </TableRow>

@@ -7,7 +7,7 @@ import { InputText } from "../components/Material/InputTex";
 import Context from "../context/contextPrincipal";
 import { useMutation, useQueryClient } from "react-query";
 import { SolicitarContraseñaRequest } from "../service/session";
-import { alertaSubmit } from "../utils/alert";
+import { handleSolicitarPassword } from "../utils/utilsUser";
 
 const ForgotPassword = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -17,23 +17,6 @@ const ForgotPassword = () => {
     const [isLoading, setIsLoading] = useState(false)
     const { mutate: solicitarContraseña } = useMutation(SolicitarContraseñaRequest);
     const queryClient = useQueryClient();
-
-    const handleSolicitarPassword = () => {
-        setIsLoading(true);
-        solicitarContraseña({ form: { email } }, {
-            onSuccess: (success:any) => {
-                queryClient.invalidateQueries(["login"]);
-                alertaSubmit(true, success?.data.message);
-                setIsLoading(false);
-                router.push("/login");
-            },
-            onError: (err: any) => {
-                const errorMessage = err?.response?.data?.message || err.message;
-                alertaSubmit(false, errorMessage);
-                setIsLoading(false);
-            },
-        });
-    };
 
     const navigateToLogin = () => {
         router.push("/login");
@@ -52,7 +35,7 @@ const ForgotPassword = () => {
                     <InputText label="Email" placeholder="Email" setValue={setEmail} value={email} />
                 </Grid>
                 <Grid item mt={2}>
-                    <ButtonSend disable={false} icon="" iconColor="" iconSize={20} title="Restablecer contraseña" handle={handleSolicitarPassword} />
+                    <ButtonSend disable={false} icon="" iconColor="" iconSize={20} title="Restablecer contraseña" handle={()=>{handleSolicitarPassword(setIsLoading, solicitarContraseña, email, queryClient, router)}} />
                 </Grid>
                 <Grid item mt={2}>
                     <Typography variant="body2" sx={{ color: light ? "var(--dark3)" : "var(--gris2)", cursor: 'pointer', textDecoration: 'underline' }} onClick={navigateToLogin}>

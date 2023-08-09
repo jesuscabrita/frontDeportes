@@ -108,7 +108,7 @@ export const Row = ({ homeTeam, awayTeam, currentRound, isLoading }) => {
                 </TableCell>}
                 {!mobile && <TableCell align="center" sx={{ whiteSpace: 'nowrap', color: light ? 'var(--dark2)' : 'var(--cero)' }}>{homeTeam?.estadio}</TableCell>}
                 <TableCell align="center" sx={{ color: light ? 'var(--dark2)' : 'var(--cero)',width:'100%',whiteSpace: 'nowrap' }}>
-                    <Grid sx={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'center',width:!mobile ?'470px': '100%',whiteSpace: 'nowrap'}}>
+                    <Grid sx={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'center',width:!mobile ?'100%': '100%',whiteSpace: 'nowrap'}}>
                         {!mobile &&
                         <Grid item container alignItems={'center'} justifyContent={'end'} sx={{ whiteSpace: 'nowrap', width: '130px' }}>
                             {homeTeam?.name}

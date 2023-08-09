@@ -13,7 +13,7 @@ import { ButtonSend } from "../../Material/ButtonSend";
 import { BiExit as Salir } from 'react-icons/bi';
 import { BiEditAlt as Editar } from 'react-icons/bi';
 import { userPut } from "../../../service/session";
-import { alertaSubmit } from "../../../utils/alert";
+import { editarUser } from "../../../utils/utilsUser";
 
 export const ModalUser = ({ open, setOpen, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -28,24 +28,6 @@ export const ModalUser = ({ open, setOpen, data }) => {
     const handleClose = () => {
         setOpen(false);
     };
-
-    const editarUser = (userId: string,  nombre: string, apellido: string, role: string ) => {
-        setIsLoading(true);
-        const formData = { nombre, apellido, role };
-        editarUsuario({ form: formData, userId }, {
-            onSuccess: (success) => {
-                queryClient.invalidateQueries(["user"]);
-                alertaSubmit(true, success?.message);
-                setIsLoading(false);
-                handleClose()
-            },
-            onError: (err: any) => {
-                const errorMessage = err?.response?.data?.message || err.message;
-                alertaSubmit(false, errorMessage);
-                setIsLoading(false);
-            },
-        });
-    }
 
     useEffect(() => {
         setNombre(data?.nombre);
@@ -75,7 +57,7 @@ export const ModalUser = ({ open, setOpen, data }) => {
                 )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
                     <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
-                    <ButtonSend disable={false} handle={() => { editarUser(data?._id,nombre,apellido,role) }} title={'Editar'} icon={Editar} iconColor={''} iconSize={20} />
+                    <ButtonSend disable={false} handle={() => { editarUser(data?._id,nombre,apellido,role, setIsLoading, editarUsuario, queryClient, handleClose) }} title={'Editar'} icon={Editar} iconColor={''} iconSize={20} />
                 </DialogActions>
             </Dialog>
         </Grid>

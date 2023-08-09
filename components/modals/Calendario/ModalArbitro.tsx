@@ -9,10 +9,10 @@ import { InputSelect } from '../../Material/InputSelect';
 import { arbitros } from '../../../utils/arrays';
 import { useMutation, useQueryClient } from 'react-query';
 import { equiposPut } from '../../../service/equipos';
-import { editarArbitros } from '../../../utils/utils';
 import { BiExit as Salir } from 'react-icons/bi';
 import { BiEditAlt as Editar } from 'react-icons/bi';
 import { ButtonSend } from '../../Material/ButtonSend';
+import { editarArbitros } from '../../../utils/utilsArbitro';
 
 export const ModalArbitro = ({ open, setOpen, data, index, id }) => {
     const [light] = useContext(Context);
