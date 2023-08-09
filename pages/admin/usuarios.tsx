@@ -46,5 +46,5 @@ const Usuarios = () => {
     );
 };
 
-export default Usuarios;
-// export default WithAdmin(Usuarios);
+// export default Usuarios;
+export default WithAdmin(Usuarios);
