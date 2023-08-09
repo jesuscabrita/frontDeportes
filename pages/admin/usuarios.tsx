@@ -5,7 +5,7 @@ import { UserGet } from "../../service/session";
 import Context from "../../context/contextPrincipal";
 import { WithAdmin } from "../../components/Shared/WithAdmin";
 import { InputBuscador } from "../../components/Material/InputBuscador";
-import { TablaUser } from "../../components/User/tablaUser";
+import { TablaUser } from "../../components/User/TablaUser";
 import { TbMoodEmpty as Vacio } from 'react-icons/tb';
 import { TbError404 as Err404 } from 'react-icons/tb';
 
