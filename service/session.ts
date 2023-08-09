@@ -65,3 +65,13 @@ export const UserGet = async () => {
         throw new Error(message);
     }
 }
+
+export const userPut = async ({ form, userId }) => {
+    try {
+        const data = await api.put(`/api/user/${userId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}

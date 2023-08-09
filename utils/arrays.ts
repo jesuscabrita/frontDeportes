@@ -83,3 +83,10 @@ export const posicionesOrdenadas = {
     'Medio': 3,
     'Delantero': 4,
 };
+
+export const roles = [
+    { value: 'Seleccionar', label: 'Seleccionar' },
+    { value: 'usuario', label: 'Usuario' },
+    { value: 'super_admin', label: 'Super admin' },
+    { value: 'admin', label: 'Admin' },
+]
