@@ -90,3 +90,13 @@ export const roles = [
     { value: 'super_admin', label: 'Super admin' },
     { value: 'admin', label: 'Admin' },
 ]
+
+export const contratos = [
+    { value: 'Seleccionar', label: 'Seleccionar' },
+    { value: 0.5, label: 'Media temporada' },
+    { value: 1, label: '1 Temporada' },
+    { value: 2, label: '2 Temporada' },
+    { value: 3, label: '3 Temporada' },
+    { value: 4, label: '4 Temporada' },
+]
+

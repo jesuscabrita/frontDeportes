@@ -1,8 +1,8 @@
 import { alertaQuestion, alertaSubmit } from "./alert";
 
-export const crearJugadores = (id: string, name: string, edad: string, posicion: string, fecha_nacimiento: string, nacionalidad: string, dorsal: string, instagram: string, foto: string, setIsLoading, crearJugador, queryClient, handleClose) => {
+export const crearJugadores = (id: string, name: string, sueldo: number,contrato ,posicion: string, fecha_nacimiento: string, nacionalidad: string, dorsal: string, instagram: string, foto: string, setIsLoading, crearJugador, queryClient, handleClose) => {
     setIsLoading(true);
-    const formData = { name, edad, posicion, fecha_nacimiento, nacionalidad, dorsal, instagram, foto };
+    const formData = { name, sueldo, contrato, posicion, fecha_nacimiento, nacionalidad, dorsal, instagram, foto };
     crearJugador({ form: formData, eid: id }, {
         onSuccess: (success) => {
             queryClient.invalidateQueries(["equipos"]);
@@ -18,9 +18,9 @@ export const crearJugadores = (id: string, name: string, edad: string, posicion:
     });
 }
 
-export const editarJugadores = (equipoId: string, jugadorId: string, name: string, edad: string, posicion: string, fecha_nacimiento: string, nacionalidad: string, dorsal: string, instagram: string, foto: string, setIsLoading, editarJugador, queryClient, handleClose) => {
+export const editarJugadores = (equipoId: string, jugadorId: string, name: string, sueldo: number,contrato ,posicion: string, fecha_nacimiento: string, nacionalidad: string, dorsal: string, instagram: string, foto: string, setIsLoading, editarJugador, queryClient, handleClose) => {
     setIsLoading(true);
-    const formData = { name, edad, posicion, fecha_nacimiento, nacionalidad, dorsal, instagram, foto };
+    const formData = { name, sueldo, contrato ,posicion, fecha_nacimiento, nacionalidad, dorsal, instagram, foto };
     editarJugador({ form: formData, equipoId, jugadorId }, {
         onSuccess: (success) => {
             queryClient.invalidateQueries(["equipos"]);

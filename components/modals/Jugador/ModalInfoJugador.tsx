@@ -21,7 +21,8 @@ export const ModalJugadorInfo =({open, setOpen, jugador})=>{
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [light] = useContext(Context);
     const formatoFecha = moment(jugador.fecha_nacimiento, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY');
-    const formatoFechaCreate = moment(jugador.createdAt, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY');
+    const formatoFechaCreate = moment(jugador.fecha_inicio, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY');
+    const constratos = jugador.contrato === 0.5 && 'Media temporada' || jugador.contrato === 1 && '1 Temporada' || jugador.contrato === 2 && '2 Temporadas' || jugador.contrato === 3 && '3 Temporadas' || jugador.contrato === 4 && '4 Temporadas'
 
     const handleClose = () => {
         setOpen(false);
@@ -68,7 +69,7 @@ export const ModalJugadorInfo =({open, setOpen, jugador})=>{
                                 </Grid>
                             </Grid>}
                             <Grid container alignItems={'center'} gap={2} sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>
-                                {'Valor mercado: '} <strong>{formatoPesosArgentinos(2000000)}</strong>
+                                {'Valor mercado: '} <strong>{formatoPesosArgentinos(jugador.valor_mercado)}</strong>
                             </Grid>
                             <Grid container alignItems={'center'} gap={2} sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>
                                 {jugador.partidos >= 2 && (
@@ -76,11 +77,11 @@ export const ModalJugadorInfo =({open, setOpen, jugador})=>{
                                     {`${jugador.name} nació el ${formatoFecha} en ${jugador.nacionalidad} tiene ${jugador.edad} años,
                                     ha jugado ${jugador.partidos} partidos con ${jugador.equipo} y está en el equipo desde ${formatoFechaCreate}, 
                                     tiene un contrato de `}
-                                    <strong>2 temporadas</strong>
+                                    <strong>{constratos}</strong>
                                     {`, con un sueldo de `}
-                                    <strong>{formatoPesosArgentinos(1000000)}</strong>
+                                    <strong>{formatoPesosArgentinos(jugador.sueldo)}</strong>
                                     {` por temporada, la cual por jornada cobra `}
-                                    <strong>{formatoPesosArgentinos(76926)}</strong>
+                                    <strong>{formatoPesosArgentinos(jugador.sueldo/13)}</strong>
                                     </span>
                                 )}
 
@@ -89,11 +90,11 @@ export const ModalJugadorInfo =({open, setOpen, jugador})=>{
                                     {`${jugador.name} nació el ${formatoFecha} en ${jugador.nacionalidad} tiene ${jugador.edad} años,
                                     ha jugado ${jugador.partidos} partido con ${jugador.equipo} y está en el equipo desde ${formatoFechaCreate}, 
                                     tiene un contrato de `}
-                                    <strong>2 temporadas</strong>
+                                    <strong>{constratos}</strong>
                                     {`, con un sueldo de `}
-                                    <strong>{formatoPesosArgentinos(1000000)}</strong>
+                                    <strong>{formatoPesosArgentinos(jugador.sueldo)}</strong>
                                     {` por temporada, la cual por jornada cobra `}
-                                    <strong>{formatoPesosArgentinos(76926)}</strong>
+                                    <strong>{formatoPesosArgentinos(jugador.sueldo/13)}</strong>
                                     </span>
                                 )}
 
@@ -102,11 +103,11 @@ export const ModalJugadorInfo =({open, setOpen, jugador})=>{
                                     {`${jugador.name} nació el ${formatoFecha} en ${jugador.nacionalidad} tiene ${jugador.edad} años,
                                     no ha jugado ningún partido con ${jugador.equipo} y está en el equipo desde ${formatoFechaCreate}, 
                                     tiene un contrato de `}
-                                    <strong>2 temporadas</strong>
+                                    <strong>{constratos}</strong>
                                     {`, con un sueldo de `}
-                                    <strong>{formatoPesosArgentinos(1000000)}</strong>
+                                    <strong>{formatoPesosArgentinos(jugador.sueldo)}</strong>
                                     {` por temporada, la cual por jornada cobra `}
-                                    <strong>{formatoPesosArgentinos(76926)}</strong>
+                                    <strong>{formatoPesosArgentinos(jugador.sueldo/13)}</strong>
                                     </span>
                                 )}
                             </Grid>

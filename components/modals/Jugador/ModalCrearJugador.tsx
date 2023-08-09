@@ -9,7 +9,7 @@ import { InputText } from "../../Material/InputTex";
 import { useMutation, useQueryClient } from "react-query";
 import moment from "moment";
 import { InputSelect } from "../../Material/InputSelect";
-import { nationalities, posiciones } from "../../../utils/arrays";
+import { contratos, nationalities, posiciones } from "../../../utils/arrays";
 import { InputFecha } from "../../Material/InputFecha";
 import { InputImagen } from "../../Shared/InputImagen";
 import { jugadoresPost } from "../../../service/jugadores";
@@ -17,15 +17,17 @@ import { ButtonSend } from "../../Material/ButtonSend";
 import { BiExit as Salir } from 'react-icons/bi';
 import { MdGroupAdd as Crear } from 'react-icons/md';
 import { crearJugadores } from "../../../utils/utilsPanelJugadores";
+import { InputNumber } from "../../Material/InputNumber";
 
 export const ModalCrearJugador = ({ open, setOpen, id }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [light] = useContext(Context);
     const [name, setName] = useState('');
-    const [edad, setEdad] = useState('');
+    const [sueldo, setSueldo] = useState(null);
     const [posicion, setPosicion] = useState('Seleccionar');
     const [fecha, setFecha] = useState('');
     const [nacionalidad, setNacionalidad] = useState('Seleccionar');
+    const [contrato, setContrato] = useState('Seleccionar');
     const [dorsal, setDorsal] = useState('');
     const [instagram, setInstagram] = useState('');
     const [foto, setFoto] = useState(null);
@@ -48,18 +50,19 @@ export const ModalCrearJugador = ({ open, setOpen, id }) => {
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
                         <InputText placeholder={'Nombre'} label={'Nombre'} setValue={setName} value={name} />
-                        <InputText placeholder={'Edad'} label={'Edad'} setValue={setEdad} value={edad} />
-                    </Grid>
-                    <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
-                        <InputSelect disable={false} label={'Posicion'} value={posicion} setValue={setPosicion} selectData={posiciones} />
                         <InputFecha label={'Fecha de nacimiento'} value={fecha} setValue={setFecha} />
                     </Grid>
                     <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
+                        <InputSelect disable={false} label={'Posicion'} value={posicion} setValue={setPosicion} selectData={posiciones} />
                         <InputSelect disable={false} label={'Nacionalidad'} value={nacionalidad} setValue={setNacionalidad} selectData={nationalities} />
-                        <InputText placeholder={'Dorsal'} label={'Dorsal'} setValue={setDorsal} value={dorsal} />
                     </Grid>
                     <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
+                        <InputText placeholder={'Dorsal'} label={'Dorsal'} setValue={setDorsal} value={dorsal} />
                         <InputText placeholder={'Instagram'} label={'Instagram'} setValue={setInstagram} value={instagram} />
+                    </Grid>
+                    <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
+                        <InputNumber placeholder={'Sueldo'} label={'Sueldo'} setValue={setSueldo} value={sueldo}/>
+                        <InputSelect disable={false} label={'Contrato'} value={contrato} setValue={setContrato} selectData={contratos} />
                     </Grid>
                     <Grid container alignItems={'center'} gap={2} flexDirection={'column'}>
                         <InputImagen setValue={setFoto} value={foto} setValueAdded={setFotoAdded} setValueName={setFotoName} valueAdded={fotoAdded} valueName={fotoName} />
@@ -72,7 +75,7 @@ export const ModalCrearJugador = ({ open, setOpen, id }) => {
                 )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
                     <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
-                    <ButtonSend disable={false} handle={() => { crearJugadores(id, name, edad, posicion, moment(fecha).format('YYYY-MM-DD HH:mm:ss'), nacionalidad, dorsal, instagram, foto, setIsLoading, crearJugador, queryClient, handleClose) }} title={'Fichar'} icon={Crear} iconColor={'var(--check)'} iconSize={20} />
+                    <ButtonSend disable={false} handle={() => { crearJugadores(id, name, sueldo, contrato, posicion, moment(fecha).format('YYYY-MM-DD HH:mm:ss'), nacionalidad, dorsal, instagram, foto, setIsLoading, crearJugador, queryClient, handleClose) }} title={'Fichar'} icon={Crear} iconColor={'var(--check)'} iconSize={20} />
                 </DialogActions>
             </Dialog>
         </Grid>

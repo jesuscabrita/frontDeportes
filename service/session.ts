@@ -1,5 +1,7 @@
 import { api } from "./api";
 
+//session
+
 export const SignInRequest = async ({ email, password }) => {
     try {
         const data = await api.post('api/user/login', { email, password })
@@ -55,9 +57,22 @@ export const CambiarContraseñaRequest = async ({ form }) => {
     }
 }
 
+// User
+
 export const UserGet = async () => {
     try {
         const { data } = await api.get('api/user')
+        return data;
+    }
+    catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
+
+export const UserGetById = async (uid) => {
+    try {
+        const  data  = await api.get(`api/user/${uid}`)
         return data;
     }
     catch (err) {
