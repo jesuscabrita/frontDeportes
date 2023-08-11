@@ -61,7 +61,7 @@ export const ModalCrearJugador = ({ open, setOpen, id }) => {
                         <InputText placeholder={'Instagram'} label={'Instagram'} setValue={setInstagram} value={instagram} />
                     </Grid>
                     <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
-                        <InputNumber placeholder={'Sueldo'} label={'Sueldo'} setValue={setSueldo} value={sueldo}/>
+                        <InputNumber placeholder={'Sueldo'} label={'Sueldo'} setValue={setSueldo} value={sueldo} />
                         <InputSelect disable={false} label={'Contrato'} value={contrato} setValue={setContrato} selectData={contratos} />
                     </Grid>
                     <Grid container alignItems={'center'} gap={2} flexDirection={'column'}>

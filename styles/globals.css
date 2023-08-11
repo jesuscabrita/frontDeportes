@@ -60,3 +60,7 @@
     background-color: #b74848 !important;
     color: #f9f8f8 !important;
 }
+
+.custom-swal-container {
+    z-index: 10000 !important;
+}

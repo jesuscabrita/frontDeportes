@@ -5,10 +5,10 @@ export const alertaSubmit = (submit: boolean, message: string) => {
         toast: true,
         position: 'top-right',
         iconColor: 'white',
-        customClass: { popup: 'colored-toast' },
+        customClass: { popup: 'colored-toast',container: 'custom-swal-container', },
         showConfirmButton: false,
         timer: 5500,
-        timerProgressBar: true
+        timerProgressBar: true,
     });
 
     if (submit) {

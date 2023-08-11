@@ -70,6 +70,7 @@ export const ModalJugadorInfo =({open, setOpen, jugador})=>{
                             </Grid>}
                             <Grid container alignItems={'center'} gap={2} sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>
                                 {'Valor mercado: '} <strong>{formatoPesosArgentinos(jugador.valor_mercado)}</strong>
+                                {'Clausula: '} <strong>{formatoPesosArgentinos(jugador.clausula)}</strong>
                             </Grid>
                             <Grid container alignItems={'center'} gap={2} sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>
                                 {jugador.partidos >= 2 && (
