@@ -156,7 +156,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                         }),
                                         awayTeam?.jugadores.forEach(jugador => {
                                             editarValorMercado(awayTeam._id,jugador._id,setIsLoadinng,mercado,queryClient,jugador,currentRound);
-                                        })
+                                        }),
                                         homeTeam?.director_tecnico.forEach(dt => {
                                             editarSuspencionDT(homeTeam._id, dt._id, dt.suspendido, dt.name, dt.jornadas_suspendido, setIsLoadinng, editarSuspencionDTs, queryClient, dt.tarjetas_acumuladas);
                                         }),
