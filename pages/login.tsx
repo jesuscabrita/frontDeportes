@@ -38,7 +38,7 @@ const Login = () => {
                     Iniciar sesión
                 </Typography>
                 <Grid item sx={{ width: '100%' }}>
-                    <InputText label="Usuario" placeholder="Email" setValue={setEmailOrUsername} value={emailOrUsername} />
+                    <InputText disable={false} label="Usuario" placeholder="Email" setValue={setEmailOrUsername} value={emailOrUsername} />
                 </Grid>
                 <Grid item mt={2} sx={{ width: '100%' }}>
                     <InputPassword label="Contraseña" placeholder="Contraseña" setValue={setPassword} value={password} />

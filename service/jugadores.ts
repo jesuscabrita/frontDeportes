@@ -159,3 +159,13 @@ export const jugadoresPut_capitan = async ({ form, equipoId, jugadorId }) => {
         throw new Error(message);
     }
 }
+
+export const jugadoresValor_mercado = async ({ form, equipoId, jugadorId }) => {
+    try {
+        const data = await api.put(`/api/liga/${equipoId}/mercado/${jugadorId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}

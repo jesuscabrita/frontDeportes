@@ -39,9 +39,9 @@ export const ModalDelegadoEditar = ({ open, setOpen, id, data }) => {
                 </DialogTitle>
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     <Grid container alignItems={'center'} gap={2}>
-                        <InputText placeholder={'Nombre'} label={'Nombre'} setValue={setName} value={name} />
+                        <InputText disable={false} placeholder={'Nombre'} label={'Nombre'} setValue={setName} value={name} />
                     </Grid>
-                    <InputText placeholder={'Nombre'} label={'Telefono'} setValue={setTelefono} value={telefono} />
+                    <InputText disable={false} placeholder={'Nombre'} label={'Telefono'} setValue={setTelefono} value={telefono} />
                 </DialogContent>
                 {isLoading && (
                     <Grid sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '100%' : '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

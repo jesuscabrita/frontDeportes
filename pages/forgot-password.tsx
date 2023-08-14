@@ -32,7 +32,7 @@ const ForgotPassword = () => {
                     Olvidé mi contraseña
                 </Typography>
                 <Grid item sx={{ width: '100%' }}>
-                    <InputText label="Email" placeholder="Email" setValue={setEmail} value={email} />
+                    <InputText disable={false} label="Email" placeholder="Email" setValue={setEmail} value={email} />
                 </Grid>
                 <Grid item mt={2}>
                     <ButtonSend disable={false} icon="" iconColor="" iconSize={20} title="Restablecer contraseña" handle={()=>{handleSolicitarPassword(setIsLoading, solicitarContraseña, email, queryClient, router)}} />

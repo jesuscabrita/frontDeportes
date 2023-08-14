@@ -684,3 +684,1647 @@ export const editarCapitanNo = (
         },
     });
 };
+
+export const editarValorMercado = (
+    equipoId: string,
+    jugadorId: string,
+    setIsLoading,
+    editarPartidos,
+    queryClient,
+    jugador,
+    index
+) => {
+    setIsLoading(true);
+
+    let partidos = jugador.partidos_individual[index];
+    let clausula = jugador.clausula;
+    let valor_mercado = jugador.valor_mercado;
+    let gol = jugador.gol_partido_individual[index];
+    let amarilla = jugador.amarilla_partido_individual[index];
+    let roja = jugador.roja_partido_individual[index];
+    let azul = jugador.azul_partido_individual[index];
+    let asistencia = jugador.asistencia_partido_individual[index];
+    let figura = jugador.jugador_figura_individual[index];
+    let edad = jugador.edad;
+    let capitan = jugador.capitan;
+    let posicion = jugador.posicion;
+    let sueldoCalculo = jugador.sueldoCalculo;
+    let lesion = jugador.lesion;
+    
+    let clausulaAumento = 0;
+    let clausulaDisminucion = 0;
+    let valorMercadoAumento = 0;
+    let sueldoCalculoAumento = 0;
+    
+    //SI TIENE MENOS DE 18 AÑOS
+    if (partidos === 'Si' && edad < 18) {
+        if (gol === 1) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.005;
+                valorMercadoAumento = 0.01;
+                sueldoCalculoAumento = 0.005;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.01;
+                valorMercadoAumento = 0.02;
+                sueldoCalculoAumento = 0.01;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.05;
+                valorMercadoAumento = 0.08;
+                sueldoCalculoAumento = 0.07;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.08;
+                valorMercadoAumento = 0.08;
+                sueldoCalculoAumento = 0.08;
+            }
+            
+        } else if (gol >= 2 && gol <= 4) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.007;
+                valorMercadoAumento = 0.015; 
+                sueldoCalculoAumento = 0.006;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.08;
+                valorMercadoAumento = 0.05;
+                sueldoCalculoAumento = 0.05;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.09;
+                valorMercadoAumento = 0.07;
+                sueldoCalculoAumento = 0.07;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.10;
+                valorMercadoAumento = 0.15;
+                sueldoCalculoAumento = 0.15;
+            }
+        } else if (gol >= 5) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.009;
+                valorMercadoAumento = 0.02; 
+                sueldoCalculoAumento = 0.01; 
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.10;
+                valorMercadoAumento = 0.08;
+                sueldoCalculoAumento = 0.09;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.15;
+                valorMercadoAumento = 0.10;
+                sueldoCalculoAumento = 0.10;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.20;
+                valorMercadoAumento = 0.25;
+                sueldoCalculoAumento = 0.25;
+            }
+        }
+        if (asistencia === 1) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.005;
+                valorMercadoAumento = 0.01;
+                sueldoCalculoAumento = 0.005;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.01;
+                valorMercadoAumento = 0.05;
+                sueldoCalculoAumento = 0.09;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.08;
+                valorMercadoAumento = 0.10;
+                sueldoCalculoAumento = 0.10;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.20;
+                valorMercadoAumento = 0.25;
+                sueldoCalculoAumento = 0.25;
+            }
+        } else if (asistencia >= 2 && asistencia <= 4) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.007;
+                valorMercadoAumento = 0.015; 
+                sueldoCalculoAumento = 0.006;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.01;
+                valorMercadoAumento = 0.05;
+                sueldoCalculoAumento = 0.09;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.10;
+                valorMercadoAumento = 0.15;
+                sueldoCalculoAumento = 0.15;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.20;
+                valorMercadoAumento = 0.25;
+                sueldoCalculoAumento = 0.25;
+            }
+        } else if (asistencia >= 5) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.009;
+                valorMercadoAumento = 0.02; 
+                sueldoCalculoAumento = 0.01;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.010;
+                valorMercadoAumento = 0.15;
+                sueldoCalculoAumento = 0.19;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.20;
+                valorMercadoAumento = 0.25;
+                sueldoCalculoAumento = 0.25;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }  
+        }
+        if (amarilla === 1) {
+            valorMercadoAumento = 0.25; 
+            sueldoCalculoAumento = 0.25;
+        }
+        if (amarilla === 2) {
+            valorMercadoAumento = 0.35; 
+            sueldoCalculoAumento = 0.35;
+        }
+        if (roja === 1) {
+            valorMercadoAumento = 0.4; 
+            sueldoCalculoAumento = 0.4;
+        }
+        if (azul === 1) {
+            valorMercadoAumento = 0.3; 
+            sueldoCalculoAumento = 0.3;
+        }
+        if(figura === 1){
+            valorMercadoAumento = 0.05; 
+            sueldoCalculoAumento = 0.05;
+            clausulaAumento = 0.05;
+        }
+        if(capitan === 'Si' && figura === 1){
+            valorMercadoAumento += 0.06; 
+            sueldoCalculoAumento += 0.06;
+            clausulaAumento += 0.06;
+        }
+        if (capitan === 'Si' && asistencia >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+        if (capitan === 'Si' && gol >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+        //SI TIENE MENOS DE 20 AÑOS
+    } else if (partidos === 'Si' && edad < 20) {
+        if (gol === 1) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.0075;
+                valorMercadoAumento = 0.015;
+                sueldoCalculoAumento = 0.006;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.0085;
+                valorMercadoAumento = 0.025;
+                sueldoCalculoAumento = 0.035;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.01;
+                valorMercadoAumento = 0.025;
+                sueldoCalculoAumento = 0.025;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }  
+        } else if (gol >= 2 && gol <= 4) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.01;
+                valorMercadoAumento = 0.02; 
+                sueldoCalculoAumento = 0.008; 
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.015;
+                valorMercadoAumento = 0.035;
+                sueldoCalculoAumento = 0.045;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.025;
+                valorMercadoAumento = 0.045;
+                sueldoCalculoAumento = 0.045;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }  
+        } else if (gol >= 5) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.015;
+                valorMercadoAumento = 0.025; 
+                sueldoCalculoAumento = 0.015; 
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.025;
+                valorMercadoAumento = 0.055;
+                sueldoCalculoAumento = 0.065;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.045;
+                valorMercadoAumento = 0.075;
+                sueldoCalculoAumento = 0.075;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }  
+        }
+        if (asistencia === 1) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.0075;
+                valorMercadoAumento = 0.015;
+                sueldoCalculoAumento = 0.006;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.095;
+                valorMercadoAumento = 0.015;
+                sueldoCalculoAumento = 0.025;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.04;
+                valorMercadoAumento = 0.075;
+                sueldoCalculoAumento = 0.075;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }  
+        } else if (asistencia >= 2 && asistencia <= 4) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.01;
+                valorMercadoAumento = 0.02; 
+                sueldoCalculoAumento = 0.008;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.02;
+                valorMercadoAumento = 0.045;
+                sueldoCalculoAumento = 0.045;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.06;
+                valorMercadoAumento = 0.01;
+                sueldoCalculoAumento = 0.01;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        } else if (asistencia >= 5) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.015;
+                valorMercadoAumento = 0.025; 
+                sueldoCalculoAumento = 0.015; 
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.03;
+                valorMercadoAumento = 0.065;
+                sueldoCalculoAumento = 0.065;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.08;
+                valorMercadoAumento = 0.05;
+                sueldoCalculoAumento = 0.05;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        }
+        if (amarilla === 1) {
+            valorMercadoAumento = 0.25; 
+            sueldoCalculoAumento = 0.25;
+        }
+        if (amarilla === 2) {
+            valorMercadoAumento = 0.35; 
+            sueldoCalculoAumento = 0.35;
+        }
+        if (roja === 1) {
+            valorMercadoAumento = 0.4; 
+            sueldoCalculoAumento = 0.4;
+        }
+        if (azul === 1) {
+            valorMercadoAumento = 0.3; 
+            sueldoCalculoAumento = 0.3;
+        }
+        if(figura === 1){
+            valorMercadoAumento = 0.05; 
+            sueldoCalculoAumento = 0.05;
+            clausulaAumento = 0.05;
+        }
+        if(capitan === 'Si' && figura === 1){
+            valorMercadoAumento += 0.06; 
+            sueldoCalculoAumento += 0.06;
+            clausulaAumento += 0.06;
+        }
+        if (capitan === 'Si' && asistencia >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+        if (capitan === 'Si' && gol >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+    //SI TIENE MENOS DE 22 AÑOS
+    } else if (partidos === 'Si' && edad < 22) {
+        if (gol === 1) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.01;
+                valorMercadoAumento = 0.02;
+                sueldoCalculoAumento = 0.008;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.02;
+                valorMercadoAumento = 0.02;
+                sueldoCalculoAumento = 0.02;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.05;
+                valorMercadoAumento = 0.08;
+                sueldoCalculoAumento = 0.08;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        } else if (gol >= 2 && gol <= 4) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.015;
+                valorMercadoAumento = 0.025; 
+                sueldoCalculoAumento = 0.01; 
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.025;
+                valorMercadoAumento = 0.035;
+                sueldoCalculoAumento = 0.035;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.06;
+                valorMercadoAumento = 0.09;
+                sueldoCalculoAumento = 0.09;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        } else if (gol >= 5) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.017;
+                valorMercadoAumento = 0.03; 
+                sueldoCalculoAumento = 0.015; 
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.045;
+                valorMercadoAumento = 0.065;
+                sueldoCalculoAumento = 0.065;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.08;
+                valorMercadoAumento = 0.10;
+                sueldoCalculoAumento = 0.10;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        }
+        if (asistencia === 1) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.01;
+                valorMercadoAumento = 0.02;
+                sueldoCalculoAumento = 0.008; 
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.025;
+                valorMercadoAumento = 0.045;
+                sueldoCalculoAumento = 0.045;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.04;
+                valorMercadoAumento = 0.04;
+                sueldoCalculoAumento = 0.04;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        } else if (asistencia >= 2 && asistencia <= 4) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.015;
+                valorMercadoAumento = 0.025; 
+                sueldoCalculoAumento = 0.01;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.025;
+                valorMercadoAumento = 0.045;
+                sueldoCalculoAumento = 0.045;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.08;
+                valorMercadoAumento = 0.08;
+                sueldoCalculoAumento = 0.08;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        } else if (asistencia >= 5) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.017;
+                valorMercadoAumento = 0.03; 
+                sueldoCalculoAumento = 0.015;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.06;
+                valorMercadoAumento = 0.10;
+                sueldoCalculoAumento = 0.10;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.15;
+                valorMercadoAumento = 0.25;
+                sueldoCalculoAumento = 0.25;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        }
+        if (amarilla === 1) {
+            valorMercadoAumento = 0.25; 
+            sueldoCalculoAumento = 0.25;
+        }
+        if (amarilla === 2) {
+            valorMercadoAumento = 0.35; 
+            sueldoCalculoAumento = 0.35;
+        }
+        if (roja === 1) {
+            valorMercadoAumento = 0.4; 
+            sueldoCalculoAumento = 0.4;
+        }
+        if (azul === 1) {
+            valorMercadoAumento = 0.3; 
+            sueldoCalculoAumento = 0.3;
+        }
+        if(figura === 1){
+            valorMercadoAumento = 0.05; 
+            sueldoCalculoAumento = 0.05;
+            clausulaAumento = 0.05;
+        }
+        if(capitan === 'Si' && figura === 1){
+            valorMercadoAumento += 0.06; 
+            sueldoCalculoAumento += 0.06;
+            clausulaAumento += 0.06;
+        }
+        if (capitan === 'Si' && asistencia >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+        if (capitan === 'Si' && gol >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+    //SI TIENE MENOS DE 24AÑOS
+    } else if (partidos === 'Si' && edad < 24) {
+        if (gol === 1) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.015;
+                valorMercadoAumento = 0.025;
+                sueldoCalculoAumento = 0.009;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.02;
+                valorMercadoAumento = 0.03;
+                sueldoCalculoAumento = 0.03;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.5;
+                valorMercadoAumento = 0.08;
+                sueldoCalculoAumento = 0.08;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        } else if (gol >= 2 && gol <= 4) { 
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.017;
+                valorMercadoAumento = 0.03; 
+                sueldoCalculoAumento = 0.015;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.025;
+                valorMercadoAumento = 0.035;
+                sueldoCalculoAumento = 0.035;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.7;
+                valorMercadoAumento = 0.09;
+                sueldoCalculoAumento = 0.09;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }
+        } else if (gol >= 5) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.02;
+                valorMercadoAumento = 0.035; 
+                sueldoCalculoAumento = 0.018; 
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.03;
+                valorMercadoAumento = 0.045;
+                sueldoCalculoAumento = 0.045;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.9;
+                valorMercadoAumento = 0.10;
+                sueldoCalculoAumento = 0.10;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }
+        }
+        if (asistencia === 1) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.015;
+                valorMercadoAumento = 0.025;
+                sueldoCalculoAumento = 0.009;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.03;
+                valorMercadoAumento = 0.055;
+                sueldoCalculoAumento = 0.055;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.4;
+                valorMercadoAumento = 0.08;
+                sueldoCalculoAumento = 0.08;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }
+        } else if (asistencia >= 2 && asistencia <= 4) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.017;
+                valorMercadoAumento = 0.03; 
+                sueldoCalculoAumento = 0.015; 
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.035;
+                valorMercadoAumento = 0.065;
+                sueldoCalculoAumento = 0.065;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.45;
+                valorMercadoAumento = 0.10;
+                sueldoCalculoAumento = 0.10;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }
+        } else if (asistencia >= 5) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.02;
+                valorMercadoAumento = 0.035; 
+                sueldoCalculoAumento = 0.018;  
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.045;
+                valorMercadoAumento = 0.075;
+                sueldoCalculoAumento = 0.075;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.45;
+                valorMercadoAumento = 0.15;
+                sueldoCalculoAumento = 0.15;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }
+        }
+        if (amarilla === 1) {
+            valorMercadoAumento = 0.25; 
+            sueldoCalculoAumento = 0.25;
+        }
+        if (amarilla === 2) {
+            valorMercadoAumento = 0.35; 
+            sueldoCalculoAumento = 0.35;
+        }
+        if (roja === 1) {
+            valorMercadoAumento = 0.4; 
+            sueldoCalculoAumento = 0.4;
+        }
+        if (azul === 1) {
+            valorMercadoAumento = 0.3; 
+            sueldoCalculoAumento = 0.3;
+        }
+        if(figura === 1){
+            valorMercadoAumento = 0.05; 
+            sueldoCalculoAumento = 0.05;
+            clausulaAumento = 0.05;
+        }
+        if(capitan === 'Si' && figura === 1){
+            valorMercadoAumento += 0.06; 
+            sueldoCalculoAumento += 0.06;
+            clausulaAumento += 0.06;
+        }
+        if (capitan === 'Si' && asistencia >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+        if (capitan === 'Si' && gol >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+    //SI TIENE MENOS DE 26 AÑOS
+    } else if (partidos === 'Si' && edad < 26) {
+        if (gol === 1) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.0175;
+                valorMercadoAumento = 0.03;
+                sueldoCalculoAumento = 0.01;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.025;
+                valorMercadoAumento = 0.075;
+                sueldoCalculoAumento = 0.075;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }
+        } else if (gol >= 2 && gol <= 4) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.02;
+                valorMercadoAumento = 0.035; 
+                sueldoCalculoAumento = 0.02;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.040;
+                valorMercadoAumento = 0.085;
+                sueldoCalculoAumento = 0.085;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.35;
+                valorMercadoAumento = 0.45;
+                sueldoCalculoAumento = 0.45;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        } else if (gol >= 5) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.025;
+                valorMercadoAumento = 0.04; 
+                sueldoCalculoAumento = 0.02;  
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.030;
+                valorMercadoAumento = 0.085;
+                sueldoCalculoAumento = 0.085;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.55;
+                valorMercadoAumento = 0.45;
+                sueldoCalculoAumento = 0.45;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        }
+        if (asistencia === 1) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.0175;
+                valorMercadoAumento = 0.03;
+                sueldoCalculoAumento = 0.01; 
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.040;
+                valorMercadoAumento = 0.065;
+                sueldoCalculoAumento = 0.065;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.025;
+                valorMercadoAumento = 0.045;
+                sueldoCalculoAumento = 0.045;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        } else if (asistencia >= 2 && asistencia <= 4) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.02;
+                valorMercadoAumento = 0.035; 
+                sueldoCalculoAumento = 0.02;  
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.045;
+                valorMercadoAumento = 0.075;
+                sueldoCalculoAumento = 0.075;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.055;
+                valorMercadoAumento = 0.085;
+                sueldoCalculoAumento = 0.085;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }  
+        } else if (asistencia >= 5) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.025;
+                valorMercadoAumento = 0.04; 
+                sueldoCalculoAumento = 0.02;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.075;
+                valorMercadoAumento = 0.085;
+                sueldoCalculoAumento = 0.085;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.065;
+                valorMercadoAumento = 0.095;
+                sueldoCalculoAumento = 0.095;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }    
+        }
+        if (amarilla === 1) {
+            valorMercadoAumento = 0.25; 
+            sueldoCalculoAumento = 0.25;
+        }
+        if (amarilla === 2) {
+            valorMercadoAumento = 0.35; 
+            sueldoCalculoAumento = 0.35;
+        }
+        if (roja === 1) {
+            valorMercadoAumento = 0.4; 
+            sueldoCalculoAumento = 0.4;
+        }
+        if (azul === 1) {
+            valorMercadoAumento = 0.3; 
+            sueldoCalculoAumento = 0.3;
+        }
+        if(figura === 1){
+            valorMercadoAumento = 0.05; 
+            sueldoCalculoAumento = 0.05;
+            clausulaAumento = 0.05;
+        }
+        if(capitan === 'Si' && figura === 1){
+            valorMercadoAumento += 0.06; 
+            sueldoCalculoAumento += 0.06;
+            clausulaAumento += 0.06;
+        }
+        if (capitan === 'Si' && asistencia >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+        if (capitan === 'Si' && gol >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+    //SI TIENE MENOS DE 28 AÑOS
+    } else if (partidos === 'Si' && edad < 28) {
+        if (gol === 1) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.02;
+                valorMercadoAumento = 0.035;
+                sueldoCalculoAumento = 0.0015;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.035;
+                valorMercadoAumento = 0.065;
+                sueldoCalculoAumento = 0.065;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.065;
+                valorMercadoAumento = 0.085;
+                sueldoCalculoAumento = 0.085;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }  
+        } else if (gol >= 2 && gol <= 4) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.025;
+                valorMercadoAumento = 0.04; 
+                sueldoCalculoAumento = 0.025; 
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.045;
+                valorMercadoAumento = 0.075;
+                sueldoCalculoAumento = 0.075;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.075;
+                valorMercadoAumento = 0.095;
+                sueldoCalculoAumento = 0.095;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }  
+        } else if (gol >= 5) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.03;
+                valorMercadoAumento = 0.045; 
+                sueldoCalculoAumento = 0.025; 
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.065;
+                valorMercadoAumento = 0.095;
+                sueldoCalculoAumento = 0.095;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.095;
+                valorMercadoAumento = 0.10;
+                sueldoCalculoAumento = 0.10;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        }
+        if (asistencia === 1) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.02;
+                valorMercadoAumento = 0.035;
+                sueldoCalculoAumento = 0.0015;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.075;
+                valorMercadoAumento = 0.10;
+                sueldoCalculoAumento = 0.15;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.10;
+                valorMercadoAumento = 0.15;
+                sueldoCalculoAumento = 0.15;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        } else if (asistencia >= 2 && asistencia <= 4) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.025;
+                valorMercadoAumento = 0.04; 
+                sueldoCalculoAumento = 0.025;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.045;
+                valorMercadoAumento = 0.15;
+                sueldoCalculoAumento = 0.15;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.15;
+                valorMercadoAumento = 0.18;
+                sueldoCalculoAumento = 0.18;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        } else if (asistencia >= 5) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.03;
+                valorMercadoAumento = 0.045; 
+                sueldoCalculoAumento = 0.025;  
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.075;
+                valorMercadoAumento = 0.18;
+                sueldoCalculoAumento = 0.18;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.30;
+                sueldoCalculoAumento = 0.30;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        }
+        if (amarilla === 1) {
+            valorMercadoAumento = 0.25; 
+            sueldoCalculoAumento = 0.25;
+        }
+        if (amarilla === 2) {
+            valorMercadoAumento = 0.35; 
+            sueldoCalculoAumento = 0.35;
+        }
+        if (roja === 1) {
+            valorMercadoAumento = 0.4; 
+            sueldoCalculoAumento = 0.4;
+        }
+        if (azul === 1) {
+            valorMercadoAumento = 0.3; 
+            sueldoCalculoAumento = 0.3;
+        }
+        if(figura === 1){
+            valorMercadoAumento = 0.05; 
+            sueldoCalculoAumento = 0.05;
+            clausulaAumento = 0.05;
+        }
+        if(capitan === 'Si' && figura === 1){
+            valorMercadoAumento += 0.06; 
+            sueldoCalculoAumento += 0.06;
+            clausulaAumento += 0.06;
+        }
+        if (capitan === 'Si' && asistencia >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+        if (capitan === 'Si' && gol >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+    //SI TIENE MENOS DE 30 AÑOS
+    } else if (partidos === 'Si' && edad < 30) {
+        if (gol === 1) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.0175;
+                valorMercadoAumento = 0.03;
+                sueldoCalculoAumento = 0.01;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.025;
+                valorMercadoAumento = 0.036;
+                sueldoCalculoAumento = 0.036;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.055;
+                valorMercadoAumento = 0.060;
+                sueldoCalculoAumento = 0.060;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        } else if (gol >= 2 && gol <= 4) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.02;
+                valorMercadoAumento = 0.035; 
+                sueldoCalculoAumento = 0.015;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.035;
+                valorMercadoAumento = 0.056;
+                sueldoCalculoAumento = 0.056;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.075;
+                valorMercadoAumento = 0.080;
+                sueldoCalculoAumento = 0.080;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }  
+        } else if (gol >= 5) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.027;
+                valorMercadoAumento = 0.04; 
+                sueldoCalculoAumento = 0.02;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.045;
+                valorMercadoAumento = 0.076;
+                sueldoCalculoAumento = 0.076;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.10;
+                valorMercadoAumento = 0.20;
+                sueldoCalculoAumento = 0.20;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        }
+        if (asistencia === 1) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.0175;
+                valorMercadoAumento = 0.03;
+                sueldoCalculoAumento = 0.01;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.025;
+                valorMercadoAumento = 0.046;
+                sueldoCalculoAumento = 0.046;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.055;
+                valorMercadoAumento = 0.050;
+                sueldoCalculoAumento = 0.052;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        } else if (asistencia >= 2 && asistencia <= 4) { 
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.02;
+                valorMercadoAumento = 0.035; 
+                sueldoCalculoAumento = 0.015;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.035;
+                valorMercadoAumento = 0.076;
+                sueldoCalculoAumento = 0.076;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.075;
+                valorMercadoAumento = 0.080;
+                sueldoCalculoAumento = 0.082;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        } else if (asistencia >= 5) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.027;
+                valorMercadoAumento = 0.04; 
+                sueldoCalculoAumento = 0.02; 
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.045;
+                valorMercadoAumento = 0.096;
+                sueldoCalculoAumento = 0.096;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.10;
+                valorMercadoAumento = 0.15;
+                sueldoCalculoAumento = 0.15;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        }
+        if (amarilla === 1) {
+            valorMercadoAumento = 0.25; 
+            sueldoCalculoAumento = 0.25;
+        }
+        if (amarilla === 2) {
+            valorMercadoAumento = 0.35; 
+            sueldoCalculoAumento = 0.35;
+        }
+        if (roja === 1) {
+            valorMercadoAumento = 0.4; 
+            sueldoCalculoAumento = 0.4;
+        }
+        if (azul === 1) {
+            valorMercadoAumento = 0.3; 
+            sueldoCalculoAumento = 0.3;
+        }
+        if(figura === 1){
+            valorMercadoAumento = 0.05; 
+            sueldoCalculoAumento = 0.05;
+            clausulaAumento = 0.05;
+        }
+        if(capitan === 'Si' && figura === 1){
+            valorMercadoAumento += 0.06; 
+            sueldoCalculoAumento += 0.06;
+            clausulaAumento += 0.06;
+        }
+        if (capitan === 'Si' && asistencia >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+        if (capitan === 'Si' && gol >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+    //SI TIENE MENOS DE 32 AÑOS
+    } else if (partidos === 'Si' && edad < 32) {
+        if (gol === 1) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.015;
+                valorMercadoAumento = 0.025;
+                sueldoCalculoAumento = 0.015;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.025;
+                valorMercadoAumento = 0.036;
+                sueldoCalculoAumento = 0.036;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.040;
+                valorMercadoAumento = 0.065;
+                sueldoCalculoAumento = 0.065;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        } else if (gol >= 2 && gol <= 4) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.02;
+                valorMercadoAumento = 0.03; 
+                sueldoCalculoAumento = 0.02; 
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.055;
+                valorMercadoAumento = 0.076;
+                sueldoCalculoAumento = 0.076;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.080;
+                valorMercadoAumento = 0.15;
+                sueldoCalculoAumento = 0.15;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        } else if (gol >= 5) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.025;
+                valorMercadoAumento = 0.035; 
+                sueldoCalculoAumento = 0.025; 
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.065;
+                valorMercadoAumento = 0.086;
+                sueldoCalculoAumento = 0.086;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.10;
+                valorMercadoAumento = 0.15;
+                sueldoCalculoAumento = 0.15;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        }
+        if (asistencia === 1) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.015;
+                valorMercadoAumento = 0.025;
+                sueldoCalculoAumento = 0.015;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.025;
+                valorMercadoAumento = 0.036;
+                sueldoCalculoAumento = 0.036;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.040;
+                valorMercadoAumento = 0.055;
+                sueldoCalculoAumento = 0.055;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            } 
+        } else if (asistencia >= 2 && asistencia <= 4) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.02;
+                valorMercadoAumento = 0.03; 
+                sueldoCalculoAumento = 0.02;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.042;
+                valorMercadoAumento = 0.066;
+                sueldoCalculoAumento = 0.066;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.060;
+                valorMercadoAumento = 0.075;
+                sueldoCalculoAumento = 0.075;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }  
+        } else if (asistencia >= 5) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.025;
+                valorMercadoAumento = 0.035; 
+                sueldoCalculoAumento = 0.025;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.042;
+                valorMercadoAumento = 0.066;
+                sueldoCalculoAumento = 0.066;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.060;
+                valorMercadoAumento = 0.075;
+                sueldoCalculoAumento = 0.075;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }   
+        }
+        if (amarilla === 1) {
+            valorMercadoAumento = 0.25; 
+            sueldoCalculoAumento = 0.25;
+        }
+        if (amarilla === 2) {
+            valorMercadoAumento = 0.35; 
+            sueldoCalculoAumento = 0.35;
+        }
+        if (roja === 1) {
+            valorMercadoAumento = 0.4; 
+            sueldoCalculoAumento = 0.4;
+        }
+        if (azul === 1) {
+            valorMercadoAumento = 0.3; 
+            sueldoCalculoAumento = 0.3;
+        }
+        if(figura === 1){
+            valorMercadoAumento = 0.05; 
+            sueldoCalculoAumento = 0.05;
+            clausulaAumento = 0.05;
+        }
+        if(capitan === 'Si' && figura === 1){
+            valorMercadoAumento += 0.06; 
+            sueldoCalculoAumento += 0.06;
+            clausulaAumento += 0.06;
+        }
+        if (capitan === 'Si' && asistencia >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+        if (capitan === 'Si' && gol >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+    //SI TIENE MENOS DE 34 AÑOS
+    } else if (partidos === 'Si' && edad < 34) {
+        if (gol === 1) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.01;
+                valorMercadoAumento = 0.02;
+                sueldoCalculoAumento = 0.02;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.032;
+                valorMercadoAumento = 0.046;
+                sueldoCalculoAumento = 0.046;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.060;
+                valorMercadoAumento = 0.075;
+                sueldoCalculoAumento = 0.075;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }   
+        } else if (gol >= 2 && gol <= 4) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.015;
+                valorMercadoAumento = 0.025; 
+                sueldoCalculoAumento = 0.025;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.042;
+                valorMercadoAumento = 0.076;
+                sueldoCalculoAumento = 0.076;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.080;
+                valorMercadoAumento = 0.095;
+                sueldoCalculoAumento = 0.095;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }   
+        } else if (gol >= 5) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.02;
+                valorMercadoAumento = 0.03; 
+                sueldoCalculoAumento = 0.03;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.062;
+                valorMercadoAumento = 0.096;
+                sueldoCalculoAumento = 0.096;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.10;
+                valorMercadoAumento = 0.15;
+                sueldoCalculoAumento = 0.15;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }  
+        }
+        if (asistencia === 1) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.01;
+                valorMercadoAumento = 0.02;
+                sueldoCalculoAumento = 0.02;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.03;
+                valorMercadoAumento = 0.045;
+                sueldoCalculoAumento = 0.045;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.06;
+                valorMercadoAumento = 0.065;
+                sueldoCalculoAumento = 0.065;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }  
+        } else if (asistencia >= 2 && asistencia <= 4) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.015;
+                valorMercadoAumento = 0.025; 
+                sueldoCalculoAumento = 0.025;
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.045;
+                valorMercadoAumento = 0.075;
+                sueldoCalculoAumento = 0.075;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.080;
+                valorMercadoAumento = 0.095;
+                sueldoCalculoAumento = 0.095;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }    
+        } else if (asistencia >= 5) {
+            if(posicion === 'Delantero'){
+                clausulaAumento = 0.02;
+                valorMercadoAumento = 0.03; 
+                sueldoCalculoAumento = 0.03; 
+            } else if(posicion === 'Medio'){
+                clausulaAumento = 0.065;
+                valorMercadoAumento = 0.095;
+                sueldoCalculoAumento = 0.095;
+            } else if (posicion === 'Defensa'){
+                clausulaAumento = 0.10;
+                valorMercadoAumento = 0.19;
+                sueldoCalculoAumento = 0.19;
+            } else if (posicion === 'Portero'){
+                clausulaAumento = 0.25;
+                valorMercadoAumento = 0.35;
+                sueldoCalculoAumento = 0.35;
+            }
+        }
+        if (amarilla === 1) {
+            valorMercadoAumento = 0.25; 
+            sueldoCalculoAumento = 0.25;
+        }
+        if (amarilla === 2) {
+            valorMercadoAumento = 0.35; 
+            sueldoCalculoAumento = 0.35;
+        }
+        if (roja === 1) {
+            valorMercadoAumento = 0.4; 
+            sueldoCalculoAumento = 0.4;
+        }
+        if (azul === 1) {
+            valorMercadoAumento = 0.3; 
+            sueldoCalculoAumento = 0.3;
+        }
+        if(figura === 1){
+            valorMercadoAumento = 0.05; 
+            sueldoCalculoAumento = 0.05;
+            clausulaAumento = 0.05;
+        }
+        if(capitan === 'Si' && figura === 1){
+            valorMercadoAumento += 0.06; 
+            sueldoCalculoAumento += 0.06;
+            clausulaAumento += 0.06;
+        }
+        if (capitan === 'Si' && asistencia >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+        if (capitan === 'Si' && gol >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+    //SI TIENE MENOS DE 36 AÑOS
+    } else if (partidos === 'Si' && edad < 36) {
+        if (gol === 1) {
+            clausulaAumento = 0.0075;
+            valorMercadoAumento = 0.015;
+            sueldoCalculoAumento = 0.025;
+        } else if (gol >= 2 && gol <= 4) {
+            clausulaAumento = 0.01;
+            valorMercadoAumento = 0.02; 
+            sueldoCalculoAumento = 0.03; 
+        } else if (gol >= 5) {
+            clausulaAumento = 0.015;
+            valorMercadoAumento = 0.025; 
+            sueldoCalculoAumento = 0.035; 
+        }
+        if (asistencia === 1) {
+            clausulaAumento = 0.0075;
+            valorMercadoAumento = 0.015;
+            sueldoCalculoAumento = 0.025;
+        } else if (asistencia >= 2 && asistencia <= 4) {
+            clausulaAumento = 0.01;
+            valorMercadoAumento = 0.02; 
+            sueldoCalculoAumento = 0.03; 
+        } else if (asistencia >= 5) {
+            clausulaAumento = 0.015;
+            valorMercadoAumento = 0.025; 
+            sueldoCalculoAumento = 0.035; 
+        }
+        if (amarilla === 1) {
+            valorMercadoAumento = 0.25; 
+            sueldoCalculoAumento = 0.25;
+        }
+        if (amarilla === 2) {
+            valorMercadoAumento = 0.35; 
+            sueldoCalculoAumento = 0.35;
+        }
+        if (roja === 1) {
+            valorMercadoAumento = 0.4; 
+            sueldoCalculoAumento = 0.4;
+        }
+        if (azul === 1) {
+            valorMercadoAumento = 0.3; 
+            sueldoCalculoAumento = 0.3;
+        }
+        if(figura === 1){
+            valorMercadoAumento = 0.05; 
+            sueldoCalculoAumento = 0.05;
+            clausulaAumento = 0.05;
+        }
+        if(capitan === 'Si' && figura === 1){
+            valorMercadoAumento += 0.06; 
+            sueldoCalculoAumento += 0.06;
+            clausulaAumento += 0.06;
+        }
+        if (capitan === 'Si' && asistencia >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+        if (capitan === 'Si' && gol >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+    //SI TIENE MENOS DE 38 AÑOS
+    } else if (partidos === 'Si' && edad < 38) {
+        if (gol === 1) {
+            clausulaAumento = 0.005;
+            valorMercadoAumento = 0.01;
+            sueldoCalculoAumento = 0.03;
+        } else if (gol >= 2 && gol <= 4) {
+            clausulaAumento = 0.01;
+            valorMercadoAumento = 0.015; 
+            sueldoCalculoAumento = 0.035; 
+        } else if (gol >= 5) {
+            clausulaAumento = 0.015;
+            valorMercadoAumento = 0.02; 
+            sueldoCalculoAumento = 0.04; 
+        }
+        if (asistencia === 1) {
+            clausulaAumento = 0.005;
+            valorMercadoAumento = 0.01;
+            sueldoCalculoAumento = 0.03;
+        } else if (asistencia >= 2 && asistencia <= 4) {
+            clausulaAumento = 0.01;
+            valorMercadoAumento = 0.015; 
+            sueldoCalculoAumento = 0.035;  
+        } else if (asistencia >= 5) {
+            clausulaAumento = 0.015;
+            valorMercadoAumento = 0.02; 
+            sueldoCalculoAumento = 0.04; 
+        }
+        if (amarilla === 1) {
+            valorMercadoAumento = 0.25; 
+            sueldoCalculoAumento = 0.25;
+        }
+        if (amarilla === 2) {
+            valorMercadoAumento = 0.35; 
+            sueldoCalculoAumento = 0.35;
+        }
+        if (roja === 1) {
+            valorMercadoAumento = 0.4; 
+            sueldoCalculoAumento = 0.4;
+        }
+        if (azul === 1) {
+            valorMercadoAumento = 0.3; 
+            sueldoCalculoAumento = 0.3;
+        }
+        if(figura === 1){
+            valorMercadoAumento = 0.05; 
+            sueldoCalculoAumento = 0.05;
+            clausulaAumento = 0.05;
+        }
+        if(capitan === 'Si' && figura === 1){
+            valorMercadoAumento += 0.06; 
+            sueldoCalculoAumento += 0.06;
+            clausulaAumento += 0.06;
+        }
+        if (capitan === 'Si' && asistencia >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+        if (capitan === 'Si' && gol >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+    //SI TIENE MENOS DE 40 AÑOS
+    } else if (partidos === 'Si' && edad < 40) {
+        if (gol === 1) {
+            clausulaAumento = 0.005;
+            valorMercadoAumento = 0.0015;
+            sueldoCalculoAumento = 0.035;
+        } else if (gol >= 2 && gol <= 4) {
+            clausulaAumento = 0.01;
+            valorMercadoAumento = 0.02; 
+            sueldoCalculoAumento = 0.04; 
+        } else if (gol >= 5) {
+            clausulaAumento = 0.015;
+            valorMercadoAumento = 0.025; 
+            sueldoCalculoAumento = 0.045; 
+        }
+        if (asistencia === 1) {
+            clausulaAumento = 0.005;
+            valorMercadoAumento = 0.0015;
+            sueldoCalculoAumento = 0.035;
+        } else if (asistencia >= 2 && asistencia <= 4) {
+            clausulaAumento = 0.01;
+            valorMercadoAumento = 0.02; 
+            sueldoCalculoAumento = 0.04; 
+        } else if (asistencia >= 5) {
+            clausulaAumento = 0.015;
+            valorMercadoAumento = 0.025; 
+            sueldoCalculoAumento = 0.045; 
+        }
+        if (amarilla === 1) {
+            valorMercadoAumento = 0.25; 
+            sueldoCalculoAumento = 0.25;
+        }
+        if (amarilla === 2) {
+            valorMercadoAumento = 0.35; 
+            sueldoCalculoAumento = 0.35;
+        }
+        if (roja === 1) {
+            valorMercadoAumento = 0.4; 
+            sueldoCalculoAumento = 0.4;
+        }
+        if (azul === 1) {
+            valorMercadoAumento = 0.3; 
+            sueldoCalculoAumento = 0.3;
+        }
+        if(figura === 1){
+            valorMercadoAumento = 0.05; 
+            sueldoCalculoAumento = 0.05;
+            clausulaAumento = 0.05;
+        }
+        if(capitan === 'Si' && figura === 1){
+            valorMercadoAumento += 0.06; 
+            sueldoCalculoAumento += 0.06;
+            clausulaAumento += 0.06;
+        }
+        if (capitan === 'Si' && asistencia >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+        if (capitan === 'Si' && gol >= 1) {
+            valorMercadoAumento += 0.01;
+            sueldoCalculoAumento += 0.01;
+        }
+    } else {
+        clausulaAumento = 0;
+        valorMercadoAumento = 0;
+        sueldoCalculoAumento = 0;
+    }
+
+    if (partidos === 'No' && edad < 18 ) {
+        if (lesion ==='No'){
+            clausulaDisminucion = 0.10;
+        }else if(lesion ==='Si'){
+            clausulaDisminucion = 0;
+        }
+    } else if (partidos === 'No' && edad < 20) {
+        if (lesion ==='No'){
+            clausulaDisminucion = 0.10;
+        }else if(lesion ==='Si'){
+            clausulaDisminucion = 0;
+        }
+    } else if (partidos === 'No' && edad < 22) {
+        if (lesion ==='No'){
+            clausulaDisminucion = 0.095;
+        }else if(lesion ==='Si'){
+            clausulaDisminucion = 0;
+        }
+    } else if (partidos === 'No' && edad < 24) {
+        if (lesion ==='No'){
+            clausulaDisminucion = 0.09;
+        }else if(lesion ==='Si'){
+            clausulaDisminucion = 0;
+        }
+    } else if (partidos === 'No' && edad < 26) {
+        if (lesion ==='No'){
+            clausulaDisminucion = 0.085;
+        }else if(lesion ==='Si'){
+            clausulaDisminucion = 0;
+        }
+    } else if (partidos === 'No' && edad < 28) {
+        if (lesion ==='No'){
+            clausulaDisminucion = 0.08;
+        }else if(lesion ==='Si'){
+            clausulaDisminucion = 0;
+        }
+    } else if (partidos === 'No' && edad < 30) {
+        if (lesion ==='No'){
+            clausulaDisminucion = 0.075;
+        }else if(lesion ==='Si'){
+            clausulaDisminucion = 0;
+        }
+    } else if (partidos === 'No' && edad < 32) {
+        if (lesion ==='No'){
+            clausulaDisminucion = 0.07;
+        }else if(lesion ==='Si'){
+            clausulaDisminucion = 0;
+        }
+    } else if (partidos === 'No' && edad < 34) {
+        if (lesion ==='No'){
+            clausulaDisminucion = 0.065;
+        }else if(lesion ==='Si'){
+            clausulaDisminucion = 0;
+        }
+    } else if (partidos === 'No' && edad < 36) {
+        if (lesion ==='No'){
+            clausulaDisminucion = 0.06;
+        }else if(lesion ==='Si'){
+            clausulaDisminucion = 0;
+        }
+    } else if (partidos === 'No' && edad < 38) {
+        if (lesion ==='No'){
+            clausulaDisminucion = 0.055;
+        }else if(lesion ==='Si'){
+            clausulaDisminucion = 0;
+        }
+    } else if (partidos === 'No' && edad < 40) {
+        if (lesion ==='No'){
+            clausulaDisminucion = 0.05;
+        }else if(lesion ==='Si'){
+            clausulaDisminucion = 0;
+        }
+    } else {
+        clausulaDisminucion = 0;
+    }
+    
+    const nuevaClausula = partidos === 'Si' ? clausula * (1 + clausulaAumento) : clausula * (1 - clausulaDisminucion);
+    const clausulaRedondeada = Math.round(nuevaClausula);
+
+    const nuevaMercadoValor = (roja ===1 || amarilla >= 1)? valor_mercado * (1 - valorMercadoAumento): valor_mercado * (1 + valorMercadoAumento);
+    const MercadoRedondeado = Math.round(nuevaMercadoValor);
+
+    const nuevaCalculoAumento = (roja ===1 || amarilla >= 1)? sueldoCalculo * (1 - sueldoCalculoAumento):  sueldoCalculo * (1 + sueldoCalculoAumento)
+    const CalculoAumentoRedondeado = Math.round(nuevaCalculoAumento);
+
+    
+    const formData = {
+        sueldoCalculo: CalculoAumentoRedondeado,
+        valor_mercado: MercadoRedondeado,
+        clausula: clausulaRedondeada,
+    }
+
+    editarPartidos({ form: formData, equipoId, jugadorId }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["equipos"]);
+            alertaSubmit(true, `Se modificaron jugadores su valor en el mercado!`);
+            setIsLoading(false);
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+};

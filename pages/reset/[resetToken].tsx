@@ -37,7 +37,7 @@ const ResetToken = () => {
                     Restablecer contraseña
                 </Typography>
                 <Grid item sx={{ width: '100%' }}>
-                    <InputText label="Email" placeholder="Email" setValue={setEmail} value={email} />
+                    <InputText disable={false} label="Email" placeholder="Email" setValue={setEmail} value={email} />
                 </Grid>
                 <Grid item mt={2} sx={{ width: '100%' }}>
                     <InputPassword label="Nueva Contraseña" placeholder="Nueva Contraseña" setValue={setPassword} value={password} />

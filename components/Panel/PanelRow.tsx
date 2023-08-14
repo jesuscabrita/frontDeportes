@@ -12,9 +12,9 @@ import { TbRectangleVertical as Tarjeta } from 'react-icons/tb';
 import { GiSoccerKick as Asistir } from 'react-icons/gi';
 import { BsFillStarFill as Figura } from 'react-icons/bs';
 import { useMutation, useQueryClient } from 'react-query';
-import { calcularDatosPartido, edit_autogol, jugadoresPut_amarillas, jugadoresPut_asistencias, jugadoresPut_azul, jugadoresPut_figura, jugadoresPut_gol, jugadoresPut_rojas, jugadoresPut_suspencion } from '../../service/jugadores';
+import { calcularDatosPartido, edit_autogol, jugadoresPut_amarillas, jugadoresPut_asistencias, jugadoresPut_azul, jugadoresPut_figura, jugadoresPut_gol, jugadoresPut_rojas, jugadoresPut_suspencion, jugadoresValor_mercado } from '../../service/jugadores';
 import { status } from '../../utils/utils';
-import { datosDelPartidoHome, editarAmarilla, editarAsistencia, editarAutoGol, editarAzul, editarFigura, editarGoles, editarRoja, editarSuspencion } from '../../utils/utilsPanelJugadores';
+import { datosDelPartidoHome, editarAmarilla, editarAsistencia, editarAutoGol, editarAzul, editarFigura, editarGoles, editarRoja, editarSuspencion, editarValorMercado } from '../../utils/utilsPanelJugadores';
 import { anularAmarilla, anularAsistencia, anularAutoGol, anularAzul, anularFigura, anularGoles, anularRoja } from '../../utils/utilsPanelAnular';
 import Tooltip from '@mui/material/Tooltip';
 import { FaListAlt as Lista } from 'react-icons/fa';
@@ -60,6 +60,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
     const { mutate: editarAzulDTs } = useMutation(DTPut_azul);
     const { mutate: editarFiguraDTs } = useMutation(DTPut_figura);
     const { mutate: editarSuspencionDTs } = useMutation(DTPut_suspencion);
+    const { mutate: mercado } = useMutation(jugadoresValor_mercado);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -131,7 +132,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                         </Grid>}
                 </Grid>
             </Grid>
-            <Collapse in={open} timeout="auto" unmountOnExit sx={{ background: light ? 'var(--cero)' : 'var(--dark4)' }}>
+            <Collapse in={open} timeout="auto" unmountOnExit sx={{ background: light ? 'var(--cero)' : 'var(--dark4)', width:'100%' }}>
                 <Grid item p={5}>
                     <Grid item mb={2}>
                         <Tooltip title="Calcular los datos del partidos, se recomienda usarlo despues de terminado" placement="top">
@@ -150,6 +151,12 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                         awayTeam?.jugadores.forEach(jugador => {
                                             editarSuspencion(awayTeam._id, jugador._id, jugador.suspendido, jugador.name, jugador.jornadas_suspendido, setIsLoadinng, editarSuspendido, queryClient, jugador.tarjetas_acumuladas);
                                         }),
+                                        homeTeam?.jugadores.forEach(jugador => {
+                                            editarValorMercado(homeTeam._id,jugador._id,setIsLoadinng,mercado,queryClient,jugador,currentRound);
+                                        }),
+                                        awayTeam?.jugadores.forEach(jugador => {
+                                            editarValorMercado(awayTeam._id,jugador._id,setIsLoadinng,mercado,queryClient,jugador,currentRound);
+                                        })
                                         homeTeam?.director_tecnico.forEach(dt => {
                                             editarSuspencionDT(homeTeam._id, dt._id, dt.suspendido, dt.name, dt.jornadas_suspendido, setIsLoadinng, editarSuspencionDTs, queryClient, dt.tarjetas_acumuladas);
                                         }),

@@ -10,9 +10,11 @@ import { TiDeleteOutline as Delete } from 'react-icons/ti';
 import { FaRegRegistered as Crear } from 'react-icons/fa';
 import { ButtonSend } from "../../Material/ButtonSend";
 import { nuevoEquipo } from "../../../utils/utilsEquipos";
+import ContextRefac from "../../../context/contextLogin";
 
 export const Form = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
+    const { state: { user } }: any = useContext(ContextRefac);
     const [light] = useContext(Context);
     const [name, setName] = useState('');
     const [image, setImage] = useState(null);
@@ -38,9 +40,9 @@ export const Form = () => {
     return (
         <Grid container flexDirection={'column'} gap={2} alignItems={'center'}>
             <Grid item container gap={1} sx={{ width: !mobile ? '300px' : '100%', padding: mobile ? '30px' : '0px' }}>
-                <InputText placeholder={'Nombre'} label={'Nombre'} setValue={setName} value={name} />
-                <InputText placeholder={'Correo'} label={'Correo'} setValue={setCorreo} value={correo} />
-                <InputText placeholder={'Instagram'} label={'Instagram'} setValue={setInstagram} value={instagram} />
+                <InputText disable={true} placeholder={'Nombre'} label={'Nombre'} setValue={setName} value={user?.equipo} />
+                <InputText disable={true} placeholder={'Correo'} label={'Correo'} setValue={setCorreo} value={user?.email} />
+                <InputText disable={false} placeholder={'Instagram'} label={'Instagram'} setValue={setInstagram} value={instagram} />
             </Grid>
             <Button variant="contained" component="label"
                 sx={{
@@ -97,7 +99,7 @@ export const Form = () => {
                     <CircularProgress color="primary" />
                 </div>
             )}
-            <ButtonSend disable={false} handle={() => { nuevoEquipo(name, image, correo, instagram, setIsLoading, crearEquipo, queryClient, setName, setImage, setCorreo, setInstagram, setLogoAdded, setImageName) }} title={'Registrar'} icon={Crear} iconColor={'var(--check)'} iconSize={20} />
+            <ButtonSend disable={false} handle={() => { nuevoEquipo(user?.equipo, image, user?.email, instagram, setIsLoading, crearEquipo, queryClient, setName, setImage, setCorreo, setInstagram, setLogoAdded, setImageName) }} title={'Registrar'} icon={Crear} iconColor={'var(--check)'} iconSize={20} />
         </Grid>
     )
 }

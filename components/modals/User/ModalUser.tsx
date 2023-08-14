@@ -43,8 +43,8 @@ export const ModalUser = ({ open, setOpen, data }) => {
                 </DialogTitle>
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
-                        <InputText placeholder={'Nombre'} label={'Nombre'} setValue={setNombre} value={nombre} />
-                        <InputText placeholder={'Apellido'} label={'Apellido'} setValue={setApellido} value={apellido} />
+                        <InputText disable={false} placeholder={'Nombre'} label={'Nombre'} setValue={setNombre} value={nombre} />
+                        <InputText disable={false} placeholder={'Apellido'} label={'Apellido'} setValue={setApellido} value={apellido} />
                     </Grid>
                     <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
                         <InputSelect disable={false} label={'Rol'} value={role} setValue={setRole} selectData={roles} />

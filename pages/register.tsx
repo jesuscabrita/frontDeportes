@@ -43,25 +43,25 @@ const Register = () => {
                         Registro
                     </Typography>
                     <Grid item gap={2} sx={{ width: "100%" }}>
-                        <InputText label="Nombre" placeholder="Nombre" setValue={setNombre} value={nombre} />
+                        <InputText disable={false} label="Nombre" placeholder="Nombre" setValue={setNombre} value={nombre} />
                     </Grid>
                     <Grid item gap={2} sx={{ width: "100%" }}>
-                        <InputText label="Apellido" placeholder="Apellido" setValue={setApellido} value={apellido} />
+                        <InputText disable={false} label="Apellido" placeholder="Apellido" setValue={setApellido} value={apellido} />
                     </Grid>
                     <Grid item gap={2} sx={{ width: "100%" }}>
-                        <InputText label="Email" placeholder="Email" setValue={setEmail} value={email} />
+                        <InputText disable={false} label="Email" placeholder="Email" setValue={setEmail} value={email} />
                     </Grid>
                     <Grid item gap={2} sx={{ width: "100%" }}>
                         <InputFecha label="Fecha de nacimiento" value={fecha_de_nacimiento} setValue={setFecha_de_nacimiento} />
                     </Grid>
                     <Grid item gap={2} sx={{ width: "100%" }}>
-                        <InputText label="Contraseña" placeholder="Contraseña" setValue={setPassword} value={password} />
+                        <InputText disable={false} label="Contraseña" placeholder="Contraseña" setValue={setPassword} value={password} />
                     </Grid>
                     <Grid item gap={2} sx={{ width: "100%" }}>
-                        <InputText label="Repetir contraseña" placeholder="Repetir contraseña" setValue={setRepeated_password} value={repeated_password} />
+                        <InputText disable={false} label="Repetir contraseña" placeholder="Repetir contraseña" setValue={setRepeated_password} value={repeated_password} />
                     </Grid>
                     <Grid item gap={2} sx={{ width: "100%" }}>
-                        <InputText label="Nombre de tu equipo" placeholder="Nombre de tu equipo" setValue={setEquipo} value={equipo} />
+                        <InputText disable={false} label="Nombre de tu equipo" placeholder="Nombre de tu equipo" setValue={setEquipo} value={equipo} />
                     </Grid>
                     <Grid item mt={2}>
                         <ButtonSend disable={false} icon="" iconColor="" iconSize={20} title="Registrar" handle={() => { crearUser(nombre, apellido, moment(fecha_de_nacimiento).format('YYYY-MM-DD'), email, password, repeated_password, equipo, setIsLoading, crearUsers, queryClient,router) }} />

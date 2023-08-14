@@ -49,7 +49,7 @@ export const ModalCrearJugador = ({ open, setOpen, id }) => {
                 </DialogTitle>
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
-                        <InputText placeholder={'Nombre'} label={'Nombre'} setValue={setName} value={name} />
+                        <InputText disable={false} placeholder={'Nombre'} label={'Nombre'} setValue={setName} value={name} />
                         <InputFecha label={'Fecha de nacimiento'} value={fecha} setValue={setFecha} />
                     </Grid>
                     <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
@@ -57,8 +57,8 @@ export const ModalCrearJugador = ({ open, setOpen, id }) => {
                         <InputSelect disable={false} label={'Nacionalidad'} value={nacionalidad} setValue={setNacionalidad} selectData={nationalities} />
                     </Grid>
                     <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
-                        <InputText placeholder={'Dorsal'} label={'Dorsal'} setValue={setDorsal} value={dorsal} />
-                        <InputText placeholder={'Instagram'} label={'Instagram'} setValue={setInstagram} value={instagram} />
+                        <InputText disable={false} placeholder={'Dorsal'} label={'Dorsal'} setValue={setDorsal} value={dorsal} />
+                        <InputText disable={false} placeholder={'Instagram'} label={'Instagram'} setValue={setInstagram} value={instagram} />
                     </Grid>
                     <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
                         <InputNumber placeholder={'Sueldo'} label={'Sueldo'} setValue={setSueldo} value={sueldo} />

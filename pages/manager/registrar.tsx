@@ -51,6 +51,10 @@ const Registrar = () => {
     })
 
     const isUserEmailInData = filterEstado(data, 'registrado').some((equipo) => equipo.correo === user?.email);
+    const isUserEmailInDataEnCola = filterEstado(data, 'enCola').some((equipo) => equipo.correo === user?.email);
+    console.log('1',isUserEmailInDataEnCola);
+    console.log('2',isUserEmailInData);
+    
 
     const handleChange = (newValue) => {
         setValue(newValue);
@@ -85,9 +89,9 @@ const Registrar = () => {
         <Grid sx={{ height: !mobile ? '190vh' : isUserAdmin ? '100%' : '120vh' }}>
             <Grid container flexDirection={'column'} sx={{ paddingTop: !mobile ? '100px' : '90px', paddingBottom: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
                 <LogoRegister name={'Registrar equipo'} />
-                {!isUserEmailInData || isUserAdmin ?
+                {(!isUserEmailInData && !isUserEmailInDataEnCola) || isUserAdmin ?
                     <Form /> :
-                    <Grid item sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', fontSize: '18px', height: mobile ? '100vh' : '100vh' }}>Ya tienes un equipo registrado</Grid>
+                    <Grid item sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', fontSize: '18px', height: mobile ? '100vh' : '100vh' }}>{isUserEmailInDataEnCola ? 'Tu equipo paso a lista de espera':'Ya tienes un equipo registrado'}</Grid>
                 }
                 {isUserAdmin &&
                     <Grid item mt={4}>

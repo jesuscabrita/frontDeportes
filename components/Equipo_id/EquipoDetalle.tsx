@@ -4,7 +4,7 @@ import Context from "../../context/contextPrincipal";
 import { TbRectangleVertical as Tarjeta } from 'react-icons/tb';
 import { BsArrowsCollapse as Position } from 'react-icons/bs';
 import { GrInstagram as Instagram } from 'react-icons/gr';
-import { HiOutlineMail as Email } from 'react-icons/hi';
+import { BsCashCoin as Cash } from 'react-icons/bs';
 import { BiCategoryAlt as Categoria } from 'react-icons/bi';
 import { TbSoccerField as Estadio } from 'react-icons/tb';
 import { MdOutlineManageAccounts as Delegado } from 'react-icons/md';
@@ -25,7 +25,7 @@ import { TablaPlantilla } from "./TablaPlantilla";
 import { TablaEstadisticas } from "./TablaEstadisticas";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { equiposGet } from "../../service/equipos";
-import { filterEstado, ordenPosition, seleccionarData } from "../../utils/utils";
+import { filterEstado, formatoPesosArgentinos, ordenPosition, seleccionarData } from "../../utils/utils";
 import { ArrowP } from "../Shared/ArrowP";
 import { IoIosCreate as CreatePlayer } from 'react-icons/io';
 import { ModalDT } from "../modals/DT/ModalDT";
@@ -154,7 +154,8 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
                                 </Grid>
                             </a>
                         }
-                        {!mobile && <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Email color={light ? 'var(--dark2)' : 'var(--cero)'} /> {!data?.correo ? 'No definido' : data?.correo}</Grid>}
+                        {isSameEmail && <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Cash color={light ? 'var(--dark2)' : 'var(--cero)'} /> {formatoPesosArgentinos(data?.banco_fondo)}</Grid>}
+                        {isUserAdmin && <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Cash color={light ? 'var(--dark2)' : 'var(--cero)'} /> {formatoPesosArgentinos(data?.banco_fondo)}</Grid>}
                     </Grid>
                 </Grid>
                 <Grid sx={{ display: 'flex', flexDirection: 'column', color: light ? 'var(--dark2)' : 'var(--neutral)', fontSize: !mobile ? '20px' : '14px' }}>

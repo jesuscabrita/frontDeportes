@@ -2,7 +2,7 @@ import { useContext } from "react";
 import Context from "../../context/contextPrincipal";
 import { Grid, TextField } from "@mui/material";
 
-export const InputText = ({ value, label, setValue, placeholder }) => {
+export const InputText = ({ value, label, setValue, placeholder, disable }) => {
     const [light] = useContext(Context);
 
     return (
@@ -13,6 +13,7 @@ export const InputText = ({ value, label, setValue, placeholder }) => {
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 autoComplete="off"
+                disabled={disable}
                 sx={{
                     "& .MuiOutlinedInput-input": {
                         border: light ? "1px solid var(--dark2)" : "1px solid var(--cero)",

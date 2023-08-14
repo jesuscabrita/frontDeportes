@@ -61,9 +61,9 @@ export const ModalEditarEquipo = ({ open, setOpen, data }) => {
                     {"Editar Equipo"}
                 </DialogTitle>
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                    <InputText placeholder={'Nombre'} label={'Nombre'} setValue={setName} value={name} />
-                    <InputText placeholder={'Correo'} label={'Correo'} setValue={setCorreo} value={correo} />
-                    <InputText placeholder={'Instagram'} label={'Instagram'} setValue={setInstagram} value={instagram} />
+                    <InputText disable={false} placeholder={'Nombre'} label={'Nombre'} setValue={setName} value={name} />
+                    <InputText disable={false} placeholder={'Correo'} label={'Correo'} setValue={setCorreo} value={correo} />
+                    <InputText disable={false} placeholder={'Instagram'} label={'Instagram'} setValue={setInstagram} value={instagram} />
                     {image && (
                         <img src={image} alt="Logo del equipo" style={{ maxWidth: "100%", maxHeight: "150px" }} />
                     )}
