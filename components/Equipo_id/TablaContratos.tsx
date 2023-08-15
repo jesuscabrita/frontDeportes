@@ -1,40 +1,28 @@
 import { Avatar, CircularProgress, Grid, useMediaQuery } from "@mui/material";
+import { useContext, useState } from "react";
+import Context from "../../context/contextPrincipal";
+import { TbMoodEmpty as Vacio } from 'react-icons/tb';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { useContext, useState } from "react";
-import Context from "../../context/contextPrincipal";
-import { TbMoodEmpty as Vacio } from 'react-icons/tb';
-import { MdLocalHospital as Lesion } from 'react-icons/md';
-import { VscSearchStop as Expulsado } from 'react-icons/vsc';
-import { TbRectangleVertical as Tarjeta } from 'react-icons/tb';
 import { StyledTableCell } from "../Material/StyledTableCell";
 import { StyledTableRow } from "../Material/StyledTableRow";
-import { stringAvatar, seleccionarData } from "../../utils/utils";
-import { ModalJugadorInfo } from "../modals/Jugador/ModalInfoJugador";
+import { formatoPesosArgentinos, seleccionarData, stringAvatar } from "../../utils/utils";
 import { IoLogoClosedCaptioning as Capitan } from 'react-icons/io';
+import { ModalJugadorInfo } from "../modals/Jugador/ModalInfoJugador";
+import { ButtonSend } from "../Material/ButtonSend";
+import { FaBusinessTime as Nego } from 'react-icons/fa';
+import { MdAutorenew as Renovar } from 'react-icons/md';
+import { FaFilePrescription as Recindir } from 'react-icons/fa';
 
-export const TablaEstadisticas =({jugadores, label, isLoading, goles, asistencias, amarillas, rojas})=>{
+export const TablaContratos =({jugadores,isLoading})=>{
     const [light] = useContext(Context);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [modalJugadorInfo, setModalJugadorInfo] = useState(false);
     const [jugadorSeleccionado, setJugadorSeleccionado] = useState(null);
-
-    let jugadoresOrdenados;
-    if (goles) {
-        jugadoresOrdenados = jugadores.sort((a, b) => b.goles - a.goles);
-    } else if (asistencias) {
-        jugadoresOrdenados = jugadores.sort((a, b) => b.asistencias - a.asistencias);
-    } else if (amarillas) {
-        jugadoresOrdenados = jugadores.sort((a, b) => b.tarjetas_amarillas - a.tarjetas_amarillas);
-    } else if (rojas) {
-        jugadoresOrdenados = jugadores.sort((a, b) => b.tarjetas_roja - a.tarjetas_roja);
-    } else {
-        jugadoresOrdenados = jugadores;
-    }
 
     return(
         <>
@@ -68,13 +56,16 @@ export const TablaEstadisticas =({jugadores, label, isLoading, goles, asistencia
             <Table  aria-label="customized table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>{label}</Grid></StyledTableCell>
+                        <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Detalle</Grid></StyledTableCell>
+                        <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Jugador</Grid></StyledTableCell>
+                        <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Sueldo</Grid></StyledTableCell>
+                        <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Contrato</Grid></StyledTableCell>
                         <StyledTableCell light={light}/>
                         <StyledTableCell light={light}/>
                     </TableRow>
                 </TableHead>
                 <TableBody style={{background:light ? 'var(--cero)':'var(--dark3)'}}>
-                {jugadoresOrdenados.map((jugador, index)=>{
+                {jugadores.map((jugador, index)=>{
                     return(
                         <StyledTableRow light={light} key={jugador.id} style={{background: jugador.suspendido === 'Si' && 'var(--danger2)'}}>
                             <StyledTableCell light={light} component="th" scope="row">
@@ -101,32 +92,31 @@ export const TablaEstadisticas =({jugadores, label, isLoading, goles, asistencia
                                                 <Capitan size={20} />
                                             </Grid>
                                         </Grid>}
-                                        {jugador.lesion === 'Si' &&  
-                                        <Grid item sx={{display:'flex', alignItems:'center',gap:'6px'}}>
-                                            <Lesion size={20}/>
-                                            <Grid sx={{color:'var(--neutral)'}}>{'(Lesionado)'}</Grid>
-                                        </Grid>}
-                                        {jugador.tarjetas_acumuladas > 0 && ( <Grid item sx={{display:'flex', alignItems:'center'}}>{jugador.tarjetas_acumuladas}<Tarjeta color={'var(--warnning)'} size={20} /></Grid>)}
-                                        {jugador.suspendido === 'Si' && ( 
-                                        <Grid item sx={{display:'flex', alignItems:'center',gap:'6px'}}>
-                                            <Expulsado size={20}/>
-                                            <Grid sx={{color:'var(--neutral)'}}>{`(expulsado ${jugador.jornadas_suspendido} jornada)`}</Grid>
-                                        </Grid>)}
                                     </Grid>
                                 </Grid>
                             </StyledTableCell>
-                            <StyledTableCell light={light} align="left" style={{fontWeight: index === 0 ? 700: 500,fontSize: index === 0 ?'18px': '15px'}}>
-                            {goles ? (
-                                <Grid item>{jugador.goles}</Grid>
-                                ) : asistencias ? (
-                                <Grid item>{jugador.asistencias}</Grid>
-                                ) : amarillas ? (
-                                <Grid item>{jugador.tarjetas_amarillas}</Grid>
-                                ) : rojas ? (
-                                <Grid item>{jugador.tarjetas_roja}</Grid>
-                                ) : (
-                                null
-                                )}
+                            <StyledTableCell light={light} align="left">
+                                <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}>{formatoPesosArgentinos(jugador.sueldo)}</Grid>
+                            </StyledTableCell>
+                            <StyledTableCell light={light} align="left">
+                                {jugador.contrato === 0.5 && 
+                                    <Grid item sx={{whiteSpace: 'nowrap', fontSize:'17px', color:'var(--danger)',fontWeight:'700'}}>
+                                    Media Temporada
+                                </Grid>}
+                                {jugador.contrato === 1 && 
+                                    <Grid item sx={{whiteSpace: 'nowrap', fontSize:'17px', color:'var(--warnning)',fontWeight:'700'}}>
+                                    1 Temporada
+                                </Grid>}
+                                {jugador.contrato >= 2 && 
+                                    <Grid item sx={{whiteSpace: 'nowrap', fontSize:'17px', color:'var(--check)',fontWeight:'700'}}>
+                                    {`${jugador.contrato} Temporadas`}
+                                </Grid>}
+                            </StyledTableCell>
+                            <StyledTableCell light={light} align="left">
+                                <ButtonSend title={'Renovar'} icon={Renovar} disable={false} handle={() => {null }} iconSize={20} iconColor={''} />
+                            </StyledTableCell>
+                            <StyledTableCell light={light} align="left">
+                                <ButtonSend title={'Recindir'} icon={Recindir} disable={false} handle={() => {null }} iconSize={20} iconColor={'var(--danger)'} />
                             </StyledTableCell>
                         </StyledTableRow>
                     )

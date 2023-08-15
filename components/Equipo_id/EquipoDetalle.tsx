@@ -40,6 +40,8 @@ import { ModalChatDelegado } from "../modals/Delegado/ModalChat";
 import { eliminarDelegados } from "../../utils/utilsDelegado";
 import { ButtonSend } from "../Material/ButtonSend";
 import ContextRefac from "../../context/contextLogin";
+import { FaFileContract as Contra } from 'react-icons/fa';
+import { TablaContratos } from "./TablaContratos";
 
 const opcionSelectEquipo = [
     { id: 0, name: 'Plantilla', icono: <Plantilla size={30} /> },
@@ -47,7 +49,8 @@ const opcionSelectEquipo = [
     { id: 2, name: 'Asistencias', icono: <Asistir size={30} /> },
     { id: 3, name: 'Amarillas', icono: <Tarjeta color={'var(--warnning)'} size={30} /> },
     { id: 4, name: 'Rojas', icono: <Tarjeta color={'var(--danger)'} size={30} /> },
-    { id: 5, name: 'Fichajes', icono: <Fichaje size={30} /> },
+    { id: 5, name: 'Contratos', icono: <Contra size={25} /> },
+    { id: 6, name: 'Fichajes', icono: <Fichaje size={30} /> },
 ]
 
 export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
@@ -231,6 +234,9 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
                     <TablaEstadisticas jugadores={data.jugadores} label={'Tarjetas rojas'} isLoading={isLoading} rojas={true} amarillas={false} asistencias={false} goles={false} />
                 </TabPanel>
                 <TabPanel value={value} index={5} dir={theme.direction}>
+                    <TablaContratos jugadores={data.jugadores} isLoading={isLoading}/>
+                </TabPanel>
+                <TabPanel value={value} index={6} dir={theme.direction}>
                     Fichajes
                 </TabPanel>
             </SwipeableViews>
