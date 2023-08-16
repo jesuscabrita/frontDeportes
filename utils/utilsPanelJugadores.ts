@@ -1601,3 +1601,51 @@ export const editarValorMercado = (
         },
     });
 };
+
+export const editarRenovacion = (
+    equipoId: string,
+    jugadorId: string,
+    setIsLoading,
+    editarRenovacion,
+    queryClient,
+    handleClose,
+    contrato,
+    sueldo
+) => {
+    setIsLoading(true);
+    const formData = {
+        contrato: contrato,
+        sueldo:sueldo,
+    };
+    editarRenovacion({ form: formData, equipoId, jugadorId }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["equipos"]);
+            alertaSubmit(true, success?.message);
+            setIsLoading(false);
+            handleClose();
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+};
+
+export const listaDeTransferibles = (equipoId: string, jugadorId: string, listaTransferibles, queryClient, transferible) => {
+    alertaQuestion(equipoId, {}, (equipoId: string) => {
+        const formData = {
+            transferible: transferible,
+        };
+        listaTransferibles({ form: formData, equipoId, jugadorId }, {
+            onSuccess: (success) => {
+                queryClient.invalidateQueries(["equipos"]);
+                alertaSubmit(true, success?.message);
+            },
+            onError: (err: any) => {
+                const errorMessage = err?.response?.data?.message || err.message;
+                alertaSubmit(false, errorMessage);
+            },
+        });
+    }, 'Si, Mover a lista de transferibles!', 'Jugador en lista de transferibles!', 'El jugador ha sido movido a la lista de transferibles', 'El jugador no se movio a la lista de trnasferibles :)')
+}

@@ -21,6 +21,10 @@ import { BiTransfer as Trasnfer } from 'react-icons/bi';
 import { MdNotificationsActive as Noti } from 'react-icons/md';
 import { BsFillCheckCircleFill as Listo } from 'react-icons/bs';
 import { ModalRenovarJugador } from "../modals/Jugador/ModalRenovar";
+import { MdSell as ListaTransf } from 'react-icons/md';
+import { useMutation, useQueryClient } from "react-query";
+import { jugadoresListaTransferible } from "../../service/jugadores";
+import { listaDeTransferibles } from "../../utils/utilsPanelJugadores";
 
 export const TablaContratos =({jugadores, isLoading, equipoId})=>{
     const [light] = useContext(Context);
@@ -28,6 +32,9 @@ export const TablaContratos =({jugadores, isLoading, equipoId})=>{
     const [modalJugadorInfo, setModalJugadorInfo] = useState(false);
     const [modalRenovar, setModalRenovar] = useState(false);
     const [jugadorSeleccionado, setJugadorSeleccionado] = useState(null);
+    const queryClient = useQueryClient();
+    const [isLoadinng, setIsLoadinng] = useState(false);
+    const { mutate: listaTransferibleJugador } = useMutation(jugadoresListaTransferible);
 
     return(
         <>
@@ -64,8 +71,11 @@ export const TablaContratos =({jugadores, isLoading, equipoId})=>{
                         <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Detalle</Grid></StyledTableCell>
                         <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Jugador</Grid></StyledTableCell>
                         <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Sueldo</Grid></StyledTableCell>
+                        <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Valor mercado</Grid></StyledTableCell>
+                        <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Clausula</Grid></StyledTableCell>
                         <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Status</Grid></StyledTableCell>
                         <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Contrato</Grid></StyledTableCell>
+                        <StyledTableCell light={light}/>
                         <StyledTableCell light={light}/>
                         <StyledTableCell light={light}/>
                     </TableRow>
@@ -98,6 +108,7 @@ export const TablaContratos =({jugadores, isLoading, equipoId})=>{
                                                 <Capitan size={20} />
                                             </Grid>
                                         </Grid>}
+                                        {jugador.transferible === 'Si' && <ListaTransf size={20} color={'var(--warnning)'}/>}
                                     </Grid>
                                 </Grid>
                             </StyledTableCell>
@@ -105,8 +116,14 @@ export const TablaContratos =({jugadores, isLoading, equipoId})=>{
                                 <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}>{formatoPesosArgentinos(jugador.sueldo)}</Grid>
                             </StyledTableCell>
                             <StyledTableCell light={light} align="left">
-                                <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}><Listo size={20} color={'var(--check)'}/></Grid>
-                                {/* <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px', display:'flex', cursor:'pointer'}}><Trasnfer size={28}/> <Noti size={18} color={'var(--danger)'}/> <Grid item sx={{fontSize:'12px'}}>{1}</Grid></Grid> */}
+                                <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}>{formatoPesosArgentinos(jugador.valor_mercado)}</Grid>
+                            </StyledTableCell>
+                            <StyledTableCell light={light} align="left">
+                                <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}>{formatoPesosArgentinos(jugador.clausula)}</Grid>
+                            </StyledTableCell>
+                            <StyledTableCell light={light} align="left">
+                                {jugador.oferta.length === 0 && <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}><Listo size={20} color={'var(--check)'}/></Grid>}
+                                {jugador.oferta.length >= 1 && <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px', display:'flex', cursor:'pointer'}}><Trasnfer size={28}/> <Noti size={18} color={'var(--danger)'}/> <Grid item sx={{fontSize:'12px'}}>{jugador.oferta.length}</Grid></Grid>}
                                 {/* <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}><Nego size={25} color={''}/></Grid> */}
                             </StyledTableCell>
                             <StyledTableCell light={light} align="left">
@@ -128,6 +145,10 @@ export const TablaContratos =({jugadores, isLoading, equipoId})=>{
                             </StyledTableCell>
                             <StyledTableCell light={light} align="left">
                                 <ButtonSend title={'Recindir'} icon={Recindir} disable={false} handle={() => {null }} iconSize={20} iconColor={'var(--danger)'} />
+                            </StyledTableCell>
+                            <StyledTableCell light={light} align="left">
+                                {jugador.transferible === 'No' && <ButtonSend title={'L.Transf'} icon={ListaTransf} disable={false} handle={() => {listaDeTransferibles(equipoId,jugador._id,listaTransferibleJugador,queryClient,'Si')}} iconSize={20} iconColor={'var(--warnning)'} />}
+                                {jugador.transferible === 'Si' && <ButtonSend title={'NO.Transf'} icon={ListaTransf} disable={false} handle={() => {listaDeTransferibles(equipoId,jugador._id,listaTransferibleJugador,queryClient,'No')}} iconSize={20} iconColor={'var(--primario)'} />}
                             </StyledTableCell>
                         </StyledTableRow>
                     )

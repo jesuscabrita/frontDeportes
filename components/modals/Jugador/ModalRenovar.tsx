@@ -8,12 +8,13 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useMutation, useQueryClient } from "react-query";
 import { InputSelect } from "../../Material/InputSelect";
 import { contratos } from "../../../utils/arrays";
-import { jugadoresPut } from "../../../service/jugadores";
 import { ButtonSend } from "../../Material/ButtonSend";
 import { BiExit as Salir } from 'react-icons/bi';
 import { MdAutorenew as Renovar } from 'react-icons/md';
 import { InputNumber } from "../../Material/InputNumber";
 import { formatoPesosArgentinos } from "../../../utils/utils";
+import { jugadoresRenovar } from "../../../service/jugadores";
+import { editarRenovacion } from "../../../utils/utilsPanelJugadores";
 
 export const ModalRenovarJugador = ({ open, setOpen, equipoId, jugadorId, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -22,7 +23,7 @@ export const ModalRenovarJugador = ({ open, setOpen, equipoId, jugadorId, data }
     const [contrato, setContrato] = useState(data?.contrato);
     const queryClient = useQueryClient();
     const [isLoading, setIsLoading] = useState(false);
-    const { mutate: editarJugador } = useMutation(jugadoresPut);
+    const { mutate: renovarJugador } = useMutation(jugadoresRenovar);
 
     const handleClose = () => {
         setOpen(false);
@@ -53,7 +54,7 @@ export const ModalRenovarJugador = ({ open, setOpen, equipoId, jugadorId, data }
                 )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
                     <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
-                    <ButtonSend disable={false} handle={() => { handleClose }} title={'Renovar'} icon={Renovar} iconColor={''} iconSize={20} />
+                    <ButtonSend disable={false} handle={() => { editarRenovacion(equipoId,jugadorId,setIsLoading,renovarJugador,queryClient,handleClose,contrato,sueldo) }} title={'Renovar'} icon={Renovar} iconColor={''} iconSize={20} />
                 </DialogActions>
             </Dialog>
         </Grid>
