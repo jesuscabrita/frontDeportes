@@ -234,7 +234,7 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
                     <TablaEstadisticas jugadores={data.jugadores} label={'Tarjetas rojas'} isLoading={isLoading} rojas={true} amarillas={false} asistencias={false} goles={false} />
                 </TabPanel>
                 <TabPanel value={value} index={5} dir={theme.direction}>
-                    <TablaContratos jugadores={data.jugadores} isLoading={isLoading}/>
+                    <TablaContratos jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id}/>
                 </TabPanel>
                 <TabPanel value={value} index={6} dir={theme.direction}>
                     Fichajes

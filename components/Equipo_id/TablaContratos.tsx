@@ -17,11 +17,16 @@ import { ButtonSend } from "../Material/ButtonSend";
 import { FaBusinessTime as Nego } from 'react-icons/fa';
 import { MdAutorenew as Renovar } from 'react-icons/md';
 import { FaFilePrescription as Recindir } from 'react-icons/fa';
+import { BiTransfer as Trasnfer } from 'react-icons/bi';
+import { MdNotificationsActive as Noti } from 'react-icons/md';
+import { BsFillCheckCircleFill as Listo } from 'react-icons/bs';
+import { ModalRenovarJugador } from "../modals/Jugador/ModalRenovar";
 
-export const TablaContratos =({jugadores,isLoading})=>{
+export const TablaContratos =({jugadores, isLoading, equipoId})=>{
     const [light] = useContext(Context);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [modalJugadorInfo, setModalJugadorInfo] = useState(false);
+    const [modalRenovar, setModalRenovar] = useState(false);
     const [jugadorSeleccionado, setJugadorSeleccionado] = useState(null);
 
     return(
@@ -59,6 +64,7 @@ export const TablaContratos =({jugadores,isLoading})=>{
                         <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Detalle</Grid></StyledTableCell>
                         <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Jugador</Grid></StyledTableCell>
                         <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Sueldo</Grid></StyledTableCell>
+                        <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Status</Grid></StyledTableCell>
                         <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Contrato</Grid></StyledTableCell>
                         <StyledTableCell light={light}/>
                         <StyledTableCell light={light}/>
@@ -99,6 +105,11 @@ export const TablaContratos =({jugadores,isLoading})=>{
                                 <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}>{formatoPesosArgentinos(jugador.sueldo)}</Grid>
                             </StyledTableCell>
                             <StyledTableCell light={light} align="left">
+                                <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}><Listo size={20} color={'var(--check)'}/></Grid>
+                                {/* <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px', display:'flex', cursor:'pointer'}}><Trasnfer size={28}/> <Noti size={18} color={'var(--danger)'}/> <Grid item sx={{fontSize:'12px'}}>{1}</Grid></Grid> */}
+                                {/* <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}><Nego size={25} color={''}/></Grid> */}
+                            </StyledTableCell>
+                            <StyledTableCell light={light} align="left">
                                 {jugador.contrato === 0.5 && 
                                     <Grid item sx={{whiteSpace: 'nowrap', fontSize:'17px', color:'var(--danger)',fontWeight:'700'}}>
                                     Media Temporada
@@ -113,7 +124,7 @@ export const TablaContratos =({jugadores,isLoading})=>{
                                 </Grid>}
                             </StyledTableCell>
                             <StyledTableCell light={light} align="left">
-                                <ButtonSend title={'Renovar'} icon={Renovar} disable={false} handle={() => {null }} iconSize={20} iconColor={''} />
+                                <ButtonSend title={'Renovar'} icon={Renovar} disable={false} handle={() => {seleccionarData(jugador,setJugadorSeleccionado, setModalRenovar)}} iconSize={20} iconColor={''} />
                             </StyledTableCell>
                             <StyledTableCell light={light} align="left">
                                 <ButtonSend title={'Recindir'} icon={Recindir} disable={false} handle={() => {null }} iconSize={20} iconColor={'var(--danger)'} />
@@ -125,6 +136,7 @@ export const TablaContratos =({jugadores,isLoading})=>{
             </Table>
         </TableContainer>
         </Grid>}
+        {jugadorSeleccionado && (<ModalRenovarJugador open={modalRenovar} setOpen={setModalRenovar} data={jugadorSeleccionado} jugadorId={jugadorSeleccionado?._id} equipoId={equipoId}/>)}
         {jugadorSeleccionado && (<ModalJugadorInfo open={modalJugadorInfo} setOpen={setModalJugadorInfo} jugador={jugadorSeleccionado} />)}
     </>
     )
