@@ -1632,7 +1632,7 @@ export const editarRenovacion = (
     });
 };
 
-export const listaDeTransferibles = (equipoId: string, jugadorId: string, listaTransferibles, queryClient, transferible) => {
+export const listaDeTransferiblesSi = (equipoId: string, jugadorId: string, listaTransferibles, queryClient,transferible) => {
     alertaQuestion(equipoId, {}, (equipoId: string) => {
         const formData = {
             transferible: transferible,
@@ -1648,4 +1648,71 @@ export const listaDeTransferibles = (equipoId: string, jugadorId: string, listaT
             },
         });
     }, 'Si, Mover a lista de transferibles!', 'Jugador en lista de transferibles!', 'El jugador ha sido movido a la lista de transferibles', 'El jugador no se movio a la lista de trnasferibles :)')
+}
+
+export const listaDeTransferiblesNo = (equipoId: string, jugadorId: string, listaTransferibles, queryClient,transferible) => {
+    alertaQuestion(equipoId, {}, (equipoId: string) => {
+        const formData = {
+            transferible: transferible,
+        };
+        listaTransferibles({ form: formData, equipoId, jugadorId }, {
+            onSuccess: (success) => {
+                queryClient.invalidateQueries(["equipos"]);
+                alertaSubmit(true, 'El jugador fue movido de la lista de transferibles');
+            },
+            onError: (err: any) => {
+                const errorMessage = err?.response?.data?.message || err.message;
+                alertaSubmit(false, errorMessage);
+            },
+        });
+    }, 'Si, Mover de lista de transferibles!', 'Jugador en lista de transferibles!', 'El jugador ha sido movido a la lista de transferibles', 'El jugador no se movio de la lista de transferibles :)')
+}
+
+export const RecindirJugador = (equipoId: string, jugadorId: string, recindirContrato, queryClient,libre,setIsLoading,handleClose) => {
+        setIsLoading(true);
+        const formData = {
+            libre: libre,
+        };
+        recindirContrato({ form: formData, equipoId, jugadorId }, {
+            onSuccess: (success) => {
+                queryClient.invalidateQueries(["equipos"]);
+                alertaSubmit(true, success?.message);
+                handleClose()
+            },
+            onError: (err: any) => {
+                const errorMessage = err?.response?.data?.message || err.message;
+                alertaSubmit(false, errorMessage);
+            },
+        });
+}
+
+export const crearOferta = (
+    equipoId: string, 
+    jugadorId ,
+    equipo: string, 
+    logo: number,
+    precio ,
+    contrato: string, 
+    tipo: string,
+    sueldo: string, 
+    setIsLoading, 
+    oferta, 
+    queryClient, 
+    handleClose
+    ) => {
+    setIsLoading(true);
+    const formData = { equipo, logo, precio, contrato, tipo, sueldo };
+    oferta({ form: formData, equipoId, jugadorId }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["equipos"]);
+            alertaSubmit(true, success?.message);
+            setIsLoading(false);
+            handleClose()
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
 }

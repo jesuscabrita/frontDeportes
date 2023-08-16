@@ -31,7 +31,7 @@ const Equipo = () => {
 
   if (isLoading) {
     return (
-      <Grid sx={{ height: !mobile ? '110vh' : '100%', }}>
+      <Grid sx={{ height: '110vh'}}>
         <Grid sx={{ paddingTop: !mobile ? '100px' : '90px', paddingBottom: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} size={45} />
         </Grid>

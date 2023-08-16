@@ -3,6 +3,11 @@ export const filterEstado = (array, estado) => {
     return newFilter;
 }
 
+export const filterLibreJugador = (array, estado) => {
+    const newFilter = array.filter(data => data.libre == estado);
+    return newFilter;
+}
+
 export const status = (hoy, fechaFinalPartido, tiempoRestante, TIEMPO_PARTIDO) => {
     if (hoy.diff(fechaFinalPartido, 'days') === 0) {
         const enVivo = tiempoRestante <= TIEMPO_PARTIDO && tiempoRestante > 0
@@ -81,25 +86,34 @@ export const getLast5ToShow = (row, maxCount) => {
 }
 
 export const jugadoresGoleadores = (data, cantidad) => {
-    return data.flatMap((equipo) => equipo.jugadores)
+    return data
+        .flatMap((equipo) => equipo.jugadores)
+        .filter((jugador) => jugador.libre === "No")
         .sort((a, b) => b.goles - a.goles)
         .slice(0, cantidad);
 };
 
 export const jugadoresAsistidores = (data, cantidad) => {
-    return data.flatMap((equipo) => equipo.jugadores)
+    return data
+        .flatMap((equipo) => equipo.jugadores)
+        .filter((jugador) => jugador.libre === "No")
         .sort((a, b) => b.asistencias - a.asistencias)
         .slice(0, cantidad);
 };
 
 export const jugadoresAmarillas = (data, cantidad) => {
-    return data.flatMap((equipo) => equipo.jugadores)
-        .sort((a, b) => b.tarjetas_amarillas - a.tarjetas_amarillas)
-        .slice(0, cantidad);
+    return data
+    .flatMap((equipo) => equipo.jugadores)
+    .filter((jugador) => jugador.libre === "No")
+    .sort((a, b) => b.tarjetas_amarillas - a.tarjetas_amarillas)
+    .slice(0, cantidad);
+
 };
 
 export const jugadoresRojas = (data, cantidad) => {
-    return data.flatMap((equipo) => equipo.jugadores)
+    return data
+        .flatMap((equipo) => equipo.jugadores)
+        .filter((jugador) => jugador.libre === "No")
         .sort((a, b) => b.tarjetas_roja - a.tarjetas_roja)
         .slice(0, cantidad);
 };

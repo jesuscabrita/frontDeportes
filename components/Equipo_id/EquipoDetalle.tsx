@@ -25,7 +25,7 @@ import { TablaPlantilla } from "./TablaPlantilla";
 import { TablaEstadisticas } from "./TablaEstadisticas";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { equiposGet } from "../../service/equipos";
-import { filterEstado, formatoPesosArgentinos, ordenPosition, seleccionarData } from "../../utils/utils";
+import { filterEstado, filterLibreJugador, formatoPesosArgentinos, ordenPosition, seleccionarData } from "../../utils/utils";
 import { ArrowP } from "../Shared/ArrowP";
 import { IoIosCreate as CreatePlayer } from 'react-icons/io';
 import { ModalDT } from "../modals/DT/ModalDT";
@@ -42,6 +42,7 @@ import { ButtonSend } from "../Material/ButtonSend";
 import ContextRefac from "../../context/contextLogin";
 import { FaFileContract as Contra } from 'react-icons/fa';
 import { TablaContratos } from "./TablaContratos";
+import { TablaFichajes } from "./TablaFichajes";
 
 const opcionSelectEquipo = [
     { id: 0, name: 'Plantilla', icono: <Plantilla size={30} /> },
@@ -219,7 +220,7 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
                         {isSameEmail && <ButtonSend title={!mobile ?'Fichar DT': 'DT'} icon={CreatePlayer} disable={data.director_tecnico.length > 0} handle={() => { setModalDT(!modalDT) }} iconSize={20} iconColor={'var(--check)'} />}
                         {isSameEmail && <ButtonSend title={!mobile ?'Fichar Delegado': 'Delegado'} icon={CreatePlayer} disable={data?.delegado.length > 0} handle={() => { setModalDelegado(!modalDelegado) }} iconSize={20} iconColor={'var(--check)'} />}
                     </Grid>
-                    <TablaPlantilla jugadores={data.jugadores} equipo={data} isLoading={isLoading} director_tecnico={data.director_tecnico} />
+                    <TablaPlantilla jugadores={filterLibreJugador(data.jugadores, 'No')} equipo={data} isLoading={isLoading} director_tecnico={data.director_tecnico} />
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction}>
                     <TablaEstadisticas jugadores={data.jugadores} label={'Goles'} isLoading={isLoading} goles={true} amarillas={false} asistencias={false} rojas={false} />
@@ -234,10 +235,23 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
                     <TablaEstadisticas jugadores={data.jugadores} label={'Tarjetas rojas'} isLoading={isLoading} rojas={true} amarillas={false} asistencias={false} goles={false} />
                 </TabPanel>
                 <TabPanel value={value} index={5} dir={theme.direction}>
-                    <TablaContratos jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id}/>
+                    {isSameEmail && <TablaContratos jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id}/>}
+                    {isUserAdmin && <TablaContratos jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id}/>}
+                    {!isSameEmail && !isUserAdmin &&
+                    <Grid mt={8} item sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        gap: '16px',
+                        minWidth: !mobile ? '960px' : '100%',
+                        height: mobile && '300px',
+                        justifyContent: 'center',
+                        color: light ? 'var(--dark2)' : 'var(--cero)'
+                    }}>
+                        {`Solo el administrador del  ${data.name} puede ver este panel`}
+                    </Grid>}
                 </TabPanel>
                 <TabPanel value={value} index={6} dir={theme.direction}>
-                    Fichajes
+                    <TablaFichajes jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id}/>
                 </TabPanel>
             </SwipeableViews>
             {modalJugador && <ModalCrearJugador open={modalJugador} setOpen={setModalJugador} id={data?._id} />}

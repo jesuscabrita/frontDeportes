@@ -8,33 +8,23 @@ import Paper from '@material-ui/core/Paper';
 import { useContext, useState } from "react";
 import Context from "../../context/contextPrincipal";
 import { TbMoodEmpty as Vacio } from 'react-icons/tb';
-import { MdLocalHospital as Lesion } from 'react-icons/md';
-import { VscSearchStop as Expulsado } from 'react-icons/vsc';
-import { TbRectangleVertical as Tarjeta } from 'react-icons/tb';
 import { StyledTableCell } from "../Material/StyledTableCell";
 import { StyledTableRow } from "../Material/StyledTableRow";
-import { stringAvatar, seleccionarData, filterLibreJugador } from "../../utils/utils";
+import { stringAvatar, seleccionarData, filterLibreJugador, formatoPesosArgentinos  } from "../../utils/utils";
 import { ModalJugadorInfo } from "../modals/Jugador/ModalInfoJugador";
 import { IoLogoClosedCaptioning as Capitan } from 'react-icons/io';
+import { MdSell as ListaTransf } from 'react-icons/md';
+import { ButtonSend } from "../Material/ButtonSend";
+import { BsCashCoin as Cash } from 'react-icons/bs';
+import { MdOutlineAssignmentReturn as Prestamo } from 'react-icons/md';
+import { ModalOferta } from "../modals/Jugador/ModalOferta";
 
-export const TablaEstadisticas =({jugadores, label, isLoading, goles, asistencias, amarillas, rojas})=>{
+export const TablaFichajes =({jugadores, isLoading, equipoId })=>{
     const [light] = useContext(Context);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [modalJugadorInfo, setModalJugadorInfo] = useState(false);
+    const [modalOferta, setModalOferta] = useState(false);
     const [jugadorSeleccionado, setJugadorSeleccionado] = useState(null);
-
-    let jugadoresOrdenados;
-    if (goles) {
-        jugadoresOrdenados = filterLibreJugador(jugadores, 'No').sort((a, b) => b.goles - a.goles);
-    } else if (asistencias) {
-        jugadoresOrdenados = filterLibreJugador(jugadores, 'No').sort((a, b) => b.asistencias - a.asistencias);
-    } else if (amarillas) {
-        jugadoresOrdenados = filterLibreJugador(jugadores, 'No').sort((a, b) => b.tarjetas_amarillas - a.tarjetas_amarillas);
-    } else if (rojas) {
-        jugadoresOrdenados = filterLibreJugador(jugadores, 'No').sort((a, b) => b.tarjetas_roja - a.tarjetas_roja);
-    } else {
-        jugadoresOrdenados = filterLibreJugador(jugadores, 'No');
-    }
 
     return(
         <>
@@ -68,13 +58,17 @@ export const TablaEstadisticas =({jugadores, label, isLoading, goles, asistencia
             <Table  aria-label="customized table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>{label}</Grid></StyledTableCell>
+                        <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Detalle</Grid></StyledTableCell>
+                        <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Jugador</Grid></StyledTableCell>
+                        <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Sueldo</Grid></StyledTableCell>
+                        <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Valor mercado</Grid></StyledTableCell>
+                        <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Clausula</Grid></StyledTableCell>
                         <StyledTableCell light={light}/>
                         <StyledTableCell light={light}/>
                     </TableRow>
                 </TableHead>
                 <TableBody style={{background:light ? 'var(--cero)':'var(--dark3)'}}>
-                {jugadoresOrdenados.map((jugador, index)=>{
+                {filterLibreJugador(jugadores, 'No').map((jugador, index)=>{
                     return(
                         <StyledTableRow light={light} key={jugador.id} style={{background: jugador.suspendido === 'Si' && 'var(--danger2)'}}>
                             <StyledTableCell light={light} component="th" scope="row">
@@ -101,32 +95,24 @@ export const TablaEstadisticas =({jugadores, label, isLoading, goles, asistencia
                                                 <Capitan size={20} />
                                             </Grid>
                                         </Grid>}
-                                        {jugador.lesion === 'Si' &&  
-                                        <Grid item sx={{display:'flex', alignItems:'center',gap:'6px'}}>
-                                            <Lesion size={20}/>
-                                            <Grid sx={{color:'var(--neutral)'}}>{'(Lesionado)'}</Grid>
-                                        </Grid>}
-                                        {jugador.tarjetas_acumuladas > 0 && ( <Grid item sx={{display:'flex', alignItems:'center'}}>{jugador.tarjetas_acumuladas}<Tarjeta color={'var(--warnning)'} size={20} /></Grid>)}
-                                        {jugador.suspendido === 'Si' && ( 
-                                        <Grid item sx={{display:'flex', alignItems:'center',gap:'6px'}}>
-                                            <Expulsado size={20}/>
-                                            <Grid sx={{color:'var(--neutral)'}}>{`(expulsado ${jugador.jornadas_suspendido} jornada)`}</Grid>
-                                        </Grid>)}
+                                        {jugador.transferible === 'Si' && <ListaTransf size={20} color={'var(--warnning)'}/>}
                                     </Grid>
                                 </Grid>
                             </StyledTableCell>
+                            <StyledTableCell light={light} align="left">
+                                <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}>{formatoPesosArgentinos(jugador.sueldo)}</Grid>
+                            </StyledTableCell>
+                            <StyledTableCell light={light} align="left">
+                                <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}>{formatoPesosArgentinos(jugador.valor_mercado)}</Grid>
+                            </StyledTableCell>
+                            <StyledTableCell light={light} align="left">
+                                <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}>{formatoPesosArgentinos(jugador.clausula)}</Grid>
+                            </StyledTableCell>
                             <StyledTableCell light={light} align="left" style={{fontWeight: index === 0 ? 700: 500,fontSize: index === 0 ?'18px': '15px'}}>
-                            {goles ? (
-                                <Grid item>{jugador.goles}</Grid>
-                                ) : asistencias ? (
-                                <Grid item>{jugador.asistencias}</Grid>
-                                ) : amarillas ? (
-                                <Grid item>{jugador.tarjetas_amarillas}</Grid>
-                                ) : rojas ? (
-                                <Grid item>{jugador.tarjetas_roja}</Grid>
-                                ) : (
-                                null
-                                )}
+                                <ButtonSend title={'Compra'} icon={Cash} disable={false} handle={() => {seleccionarData(jugador,setJugadorSeleccionado, setModalOferta)}} iconSize={20} iconColor={'var(--check)'} />
+                            </StyledTableCell>
+                            <StyledTableCell light={light} align="left" style={{fontWeight: index === 0 ? 700: 500,fontSize: index === 0 ?'18px': '15px'}}>
+                                <ButtonSend title={'Prestamo'} icon={Prestamo} disable={false} handle={() => {null}} iconSize={20} iconColor={'var(--warnning)'} />
                             </StyledTableCell>
                         </StyledTableRow>
                     )
@@ -135,6 +121,7 @@ export const TablaEstadisticas =({jugadores, label, isLoading, goles, asistencia
             </Table>
         </TableContainer>
         </Grid>}
+        {jugadorSeleccionado && (<ModalOferta open={modalOferta} setOpen={setModalOferta} equipoId={equipoId} data={jugadorSeleccionado} jugadorId={jugadorSeleccionado._id}/>)}
         {jugadorSeleccionado && (<ModalJugadorInfo open={modalJugadorInfo} setOpen={setModalJugadorInfo} jugador={jugadorSeleccionado} />)}
     </>
     )

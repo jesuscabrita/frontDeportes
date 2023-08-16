@@ -189,3 +189,23 @@ export const jugadoresListaTransferible = async ({ form, equipoId, jugadorId }) 
         throw new Error(message);
     }
 }
+
+export const jugadoresRecindir = async ({ form, equipoId, jugadorId }) => {
+    try {
+        const data = await api.put(`/api/liga/${equipoId}/recindir/${jugadorId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
+
+export const ofertaPost = async ({ form, equipoId, jugadorId }) => {
+    try {
+        const data = await api.post(`/api/liga/${equipoId}/oferta/${jugadorId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}

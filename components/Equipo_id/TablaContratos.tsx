@@ -10,7 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { StyledTableCell } from "../Material/StyledTableCell";
 import { StyledTableRow } from "../Material/StyledTableRow";
-import { formatoPesosArgentinos, seleccionarData, stringAvatar } from "../../utils/utils";
+import { filterLibreJugador, formatoPesosArgentinos, seleccionarData, stringAvatar } from "../../utils/utils";
 import { IoLogoClosedCaptioning as Capitan } from 'react-icons/io';
 import { ModalJugadorInfo } from "../modals/Jugador/ModalInfoJugador";
 import { ButtonSend } from "../Material/ButtonSend";
@@ -24,17 +24,23 @@ import { ModalRenovarJugador } from "../modals/Jugador/ModalRenovar";
 import { MdSell as ListaTransf } from 'react-icons/md';
 import { useMutation, useQueryClient } from "react-query";
 import { jugadoresListaTransferible } from "../../service/jugadores";
-import { listaDeTransferibles } from "../../utils/utilsPanelJugadores";
+import { listaDeTransferiblesNo, listaDeTransferiblesSi } from "../../utils/utilsPanelJugadores";
+import { ModalRecindir } from "../modals/Jugador/ModalRecindir";
 
 export const TablaContratos =({jugadores, isLoading, equipoId})=>{
     const [light] = useContext(Context);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [modalJugadorInfo, setModalJugadorInfo] = useState(false);
     const [modalRenovar, setModalRenovar] = useState(false);
+    const [modalRecindir, setModalRecindir] = useState(false);
     const [jugadorSeleccionado, setJugadorSeleccionado] = useState(null);
     const queryClient = useQueryClient();
     const [isLoadinng, setIsLoadinng] = useState(false);
     const { mutate: listaTransferibleJugador } = useMutation(jugadoresListaTransferible);
+
+    const jugadoresFiltrados = filterLibreJugador(jugadores, 'No').sort((jugadorA, jugadorB) =>
+    jugadorB.valor_mercado - jugadorA.valor_mercado
+    );
 
     return(
         <>
@@ -81,7 +87,7 @@ export const TablaContratos =({jugadores, isLoading, equipoId})=>{
                     </TableRow>
                 </TableHead>
                 <TableBody style={{background:light ? 'var(--cero)':'var(--dark3)'}}>
-                {jugadores.map((jugador, index)=>{
+                {jugadoresFiltrados.map((jugador, index)=>{
                     return(
                         <StyledTableRow light={light} key={jugador.id} style={{background: jugador.suspendido === 'Si' && 'var(--danger2)'}}>
                             <StyledTableCell light={light} component="th" scope="row">
@@ -144,11 +150,11 @@ export const TablaContratos =({jugadores, isLoading, equipoId})=>{
                                 <ButtonSend title={'Renovar'} icon={Renovar} disable={false} handle={() => {seleccionarData(jugador,setJugadorSeleccionado, setModalRenovar)}} iconSize={20} iconColor={''} />
                             </StyledTableCell>
                             <StyledTableCell light={light} align="left">
-                                <ButtonSend title={'Recindir'} icon={Recindir} disable={false} handle={() => {null }} iconSize={20} iconColor={'var(--danger)'} />
+                                <ButtonSend title={'Recindir'} icon={Recindir} disable={false} handle={() => {seleccionarData(jugador,setJugadorSeleccionado, setModalRecindir)}} iconSize={20} iconColor={'var(--danger)'} />
                             </StyledTableCell>
                             <StyledTableCell light={light} align="left">
-                                {jugador.transferible === 'No' && <ButtonSend title={'L.Transf'} icon={ListaTransf} disable={false} handle={() => {listaDeTransferibles(equipoId,jugador._id,listaTransferibleJugador,queryClient,'Si')}} iconSize={20} iconColor={'var(--warnning)'} />}
-                                {jugador.transferible === 'Si' && <ButtonSend title={'NO.Transf'} icon={ListaTransf} disable={false} handle={() => {listaDeTransferibles(equipoId,jugador._id,listaTransferibleJugador,queryClient,'No')}} iconSize={20} iconColor={'var(--primario)'} />}
+                                {jugador.transferible === 'No' && <ButtonSend title={'L.Transf'} icon={ListaTransf} disable={false} handle={() => {listaDeTransferiblesSi(equipoId,jugador._id,listaTransferibleJugador,queryClient,'Si')}} iconSize={20} iconColor={'var(--warnning)'} />}
+                                {jugador.transferible === 'Si' && <ButtonSend title={'NO.Transf'} icon={ListaTransf} disable={false} handle={() => {listaDeTransferiblesNo(equipoId,jugador._id,listaTransferibleJugador,queryClient,'No')}} iconSize={20} iconColor={'var(--primario)'} />}
                             </StyledTableCell>
                         </StyledTableRow>
                     )
@@ -157,6 +163,7 @@ export const TablaContratos =({jugadores, isLoading, equipoId})=>{
             </Table>
         </TableContainer>
         </Grid>}
+        {jugadorSeleccionado && <ModalRecindir open={modalRecindir} setOpen={setModalRecindir} data={jugadorSeleccionado} equipoId={equipoId}/>}
         {jugadorSeleccionado && (<ModalRenovarJugador open={modalRenovar} setOpen={setModalRenovar} data={jugadorSeleccionado} jugadorId={jugadorSeleccionado?._id} equipoId={equipoId}/>)}
         {jugadorSeleccionado && (<ModalJugadorInfo open={modalJugadorInfo} setOpen={setModalJugadorInfo} jugador={jugadorSeleccionado} />)}
     </>
