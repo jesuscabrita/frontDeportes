@@ -1,5 +1,5 @@
 import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Context from "../../../context/contextPrincipal";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -19,12 +19,12 @@ import ContextRefac from "../../../context/contextLogin";
 import { equiposGet } from "../../../service/equipos";
 import { InputTexArea } from "../../Material/InputTexArea";
 
-export const ModalOferta = ({ open, setOpen, equipoId, jugadorId, data }) => {
+export const ModalPrestamo = ({ open, setOpen, equipoId, jugadorId, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [light] = useContext(Context);
-    const [sueldo, setSueldo] = useState(null);
-    const [contrato, setContrato] = useState('Seleccionar');
-    const [precio, setPrecio] = useState('');
+    const [sueldo, setSueldo] = useState(data?.sueldo);
+    const [contrato, setContrato] = useState(data?.contrato);
+    const [precio, setPrecio] = useState(data?.valor_mercado);
     const [comentario, setComentario] = useState('');
     const queryClient = useQueryClient();
     const [isLoading, setIsLoading] = useState(false);
@@ -48,21 +48,27 @@ export const ModalOferta = ({ open, setOpen, equipoId, jugadorId, data }) => {
         setOpen(false);
     };
 
+    useEffect(() => {
+        setSueldo(data?.sueldo);
+        setContrato(data?.contrato);
+        setPrecio(data?.valor_mercado)
+    }, [data]);
+
     return (
         <Grid>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle sx={{ padding: '20px', color: light ? 'var(dark2)' : 'var(--cero)', background: light ? 'var(--cero)' : 'var(--dark)' }}>
-                    {`Negociar compra por ${data.name}`}
+                    {`Negociar prestamo por ${data.name}`}
                 </DialogTitle>
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                    {data.transferible === 'No' && <Grid item sx={{color: 'var(--neutral)'}}>{`El monto minimo para negociar con ${data.name} es de ${formatoPesosArgentinos(data.valor_mercado)}, el jugador no esta en venta pero puedes enviarte una oferta. (en este caso es recomendable pagar la clausula, quizas acepte)`}</Grid>}
-                    {data.transferible === 'Si' && <Grid item sx={{color: 'var(--neutral)'}}>{`El monto minimo para negociar con ${data.name} es de ${formatoPesosArgentinos(data.valor_mercado)}, el jugador esta en venta, podes ofrecer un precio sin necesidad de pagar clausula`}</Grid>}
+                    {data.transferible === 'No' && <Grid item sx={{color: 'var(--neutral)'}}>{`El prestamo de ${data.name} es gratis solo pagas la mitad de su salario, el jugador no esta en venta pero puedes enviarte una oferta (en este caso es recomendable pagar la clausula, quizas acepte)`}</Grid>}
+                    {data.transferible === 'Si' && <Grid item sx={{color: 'var(--neutral)'}}>{`El prestamo de ${data.name} es gratis solo pagas la mitad de su salario, jugador esta en venta, podes ofrecer un precio sin necesidad de pagar clausula`}</Grid>}
                     <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
-                        <InputNumber disable={false} placeholder={'Sueldo'} label={'Sueldo'} setValue={setSueldo} value={sueldo}/>
-                        <InputSelect disable={false} label={'Contrato'} value={contrato} setValue={setContrato} selectData={contratos} />
+                        <InputNumber disable={true} placeholder={'Sueldo'} label={'Sueldo'} setValue={setSueldo} value={sueldo}/>
+                        <InputSelect disable={true} label={'Contrato'} value={contrato} setValue={setContrato} selectData={contratos} />
                     </Grid>
                     <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
-                        <InputNumber disable={false} placeholder={'Oferta'} label={'Oferta'} setValue={setPrecio} value={precio}/>
+                        <InputNumber disable={true} placeholder={'Oferta'} label={'Oferta'} setValue={setPrecio} value={precio}/>
                     </Grid>
                     <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
                         <InputTexArea label={'Comentario'} disable={false} placeholder={'Comentario'} value={comentario} setValue={setComentario}/>
@@ -75,7 +81,7 @@ export const ModalOferta = ({ open, setOpen, equipoId, jugadorId, data }) => {
                 )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
                     <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
-                    <ButtonSend disable={false} handle={() => { crearOferta(equipoId,jugadorId,user?.equipo,filterEstado()[0]?.logo,precio,contrato,'compra',sueldo,setIsLoading,oferta,queryClient,handleClose,comentario,'Enviada',user?.email) }} title={'Negociar'} icon={Cash} iconColor={'var(--check)'} iconSize={20} />
+                    <ButtonSend disable={false} handle={() => { crearOferta(equipoId,jugadorId,user?.equipo,filterEstado()[0]?.logo,precio,contrato,'prestamo',sueldo,setIsLoading,oferta,queryClient,handleClose,comentario,'Enviada',user?.email) }} title={'Negociar'} icon={Cash} iconColor={'var(--check)'} iconSize={20} />
                 </DialogActions>
             </Dialog>
         </Grid>

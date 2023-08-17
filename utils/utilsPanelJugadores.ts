@@ -1698,10 +1698,13 @@ export const crearOferta = (
     setIsLoading, 
     oferta, 
     queryClient, 
-    handleClose
+    handleClose,
+    comentario,
+    respuesta,
+    email
     ) => {
     setIsLoading(true);
-    const formData = { equipo, logo, precio, contrato, tipo, sueldo };
+    const formData = { equipo, logo, precio, contrato, tipo, sueldo, comentario, respuesta, email };
     oferta({ form: formData, equipoId, jugadorId }, {
         onSuccess: (success) => {
             queryClient.invalidateQueries(["equipos"]);

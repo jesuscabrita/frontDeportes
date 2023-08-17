@@ -251,7 +251,18 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
                     </Grid>}
                 </TabPanel>
                 <TabPanel value={value} index={6} dir={theme.direction}>
-                    <TablaFichajes jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id}/>
+                    {user ? <TablaFichajes jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id} data={data}/>
+                    : <Grid mt={8} item sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        gap: '16px',
+                        minWidth: !mobile ? '960px' : '100%',
+                        height: mobile && '300px',
+                        justifyContent: 'center',
+                        color: light ? 'var(--dark2)' : 'var(--cero)'
+                    }}>
+                        {`Solo los usuarios pueden ver este panel`}
+                    </Grid>}
                 </TabPanel>
             </SwipeableViews>
             {modalJugador && <ModalCrearJugador open={modalJugador} setOpen={setModalJugador} id={data?._id} />}

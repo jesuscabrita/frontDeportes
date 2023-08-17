@@ -5,7 +5,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Context from "../../context/contextPrincipal";
 import { TbMoodEmpty as Vacio } from 'react-icons/tb';
 import { StyledTableCell } from "../Material/StyledTableCell";
@@ -18,13 +18,23 @@ import { ButtonSend } from "../Material/ButtonSend";
 import { BsCashCoin as Cash } from 'react-icons/bs';
 import { MdOutlineAssignmentReturn as Prestamo } from 'react-icons/md';
 import { ModalOferta } from "../modals/Jugador/ModalOferta";
+import ContextRefac from "../../context/contextLogin";
+import { FaBusinessTime as Nego } from 'react-icons/fa';
+import { ModalPrestamo } from "../modals/Jugador/ModalPrestamo";
 
-export const TablaFichajes =({jugadores, isLoading, equipoId })=>{
+export const TablaFichajes =({jugadores, isLoading, equipoId,data })=>{
     const [light] = useContext(Context);
+    const { state: { user } }: any = useContext(ContextRefac);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [modalJugadorInfo, setModalJugadorInfo] = useState(false);
     const [modalOferta, setModalOferta] = useState(false);
+    const [modalPrestamo, setModalPrestamo] = useState(false);
     const [jugadorSeleccionado, setJugadorSeleccionado] = useState(null);
+    const [isUserAdmin, setIsUserAdmin] = useState(false);
+
+    useEffect(() => {
+        setIsUserAdmin(user?.role === 'super_admin' || user?.role === 'admin');
+    }, [user]);
 
     return(
         <>
@@ -109,10 +119,12 @@ export const TablaFichajes =({jugadores, isLoading, equipoId })=>{
                                 <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}>{formatoPesosArgentinos(jugador.clausula)}</Grid>
                             </StyledTableCell>
                             <StyledTableCell light={light} align="left" style={{fontWeight: index === 0 ? 700: 500,fontSize: index === 0 ?'18px': '15px'}}>
-                                <ButtonSend title={'Compra'} icon={Cash} disable={false} handle={() => {seleccionarData(jugador,setJugadorSeleccionado, setModalOferta)}} iconSize={20} iconColor={'var(--check)'} />
+                                {(jugador?.oferta?.length > 0 && user?.email === jugador?.oferta[0]?.email) && jugador.oferta[0]?.respuesta === 'Enviada' && <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}><Nego size={25} color={''}/></Grid>} 
+                                {!(jugador?.oferta?.length > 0 && user?.email === jugador?.oferta[0]?.email) && (jugador?.oferta?.length === 0 || jugador?.oferta?.length >=1) && <ButtonSend title={'Compra'} icon={Cash} disable={user?.email === data?.correo} handle={() => {seleccionarData(jugador,setJugadorSeleccionado, setModalOferta)}} iconSize={20} iconColor={'var(--check)'} />}
                             </StyledTableCell>
                             <StyledTableCell light={light} align="left" style={{fontWeight: index === 0 ? 700: 500,fontSize: index === 0 ?'18px': '15px'}}>
-                                <ButtonSend title={'Prestamo'} icon={Prestamo} disable={false} handle={() => {null}} iconSize={20} iconColor={'var(--warnning)'} />
+                                {(jugador?.oferta?.length > 0 && user?.email === jugador?.oferta[0]?.email) && jugador.oferta[0]?.respuesta === 'Enviada' && <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}><Nego size={25} color={''}/></Grid>} 
+                                {!(jugador?.oferta?.length > 0 && user?.email === jugador?.oferta[0]?.email) && (jugador?.oferta?.length === 0 || jugador?.oferta?.length >=1) && <ButtonSend title={'Prestamo'} icon={Prestamo} disable={user?.email === data?.correo} handle={() => {seleccionarData(jugador,setJugadorSeleccionado, setModalPrestamo)}} iconSize={20} iconColor={'var(--warnning)'} />}
                             </StyledTableCell>
                         </StyledTableRow>
                     )
@@ -121,6 +133,7 @@ export const TablaFichajes =({jugadores, isLoading, equipoId })=>{
             </Table>
         </TableContainer>
         </Grid>}
+        {jugadorSeleccionado && (<ModalPrestamo open={modalPrestamo} setOpen={setModalPrestamo} equipoId={equipoId} data={jugadorSeleccionado} jugadorId={jugadorSeleccionado._id}/>)}
         {jugadorSeleccionado && (<ModalOferta open={modalOferta} setOpen={setModalOferta} equipoId={equipoId} data={jugadorSeleccionado} jugadorId={jugadorSeleccionado._id}/>)}
         {jugadorSeleccionado && (<ModalJugadorInfo open={modalJugadorInfo} setOpen={setModalJugadorInfo} jugador={jugadorSeleccionado} />)}
     </>

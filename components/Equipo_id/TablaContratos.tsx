@@ -26,6 +26,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { jugadoresListaTransferible } from "../../service/jugadores";
 import { listaDeTransferiblesNo, listaDeTransferiblesSi } from "../../utils/utilsPanelJugadores";
 import { ModalRecindir } from "../modals/Jugador/ModalRecindir";
+import { ModalOfertaRecibida } from "../modals/Jugador/ModalOfertaRecibida";
 
 export const TablaContratos =({jugadores, isLoading, equipoId})=>{
     const [light] = useContext(Context);
@@ -33,6 +34,7 @@ export const TablaContratos =({jugadores, isLoading, equipoId})=>{
     const [modalJugadorInfo, setModalJugadorInfo] = useState(false);
     const [modalRenovar, setModalRenovar] = useState(false);
     const [modalRecindir, setModalRecindir] = useState(false);
+    const [modalOfertaRecibida, setModalOfertaRecibida] = useState(false);
     const [jugadorSeleccionado, setJugadorSeleccionado] = useState(null);
     const queryClient = useQueryClient();
     const [isLoadinng, setIsLoadinng] = useState(false);
@@ -129,7 +131,10 @@ export const TablaContratos =({jugadores, isLoading, equipoId})=>{
                             </StyledTableCell>
                             <StyledTableCell light={light} align="left">
                                 {jugador.oferta.length === 0 && <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}><Listo size={20} color={'var(--check)'}/></Grid>}
-                                {jugador.oferta.length >= 1 && <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px', display:'flex', cursor:'pointer'}}><Trasnfer size={28}/> <Noti size={18} color={'var(--danger)'}/> <Grid item sx={{fontSize:'12px'}}>{jugador.oferta.length}</Grid></Grid>}
+                                {jugador.oferta.length >= 1 && <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px', display:'flex', cursor:'pointer'}} onClick={()=>{seleccionarData(jugador,setJugadorSeleccionado, setModalOfertaRecibida)}}>
+                                    <Trasnfer size={28}/> <Noti size={18} color={'var(--danger)'}/> 
+                                    <Grid item sx={{fontSize:'12px'}}>{jugador.oferta.length}</Grid>
+                                </Grid>}
                                 {/* <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}><Nego size={25} color={''}/></Grid> */}
                             </StyledTableCell>
                             <StyledTableCell light={light} align="left">
@@ -163,6 +168,7 @@ export const TablaContratos =({jugadores, isLoading, equipoId})=>{
             </Table>
         </TableContainer>
         </Grid>}
+        {jugadorSeleccionado && <ModalOfertaRecibida open={modalOfertaRecibida} setOpen={setModalOfertaRecibida} equipoId={equipoId} data={jugadorSeleccionado} jugadorId={jugadorSeleccionado._id}/>}
         {jugadorSeleccionado && <ModalRecindir open={modalRecindir} setOpen={setModalRecindir} data={jugadorSeleccionado} equipoId={equipoId}/>}
         {jugadorSeleccionado && (<ModalRenovarJugador open={modalRenovar} setOpen={setModalRenovar} data={jugadorSeleccionado} jugadorId={jugadorSeleccionado?._id} equipoId={equipoId}/>)}
         {jugadorSeleccionado && (<ModalJugadorInfo open={modalJugadorInfo} setOpen={setModalJugadorInfo} jugador={jugadorSeleccionado} />)}

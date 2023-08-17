@@ -43,7 +43,7 @@ export const ModalRenovarJugador = ({ open, setOpen, equipoId, jugadorId, data }
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     <Grid item sx={{color: 'var(--neutral)'}}>{`El sueldo minimo para renovar a ${data.name} es de ${formatoPesosArgentinos(data.sueldoCalculo)}, las temporadas no se acumulan (al renovar se debe pagar el sueldo anterior y se descuenta del banco del equipo automaticamente)`}</Grid>
                     <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
-                        <InputNumber placeholder={'Sueldo'} label={'Sueldo'} setValue={setSueldo} value={sueldo}/>
+                        <InputNumber disable={false} placeholder={'Sueldo'} label={'Sueldo'} setValue={setSueldo} value={sueldo}/>
                         <InputSelect disable={false} label={'Contrato'} value={contrato} setValue={setContrato} selectData={contratos} />
                     </Grid>
                 </DialogContent>
