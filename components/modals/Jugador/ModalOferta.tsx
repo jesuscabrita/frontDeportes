@@ -1,11 +1,11 @@
 import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import Context from "../../../context/contextPrincipal";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { InputSelect } from "../../Material/InputSelect";
 import { contratos } from "../../../utils/arrays";
 import { ButtonSend } from "../../Material/ButtonSend";
@@ -16,6 +16,7 @@ import { ofertaPost } from "../../../service/jugadores";
 import { BsCashCoin as Cash } from 'react-icons/bs';
 import { crearOferta } from "../../../utils/utilsPanelJugadores";
 import ContextRefac from "../../../context/contextLogin";
+import { equiposGet } from "../../../service/equipos";
 
 export const ModalOferta = ({ open, setOpen, equipoId, jugadorId, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -27,8 +28,19 @@ export const ModalOferta = ({ open, setOpen, equipoId, jugadorId, data }) => {
     const [isLoading, setIsLoading] = useState(false);
     const { mutate: oferta } = useMutation(ofertaPost);
     const { state: { user } }: any = useContext(ContextRefac);
-    console.log(user);
-    
+    const [equipo, setEquipo] = useState([]);
+
+    const {  isError } = useQuery(["/api/liga"], equiposGet, {
+        refetchOnWindowFocus: false,
+        onSuccess: (data) => {
+            setEquipo(data);
+        },
+    })
+
+    const filterEstado = () => {
+        const newFilter = equipo?.filter(data => data.correo == user?.email);
+        return newFilter;
+    }
 
     const handleClose = () => {
         setOpen(false);
@@ -58,7 +70,7 @@ export const ModalOferta = ({ open, setOpen, equipoId, jugadorId, data }) => {
                 )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
                     <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
-                    <ButtonSend disable={false} handle={() => { crearOferta(equipoId,jugadorId,user?.equipo,user?.foto,precio,contrato,'compra',sueldo,setIsLoading,oferta,queryClient,handleClose) }} title={'Negociar'} icon={Cash} iconColor={''} iconSize={20} />
+                    <ButtonSend disable={false} handle={() => { crearOferta(equipoId,jugadorId,user?.equipo,filterEstado()[0]?.logo,precio,contrato,'compra',sueldo,setIsLoading,oferta,queryClient,handleClose) }} title={'Negociar'} icon={Cash} iconColor={'var(--check)'} iconSize={20} />
                 </DialogActions>
             </Dialog>
         </Grid>
