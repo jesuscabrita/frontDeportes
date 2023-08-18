@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Grid, useMediaQuery } from "@mui/material";
+import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
 import { useContext, useState } from "react";
 import Context from "../../../context/contextPrincipal";
 import Dialog from '@mui/material/Dialog';
@@ -12,12 +12,13 @@ import { ButtonSend } from "../../Material/ButtonSend";
 import { BiExit as Salir } from 'react-icons/bi';
 import { FaBusinessTime as Nego } from 'react-icons/fa';
 import { formatoPesosArgentinos } from "../../../utils/utils";
-import { ofertaPost } from "../../../service/jugadores";
+import { ofertaPut } from "../../../service/jugadores";
 import { BsCashCoin as Cash } from 'react-icons/bs';
 import ContextRefac from "../../../context/contextLogin";
 import { AiOutlineComment as Coment } from 'react-icons/ai';
 import moment from "moment";
 import { GiSoccerKick as Fut } from 'react-icons/gi';
+import { editOfertaJugador } from "../../../utils/utilsPanelJugadores";
 
 export const ModalOfertaRecibida = ({ open, setOpen, equipoId, jugadorId, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -27,9 +28,8 @@ export const ModalOfertaRecibida = ({ open, setOpen, equipoId, jugadorId, data }
     const [precio, setPrecio] = useState('');
     const queryClient = useQueryClient();
     const [isLoading, setIsLoading] = useState(false);
-    const { mutate: oferta } = useMutation(ofertaPost);
+    const { mutate: editOferta } = useMutation(ofertaPut);
     const { state: { user } }: any = useContext(ContextRefac);
-    const [equipo, setEquipo] = useState([]);
 
     const handleClose = () => {
         setOpen(false);
@@ -45,7 +45,9 @@ export const ModalOfertaRecibida = ({ open, setOpen, equipoId, jugadorId, data }
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     {data.transferible === 'No' && <Grid item sx={{color: 'var(--neutral)'}}>{`Recibiste una oferta para ${data.name}, el jugador no esta en venta pero puedes revisar por si ofrece el monto de la clausula o mas, quizas sea de tu interes o no`}</Grid>}
                     {data.transferible === 'Si' && <Grid item sx={{color: 'var(--neutral)'}}>{`Recibiste una oferta para  ${data.name}, el jugador esta en venta, podes tomar en cuenta la propuesta`}</Grid>}
-                    {data.oferta.map((ofert, index) => (
+                    {data.oferta.map((ofert, index) => {
+                    return(
+                    ofert.respuesta != "Rechazar_prestamo" &&
                     <>
                     <Grid mb={-2} item sx={{color:light?'var(--dark)':'var(--cero)',fontSize:mobile?'10px':'14px'}}>{`Oferta recibida el ${moment(ofert.fecha_oferta).format('YYYY-MM-DD')}, a las ${moment(ofert.fecha_oferta).format('HH:mm:ss')}`}</Grid>
                     <Grid key={index} container sx={{ alignItems: 'center', gap: '14px', background: light?'var(--gris)':'var(--dark2)', padding:'10px', borderRadius:'8px' }}>
@@ -60,7 +62,7 @@ export const ModalOfertaRecibida = ({ open, setOpen, equipoId, jugadorId, data }
                             </Grid>
                             <Grid item sx={{display:'flex', flexDirection:'row', gap:'4px'}}>
                                 <Grid item sx={{fontWeight:'700',color:light?'var(--dark)':'var(--cero)',fontSize:mobile?'10px':'14px'}}>Sueldo:</Grid>
-                                <Grid item sx={{whiteSpace: 'nowrap',color:light ?'var(--dark2)':'var(--gris)',fontSize:mobile?'10px':'14px'}}>{ofert.tipo === 'prestamo'? '-' : formatoPesosArgentinos(ofert.sueldo)}</Grid>
+                                <Grid item sx={{whiteSpace: 'nowrap',color:light ?'var(--dark2)':'var(--gris)',fontSize:mobile?'10px':'14px'}}>{formatoPesosArgentinos(ofert.sueldo)}</Grid>
                             </Grid>
                         </Grid>
                         <Grid item>
@@ -90,13 +92,14 @@ export const ModalOfertaRecibida = ({ open, setOpen, equipoId, jugadorId, data }
                             <Grid item sx={{whiteSpace: 'nowrap',color:light ?'var(--dark2)':'var(--gris)',fontSize:mobile?'10px':'14px', display:'flex', alignItems:'center', gap:'4px'}}>{!ofert.comentario ?'Sin comentarios': ofert.comentario}</Grid>
                         </Grid>
                         <Grid item container sx={{gap:'8px'}}>
-                            <ButtonSend title={'Aceptar'} icon={Acept} disable={false} handle={() => {null}} iconSize={20} iconColor={'var(--check)'} />
-                            <ButtonSend title={'Rechazar'} icon={Rechazar} disable={false} handle={() => {null}} iconSize={20} iconColor={'var(--danger)'} />
-                            <ButtonSend title={'Negociar'} icon={Nego} disable={false} handle={() => {null}} iconSize={20} iconColor={'var(--warnning)'} />
+                            <ButtonSend title={'Aceptar'} icon={Acept} disable={true} handle={() => {null}} iconSize={20} iconColor={'var(--check)'} />
+                            {ofert.tipo === 'prestamo' && <ButtonSend title={'Rechazar'} icon={Rechazar} disable={false} handle={() => {editOfertaJugador(equipoId,data._id,ofert._id,editOferta,queryClient,'Rechazar_prestamo',setIsLoading,handleClose,'Se rechazo  la oferta')}} iconSize={20} iconColor={'var(--danger)'} />}
+                            {ofert.tipo === 'compra' &&<ButtonSend title={'Rechazar'} icon={Rechazar} disable={false} handle={() => {editOfertaJugador(equipoId,data._id,ofert._id,editOferta,queryClient,'Rechazar_oferta',setIsLoading,handleClose,'Se rechazo  la oferta')}} iconSize={20} iconColor={'var(--danger)'} />}
+                            <ButtonSend title={'Negociar'} icon={Nego} disable={true} handle={() => {null}} iconSize={20} iconColor={'var(--warnning)'} />
                         </Grid>
                     </Grid>
-                    </>
-                    ))}
+                    </>)
+                    })}
                 </DialogContent>
                 {isLoading && (
                     <Grid sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '100%' : '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -105,7 +108,6 @@ export const ModalOfertaRecibida = ({ open, setOpen, equipoId, jugadorId, data }
                 )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
                     <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
-                    {/* <ButtonSend disable={false} handle={() => { null}} title={'Negociar'} icon={Cash} iconColor={'var(--check)'} iconSize={20} /> */}
                 </DialogActions>
             </Dialog>
         </Grid>

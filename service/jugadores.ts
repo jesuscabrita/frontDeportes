@@ -209,3 +209,23 @@ export const ofertaPost = async ({ form, equipoId, jugadorId }) => {
         throw new Error(message);
     }
 }
+
+export const ofertaPut = async ({ form, equipoId, jugadorId, ofertaId }) => {
+    try {
+        const data = await api.put(`/api/liga/${equipoId}/ofertaEdit/${jugadorId}/${ofertaId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
+
+export const ofertaDelete = async ({ equipoId, jugadorId, ofertaId}) => {
+    try {
+        const data = await api.delete(`/api/liga/${equipoId}/deleteOferta/${jugadorId}/${ofertaId}`).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}

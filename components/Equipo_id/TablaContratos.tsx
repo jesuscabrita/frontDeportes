@@ -44,6 +44,11 @@ export const TablaContratos =({jugadores, isLoading, equipoId})=>{
     jugadorB.valor_mercado - jugadorA.valor_mercado
     );
 
+    const filterOferta = (array)=>{
+        const newFilter = array.filter(data => data.respuesta !== 'Rechazar_prestamo' && data.respuesta !== 'Rechazar_oferta');
+        return newFilter;
+    }
+
     return(
         <>
         {isLoading ? 
@@ -130,10 +135,10 @@ export const TablaContratos =({jugadores, isLoading, equipoId})=>{
                                 <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}>{formatoPesosArgentinos(jugador.clausula)}</Grid>
                             </StyledTableCell>
                             <StyledTableCell light={light} align="left">
-                                {jugador.oferta.length === 0 && <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}><Listo size={20} color={'var(--check)'}/></Grid>}
-                                {jugador.oferta.length >= 1 && <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px', display:'flex', cursor:'pointer'}} onClick={()=>{seleccionarData(jugador,setJugadorSeleccionado, setModalOfertaRecibida)}}>
+                                {filterOferta(jugador.oferta).length === 0 && <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}><Listo size={20} color={'var(--check)'}/></Grid>}
+                                {filterOferta(jugador.oferta).length >= 1 && <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px', display:'flex', cursor:'pointer'}} onClick={()=>{seleccionarData(jugador,setJugadorSeleccionado, setModalOfertaRecibida)}}>
                                     <Trasnfer size={28}/> <Noti size={18} color={'var(--danger)'}/> 
-                                    <Grid item sx={{fontSize:'12px'}}>{jugador.oferta.length}</Grid>
+                                    <Grid item sx={{fontSize:'12px'}}>{filterOferta(jugador.oferta).length}</Grid>
                                 </Grid>}
                                 {/* <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}><Nego size={25} color={''}/></Grid> */}
                             </StyledTableCell>

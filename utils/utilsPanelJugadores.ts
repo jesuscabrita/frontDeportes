@@ -1686,6 +1686,8 @@ export const RecindirJugador = (equipoId: string, jugadorId: string, recindirCon
         });
 }
 
+//OFERTAS
+
 export const crearOferta = (
     equipoId: string, 
     jugadorId ,
@@ -1718,4 +1720,50 @@ export const crearOferta = (
             setIsLoading(false);
         },
     });
+}
+
+export const editOfertaJugador = (
+    equipoId: string, 
+    jugadorId: string,
+    ofertaId, 
+    editOferta, 
+    queryClient,
+    respuesta,
+    setIsLoading,
+    handleClose,
+    message
+    ) => {
+    setIsLoading(true);
+    const formData = {
+        respuesta: respuesta,
+    };
+    editOferta({ form: formData, equipoId, jugadorId, ofertaId }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["equipos"]);
+            alertaSubmit(true, message);
+            setIsLoading(false);
+            handleClose()
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+}
+
+export const eliminarOfertas = (equipoId: string, jugadorId: string, ofertaId, deleteOfertas, queryClient, setIsLoading) => {
+    setIsLoading(true);
+    deleteOfertas({ equipoId, jugadorId, ofertaId }, {
+            onSuccess: (success) => {
+                queryClient.invalidateQueries(["equipos"]);
+                alertaSubmit(true, success?.message);
+                setIsLoading(false);
+            },
+            onError: (err: any) => {
+                const errorMessage = err?.response?.data?.message || err.message;
+                alertaSubmit(false, errorMessage);
+                setIsLoading(false);
+            },
+        });
 }
