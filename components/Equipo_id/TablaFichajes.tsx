@@ -25,6 +25,8 @@ import { ModalPrestamo } from "../modals/Jugador/ModalPrestamo";
 import { useMutation, useQueryClient } from "react-query";
 import { ofertaDelete } from "../../service/jugadores";
 import { eliminarOfertas } from '../../utils/utilsPanelJugadores';
+import { MdQuestionAnswer as Resp } from 'react-icons/md';
+import { ModalNegociar } from "../modals/Jugador/ModalNegociar";
 
 export const TablaFichajes =({jugadores, isLoading, equipoId,data })=>{
     const [light] = useContext(Context);
@@ -33,6 +35,7 @@ export const TablaFichajes =({jugadores, isLoading, equipoId,data })=>{
     const [modalJugadorInfo, setModalJugadorInfo] = useState(false);
     const [modalOferta, setModalOferta] = useState(false);
     const [modalPrestamo, setModalPrestamo] = useState(false);
+    const [modalNegociar, setModalNegociar] = useState(false);
     const [jugadorSeleccionado, setJugadorSeleccionado] = useState(null);
     const [isUserAdmin, setIsUserAdmin] = useState(false);
     const { mutate: eliminarOfert } = useMutation(ofertaDelete);
@@ -131,6 +134,7 @@ export const TablaFichajes =({jugadores, isLoading, equipoId,data })=>{
                                 <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}>{formatoPesosArgentinos(jugador.clausula)}</Grid>
                             </StyledTableCell>
                             <StyledTableCell light={light} align="left" style={{fontWeight: index === 0 ? 700: 500,fontSize: index === 0 ?'18px': '15px'}}>
+                                {(jugador?.oferta?.length > 0 && user?.email === filterEmail(jugador?.oferta)[0]?.email) && filterEmail(jugador?.oferta)[0]?.respuesta === 'Negociar_oferta' && <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px',display:'flex', flexDirection:'column', alignItems:'center', cursor:'pointer'}} onClick={()=>{seleccionarData(jugador,setJugadorSeleccionado,setModalNegociar)}}><Resp size={25} color={''}/><Grid item sx={{fontSize:'8px'}}>{'Quieren Negociar'}</Grid></Grid>}
                                 {(jugador?.oferta?.length > 0 && user?.email === filterEmail(jugador?.oferta)[0]?.email) && filterEmail(jugador?.oferta)[0]?.respuesta === 'Oferta_Enviada' && <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}><Nego size={25} color={''}/></Grid>}
                                 {(jugador?.oferta?.length > 0 && user?.email === filterEmail(jugador?.oferta)[0]?.email) && filterEmail(jugador?.oferta)[0]?.respuesta === 'Rechazar_oferta' && <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px', display:'flex', flexDirection:'column', alignItems:'center', cursor:'pointer'}} onClick={()=>{eliminarOfertas(equipoId,jugador?._id,filterEmail(jugador?.oferta)[0]?._id,eliminarOfert,queryClient, setIsLoadinng)}}><Dele size={30} color={'var(--danger)'}/><Grid item sx={{fontSize:'8px'}}>{'Oferta Rechazada'}</Grid></Grid>}  
                                 {!(jugador?.oferta?.length > 0 && user?.email === filterEmail(jugador?.oferta)[0]?.email ) && (jugador?.oferta?.length === 0 || jugador?.oferta?.length >=1) && (!filterEmail(jugador?.oferta)[0]?.respuesta || filterEmail(jugador?.oferta)[0]?.respuesta === 'Oferta_Enviada') && <ButtonSend title={'Compra'} icon={Cash} disable={(user?.email === data?.correo) || (filterEmail(jugador?.oferta)[0]?.respuesta === 'Prestamo_Enviada')} handle={() => {seleccionarData(jugador,setJugadorSeleccionado, setModalOferta)}} iconSize={20} iconColor={'var(--check)'} />}
@@ -140,7 +144,7 @@ export const TablaFichajes =({jugadores, isLoading, equipoId,data })=>{
                                 {(jugador?.oferta?.length > 0 && user?.email === filterEmail(jugador?.oferta)[0]?.email) && (filterEmail(jugador?.oferta)[0]?.respuesta === 'Prestamo_Enviada') && <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px'}}><Nego size={25} color={''}/></Grid>} 
                                 {(jugador?.oferta?.length > 0 && user?.email === filterEmail(jugador?.oferta)[0]?.email) && filterEmail(jugador?.oferta)[0]?.respuesta === 'Rechazar_prestamo' && <Grid item sx={{whiteSpace: 'nowrap', fontSize:'16px', display:'flex', flexDirection:'column', alignItems:'center', cursor:'pointer'}} onClick={()=>{eliminarOfertas(equipoId,jugador?._id,filterEmail(jugador?.oferta)[0]?._id,eliminarOfert,queryClient, setIsLoadinng)}}><Dele size={30} color={'var(--danger)'}/><Grid item sx={{fontSize:'8px'}}>{'Prestamo Rechazado'}</Grid></Grid>}  
                                 {!(jugador?.oferta?.length > 0 && user?.email === filterEmail(jugador?.oferta)[0]?.email) && (jugador?.oferta?.length === 0 || jugador?.oferta?.length >=1) && (!filterEmail(jugador?.oferta)[0]?.respuesta || filterEmail(jugador?.oferta)[0]?.respuesta === 'Prestamo_Enviada') && <ButtonSend title={'Prestamo'} icon={Prestamo} disable={(user?.email === data?.correo)|| (filterEmail(jugador?.oferta)[0]?.respuesta === 'Oferta_Enviada')} handle={() => {seleccionarData(jugador,setJugadorSeleccionado, setModalPrestamo)}} iconSize={20} iconColor={'var(--warnning)'} />}
-                                {(jugador?.oferta?.length > 0 && user?.email === filterEmail(jugador?.oferta)[0]?.email ) && (filterEmail(jugador?.oferta)[0]?.respuesta === 'Oferta_Enviada' || filterEmail(jugador?.oferta)[0]?.respuesta === 'Rechazar_oferta') && <ButtonSend title={'Prestamo'} icon={Prestamo} disable={(user?.email === data?.correo)|| (filterEmail(jugador?.oferta)[0]?.respuesta === 'Oferta_Enviada') || (filterEmail(jugador?.oferta)[0]?.respuesta === 'Rechazar_oferta')} handle={() => {seleccionarData(jugador,setJugadorSeleccionado, setModalPrestamo)}} iconSize={20} iconColor={'var(--warnning)'} />}
+                                {(jugador?.oferta?.length > 0 && user?.email === filterEmail(jugador?.oferta)[0]?.email ) && (filterEmail(jugador?.oferta)[0]?.respuesta === 'Oferta_Enviada' || filterEmail(jugador?.oferta)[0]?.respuesta === 'Rechazar_oferta' || filterEmail(jugador?.oferta)[0]?.respuesta === 'Negociar_oferta') && <ButtonSend title={'Prestamo'} icon={Prestamo} disable={(user?.email === data?.correo)|| (filterEmail(jugador?.oferta)[0]?.respuesta === 'Oferta_Enviada') || (filterEmail(jugador?.oferta)[0]?.respuesta === 'Rechazar_oferta') || (filterEmail(jugador?.oferta)[0]?.respuesta === 'Negociar_oferta')} handle={() => {seleccionarData(jugador,setJugadorSeleccionado, setModalPrestamo)}} iconSize={20} iconColor={'var(--warnning)'} />}
                             </StyledTableCell>
                         </StyledTableRow>
                     )
@@ -154,6 +158,7 @@ export const TablaFichajes =({jugadores, isLoading, equipoId,data })=>{
                 )}
         </TableContainer>
         </Grid>}
+        {jugadorSeleccionado && (<ModalNegociar open={modalNegociar} setOpen={setModalNegociar} equipoId={equipoId} data={jugadorSeleccionado} jugadorId={jugadorSeleccionado._id}/>)}
         {jugadorSeleccionado && (<ModalPrestamo open={modalPrestamo} setOpen={setModalPrestamo} equipoId={equipoId} data={jugadorSeleccionado} jugadorId={jugadorSeleccionado._id}/>)}
         {jugadorSeleccionado && (<ModalOferta open={modalOferta} setOpen={setModalOferta} equipoId={equipoId} data={jugadorSeleccionado} jugadorId={jugadorSeleccionado._id}/>)}
         {jugadorSeleccionado && (<ModalJugadorInfo open={modalJugadorInfo} setOpen={setModalJugadorInfo} jugador={jugadorSeleccionado} />)}

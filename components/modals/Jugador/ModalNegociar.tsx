@@ -25,7 +25,7 @@ import { contratos } from "../../../utils/arrays";
 import { InputTexArea } from "../../Material/InputTexArea";
 import { equiposGet } from "../../../service/equipos";
 
-export const ModalOfertaRecibida = ({ open, setOpen, equipoId, jugadorId, data }) => {
+export const ModalNegociar = ({ open, setOpen, equipoId, jugadorId, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [light] = useContext(Context);
     const [sueldo, setSueldo] = useState(null);
@@ -59,20 +59,17 @@ export const ModalOfertaRecibida = ({ open, setOpen, equipoId, jugadorId, data }
         <Grid>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle sx={{ padding: '20px', color: light ? 'var(dark2)' : 'var(--cero)', background: light ? 'var(--cero)' : 'var(--dark)' }}>
-                    {data.oferta.length === 1 && `Oferta Recibida`}
-                    {data.oferta.length > 1 && `Ofertas Recibidas`}
+                    {'Negociar'}
                 </DialogTitle>
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                    {data.transferible === 'No' && <Grid item sx={{color: 'var(--neutral)'}}>{`Recibiste una oferta para ${data.name}, el jugador no esta en venta pero puedes revisar por si ofrece el monto de la clausula o mas, quizas sea de tu interes o no`}</Grid>}
-                    {data.transferible === 'Si' && <Grid item sx={{color: 'var(--neutral)'}}>{`Recibiste una oferta para  ${data.name}, el jugador esta en venta, podes tomar en cuenta la propuesta`}</Grid>}
+                    <Grid item sx={{color: 'var(--neutral)'}}>{`Quieren negociar y estas son las peticiones :`}</Grid>
                     {data.oferta.map((ofert, index) => {
                     return(
-                    ofert.respuesta != "Rechazar_prestamo" && ofert.respuesta != 'Negociar_oferta' &&
                     <>
                     <Grid mb={-2} item sx={{color:light?'var(--dark)':'var(--cero)',fontSize:mobile?'10px':'14px'}}>{`Oferta recibida el ${moment(ofert.fecha_oferta).format('YYYY-MM-DD')}, a las ${moment(ofert.fecha_oferta).format('HH:mm:ss')}`}</Grid>
                     <Grid key={index} container sx={{ alignItems: 'center', gap: '14px', background: light?'var(--gris)':'var(--dark2)', padding:'10px', borderRadius:'8px' }}>
                         <Grid item sx={{display:'flex', flexDirection:'column', alignItems:'center',justifyContent:'center'}}>
-                            <img src={ofert.logo} alt={ofert.equipo} style={{ width:mobile?'22px': '40px', height:mobile?'22px': '42px' }} />
+                            <img src={ofert.logo} alt={ofert.equipo} style={{ width:mobile?'25px': '45px', height:mobile?'22px': '42px' }} />
                             <Grid item sx={{fontSize:mobile?'8px':'11px',whiteSpace: 'nowrap', color:light?'var(--dark)':'var(--gris)'}}>{ofert.equipo}</Grid>
                         </Grid>
                         <Grid item sx={{display:'flex', flexDirection:'column',gap:'2px'}}>
@@ -113,8 +110,7 @@ export const ModalOfertaRecibida = ({ open, setOpen, equipoId, jugadorId, data }
                         </Grid>
                         <Grid item container sx={{gap:'8px'}}>
                             <ButtonSend title={'Aceptar'} icon={Acept} disable={true} handle={() => {null}} iconSize={20} iconColor={'var(--check)'} />
-                            {ofert.tipo === 'prestamo' && <ButtonSend title={'Rechazar'} icon={Rechazar} disable={false} handle={() => {editOfertaJugador(equipoId,data._id,ofert._id,editOferta,queryClient,'Rechazar_prestamo',setIsLoading,handleClose,'Se rechazo  la oferta')}} iconSize={20} iconColor={'var(--danger)'} />}
-                            {ofert.tipo === 'compra' && <ButtonSend title={'Rechazar'} icon={Rechazar} disable={false} handle={() => {editOfertaJugador(equipoId,data._id,ofert._id,editOferta,queryClient,'Rechazar_oferta',setIsLoading,handleClose,'Se rechazo  la oferta')}} iconSize={20} iconColor={'var(--danger)'} />}
+                            {ofert.tipo === 'compra' && <ButtonSend title={'Rechazar'} icon={Rechazar} disable={false} handle={() => {null}} iconSize={20} iconColor={'var(--danger)'} />}
                             {ofert.tipo === 'compra' && <ButtonSend title={'Negociar'} icon={Nego} disable={false} handle={() => {setNegociar(!negociar)}} iconSize={20} iconColor={'var(--warnning)'} />}
                         </Grid>
                         {negociar && 
@@ -126,7 +122,7 @@ export const ModalOfertaRecibida = ({ open, setOpen, equipoId, jugadorId, data }
                             <Grid item gap={2} mb={1} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
                                 <InputTexArea label={'Comentario'} disable={false} placeholder={'Comentario'} value={comentario} setValue={setComentario}/>   
                             </Grid>
-                            <ButtonSend title={'Negociar'} icon={Nego} disable={false} handle={() => {editOfertaNegociacion(equipoId,data._id,ofert._id,editOferta,queryClient,'Negociar_oferta',setIsLoading,handleClose,'Se mando la negociacion de manera correcta',precio, contrato,comentario,user?.equipo,filterEstado()[0]?.logo)}} iconSize={20} iconColor={'var(--check)'} />
+                            <ButtonSend title={'Negociar'} icon={Nego} disable={false} handle={() => {editOfertaNegociacion(equipoId,data._id,ofert._id,editOferta,queryClient,'Oferta_Enviada',setIsLoading,handleClose,'Se mando la negociacion de manera correcta',precio, contrato,comentario,user?.equipo,filterEstado()[0]?.logo)}} iconSize={20} iconColor={'var(--check)'} />
                         </Grid>}
                     </Grid>
                     </>)

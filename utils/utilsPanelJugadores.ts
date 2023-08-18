@@ -1752,6 +1752,46 @@ export const editOfertaJugador = (
     });
 }
 
+export const editOfertaNegociacion = (
+    equipoId: string, 
+    jugadorId: string,
+    ofertaId, 
+    editOferta, 
+    queryClient,
+    respuesta,
+    setIsLoading,
+    handleClose,
+    message,
+    precio,
+    contrato,
+    comentario,
+    equipo,
+    logo
+    ) => {
+    setIsLoading(true);
+    const formData = {
+        respuesta: respuesta,
+        precio: precio,
+        contrato: contrato,
+        comentario: comentario,
+        equipo: equipo,
+        logo: logo,
+    };
+    editOferta({ form: formData, equipoId, jugadorId, ofertaId }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["equipos"]);
+            alertaSubmit(true, message);
+            setIsLoading(false);
+            handleClose()
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+}
+
 export const eliminarOfertas = (equipoId: string, jugadorId: string, ofertaId, deleteOfertas, queryClient, setIsLoading) => {
     setIsLoading(true);
     deleteOfertas({ equipoId, jugadorId, ofertaId }, {
