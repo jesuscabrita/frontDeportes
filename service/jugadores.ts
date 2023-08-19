@@ -229,3 +229,23 @@ export const ofertaDelete = async ({ equipoId, jugadorId, ofertaId}) => {
         throw new Error(message);
     }
 }
+
+export const ficharJugador = async ({ form, equipoOrigenId, equipoDestinoId,jugadorId }) => {
+    try {
+        const data = await api.post(`/api/liga/${equipoOrigenId}/fichar/${equipoDestinoId}/${jugadorId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
+
+export const prestamoJugador = async ({ form, equipoOrigenId, equipoDestinoId,jugadorId }) => {
+    try {
+        const data = await api.post(`/api/liga/${equipoOrigenId}/prestamo/${equipoDestinoId}/${jugadorId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}

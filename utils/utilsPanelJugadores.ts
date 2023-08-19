@@ -1703,10 +1703,11 @@ export const crearOferta = (
     handleClose,
     comentario,
     respuesta,
-    email
+    email,
+    id_equipo_destino
     ) => {
     setIsLoading(true);
-    const formData = { equipo, logo, precio, contrato, tipo, sueldo, comentario, respuesta, email };
+    const formData = { equipo, logo, precio, contrato, tipo, sueldo, comentario, respuesta, email,id_equipo_destino };
     oferta({ form: formData, equipoId, jugadorId }, {
         onSuccess: (success) => {
             queryClient.invalidateQueries(["equipos"]);
@@ -1795,6 +1796,48 @@ export const editOfertaNegociacion = (
 export const eliminarOfertas = (equipoId: string, jugadorId: string, ofertaId, deleteOfertas, queryClient, setIsLoading,handleClose) => {
     setIsLoading(true);
     deleteOfertas({ equipoId, jugadorId, ofertaId }, {
+            onSuccess: (success) => {
+                queryClient.invalidateQueries(["equipos"]);
+                alertaSubmit(true, success?.message);
+                setIsLoading(false);
+                handleClose()
+            },
+            onError: (err: any) => {
+                const errorMessage = err?.response?.data?.message || err.message;
+                alertaSubmit(false, errorMessage);
+                setIsLoading(false);
+            },
+        });
+}
+
+export const fichaDeJugador = (equipoOrigenId: string, equipoDestinoId ,jugadorId: string, ficha, queryClient, setIsLoading,handleClose,precioOferta,banco_fondo) => {
+    setIsLoading(true);
+    if(precioOferta > banco_fondo){
+        alertaSubmit(false, 'No cuentas con dinero suficiente, debes ingresar mas dinero a u banco del equipo');
+    }
+
+    const form = {
+        precio: precioOferta
+    };
+    ficha({form, equipoOrigenId, equipoDestinoId, jugadorId }, {
+            onSuccess: (success) => {
+                queryClient.invalidateQueries(["equipos"]);
+                alertaSubmit(true, success?.message);
+                setIsLoading(false);
+                handleClose()
+            },
+            onError: (err: any) => {
+                const errorMessage = err?.response?.data?.message || err.message;
+                alertaSubmit(false, errorMessage);
+                setIsLoading(false);
+            },
+        });
+}
+
+export const prestamoDeJugador = (equipoOrigenId: string, equipoDestinoId ,jugadorId: string, prestamo, queryClient, setIsLoading,handleClose) => {
+    setIsLoading(true);
+    const form = {};
+    prestamo({form, equipoOrigenId, equipoDestinoId, jugadorId }, {
             onSuccess: (success) => {
                 queryClient.invalidateQueries(["equipos"]);
                 alertaSubmit(true, success?.message);

@@ -32,6 +32,8 @@ import { MdDelete as Eliminar } from 'react-icons/md';
 import { MdOutlinePersonOff as Suspender } from 'react-icons/md';
 import ContextRefac from '../../context/contextLogin';
 import { FlagIcon } from './FlagIcon';
+import { MdFiberNew as Nuevo } from 'react-icons/md';
+import { MdNewReleases as Prestamo } from 'react-icons/md';
 
 export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico }) => {
     const [light] = useContext(Context);
@@ -169,6 +171,15 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
                                                     <Avatar {...stringAvatar(jugador.name)} sx={{ height: '35px', width: '35px' }} />
                                                     <Grid sx={{ whiteSpace: 'nowrap', paddingRight: mobile && '30px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                                                         {jugador.name}
+                                                        {jugador.status ==='Fichado' && jugador.partidos < 2 &&
+                                                            <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                                                <Nuevo size={25} color={'var(--check)'}/>
+                                                            </Grid>}
+                                                        {jugador.status ==='Prestamo' && 
+                                                            <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                                                <Prestamo size={25} color={'var(--warnning)'}/>
+                                                                <Grid sx={{ color: 'var(--neutral)' }}>{`P.(${jugador.equipo})`}</Grid>
+                                                            </Grid>}
                                                         {jugador.capitan === 'Si' &&
                                                             <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                                                                 <Grid item sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', border: light ? 'solid 1px var(--dark2)' : 'solid 1px var(--cero)', height: '20px', width: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

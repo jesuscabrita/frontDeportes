@@ -12,17 +12,13 @@ import { ButtonSend } from "../../Material/ButtonSend";
 import { BiExit as Salir } from 'react-icons/bi';
 import { FaBusinessTime as Nego } from 'react-icons/fa';
 import { formatoPesosArgentinos } from "../../../utils/utils";
-import { ofertaDelete, ofertaPut } from "../../../service/jugadores";
+import { ficharJugador, ofertaDelete, ofertaPut, prestamoJugador } from "../../../service/jugadores";
 import { BsCashCoin as Cash } from 'react-icons/bs';
 import ContextRefac from "../../../context/contextLogin";
 import { AiOutlineComment as Coment } from 'react-icons/ai';
 import moment from "moment";
 import { GiSoccerKick as Fut } from 'react-icons/gi';
-import { editOfertaJugador, editOfertaNegociacion, eliminarOfertas } from "../../../utils/utilsPanelJugadores";
-import { InputNumber } from "../../Material/InputNumber";
-import { InputSelect } from "../../Material/InputSelect";
-import { contratos } from "../../../utils/arrays";
-import { InputTexArea } from "../../Material/InputTexArea";
+import { editOfertaJugador, editOfertaNegociacion, eliminarOfertas, fichaDeJugador, prestamoDeJugador } from "../../../utils/utilsPanelJugadores";
 import { equiposGet } from "../../../service/equipos";
 
 export const ModalAceptarOferta = ({ open, setOpen, equipoId, jugadorId, data }) => {
@@ -35,7 +31,8 @@ export const ModalAceptarOferta = ({ open, setOpen, equipoId, jugadorId, data })
     const [negociar, setNegociar] = useState(false);
     const queryClient = useQueryClient();
     const [isLoading, setIsLoading] = useState(false);
-    const { mutate: editOferta } = useMutation(ofertaPut);
+    const { mutate: fichar } = useMutation(ficharJugador);
+    const { mutate: prestar } = useMutation(prestamoJugador);
     const { mutate: eliminarOfert } = useMutation(ofertaDelete);
     const { state: { user } }: any = useContext(ContextRefac);
     const [equipo, setEquipo] = useState([]);
@@ -55,7 +52,7 @@ export const ModalAceptarOferta = ({ open, setOpen, equipoId, jugadorId, data })
     const filterEmail = (array)=>{
         const newFilter = array.filter(data => data.email == user?.email);
         return newFilter;
-    }
+    }    
 
     const handleClose = () => {
         setOpen(false);
@@ -114,9 +111,10 @@ export const ModalAceptarOferta = ({ open, setOpen, equipoId, jugadorId, data })
                             <Grid item sx={{whiteSpace: 'nowrap',color:light ?'var(--dark2)':'var(--gris)',fontSize:mobile?'10px':'14px', display:'flex', alignItems:'center', gap:'4px'}}>{!ofert.comentario ?'Sin comentarios': ofert.comentario}</Grid>
                         </Grid>
                         <Grid item container sx={{gap:'8px'}}>
-                            <ButtonSend title={'Procesar'} icon={Acept} disable={false} handle={() => {null}} iconSize={20} iconColor={'var(--check)'} />
-                            {/* {ofert.tipo === 'compra' && <ButtonSend title={'Rechazar'} icon={Rechazar} disable={false} handle={() => {eliminarOfertas(equipoId,data._id,filterEmail(data?.oferta)[0]?._id,eliminarOfert,queryClient,setIsLoading,handleClose)}} iconSize={20} iconColor={'var(--danger)'} />}
-                            {ofert.tipo === 'compra' && <ButtonSend title={'Negociar'} icon={Nego} disable={false} handle={() => {setNegociar(!negociar)}} iconSize={20} iconColor={'var(--warnning)'} />} */}
+                            {ofert.tipo === 'compra'&& <ButtonSend title={'Procesar.F'} icon={Acept} disable={false} handle={() => {fichaDeJugador(equipoId,filterEstado()[0]?._id,data._id,fichar,queryClient,setIsLoading,handleClose,filterEmail(data.oferta)[0]?.precio,filterEstado()[0]?.banco_fondo)}} iconSize={20} iconColor={'var(--check)'} />}
+                            {ofert.tipo === 'prestamo'&& <ButtonSend title={'Procesar.P'} icon={Acept} disable={false} handle={() => {prestamoDeJugador(equipoId,filterEstado()[0]?._id,data._id,prestar,queryClient,setIsLoading,handleClose)}} iconSize={20} iconColor={'var(--check)'} />}
+                            {ofert.tipo === 'compra'&& <ButtonSend title={'Cancelar fichaje'} icon={Rechazar} disable={false} handle={() => {eliminarOfertas(equipoId,data._id,filterEmail(data?.oferta)[0]?._id,eliminarOfert,queryClient,setIsLoading,handleClose)}} iconSize={20} iconColor={'var(--danger)'} />}
+                            {ofert.tipo === 'prestamo'&& <ButtonSend title={'Cancelar prestamo'} icon={Rechazar} disable={false} handle={() => {eliminarOfertas(equipoId,data._id,filterEmail(data?.oferta)[0]?._id,eliminarOfert,queryClient,setIsLoading,handleClose)}} iconSize={20} iconColor={'var(--danger)'} />}
                         </Grid>
                     </Grid>
                     </>)
