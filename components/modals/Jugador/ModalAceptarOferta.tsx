@@ -10,25 +10,18 @@ import { BsFillCheckCircleFill as Acept } from "react-icons/bs";
 import { TiDelete as Rechazar  } from "react-icons/ti";
 import { ButtonSend } from "../../Material/ButtonSend";
 import { BiExit as Salir } from 'react-icons/bi';
-import { FaBusinessTime as Nego } from 'react-icons/fa';
 import { formatoPesosArgentinos } from "../../../utils/utils";
-import { ficharJugador, ofertaDelete, ofertaPut, prestamoJugador } from "../../../service/jugadores";
+import { ficharJugador, ofertaDelete, prestamoJugador } from "../../../service/jugadores";
 import { BsCashCoin as Cash } from 'react-icons/bs';
 import ContextRefac from "../../../context/contextLogin";
 import { AiOutlineComment as Coment } from 'react-icons/ai';
-import moment from "moment";
 import { GiSoccerKick as Fut } from 'react-icons/gi';
-import { editOfertaJugador, editOfertaNegociacion, eliminarOfertas, fichaDeJugador, prestamoDeJugador } from "../../../utils/utilsPanelJugadores";
+import { eliminarOfertas, fichaDeJugador, prestamoDeJugador } from "../../../utils/utilsPanelJugadores";
 import { equiposGet } from "../../../service/equipos";
 
 export const ModalAceptarOferta = ({ open, setOpen, equipoId, jugadorId, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [light] = useContext(Context);
-    const [sueldo, setSueldo] = useState(null);
-    const [contrato, setContrato] = useState('Seleccionar');
-    const [precio, setPrecio] = useState(0);
-    const [comentario, setComentario] = useState('');
-    const [negociar, setNegociar] = useState(false);
     const queryClient = useQueryClient();
     const [isLoading, setIsLoading] = useState(false);
     const { mutate: fichar } = useMutation(ficharJugador);
