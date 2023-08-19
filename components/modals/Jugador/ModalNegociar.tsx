@@ -12,13 +12,13 @@ import { ButtonSend } from "../../Material/ButtonSend";
 import { BiExit as Salir } from 'react-icons/bi';
 import { FaBusinessTime as Nego } from 'react-icons/fa';
 import { formatoPesosArgentinos } from "../../../utils/utils";
-import { ofertaPut } from "../../../service/jugadores";
+import { ofertaDelete, ofertaPut } from "../../../service/jugadores";
 import { BsCashCoin as Cash } from 'react-icons/bs';
 import ContextRefac from "../../../context/contextLogin";
 import { AiOutlineComment as Coment } from 'react-icons/ai';
 import moment from "moment";
 import { GiSoccerKick as Fut } from 'react-icons/gi';
-import { editOfertaJugador, editOfertaNegociacion } from "../../../utils/utilsPanelJugadores";
+import { editOfertaJugador, editOfertaNegociacion, eliminarOfertas } from "../../../utils/utilsPanelJugadores";
 import { InputNumber } from "../../Material/InputNumber";
 import { InputSelect } from "../../Material/InputSelect";
 import { contratos } from "../../../utils/arrays";
@@ -36,6 +36,7 @@ export const ModalNegociar = ({ open, setOpen, equipoId, jugadorId, data }) => {
     const queryClient = useQueryClient();
     const [isLoading, setIsLoading] = useState(false);
     const { mutate: editOferta } = useMutation(ofertaPut);
+    const { mutate: eliminarOfert } = useMutation(ofertaDelete);
     const { state: { user } }: any = useContext(ContextRefac);
     const [equipo, setEquipo] = useState([]);
 
@@ -51,6 +52,11 @@ export const ModalNegociar = ({ open, setOpen, equipoId, jugadorId, data }) => {
         return newFilter;
     }
 
+    const filterEmail = (array)=>{
+        const newFilter = array.filter(data => data.email == user?.email);
+        return newFilter;
+    }
+
     const handleClose = () => {
         setOpen(false);
     };
@@ -63,7 +69,7 @@ export const ModalNegociar = ({ open, setOpen, equipoId, jugadorId, data }) => {
                 </DialogTitle>
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     <Grid item sx={{color: 'var(--neutral)'}}>{`Quieren negociar y estas son las peticiones :`}</Grid>
-                    {data.oferta.map((ofert, index) => {
+                    {filterEmail(data.oferta).map((ofert, index) => {
                     return(
                     <>
                     <Grid mb={-2} item sx={{color:light?'var(--dark)':'var(--cero)',fontSize:mobile?'10px':'14px'}}>{`Oferta recibida el ${moment(ofert.fecha_oferta).format('YYYY-MM-DD')}, a las ${moment(ofert.fecha_oferta).format('HH:mm:ss')}`}</Grid>
@@ -110,7 +116,7 @@ export const ModalNegociar = ({ open, setOpen, equipoId, jugadorId, data }) => {
                         </Grid>
                         <Grid item container sx={{gap:'8px'}}>
                             <ButtonSend title={'Aceptar'} icon={Acept} disable={true} handle={() => {null}} iconSize={20} iconColor={'var(--check)'} />
-                            {ofert.tipo === 'compra' && <ButtonSend title={'Rechazar'} icon={Rechazar} disable={false} handle={() => {null}} iconSize={20} iconColor={'var(--danger)'} />}
+                            {ofert.tipo === 'compra' && <ButtonSend title={'Rechazar'} icon={Rechazar} disable={false} handle={() => {eliminarOfertas(equipoId,data._id,filterEmail(data?.oferta)[0]?._id,eliminarOfert,queryClient,setIsLoading,handleClose)}} iconSize={20} iconColor={'var(--danger)'} />}
                             {ofert.tipo === 'compra' && <ButtonSend title={'Negociar'} icon={Nego} disable={false} handle={() => {setNegociar(!negociar)}} iconSize={20} iconColor={'var(--warnning)'} />}
                         </Grid>
                         {negociar && 

@@ -45,7 +45,7 @@ export const TablaContratos =({jugadores, isLoading, equipoId})=>{
     );
 
     const filterOferta = (array)=>{
-        const newFilter = array.filter(data => data.respuesta !== 'Rechazar_prestamo' && data.respuesta !== 'Rechazar_oferta' && data.respuesta !== 'Negociar_oferta');
+        const newFilter = array.filter(data => data.respuesta !== 'Rechazar_prestamo' && data.respuesta !== 'Rechazar_oferta' && data.respuesta !== 'Negociar_oferta' && data.respuesta !== 'Aceptar_prestamo' &&  data.respuesta !== 'Aceptar_oferta');
         return newFilter;
     }
 
