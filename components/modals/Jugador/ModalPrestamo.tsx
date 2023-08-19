@@ -81,7 +81,7 @@ export const ModalPrestamo = ({ open, setOpen, equipoId, jugadorId, data }) => {
                 )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
                     <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
-                    <ButtonSend disable={false} handle={() => { crearOferta(equipoId,jugadorId,user?.equipo,filterEstado()[0]?.logo,precio,contrato,'prestamo',sueldo,setIsLoading,oferta,queryClient,handleClose,comentario,'Prestamo_Enviada',user?.email) }} title={'Negociar'} icon={Cash} iconColor={'var(--check)'} iconSize={20} />
+                    <ButtonSend disable={false} handle={() => { crearOferta(equipoId,jugadorId,user?.equipo,filterEstado()[0]?.logo,precio,contrato,'prestamo',sueldo,setIsLoading,oferta,queryClient,handleClose,comentario,'Prestamo_Enviada',user?.email, user?._id) }} title={'Negociar'} icon={Cash} iconColor={'var(--check)'} iconSize={20} />
                 </DialogActions>
             </Dialog>
         </Grid>
