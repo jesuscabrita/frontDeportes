@@ -1,4 +1,4 @@
-import { Avatar, Button, Grid, useMediaQuery, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Avatar, Grid, useMediaQuery, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useContext } from "react";
 import Context from "../../../context/contextPrincipal";
 import Dialog from '@mui/material/Dialog';
@@ -22,7 +22,7 @@ export const ModalJugadorInfo =({open, setOpen, jugador})=>{
     const [light] = useContext(Context);
     const formatoFecha = moment(jugador.fecha_nacimiento, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY');
     const formatoFechaCreate = moment(jugador.fecha_inicio, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY');
-    const constratos = jugador.contrato === 0.5 && 'Media temporada' || jugador.contrato === 1 && '1 Temporada' || jugador.contrato === 2 && '2 Temporadas' || jugador.contrato === 3 && '3 Temporadas' || jugador.contrato === 4 && '4 Temporadas'
+    const constratos = jugador.contrato === 0.5 && 'de Media temporada' || jugador.contrato === 1 && 'de 1 Temporada' || jugador.contrato === 1.5 && 'de 1 Temporada y media' || jugador.contrato === 2 && 'de 2 Temporadas' || jugador.contrato === 2.5 && 'de 2 Temporadas y media' || jugador.contrato === 3 && 'de 3 Temporadas' || jugador.contrato === 3.5 && 'de 3 Temporadas y media' || jugador.contrato === 4 && 'de 4 Temporadas' || jugador.contrato === 0 && 'Vencido'
 
     const handleClose = () => {
         setOpen(false);
@@ -73,42 +73,46 @@ export const ModalJugadorInfo =({open, setOpen, jugador})=>{
                                 {'Clausula: '} <strong>{formatoPesosArgentinos(jugador.clausula)}</strong>
                             </Grid>
                             <Grid container alignItems={'center'} gap={2} sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>
-                                {jugador.partidos >= 2 && (
+                                {jugador.partidos >= 2 && jugador.status === 'Nuevo' && (
                                     <span>
                                     {`${jugador.name} nació el ${formatoFecha} en ${jugador.nacionalidad} tiene ${jugador.edad} años,
-                                    ha jugado ${jugador.partidos} partidos con ${jugador.equipo} y está en el equipo desde ${formatoFechaCreate}, 
-                                    tiene un contrato de `}
+                                    ha jugado ${jugador.partidos} partidos con ${jugador.equipo} y está en el equipo desde ${moment(jugador.fecha_inicio).format('DD/MM/YYYY')}, 
+                                    tiene un contrato `}
                                     <strong>{constratos}</strong>
                                     {`, con un sueldo de `}
                                     <strong>{formatoPesosArgentinos(jugador.sueldo)}</strong>
-                                    {` por temporada, la cual por jornada cobra `}
-                                    <strong>{formatoPesosArgentinos(jugador.sueldo/13)}</strong>
                                     </span>
                                 )}
 
-                                {jugador.partidos === 1 && (
+                                {jugador.partidos === 1 &&  jugador.status === 'Nuevo' &&(
                                     <span>
                                     {`${jugador.name} nació el ${formatoFecha} en ${jugador.nacionalidad} tiene ${jugador.edad} años,
                                     ha jugado ${jugador.partidos} partido con ${jugador.equipo} y está en el equipo desde ${formatoFechaCreate}, 
-                                    tiene un contrato de `}
+                                    tiene un contrato `}
                                     <strong>{constratos}</strong>
                                     {`, con un sueldo de `}
                                     <strong>{formatoPesosArgentinos(jugador.sueldo)}</strong>
-                                    {` por temporada, la cual por jornada cobra `}
-                                    <strong>{formatoPesosArgentinos(jugador.sueldo/13)}</strong>
                                     </span>
                                 )}
 
-                                {jugador.partidos === 0 && (
+                                {jugador.partidos === 0 && jugador.status === 'Nuevo' && (
                                     <span>
                                     {`${jugador.name} nació el ${formatoFecha} en ${jugador.nacionalidad} tiene ${jugador.edad} años,
-                                    no ha jugado ningún partido con ${jugador.equipo} y está en el equipo desde ${formatoFechaCreate}, 
-                                    tiene un contrato de `}
+                                    no ha jugado ningún partido con ${jugador.equipo} y está en el equipo desde ${moment(jugador.fecha_inicio).format('DD/MM/YYYY')}, 
+                                    tiene un contrato `}
                                     <strong>{constratos}</strong>
                                     {`, con un sueldo de `}
                                     <strong>{formatoPesosArgentinos(jugador.sueldo)}</strong>
-                                    {` por temporada, la cual por jornada cobra `}
-                                    <strong>{formatoPesosArgentinos(jugador.sueldo/13)}</strong>
+                                    </span>
+                                )}
+
+                                {jugador.status === 'Prestamo' && (
+                                    <span>
+                                    {`${jugador.name} nació el ${formatoFecha} en ${jugador.nacionalidad} tiene ${jugador.edad} años,
+                                    llega en condicion de PRESTAMO desde el ${jugador.equipo} estara hasta el final de temporara, teniendo en cuenta que con su equipo de origen le queda un contrato `}
+                                    <strong>{constratos}</strong>
+                                    {`, con un sueldo de `}
+                                    <strong>{formatoPesosArgentinos(jugador.sueldo)}</strong>
                                     </span>
                                 )}
                             </Grid>

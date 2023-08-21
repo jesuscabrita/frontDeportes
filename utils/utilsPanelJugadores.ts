@@ -1,4 +1,5 @@
 import { alertaQuestion, alertaSubmit } from "./alert";
+import { filterEstado } from "./utils";
 
 export const crearJugadores = (id: string, name: string, sueldo: number,contrato ,posicion: string, fecha_nacimiento: string, nacionalidad: string, dorsal: string, instagram: string, foto: string, setIsLoading, crearJugador, queryClient, handleClose) => {
     setIsLoading(true);
@@ -1686,6 +1687,43 @@ export const RecindirJugador = (equipoId: string, jugadorId: string, recindirCon
         });
 }
 
+export const InscribirJugador = (equipoId: string, jugadorId: string, inscribir, queryClient,inscrito,setIsLoading) => {
+    setIsLoading(true);
+    const formData = {
+        inscrito: inscrito,
+    };
+    inscribir({ form: formData, equipoId, jugadorId }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["equipos"]);
+            alertaSubmit(true, success?.message);
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+        },
+    });
+}
+
+export const DorsalJugador = (equipoId: string, jugadorId: string, EditDorsal, queryClient,dorsal,setIsLoading,handleClose) => {
+    setIsLoading(true);
+    const formData = {
+        dorsal: dorsal,
+    };
+    EditDorsal({ form: formData, equipoId, jugadorId }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["equipos"]);
+            alertaSubmit(true, success?.message);
+            handleClose()
+            setIsLoading(false);
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+}
+
 //OFERTAS
 
 export const crearOferta = (
@@ -1810,14 +1848,16 @@ export const eliminarOfertas = (equipoId: string, jugadorId: string, ofertaId, d
         });
 }
 
-export const fichaDeJugador = (equipoOrigenId: string, equipoDestinoId ,jugadorId: string, ficha, queryClient, setIsLoading,handleClose,precioOferta,banco_fondo) => {
+export const fichaDeJugador = (equipoOrigenId: string, equipoDestinoId ,jugadorId: string, ficha, queryClient, setIsLoading,handleClose,precioOferta,banco_fondo, sueldo,contrato) => {
     setIsLoading(true);
     if(precioOferta > banco_fondo){
         alertaSubmit(false, 'No cuentas con dinero suficiente, debes ingresar mas dinero a u banco del equipo');
     }
 
     const form = {
-        precio: precioOferta
+        precio: precioOferta,
+        contrato: contrato,
+        sueldo: sueldo,
     };
     ficha({form, equipoOrigenId, equipoDestinoId, jugadorId }, {
             onSuccess: (success) => {
@@ -1850,4 +1890,28 @@ export const prestamoDeJugador = (equipoOrigenId: string, equipoDestinoId ,jugad
                 setIsLoading(false);
             },
         });
+}
+
+export const devolverJugador = (data, devolver, queryClient, setIsLoading) => {
+    alertaQuestion("", {}, () => {
+        setIsLoading(true);
+        const form = {};
+
+        filterEstado(data, 'registrado').forEach(equiposdata => {
+            equiposdata.jugadores.forEach(jugador => {
+                devolver({ form, equipoOrigenId: equiposdata._id, jugadorId: jugador._id }, {
+                    onSuccess: (success) => {
+                        queryClient.invalidateQueries(["equipos"]);
+                        alertaSubmit(true, success?.message);
+                        setIsLoading(false);
+                    },
+                    onError: (err: any) => {
+                        const errorMessage = err?.response?.data?.message || err.message;
+                        alertaSubmit(false, errorMessage);
+                        setIsLoading(false);
+                    },
+                });
+            });
+        });
+    }, 'Si, Devolver!', 'Devolver jugadores', '¡Los jugadores volvieron a sus equipos correctamente!', 'Los jugadores no volvieron');
 }

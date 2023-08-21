@@ -76,7 +76,7 @@ const Equipo = () => {
   }
 
   return (
-    <Grid sx={{ height: !mobile ? '160vh' : '160vh', }}>
+    <Grid sx={{ height: !mobile ? '180vh' : '180vh', }}>
       <Grid sx={{
         paddingTop: !mobile ? '100px' : '90px',
         paddingBottom: '40px',

@@ -96,7 +96,7 @@ export const TablaContratos =({jugadores, isLoading, equipoId})=>{
                 <TableBody style={{background:light ? 'var(--cero)':'var(--dark3)'}}>
                 {jugadoresFiltrados.map((jugador, index)=>{
                     return(
-                        <StyledTableRow light={light} key={jugador.id} style={{background: jugador.suspendido === 'Si' && 'var(--danger2)'}}>
+                        <StyledTableRow disabled={jugador.inscrito === 'No' && jugador.contrato > 0} light={light} key={jugador.id} style={{background: jugador.suspendido === 'Si' && 'var(--danger2)'}}>
                             <StyledTableCell light={light} component="th" scope="row">
                                 <Grid container alignItems={'center'} gap={2} sx={{whiteSpace: 'nowrap', width:'70px'}}>
                                     <Grid>{index + 1}</Grid>
@@ -160,11 +160,11 @@ export const TablaContratos =({jugadores, isLoading, equipoId})=>{
                                 <ButtonSend title={'Renovar'} icon={Renovar} disable={false} handle={() => {seleccionarData(jugador,setJugadorSeleccionado, setModalRenovar)}} iconSize={20} iconColor={''} />
                             </StyledTableCell>
                             <StyledTableCell light={light} align="left">
-                                <ButtonSend title={'Recindir'} icon={Recindir} disable={false} handle={() => {seleccionarData(jugador,setJugadorSeleccionado, setModalRecindir)}} iconSize={20} iconColor={'var(--danger)'} />
+                                <ButtonSend title={'Recindir'} icon={Recindir} disable={jugador.contrato === 0} handle={() => {seleccionarData(jugador,setJugadorSeleccionado, setModalRecindir)}} iconSize={20} iconColor={'var(--danger)'} />
                             </StyledTableCell>
                             <StyledTableCell light={light} align="left">
-                                {jugador.transferible === 'No' && <ButtonSend title={'L.Transf'} icon={ListaTransf} disable={false} handle={() => {listaDeTransferiblesSi(equipoId,jugador._id,listaTransferibleJugador,queryClient,'Si')}} iconSize={20} iconColor={'var(--warnning)'} />}
-                                {jugador.transferible === 'Si' && <ButtonSend title={'NO.Transf'} icon={ListaTransf} disable={false} handle={() => {listaDeTransferiblesNo(equipoId,jugador._id,listaTransferibleJugador,queryClient,'No')}} iconSize={20} iconColor={'var(--primario)'} />}
+                                {jugador.transferible === 'No' && <ButtonSend title={'L.Transf'} icon={ListaTransf} disable={jugador.contrato === 0} handle={() => {listaDeTransferiblesSi(equipoId,jugador._id,listaTransferibleJugador,queryClient,'Si')}} iconSize={20} iconColor={'var(--warnning)'} />}
+                                {jugador.transferible === 'Si' && <ButtonSend title={'NO.Transf'} icon={ListaTransf} disable={jugador.contrato === 0} handle={() => {listaDeTransferiblesNo(equipoId,jugador._id,listaTransferibleJugador,queryClient,'No')}} iconSize={20} iconColor={'var(--primario)'} />}
                             </StyledTableCell>
                         </StyledTableRow>
                     )

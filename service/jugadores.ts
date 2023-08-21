@@ -200,6 +200,28 @@ export const jugadoresRecindir = async ({ form, equipoId, jugadorId }) => {
     }
 }
 
+export const jugadoresInscribir = async ({ form, equipoId, jugadorId }) => {
+    try {
+        const data = await api.put(`/api/liga/${equipoId}/inscribir/${jugadorId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
+
+export const jugadoresDorsal = async ({ form, equipoId, jugadorId }) => {
+    try {
+        const data = await api.put(`/api/liga/${equipoId}/dorsal/${jugadorId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
+
+//OFERTAS
+
 export const ofertaPost = async ({ form, equipoId, jugadorId }) => {
     try {
         const data = await api.post(`/api/liga/${equipoId}/oferta/${jugadorId}`, form).then(res => res.data)
@@ -243,6 +265,16 @@ export const ficharJugador = async ({ form, equipoOrigenId, equipoDestinoId,juga
 export const prestamoJugador = async ({ form, equipoOrigenId, equipoDestinoId,jugadorId }) => {
     try {
         const data = await api.post(`/api/liga/${equipoOrigenId}/prestamo/${equipoDestinoId}/${jugadorId}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
+
+export const devolverJugadorPrestamo = async ({ form, equipoOrigenId,jugadorId }) => {
+    try {
+        const data = await api.post(`/api/liga/${equipoOrigenId}/devolverPrestamo/${jugadorId}`, form).then(res => res.data)
         return data;
     } catch (err) {
         const message = err?.response?.data?.message || err.message;

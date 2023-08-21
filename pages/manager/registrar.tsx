@@ -19,6 +19,9 @@ import { BiReset as Reset } from 'react-icons/bi'
 import { AiOutlineWarning as Warning } from 'react-icons/ai'
 import ContextRefac from "../../context/contextLogin";
 import { editarReset } from "../../utils/utilsEquipos";
+import { devolverJugadorPrestamo } from "../../service/jugadores";
+import { ButtonSend } from "../../components/Material/ButtonSend";
+import { devolverJugador } from "../../utils/utilsPanelJugadores";
 
 const opcionSelectEquipos = [
     { id: 0, name: 'Equipos en la liga', icono: <Register size={30} /> },
@@ -32,6 +35,7 @@ const Registrar = () => {
     const [value, setValue] = useState(0);
     const theme = useTheme();
     const { mutate: reseteoEquipos } = useMutation(resetEquiposJugador);
+    const { mutate: devolver } = useMutation(devolverJugadorPrestamo);
     const queryClient = useQueryClient();
     const [isLoadinng, setIsLoadinng] = useState(false);
     const { state: { user } }: any = useContext(ContextRefac);
@@ -52,9 +56,6 @@ const Registrar = () => {
 
     const isUserEmailInData = filterEstado(data, 'registrado').some((equipo) => equipo.correo === user?.email);
     const isUserEmailInDataEnCola = filterEstado(data, 'enCola').some((equipo) => equipo.correo === user?.email);
-    console.log('1',isUserEmailInDataEnCola);
-    console.log('2',isUserEmailInData);
-    
 
     const handleChange = (newValue) => {
         setValue(newValue);
@@ -86,7 +87,7 @@ const Registrar = () => {
     }
 
     return (
-        <Grid sx={{ height: !mobile ? '190vh' : isUserAdmin ? '100%' : '120vh' }}>
+        <Grid sx={{ height: !mobile ? '290vh' : isUserAdmin ? '100%' : '120vh' }}>
             <Grid container flexDirection={'column'} sx={{ paddingTop: !mobile ? '100px' : '90px', paddingBottom: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
                 <LogoRegister name={'Registrar equipo'} />
                 {(!isUserEmailInData && !isUserEmailInDataEnCola) || isUserAdmin ?
@@ -105,10 +106,11 @@ const Registrar = () => {
                             <TabPanel value={value} index={0} dir={theme.direction}>
                                 <Tooltip title="Resetea los datos de los equipos, es recomendable al terminar la liga o temporada" placement="top">
                                     {superAdmin &&
-                                        <Button onClick={() => { editarReset(setIsLoadinng, queryClient, data, reseteoEquipos) }}>
-                                            <Reset size={30} />
-                                            <Warning size={30} color={'var(--warnning)'} />
-                                        </Button>}
+                                        <Grid mt={1} container gap={1}>
+                                            <ButtonSend disable={false} handle={() => {editarReset(setIsLoadinng, queryClient, data, reseteoEquipos)} } title={'Reset'} icon={Warning} iconColor={'var(--warnning)'} iconSize={20} />
+                                            <ButtonSend disable={false} handle={() => {devolverJugador(data,devolver,queryClient,setIsLoadinng) } } title={'Devolver Prestamos'} icon={Reset} iconColor={'var(--check)'} iconSize={20} />
+                                        </Grid>
+                                        }
                                 </Tooltip>
                                 <Grid mt={2} sx={{ width: '100%', display: filterEstado(data, 'registrado').length === 0 || isError || isLoading ? 'flex' : 'grid', gridTemplateColumns: !mobile ? 'repeat(5, 1fr)' : 'repeat(2, 1fr)', gap: '20px', }}>
                                     {isLoading ?

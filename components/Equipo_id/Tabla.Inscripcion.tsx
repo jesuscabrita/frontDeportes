@@ -10,31 +10,28 @@ import Context from "../../context/contextPrincipal";
 import { TbMoodEmpty as Vacio } from 'react-icons/tb';
 import { MdLocalHospital as Lesion } from 'react-icons/md';
 import { VscSearchStop as Expulsado } from 'react-icons/vsc';
-import { TbRectangleVertical as Tarjeta } from 'react-icons/tb';
+import { AiOutlineFieldNumber as Num } from 'react-icons/ai';
 import { StyledTableCell } from "../Material/StyledTableCell";
 import { StyledTableRow } from "../Material/StyledTableRow";
-import { stringAvatar, seleccionarData, filterLibreJugador } from "../../utils/utils";
+import { stringAvatar, seleccionarData  } from "../../utils/utils";
 import { ModalJugadorInfo } from "../modals/Jugador/ModalInfoJugador";
 import { IoLogoClosedCaptioning as Capitan } from 'react-icons/io';
+import { ButtonSend } from "../Material/ButtonSend";
+import { GiArchiveRegister as Regis } from 'react-icons/gi';
+import { useMutation, useQueryClient } from "react-query";
+import { jugadoresInscribir } from "../../service/jugadores";
+import { InscribirJugador } from "../../utils/utilsPanelJugadores";
+import { ModalDorsal } from "../modals/Jugador/ModalDorsal";
 
-export const TablaEstadisticas =({jugadores, label, isLoading, goles, asistencias, amarillas, rojas})=>{
+export const TablaInscripcion =({jugadores, isLoading, equipoId})=>{
     const [light] = useContext(Context);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [modalJugadorInfo, setModalJugadorInfo] = useState(false);
+    const [isLoadinng, setIsLoadinng] = useState(false);
     const [jugadorSeleccionado, setJugadorSeleccionado] = useState(null);
-
-    let jugadoresOrdenados;
-    if (goles) {
-        jugadoresOrdenados = filterLibreJugador(jugadores, 'No').sort((a, b) => b.goles - a.goles);
-    } else if (asistencias) {
-        jugadoresOrdenados = filterLibreJugador(jugadores, 'No').sort((a, b) => b.asistencias - a.asistencias);
-    } else if (amarillas) {
-        jugadoresOrdenados = filterLibreJugador(jugadores, 'No').sort((a, b) => b.tarjetas_amarillas - a.tarjetas_amarillas);
-    } else if (rojas) {
-        jugadoresOrdenados = filterLibreJugador(jugadores, 'No').sort((a, b) => b.tarjetas_roja - a.tarjetas_roja);
-    } else {
-        jugadoresOrdenados = filterLibreJugador(jugadores, 'No');
-    }
+    const [modalDorsal, setModalDorsal] = useState(false);
+    const { mutate: inscribir } = useMutation(jugadoresInscribir);
+    const queryClient = useQueryClient();
 
     return(
         <>
@@ -68,15 +65,16 @@ export const TablaEstadisticas =({jugadores, label, isLoading, goles, asistencia
             <Table  aria-label="customized table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>{label}</Grid></StyledTableCell>
+                        <StyledTableCell light={light}><Grid item sx={{ whiteSpace: 'nowrap'}}>Inscripcion de jugadores</Grid></StyledTableCell>
+                        <StyledTableCell light={light}/>
                         <StyledTableCell light={light}/>
                         <StyledTableCell light={light}/>
                     </TableRow>
                 </TableHead>
                 <TableBody style={{background:light ? 'var(--cero)':'var(--dark3)'}}>
-                {jugadoresOrdenados.map((jugador, index)=>{
+                {jugadores.map((jugador, index)=>{
                     return(
-                        <StyledTableRow disabled={jugador.inscrito === 'No'} light={light} key={jugador.id} style={{background: jugador.suspendido === 'Si' && 'var(--danger2)'}}>
+                        <StyledTableRow disabled={jugador.contrato === 0} light={light} key={jugador.id} style={{background: jugador.suspendido === 'Si' && 'var(--danger2)'}}>
                             <StyledTableCell light={light} component="th" scope="row">
                                 <Grid container alignItems={'center'} gap={2} sx={{whiteSpace: 'nowrap', width:'70px'}}>
                                     <Grid>{index + 1}</Grid>
@@ -101,40 +99,37 @@ export const TablaEstadisticas =({jugadores, label, isLoading, goles, asistencia
                                                 <Capitan size={20} />
                                             </Grid>
                                         </Grid>}
-                                        {jugador.lesion === 'Si' &&  
-                                        <Grid item sx={{display:'flex', alignItems:'center',gap:'6px'}}>
-                                            <Lesion size={20}/>
-                                            <Grid sx={{color:'var(--neutral)'}}>{'(Lesionado)'}</Grid>
+                                        {jugador.inscrito === 'Si' && 
+                                        <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                            <Regis size={20} color={'var(--check)'}/>
                                         </Grid>}
-                                        {jugador.tarjetas_acumuladas > 0 && ( <Grid item sx={{display:'flex', alignItems:'center'}}>{jugador.tarjetas_acumuladas}<Tarjeta color={'var(--warnning)'} size={20} /></Grid>)}
-                                        {jugador.suspendido === 'Si' && ( 
-                                        <Grid item sx={{display:'flex', alignItems:'center',gap:'6px'}}>
-                                            <Expulsado size={20}/>
-                                            <Grid sx={{color:'var(--neutral)'}}>{`(expulsado ${jugador.jornadas_suspendido} jornada)`}</Grid>
-                                        </Grid>)}
+                                        {jugador.inscrito === 'No' && 
+                                        <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                            <Regis size={20} color={'var(--danger)'}/>
+                                        </Grid>}
                                     </Grid>
                                 </Grid>
                             </StyledTableCell>
-                            <StyledTableCell light={light} align="left" style={{fontWeight: index === 0 ? 700: 500,fontSize: index === 0 ?'18px': '15px'}}>
-                            {goles ? (
-                                <Grid item>{jugador.goles}</Grid>
-                                ) : asistencias ? (
-                                <Grid item>{jugador.asistencias}</Grid>
-                                ) : amarillas ? (
-                                <Grid item>{jugador.tarjetas_amarillas}</Grid>
-                                ) : rojas ? (
-                                <Grid item>{jugador.tarjetas_roja}</Grid>
-                                ) : (
-                                null
-                                )}
+                            <StyledTableCell light={light}>
+                                {jugador.inscrito === 'No' && <ButtonSend title={'Inscribir'} icon={Regis} disable={false} handle={() => { InscribirJugador(equipoId,jugador._id,inscribir,queryClient,'Si',setIsLoadinng) }} iconSize={20} iconColor={'var(--check)'} />}
+                                {jugador.inscrito === 'Si' && <ButtonSend title={'N.Inscribir'} icon={Regis} disable={false} handle={() => { InscribirJugador(equipoId,jugador._id,inscribir,queryClient,'No',setIsLoadinng) }} iconSize={20} iconColor={'var(--danger)'} />}
+                            </StyledTableCell>
+                            <StyledTableCell light={light}>
+                                <ButtonSend title={'Dorsal'} icon={Num} disable={false} handle={() => { seleccionarData(jugador,setJugadorSeleccionado,setModalDorsal) }} iconSize={20} iconColor={'var(--check)'} />
                             </StyledTableCell>
                         </StyledTableRow>
                     )
                 })}
                 </TableBody>
             </Table>
+            {isLoadinng && (
+                    <Grid sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '100%' : '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} />
+                    </Grid>
+                )}
         </TableContainer>
         </Grid>}
+        {jugadorSeleccionado &&(<ModalDorsal open={modalDorsal} setOpen={setModalDorsal} data={jugadorSeleccionado} equipoId={equipoId} jugadorId={jugadorSeleccionado._id}/>)}
         {jugadorSeleccionado && (<ModalJugadorInfo open={modalJugadorInfo} setOpen={setModalJugadorInfo} jugador={jugadorSeleccionado} />)}
     </>
     )

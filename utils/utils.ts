@@ -88,7 +88,7 @@ export const getLast5ToShow = (row, maxCount) => {
 export const jugadoresGoleadores = (data, cantidad) => {
     return data
         .flatMap((equipo) => equipo.jugadores)
-        .filter((jugador) => jugador.libre === "No")
+        .filter((jugador) => jugador.libre === "No" && jugador.inscrito === 'Si')
         .sort((a, b) => b.goles - a.goles)
         .slice(0, cantidad);
 };
@@ -96,7 +96,7 @@ export const jugadoresGoleadores = (data, cantidad) => {
 export const jugadoresAsistidores = (data, cantidad) => {
     return data
         .flatMap((equipo) => equipo.jugadores)
-        .filter((jugador) => jugador.libre === "No")
+        .filter((jugador) => jugador.libre === "No" && jugador.inscrito === 'Si')
         .sort((a, b) => b.asistencias - a.asistencias)
         .slice(0, cantidad);
 };
@@ -104,7 +104,7 @@ export const jugadoresAsistidores = (data, cantidad) => {
 export const jugadoresAmarillas = (data, cantidad) => {
     return data
     .flatMap((equipo) => equipo.jugadores)
-    .filter((jugador) => jugador.libre === "No")
+    .filter((jugador) => jugador.libre === "No" && jugador.inscrito === 'Si')
     .sort((a, b) => b.tarjetas_amarillas - a.tarjetas_amarillas)
     .slice(0, cantidad);
 
@@ -113,7 +113,7 @@ export const jugadoresAmarillas = (data, cantidad) => {
 export const jugadoresRojas = (data, cantidad) => {
     return data
         .flatMap((equipo) => equipo.jugadores)
-        .filter((jugador) => jugador.libre === "No")
+        .filter((jugador) => jugador.libre === "No" && jugador.inscrito === 'Si')
         .sort((a, b) => b.tarjetas_roja - a.tarjetas_roja)
         .slice(0, cantidad);
 };

@@ -43,6 +43,8 @@ import ContextRefac from "../../context/contextLogin";
 import { FaFileContract as Contra } from 'react-icons/fa';
 import { TablaContratos } from "./TablaContratos";
 import { TablaFichajes } from "./TablaFichajes";
+import { GiArchiveRegister as Regis } from 'react-icons/gi';
+import { TablaInscripcion } from "./Tabla.Inscripcion";
 
 const opcionSelectEquipo = [
     { id: 0, name: 'Plantilla', icono: <Plantilla size={30} /> },
@@ -52,6 +54,7 @@ const opcionSelectEquipo = [
     { id: 4, name: 'Rojas', icono: <Tarjeta color={'var(--danger)'} size={30} /> },
     { id: 5, name: 'Contratos', icono: <Contra size={25} /> },
     { id: 6, name: 'Fichajes', icono: <Fichaje size={30} /> },
+    { id: 7, name: 'Inscripción', icono: <Regis size={25} /> },
 ]
 
 export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
@@ -262,6 +265,22 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
                         color: light ? 'var(--dark2)' : 'var(--cero)'
                     }}>
                         {`Solo los usuarios pueden ver este panel`}
+                    </Grid>}
+                </TabPanel>
+                <TabPanel value={value} index={7} dir={theme.direction}>
+                    {isSameEmail && <TablaInscripcion jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id}/>}
+                    {isUserAdmin && <TablaInscripcion jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id}/>}
+                    {!isSameEmail && !isUserAdmin &&
+                    <Grid mt={8} item sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        gap: '16px',
+                        minWidth: !mobile ? '960px' : '100%',
+                        height: mobile && '300px',
+                        justifyContent: 'center',
+                        color: light ? 'var(--dark2)' : 'var(--cero)'
+                    }}>
+                        {`Solo el administrador del  ${data.name} puede ver este panel`}
                     </Grid>}
                 </TabPanel>
             </SwipeableViews>

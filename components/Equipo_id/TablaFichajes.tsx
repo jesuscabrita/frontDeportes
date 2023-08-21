@@ -102,7 +102,7 @@ export const TablaFichajes =({jugadores, isLoading, equipoId,data })=>{
                 <TableBody style={{background:light ? 'var(--cero)':'var(--dark3)'}}>
                 {filterLibreJugador(jugadores, 'No').map((jugador, index)=>{
                     return(
-                        <StyledTableRow light={light} key={jugador.id} style={{background: jugador.suspendido === 'Si' && 'var(--danger2)'}}>
+                        <StyledTableRow disabled={jugador.inscrito === 'No'} light={light} key={jugador.id} style={{background: jugador.suspendido === 'Si' && 'var(--danger2)'}}>
                             <StyledTableCell light={light} component="th" scope="row">
                                 <Grid container alignItems={'center'} gap={2} sx={{whiteSpace: 'nowrap', width:'70px'}}>
                                     <Grid>{index + 1}</Grid>

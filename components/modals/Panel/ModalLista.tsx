@@ -41,6 +41,11 @@ export const ModalLista = ({ open, setOpen, data, currentRound }) => {
         setOpen(false);
     };
 
+    const filterInscrito = (array) => {
+        const newFilter = array.filter(data => data.inscrito === 'Si');
+        return newFilter;
+    }
+
     return (
         <Grid item>
             <Dialog open={open} onClose={handleClose}>
@@ -90,7 +95,9 @@ export const ModalLista = ({ open, setOpen, data, currentRound }) => {
                             </Grid>
                         )
                     })}
-                    {data?.jugadores.map((jugador, index) => {
+                    {filterInscrito(data?.jugadores).map((jugador, index) => {
+                        console.log('data', jugador)
+                        
                         return (
                             <Grid item gap={1} p={1} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', color: light ? 'var(--dark2)' : 'var(--cero)', background: jugador.suspendido === 'Si' && 'var(--danger2)', borderRadius: '8px' }}>
                                 <Grid item sx={{ fontSize: mobile ? '15px' : '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: mobile ? '20px' : '40px', fontWeight: 600 }}>#{jugador.dorsal}</Grid>

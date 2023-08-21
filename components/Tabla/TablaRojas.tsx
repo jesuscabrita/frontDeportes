@@ -13,6 +13,7 @@ import { ModalJugadorInfo } from "../modals/Jugador/ModalInfoJugador";
 import { jugadoresRojas, seleccionarData, stringAvatar } from "../../utils/utils";
 import { StyledTableCell } from "../Material/StyledTableCell";
 import { StyledTableRow } from "../Material/StyledTableRow";
+import { useRouter } from "next/router";
 
 export const TablaRojas = ({ data, isLoading, isError }) => {
     const [light] = useContext(Context);
@@ -20,6 +21,7 @@ export const TablaRojas = ({ data, isLoading, isError }) => {
     const [showImage, setShowImage] = useState(false);
     const [modalJugadorInfo, setModalJugadorInfo] = useState(false);
     const [jugadorSeleccionado, setJugadorSeleccionado] = useState(null);
+    const router = useRouter();
 
     useEffect(() => {
         if (!isLoading) {
@@ -29,6 +31,11 @@ export const TablaRojas = ({ data, isLoading, isError }) => {
             return () => clearTimeout(timeoutId);
         }
     }, [isLoading]);
+
+    const filterName = (name) => {
+        const newFilter = data?.filter(data => data.name === name);
+        return newFilter;
+    }
 
     return (
         <>
@@ -75,11 +82,11 @@ export const TablaRojas = ({ data, isLoading, isError }) => {
                                                     </StyledTableCell>
                                                     <StyledTableCell light={light} align="center">
                                                         <Grid sx={{ display: 'flex', alignItems: 'center', gap: '18px' }} >
-                                                            <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: '55px', height: '35px' }}>
+                                                            <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: '55px', height: '35px', cursor:'pointer' }} onClick={() => { router.push(`/manager/${filterName(jugador.equipo)[0]._id}`) }}>
                                                                 <img src={jugador.logo} alt='.' style={{ height: '35px' }} />
                                                             </Grid>
                                                             {!mobile &&
-                                                                <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width: '130px' }}>
+                                                                <Grid item container alignItems={'center'} sx={{ whiteSpace: 'nowrap', width: '130px', cursor:'pointer' }} onClick={() => { router.push(`/manager/${filterName(jugador.equipo)[0]._id}`) }}>
                                                                     {jugador.equipo}
                                                                 </Grid>}
                                                         </Grid>
