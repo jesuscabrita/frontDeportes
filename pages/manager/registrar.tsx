@@ -19,9 +19,10 @@ import { BiReset as Reset } from 'react-icons/bi'
 import { AiOutlineWarning as Warning } from 'react-icons/ai'
 import ContextRefac from "../../context/contextLogin";
 import { editarReset } from "../../utils/utilsEquipos";
-import { devolverJugadorPrestamo } from "../../service/jugadores";
+import { devolverJugadorPrestamo, jugadoresContratoCalculo } from "../../service/jugadores";
 import { ButtonSend } from "../../components/Material/ButtonSend";
-import { devolverJugador } from "../../utils/utilsPanelJugadores";
+import { calculoContratosJugadores, devolverJugador } from "../../utils/utilsPanelJugadores";
+import { FaFileContract as Contra } from 'react-icons/fa';
 
 const opcionSelectEquipos = [
     { id: 0, name: 'Equipos en la liga', icono: <Register size={30} /> },
@@ -36,6 +37,7 @@ const Registrar = () => {
     const theme = useTheme();
     const { mutate: reseteoEquipos } = useMutation(resetEquiposJugador);
     const { mutate: devolver } = useMutation(devolverJugadorPrestamo);
+    const { mutate: calculo } = useMutation(jugadoresContratoCalculo);
     const queryClient = useQueryClient();
     const [isLoadinng, setIsLoadinng] = useState(false);
     const { state: { user } }: any = useContext(ContextRefac);
@@ -104,14 +106,25 @@ const Registrar = () => {
                         </Grid>
                         <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
                             <TabPanel value={value} index={0} dir={theme.direction}>
-                                <Tooltip title="Resetea los datos de los equipos, es recomendable al terminar la liga o temporada" placement="top">
-                                    {superAdmin &&
-                                        <Grid mt={1} container gap={1}>
-                                            <ButtonSend disable={false} handle={() => {editarReset(setIsLoadinng, queryClient, data, reseteoEquipos)} } title={'Reset'} icon={Warning} iconColor={'var(--warnning)'} iconSize={20} />
-                                            <ButtonSend disable={false} handle={() => {devolverJugador(data,devolver,queryClient,setIsLoadinng) } } title={'Devolver Prestamos'} icon={Reset} iconColor={'var(--check)'} iconSize={20} />
-                                        </Grid>
-                                        }
-                                </Tooltip>
+                                {superAdmin &&
+                                    <Grid mt={1} container gap={1}>
+                                        <Tooltip title="Resetea los datos de los equipos, es recomendable al terminar la liga o temporada" placement="top">
+                                            <Grid item>
+                                                <ButtonSend disable={false} handle={() => {editarReset(setIsLoadinng, queryClient, data, reseteoEquipos)} } title={'Reset'} icon={Warning} iconColor={'var(--warnning)'} iconSize={20} />
+                                            </Grid>
+                                        </Tooltip>
+                                        <Tooltip title="Devuelve a los jugadores que se encuentran en calidad de PRESTAMO a sus equipos de origen" placement="top">
+                                            <Grid item>
+                                                <ButtonSend disable={false} handle={() => {devolverJugador(data,devolver,queryClient,setIsLoadinng) } } title={'D. Prestamos'} icon={Reset} iconColor={'var(--check)'} iconSize={20} />
+                                            </Grid>
+                                        </Tooltip>
+                                        <Tooltip title="Calcula y analiza los contratos de los jugadores" placement="top">
+                                            <Grid item>
+                                                <ButtonSend disable={false} handle={() => {calculoContratosJugadores(data,calculo,queryClient,setIsLoadinng)} } title={'C.Contratos'} icon={Contra} iconColor={'var(--check)'} iconSize={20} />
+                                            </Grid>
+                                        </Tooltip>
+                                    </Grid>
+                                    }
                                 <Grid mt={2} sx={{ width: '100%', display: filterEstado(data, 'registrado').length === 0 || isError || isLoading ? 'flex' : 'grid', gridTemplateColumns: !mobile ? 'repeat(5, 1fr)' : 'repeat(2, 1fr)', gap: '20px', }}>
                                     {isLoading ?
                                         <Grid mt={8} item sx={stylesRow}>

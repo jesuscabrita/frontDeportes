@@ -85,6 +85,13 @@ export const getLast5ToShow = (row, maxCount) => {
     return last5ToShow;
 }
 
+export const jugadoresLibres = (data, cantidad) => {
+    return data
+        .flatMap((equipo) => equipo.jugadores)
+        .filter((jugador) => jugador.libre === "Si")
+        .slice(0, cantidad);
+};
+
 export const jugadoresGoleadores = (data, cantidad) => {
     return data
         .flatMap((equipo) => equipo.jugadores)
