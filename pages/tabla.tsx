@@ -18,6 +18,8 @@ import { LogoRegister } from "../components/Shared/LogoRegister";
 import { useQuery } from "react-query";
 import { equiposGet } from "../service/equipos";
 import { filterEstado } from "../utils/utils";
+import { GiChampions as Play } from 'react-icons/gi';
+import { PlayOff } from "../components/Tabla/PlayOff";
 
 const opcionSelect = [
     { id: 0, name: 'Posiciones', icono: <Tablas size={30} /> },
@@ -25,6 +27,7 @@ const opcionSelect = [
     { id: 2, name: 'Asistidores', icono: <Asistir size={30} /> },
     { id: 3, name: 'Amarillas', icono: <Tarjeta color={'var(--warnning)'} size={30} /> },
     { id: 4, name: 'Rojas', icono: <Tarjeta color={'var(--danger)'} size={30} /> },
+    { id: 5, name: 'PlayOff', icono: <Play size={30} /> },
 ]
 
 const Tabla = () => {
@@ -77,6 +80,9 @@ const Tabla = () => {
                         </TabPanel>
                         <TabPanel value={value} index={4} dir={theme.direction}>
                             <TablaRojas data={filterEstado(data, 'registrado')} isLoading={isLoading} isError={isError} />
+                        </TabPanel>
+                        <TabPanel value={value} index={5} dir={theme.direction}>
+                            <PlayOff data={data}/>
                         </TabPanel>
                     </SwipeableViews>
                 </Grid>

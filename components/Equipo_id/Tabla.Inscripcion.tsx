@@ -13,7 +13,7 @@ import { VscSearchStop as Expulsado } from 'react-icons/vsc';
 import { AiOutlineFieldNumber as Num } from 'react-icons/ai';
 import { StyledTableCell } from "../Material/StyledTableCell";
 import { StyledTableRow } from "../Material/StyledTableRow";
-import { stringAvatar, seleccionarData  } from "../../utils/utils";
+import { stringAvatar, seleccionarData, filterLibreJugador  } from "../../utils/utils";
 import { ModalJugadorInfo } from "../modals/Jugador/ModalInfoJugador";
 import { IoLogoClosedCaptioning as Capitan } from 'react-icons/io';
 import { ButtonSend } from "../Material/ButtonSend";
@@ -32,6 +32,10 @@ export const TablaInscripcion =({jugadores, isLoading, equipoId})=>{
     const [modalDorsal, setModalDorsal] = useState(false);
     const { mutate: inscribir } = useMutation(jugadoresInscribir);
     const queryClient = useQueryClient();
+
+    const jugadoresFiltrados = filterLibreJugador(jugadores, 'No').sort((jugadorA, jugadorB) =>
+    jugadorB.valor_mercado - jugadorA.valor_mercado
+    );
 
     return(
         <>
@@ -72,7 +76,7 @@ export const TablaInscripcion =({jugadores, isLoading, equipoId})=>{
                     </TableRow>
                 </TableHead>
                 <TableBody style={{background:light ? 'var(--cero)':'var(--dark3)'}}>
-                {jugadores.map((jugador, index)=>{
+                {jugadoresFiltrados.map((jugador, index)=>{
                     return(
                         <StyledTableRow disabled={jugador.contrato === 0} light={light} key={jugador.id} style={{background: jugador.suspendido === 'Si' && 'var(--danger2)'}}>
                             <StyledTableCell light={light} component="th" scope="row">

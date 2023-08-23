@@ -82,7 +82,7 @@ export const Navbar = () => {
                                         <ButtonNavbar href='/tabla'>Tabla</ButtonNavbar>
                                         <ButtonNavbar href='/noticias'>Noticias</ButtonNavbar>
                                         {isLoggedIn && user && <ButtonNavbar href='/manager/registrar'>Registrar equipo</ButtonNavbar>}
-                                        {isLoggedIn && user && <ButtonNavbar href='/libres'>J.Libre</ButtonNavbar>}
+                                        {isLoggedIn && user && <ButtonNavbar href='/libres'>J. Libre</ButtonNavbar>}
                                         {isLoggedIn && (user?.role === 'super_admin' || user?.role === 'admin') && <ButtonNavbar href='/admin/panel'>Panel</ButtonNavbar>}
                                     </Grid>
                                 </Grid>
@@ -109,7 +109,7 @@ export const Navbar = () => {
                             <ButtonNavbar href='/tabla'>Tabla</ButtonNavbar>
                             <ButtonNavbar href='/noticias'>Noticias</ButtonNavbar>
                             {isLoggedIn && user &&<ButtonNavbar href='/manager/registrar'>Registrar equipo</ButtonNavbar>}
-                            {isLoggedIn && user &&<ButtonNavbar href='/libres'>J.Libre</ButtonNavbar>}
+                            {isLoggedIn && user &&<ButtonNavbar href='/libres'>J. Libre</ButtonNavbar>}
                             {isLoggedIn && (user?.role === 'super_admin' || user?.role === 'admin') &&<ButtonNavbar href='/admin/panel'>Panel</ButtonNavbar>}
                             {isLoggedIn &&
                             <>
