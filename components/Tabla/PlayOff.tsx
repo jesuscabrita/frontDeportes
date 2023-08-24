@@ -42,7 +42,9 @@ export const PlayOff = ({ data }) => {
     return (
         <Grid mt={2} sx={{display:'flex', justifyContent:'space-between',width:'100%'}}>
             <Grid item sx={{width:'100%'}}>
-                {enfrentamientosCuartos.slice(0, 2).map((enfrentamiento, index) => (
+                {enfrentamientosCuartos.slice(0, 2).map((enfrentamiento, index) => {
+                    return(
+                    //ACA VA LOS ENFRENTAMIENTOS DEL 1ERO CONTRA EL 8VO, Y EL 2DO CONTRA EL 7MO
                     <Grid item sx={{display:'flex',alignItems:'center',width:'100%'}}>
                         <Grid item key={index} mb={5} sx={{width:'110px'}}>
                             <Grid item sx={{display:'flex',alignItems:'center', flexDirection:'column',}}>
@@ -73,16 +75,19 @@ export const PlayOff = ({ data }) => {
                             <Grid item sx={{color:'var(--neutral)', fontSize:mobile?'7px':'10px'}}>{enfrentamiento[0].name}</Grid>
                         </Grid>}
                     </Grid>
-                ))}               
+                    )
+                })}               
             </Grid>
             <Grid item  sx={{display:'flex',alignItems:'center', flexDirection:'column', justifyContent:'center',width:mobile?'80px': '100%'}}>
                 <Grid item sx={{color:'var(--check)', fontWeight:'700',display:'flex',alignItems:'center',fontSize:mobile?'12px':'16px'}}>CAMPEONES</Grid>
-                <img style={{ height: mobile?'30px': '60px' }} src={enfrentamientosCuartos.slice(0, 2)[0][0]?.logo} alt={enfrentamientosCuartos.slice(0, 2)[0][0]?.name} />
-                <Grid mb={mobile?8:15} item sx={{color:'var(--neutral)', fontSize:mobile?'7px':'10px',whiteSpace: 'nowrap' }}>{enfrentamientosCuartos.slice(0, 2)[0][0]?.name}</Grid>
+                <img style={{ height: mobile?'30px': '60px' }} src={enfrentamientosCuartos.slice(0, 2)?.[0]?.[0]?.logo} alt={enfrentamientosCuartos.slice(0, 2)?.[0]?.[0]?.name} />
+                <Grid mb={mobile?8:15} item sx={{color:'var(--neutral)', fontSize:mobile?'7px':'10px',whiteSpace: 'nowrap' }}>{enfrentamientosCuartos.slice(0, 2)?.[0]?.[0]?.name}</Grid>
                 <Grid mb={mobile?14:25} item sx={{color:'var(--check)', fontWeight:'700',display:'flex',alignItems:'center',fontSize:mobile?'12px':'16px'}}>VS</Grid>
             </Grid>
             <Grid item sx={{width:'100%'}}>
-                {enfrentamientosCuartos.slice(0, 2).map((enfrentamiento, index) => (
+                {enfrentamientosCuartos.slice(2, 4).map((enfrentamiento, index) => {
+                    return(
+                    //ACA VA LOS ENFRENTAMIENTOS DEL 3ERO CONTRA EL 6TO, Y EL 4TO CONTRA EL 5TO
                     <Grid item sx={{display:'flex',alignItems:'center',width:'100%'}}>
                         {index === 0 &&
                         <Grid mb={-25} item sx={{display:'flex',alignItems:'center', flexDirection:'column',width:mobile?'80px': '100px'}}>
@@ -106,7 +111,7 @@ export const PlayOff = ({ data }) => {
                             <Grid item sx={{display:'flex',alignItems:'center', flexDirection:'column',width:mobile?'80px': '100px'}}>
                                 <img style={{ height: mobile?'30px': '60px' }} src={enfrentamiento[0].logo} alt={enfrentamiento[0].name} />
                                 <Grid item sx={{color:'var(--neutral)', fontSize:mobile?'7px':'10px'}}>{enfrentamiento[0].name}</Grid>
-                                <Grid item sx={{color:'var(--check)', fontWeight:'700',display:'flex',alignItems:'center'}}>VS</Grid>
+                                <Grid item sx={{color:'var(--check)', fontWeight:'700',display:'flex',alignItems:'center',fontSize:mobile?'12px':'16px'}}>VS</Grid>
                             </Grid>
                             <Grid item sx={{display:'flex',alignItems:'center', flexDirection:'column',width:mobile?'80px': '100px'}}>
                                 <img style={{ height: mobile?'30px': '60px' }} src={enfrentamiento[1].logo} alt={enfrentamiento[1].name} />
@@ -114,7 +119,8 @@ export const PlayOff = ({ data }) => {
                             </Grid>
                         </Grid>
                     </Grid>
-                ))}               
+                    )
+                })}               
             </Grid>
         </Grid>
     )
