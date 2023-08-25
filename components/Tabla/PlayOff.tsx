@@ -120,7 +120,7 @@ export const PlayOff = ({ data }) => {
                 <Grid sx={{display:'flex',alignItems:'center', justifyContent:'center',borderRadius:'60%',height:mobile?'30px': '60px'}}>
                     <Time size={mobile?28:45} color={light?'var(--gris)':'var(--dark2)'}/>
                 </Grid>
-                <Grid mb={mobile?8:15} item sx={{color:'var(--neutral)', fontSize:mobile?'7px':'10px',whiteSpace: 'nowrap' }}>Por definir</Grid>
+                <Grid mb={mobile?17:12} item sx={{color:'var(--neutral)', fontSize:mobile?'7px':'10px',whiteSpace: 'nowrap' }}>Por definir</Grid>
                 <Grid mb={mobile?14:25} item sx={{color:'var(--check)', fontWeight:'700',display:'flex',alignItems:'center',fontSize:mobile?'12px':'16px'}}>VS</Grid>
             </Grid>}
             <Grid item sx={{width:'100%'}}>
