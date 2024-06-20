@@ -1,9 +1,11 @@
+import React, { useContext, useState } from "react";
 import { Avatar, Grid } from "@mui/material";
-import { useState } from "react";
 import { stringAvatar } from "../../../utils/utils";
+import Context from "../../../context/contextPrincipal";
 
 export const UserMenu = ({ handleLogout, user, router }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [light] = useContext(Context);
 
     const handleMenuToggle = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -23,23 +25,23 @@ export const UserMenu = ({ handleLogout, user, router }) => {
                     aria-expanded={isMenuOpen}
                     aria-haspopup="true"
                     onClick={handleMenuToggle}
-                    >
-                    <Avatar {...stringAvatar(user?.nombre)} sx={{ height: '35px', width: '35px' }} />
+                >
+                    <Avatar {...stringAvatar(user?.nombre)} sx={{ height: '35px', width: '35px', background: !light ? '#aab4be' : '#1F2937', color: !light ? '#1F2937' : 'white' }} />
                 </button>
             </Grid>
             {isMenuOpen && (
-                <Grid className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex={-1}>
-                    <Grid sx={{ cursor: 'pointer', '&:hover': { backgroundColor: 'var(--neutral)' } }} className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex={-1} id="user-menu-item-0"
-                        onClick={() => { router.push("/perfil"); handleMenuClose();}}>
+                <Grid item sx={{ background: light ? "var(--light)" : "var(--dark2)", border: light ? '1px solid var(--dark2)' : '1px solid #aab4be' }} className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex={-1}>
+                    <Grid sx={{ cursor: 'pointer', color: light ? 'var(--dark2)' : 'var(--cero)', '&:hover': { backgroundColor: light ? 'var(--dark2)' : '#aab4be', color: light ? 'var(--cero)' : 'var(--dark2)' } }} className="block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} id="user-menu-item-0"
+                        onClick={() => { router.push("/perfil"); handleMenuClose(); }}>
                         Perfil
                     </Grid>
-                    {user?.role === 'super_admin' && 
-                    <Grid className="block px-4 py-2 text-sm text-gray-700" sx={{ cursor: 'pointer', '&:hover': { backgroundColor: 'var(--neutral)' } }} role="menuitem" tabIndex={-1} id="user-menu-item-1"
-                        onClick={() => { router.push("/admin/usuarios"); handleMenuClose(); }}>
-                        Usuarios
-                    </Grid>}
-                    <Grid className="block px-4 py-2 text-sm text-gray-700" sx={{ cursor: 'pointer', '&:hover': { backgroundColor: 'var(--neutral)' } }} role="menuitem" tabIndex={-1} id="user-menu-item-2"
-                        onClick={() => { handleLogout(); handleMenuClose();}}>
+                    {user?.role === 'super_admin' &&
+                        <Grid className="block px-4 py-2 text-sm" sx={{ cursor: 'pointer', color: light ? 'var(--dark2)' : 'var(--cero)', '&:hover': { backgroundColor: light ? 'var(--dark2)' : '#aab4be', color: light ? 'var(--cero)' : 'var(--dark2)' } }} role="menuitem" tabIndex={-1} id="user-menu-item-1"
+                            onClick={() => { router.push("/admin/usuarios"); handleMenuClose(); }}>
+                            Usuarios
+                        </Grid>}
+                    <Grid className="block px-4 py-2 text-sm" sx={{ cursor: 'pointer', color: light ? 'var(--dark2)' : 'var(--cero)', '&:hover': { backgroundColor: light ? 'var(--dark2)' : '#aab4be', color: light ? 'var(--cero)' : 'var(--dark2)' } }} role="menuitem" tabIndex={-1} id="user-menu-item-2"
+                        onClick={() => { handleLogout(); handleMenuClose(); }}>
                         Cerrar sesión
                     </Grid>
                 </Grid>

@@ -9,6 +9,8 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { InfoContextRefac } from "../context/contextLogin";
 import { AppProps } from 'next/app';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { Provider } from "react-redux";
+import { store } from "../redux/store";
 
 const theme = createTheme({
     palette: {
@@ -35,23 +37,25 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
     });
 
     return (
-        <ThemeProvider theme={theme}>
-            <LocalizationProvider dateAdapter={AdapterMoment}>
-                <QueryClientProvider client={queryClient}>
-                    <InfoContextProvider>
-                        <Head>
-                            <title>La liga</title>
-                            <link rel="icon" type="image/x-icon" href="/images/logo1.png" />
-                        </Head>
-                        <InfoContextRefac>
-                            <Layout>
-                                <Component {...pageProps} />
-                            </Layout>
-                        </InfoContextRefac>
-                    </InfoContextProvider>
-                </QueryClientProvider>
-            </LocalizationProvider>
-        </ThemeProvider>
+        <Provider store={store}>
+            <ThemeProvider theme={theme}>
+                <LocalizationProvider dateAdapter={AdapterMoment}>
+                    <QueryClientProvider client={queryClient}>
+                        <InfoContextProvider>
+                            <Head>
+                                <title>La liga</title>
+                                <link rel="icon" type="image/x-icon" href="/images/logo1.png" />
+                            </Head>
+                            <InfoContextRefac>
+                                <Layout>
+                                    <Component {...pageProps} />
+                                </Layout>
+                            </InfoContextRefac>
+                        </InfoContextProvider>
+                    </QueryClientProvider>
+                </LocalizationProvider>
+            </ThemeProvider>
+        </Provider>
     );
 };
 

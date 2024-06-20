@@ -1,9 +1,9 @@
+import React, { useContext } from "react";
 import { injectGlobal } from "@emotion/css";
 import { useMediaQuery } from "@mui/material";
 import { Grid } from '@mui/material';
-import { useContext } from "react";
-import Context from "../../context/contextPrincipal";
 import { Navbar } from "./Navbar/Navbar";
+import Context from "../../context/contextPrincipal";
 
 export const Layout = ({ children }) => {
     const [light] = useContext(Context);
@@ -19,24 +19,9 @@ export const Layout = ({ children }) => {
     `
 
     return (
-        <>
-            {!mobile ? (
-                <Grid item sx={{
-                    width: '100%',
-                    background: light ? "var(--cero)" : "var(--dark)",
-                }}>
-                    <Navbar />
-                    {children}
-                </Grid>
-            ) : (
-                <Grid item sx={{
-                    width: '100%',
-                    background: light ? "var(--cero)" : "var(--dark)",
-                }}>
-                    <Navbar />
-                    {children}
-                </Grid>
-            )}
-        </>
+        <Grid item sx={{ width: '100%', background: light ? "var(--light)" : "var(--dark)" }}>
+            <Navbar />
+            {children}
+        </Grid>
     );
 };
