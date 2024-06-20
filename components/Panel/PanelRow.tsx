@@ -1,12 +1,8 @@
-import { Button, CircularProgress, Grid, useMediaQuery } from '@mui/material';
-import Collapse from '@mui/material/Collapse';
-import moment from 'moment';
-import { useContext, useEffect, useState } from 'react';
-import Context from '../../context/contextPrincipal';
+import React, { useContext, useEffect, useState } from 'react';
+import { CircularProgress, Grid, useMediaQuery, Collapse, IconButton, Tooltip } from '@mui/material';
 import { ButtonStatus } from '../Shared/ButtonStatus';
-import IconButton from '@mui/material/IconButton';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { MdKeyboardArrowDown as ArrowDown } from "react-icons/md";
+import { MdKeyboardArrowUp as ArrowUp } from "react-icons/md";
 import { GiSoccerBall as Gol } from 'react-icons/gi';
 import { TbRectangleVertical as Tarjeta } from 'react-icons/tb';
 import { GiSoccerKick as Asistir } from 'react-icons/gi';
@@ -16,14 +12,14 @@ import { calcularDatosPartido, edit_autogol, jugadoresPut_amarillas, jugadoresPu
 import { status } from '../../utils/utils';
 import { datosDelPartidoHome, editarAmarilla, editarAsistencia, editarAutoGol, editarAzul, editarFigura, editarGoles, editarRoja, editarSuspencion, editarValorMercado } from '../../utils/utilsPanelJugadores';
 import { anularAmarilla, anularAsistencia, anularAutoGol, anularAzul, anularFigura, anularGoles, anularRoja } from '../../utils/utilsPanelAnular';
-import Tooltip from '@mui/material/Tooltip';
-import { FaListAlt as Lista } from 'react-icons/fa';
 import { ModalLista } from '../modals/Panel/ModalLista';
 import { DTPut_amarillas, DTPut_azul, DTPut_figura, DTPut_rojas, DTPut_suspencion } from '../../service/dt';
 import { anularAmarillaDT, anularAzulDT, anularFiguraDT, anularRojaDT, editarAmarillaDT, editarAzulDT, editarFiguraDT, editarRojaDT, editarSuspencionDT } from '../../utils/utilsDT';
 import { MdCalculate as Calculo } from 'react-icons/md';
 import { ButtonSend } from '../Material/ButtonSend';
 import { FaClipboardList as List } from 'react-icons/fa';
+import Context from '../../context/contextPrincipal';
+import moment from 'moment';
 
 export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -96,7 +92,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
             <Grid item gap={!mobile ? 4 : 0} sx={{ padding: '20px', display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', borderBottom: '1px solid var(--danger)' }}>
                 <Grid item>
                     <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)} sx={{ color: light ? 'black' : 'var(--cero)' }}>
-                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                        {open ? <ArrowUp /> : <ArrowDown />}
                     </IconButton>
                 </Grid>
                 <Grid item sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>
@@ -132,7 +128,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                         </Grid>}
                 </Grid>
             </Grid>
-            <Collapse in={open} timeout="auto" unmountOnExit sx={{ background: light ? 'var(--cero)' : 'var(--dark4)', width:'100%' }}>
+            <Collapse in={open} timeout="auto" unmountOnExit sx={{ background: light ? 'var(--cero)' : 'var(--dark4)', width: '100%' }}>
                 <Grid item p={5}>
                     <Grid item mb={2}>
                         <Tooltip title="Calcular los datos del partidos, se recomienda usarlo despues de terminado" placement="top">
@@ -152,10 +148,10 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                             editarSuspencion(awayTeam._id, jugador._id, jugador.suspendido, jugador.name, jugador.jornadas_suspendido, setIsLoadinng, editarSuspendido, queryClient, jugador.tarjetas_acumuladas);
                                         }),
                                         homeTeam?.jugadores.forEach(jugador => {
-                                            editarValorMercado(homeTeam._id,jugador._id,setIsLoadinng,mercado,queryClient,jugador,currentRound);
+                                            editarValorMercado(homeTeam._id, jugador._id, setIsLoadinng, mercado, queryClient, jugador, currentRound);
                                         }),
                                         awayTeam?.jugadores.forEach(jugador => {
-                                            editarValorMercado(awayTeam._id,jugador._id,setIsLoadinng,mercado,queryClient,jugador,currentRound);
+                                            editarValorMercado(awayTeam._id, jugador._id, setIsLoadinng, mercado, queryClient, jugador, currentRound);
                                         }),
                                         homeTeam?.director_tecnico.forEach(dt => {
                                             editarSuspencionDT(homeTeam._id, dt._id, dt.suspendido, dt.name, dt.jornadas_suspendido, setIsLoadinng, editarSuspencionDTs, queryClient, dt.tarjetas_acumuladas);
@@ -192,7 +188,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                         <Grid mt={1} item gap={mobile ? 0 : 2} sx={{ color: light ? 'var(--dark2)' : 'var(--gris)', display: 'flex', flexDirection: !mobile ? 'row' : 'column', alignItems: 'center', background: dt.suspendido === 'Si' ? 'var(--danger2)' : dt.azul_partido[currentRound] === 1 ? 'var(--primario2)' : dt.amarilla_partido[currentRound] === 1 ? 'var(--warnning2)' : '', borderRadius: '8px' }}>
                                             <Grid item sx={{ display: 'flex', gap: mobile ? '10px' : '8px' }}>
                                                 <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: mobile ? '20px' : '40px', fontWeight: 600 }}>..DT</Grid>
-                                                <Grid item sx={{ width: !mobile ? '250px' : '100%', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', justifyContent: mobile && 'center', fontSize: mobile ? '12px' : '15px', whiteSpace: 'nowrap' }}>
+                                                <Grid item sx={{ width: !mobile ? '250px' : '100%', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', justifyContent: mobile ? 'center' : '', fontSize: mobile ? '12px' : '15px', whiteSpace: 'nowrap' }}>
                                                     {dt.name}
                                                     {dt.figura_partido[currentRound] === 1 && <Figura style={{ color: 'var(--warnning)' }} />}
                                                     {dt.amarilla_partido[currentRound] >= 1 &&
@@ -205,7 +201,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                                 </Grid>
                                             </Grid>
                                             <Grid mt={mobile ? -1 : 0} item container flexDirection={'column'} alignItems={'center'}>
-                                                <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ? 2 : 3} p={1} sx={{ borderBottom: light ? '1px solid var(--dark3)' : '1px solid var(--cero)', justifyContent: mobile && 'center' }}>
+                                                <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ? 2 : 3} p={1} sx={{ borderBottom: light ? '1px solid var(--dark3)' : '1px solid var(--cero)', justifyContent: mobile ? 'center' : '' }}>
                                                     <Tooltip title="Tarjeta amarilla" placement="top">
                                                         <Grid item sx={{ cursor: 'pointer' }}
                                                             onClick={() => {
@@ -239,7 +235,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                                         </Grid>
                                                     </Tooltip>
                                                 </Grid>
-                                                <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ? 2 : 3} p={1} sx={{ justifyContent: mobile && 'center' }} >
+                                                <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ? 2 : 3} p={1} sx={{ justifyContent: mobile ? 'center' : '' }} >
                                                     <Tooltip title="Anular tarjeta amarilla" placement="top">
                                                         <Grid item sx={{ cursor: 'pointer' }}
                                                             onClick={() => {
@@ -285,7 +281,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                         <Grid mt={1} item gap={mobile ? 0 : 2} sx={{ color: light ? 'var(--dark2)' : 'var(--gris)', display: 'flex', flexDirection: !mobile ? 'row' : 'column', alignItems: 'center', background: jugador.suspendido === 'Si' ? 'var(--danger2)' : jugador.azul_partido_individual[currentRound] === 1 ? 'var(--primario2)' : jugador.amarilla_partido_individual[currentRound] === 1 ? 'var(--warnning2)' : '', borderRadius: '8px' }}>
                                             <Grid item sx={{ display: 'flex', gap: '8px' }}>
                                                 <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: mobile ? '20px' : '40px', fontWeight: 600 }}>#{jugador.dorsal}</Grid>
-                                                <Grid item sx={{ width: !mobile ? '250px' : '100%', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', justifyContent: mobile && 'center', fontSize: mobile ? '12px' : '15px', whiteSpace: 'nowrap' }}>
+                                                <Grid item sx={{ width: !mobile ? '250px' : '100%', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', justifyContent: mobile ? 'center' : '', fontSize: mobile ? '12px' : '15px', whiteSpace: 'nowrap' }}>
                                                     {jugador.name}
                                                     {jugador.jugador_figura_individual[currentRound] === 1 && <Figura style={{ color: 'var(--warnning)' }} />}
                                                     {jugador.amarilla_partido_individual[currentRound] >= 1 &&
@@ -308,7 +304,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                                 </Grid>
                                             </Grid>
                                             <Grid mt={mobile ? -1 : 0} item container flexDirection={'column'} alignItems={'center'}>
-                                                <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ? 2 : 3} p={1} sx={{ borderBottom: light ? '1px solid var(--dark3)' : '1px solid var(--cero)', justifyContent: mobile && 'center' }}>
+                                                <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ? 2 : 3} p={1} sx={{ borderBottom: light ? '1px solid var(--dark3)' : '1px solid var(--cero)', justifyContent: mobile ? 'center' : '' }}>
                                                     <Tooltip title="Gol" placement="top">
                                                         <Grid item sx={{ cursor: 'pointer', '&:hover': { color: light ? 'var(--neutral)' : 'var(--dark3)' } }}
                                                             onClick={() => {
@@ -358,7 +354,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                                         </Grid>
                                                     </Tooltip>
                                                 </Grid>
-                                                <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ? 2 : 3} p={1} sx={{ justifyContent: mobile && 'center' }} >
+                                                <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ? 2 : 3} p={1} sx={{ justifyContent: mobile ? 'center' : '' }} >
                                                     <Tooltip title="Anular gol" placement="top">
                                                         <Grid item sx={{ cursor: 'pointer', color: 'var(--danger)', '&:hover': { color: light ? 'var(--neutral)' : 'var(--dark3)' } }}
                                                             onClick={() => {
@@ -440,7 +436,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                         <Grid mt={1} item gap={mobile ? 0 : 2} sx={{ color: light ? 'var(--dark2)' : 'var(--gris)', display: 'flex', flexDirection: !mobile ? 'row' : 'column', alignItems: 'center', background: dt.suspendido === 'Si' ? 'var(--danger2)' : dt.azul_partido[currentRound] === 1 ? 'var(--primario2)' : dt.amarilla_partido[currentRound] === 1 ? 'var(--warnning2)' : '', borderRadius: '8px' }}>
                                             <Grid item sx={{ display: 'flex', gap: '8px' }}>
                                                 <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: mobile ? '20px' : '40px', fontWeight: 600 }}>..DT</Grid>
-                                                <Grid item sx={{ width: !mobile ? '250px' : '100%', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', justifyContent: mobile && 'center', fontSize: mobile ? '12px' : '15px', whiteSpace: 'nowrap' }}>
+                                                <Grid item sx={{ width: !mobile ? '250px' : '100%', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', justifyContent: mobile ? 'center' : '', fontSize: mobile ? '12px' : '15px', whiteSpace: 'nowrap' }}>
                                                     {dt.name}
                                                     {dt.figura_partido[currentRound] === 1 && <Figura style={{ color: 'var(--warnning)' }} />}
                                                     {dt.amarilla_partido[currentRound] >= 1 &&
@@ -453,7 +449,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                                 </Grid>
                                             </Grid>
                                             <Grid mt={mobile ? -1 : 0} item container flexDirection={'column'} alignItems={'center'}>
-                                                <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ? 2 : 3} p={1} sx={{ borderBottom: light ? '1px solid var(--dark3)' : '1px solid var(--cero)', justifyContent: mobile && 'center' }}>
+                                                <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ? 2 : 3} p={1} sx={{ borderBottom: light ? '1px solid var(--dark3)' : '1px solid var(--cero)', justifyContent: mobile ? 'center' : '' }}>
                                                     <Tooltip title="Tarjeta amarilla" placement="top">
                                                         <Grid item sx={{ cursor: 'pointer' }}
                                                             onClick={() => {
@@ -487,7 +483,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                                         </Grid>
                                                     </Tooltip>
                                                 </Grid>
-                                                <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ? 2 : 3} p={1} sx={{ justifyContent: mobile && 'center' }} >
+                                                <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ? 2 : 3} p={1} sx={{ justifyContent: mobile ? 'center' : '' }} >
                                                     <Tooltip title="Anular tarjeta amarilla" placement="top">
                                                         <Grid item sx={{ cursor: 'pointer' }}
                                                             onClick={() => {
@@ -533,7 +529,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                         <Grid mt={1} item gap={mobile ? 0 : 2} sx={{ color: light ? 'var(--dark2)' : 'var(--gris)', display: 'flex', flexDirection: !mobile ? 'row' : 'column', alignItems: 'center', background: jugador.suspendido === 'Si' ? 'var(--danger2)' : jugador.azul_partido_individual[currentRound] === 1 ? 'var(--primario2)' : jugador.amarilla_partido_individual[currentRound] === 1 ? 'var(--warnning2)' : '', borderRadius: '8px' }}>
                                             <Grid item sx={{ display: 'flex', gap: '8px' }}>
                                                 <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: mobile ? '20px' : '40px', fontWeight: 600 }}>#{jugador.dorsal}</Grid>
-                                                <Grid item sx={{ width: !mobile ? '250px' : '100%', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', justifyContent: mobile && 'center', fontSize: mobile ? '12px' : '15px', whiteSpace: 'nowrap' }}>
+                                                <Grid item sx={{ width: !mobile ? '250px' : '100%', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', justifyContent: mobile ? 'center' : '', fontSize: mobile ? '12px' : '15px', whiteSpace: 'nowrap' }}>
                                                     {jugador.name}
                                                     {jugador.jugador_figura_individual[currentRound] === 1 && <Figura style={{ color: 'var(--warnning)' }} />}
                                                     {jugador.amarilla_partido_individual[currentRound] >= 1 &&
@@ -556,7 +552,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                                 </Grid>
                                             </Grid>
                                             <Grid mt={mobile ? -1 : 0} item container flexDirection={'column'} alignItems={'center'}>
-                                                <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ? 2 : 3} p={1} sx={{ borderBottom: light ? '1px solid var(--dark3)' : '1px solid var(--cero)', justifyContent: mobile && 'center' }}>
+                                                <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ? 2 : 3} p={1} sx={{ borderBottom: light ? '1px solid var(--dark3)' : '1px solid var(--cero)', justifyContent: mobile ? 'center' : '' }}>
                                                     <Tooltip title="Gol" placement="top">
                                                         <Grid item sx={{ cursor: 'pointer', '&:hover': { color: light ? 'var(--neutral)' : 'var(--dark3)' } }}
                                                             onClick={() => {
@@ -606,7 +602,7 @@ export const PanelRow = ({ homeTeam, awayTeam, currentRound, isLoading, index, d
                                                         </Grid>
                                                     </Tooltip>
                                                 </Grid>
-                                                <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ? 2 : 3} p={1} sx={{ justifyContent: mobile && 'center' }} >
+                                                <Grid item container flexDirection={'row'} alignItems={'center'} gap={mobile ? 2 : 3} p={1} sx={{ justifyContent: mobile ? 'center' : '' }} >
                                                     <Tooltip title="Anular gol" placement="top">
                                                         <Grid item sx={{ cursor: 'pointer', color: 'var(--danger)', '&:hover': { color: light ? 'var(--neutral)' : 'var(--dark3)' } }}
                                                             onClick={() => {

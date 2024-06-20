@@ -1,13 +1,7 @@
-import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
-import { useContext, useState } from "react";
-import Context from "../../../context/contextPrincipal";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import React, { useContext, useState } from "react";
+import { CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, useMediaQuery } from "@mui/material";
 import { InputText } from "../../Material/InputTex";
 import { useMutation, useQueryClient } from "react-query";
-import moment from "moment";
 import { InputSelect } from "../../Material/InputSelect";
 import { contratos, nationalities, posiciones } from "../../../utils/arrays";
 import { InputFecha } from "../../Material/InputFecha";
@@ -18,6 +12,8 @@ import { BiExit as Salir } from 'react-icons/bi';
 import { MdGroupAdd as Crear } from 'react-icons/md';
 import { crearJugadores } from "../../../utils/utilsPanelJugadores";
 import { InputNumber } from "../../Material/InputNumber";
+import Context from "../../../context/contextPrincipal";
+import moment from "moment";
 
 export const ModalCrearJugador = ({ open, setOpen, id }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });

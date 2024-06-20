@@ -1,15 +1,22 @@
-import { withStyles, createStyles } from '@material-ui/core/styles';
-import TableCell from '@material-ui/core/TableCell';
+import React from 'react';
+import { TableCell, TableCellProps } from '@mui/material';
+import { styled } from '@mui/system';
 
-export const StyledTableCell = withStyles((theme) =>
-    createStyles({
-        head: {
-            backgroundColor: 'var(--dark2)',
-            color: 'var(--cero)',
-        },
-        body: (props: { light?: boolean }) => ({
-            fontSize: 12,
-            color: props.light ? 'black' : 'var(--cero)',
-        }),
-    })
-)(TableCell);
+interface StyledTableCellProps extends TableCellProps {
+    light?: boolean;
+}
+
+export const StyledTableCell = styled(({ light, ...other }: StyledTableCellProps) => (
+    <TableCell {...other} />
+))(({ theme, light }) => ({
+    '&.MuiTableCell-head': {
+        backgroundColor: 'var(--dark2)',
+        color: 'var(--cero)',
+    },
+    '&.MuiTableCell-body': {
+        fontSize: 12,
+        color: light ? 'black' : 'var(--cero)',
+    },
+}));
+
+export default StyledTableCell;

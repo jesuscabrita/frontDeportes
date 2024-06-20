@@ -1,7 +1,8 @@
-import { Grid, Button, useMediaQuery } from "@mui/material";
+import React from "react";
+import Context from "../context/contextPrincipal";
+import { Grid, useMediaQuery } from "@mui/material";
 import { useRouter } from "next/router";
 import { useContext } from "react";
-import Context from "../context/contextPrincipal";
 import { ButtonSend } from "../components/Material/ButtonSend";
 
 const Page404 = () => {

@@ -1,23 +1,23 @@
-import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
-import Context from "../../../context/contextPrincipal";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import React, { useContext, useEffect, useState } from "react";
+import { CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, useMediaQuery } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { InputSelect } from "../../Material/InputSelect";
 import { contratos } from "../../../utils/arrays";
 import { ButtonSend } from "../../Material/ButtonSend";
 import { BiExit as Salir } from 'react-icons/bi';
 import { InputNumber } from "../../Material/InputNumber";
-import { formatoPesosArgentinos } from "../../../utils/utils";
 import { ofertaPost } from "../../../service/jugadores";
 import { BsCashCoin as Cash } from 'react-icons/bs';
 import { crearOferta } from "../../../utils/utilsPanelJugadores";
-import ContextRefac from "../../../context/contextLogin";
 import { equiposGet } from "../../../service/equipos";
 import { InputTexArea } from "../../Material/InputTexArea";
+import ContextRefac from "../../../context/contextLogin";
+import Context from "../../../context/contextPrincipal";
+
+interface Equipo {
+    correo: string;
+    logo: any;
+}
 
 export const ModalPrestamo = ({ open, setOpen, equipoId, jugadorId, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -30,9 +30,9 @@ export const ModalPrestamo = ({ open, setOpen, equipoId, jugadorId, data }) => {
     const [isLoading, setIsLoading] = useState(false);
     const { mutate: oferta } = useMutation(ofertaPost);
     const { state: { user } }: any = useContext(ContextRefac);
-    const [equipo, setEquipo] = useState([]);
+    const [equipo, setEquipo] = useState<Equipo[]>([]);
 
-    const {  isError } = useQuery(["/api/liga"], equiposGet, {
+    const { isError } = useQuery(["/api/liga"], equiposGet, {
         refetchOnWindowFocus: false,
         onSuccess: (data) => {
             setEquipo(data);
@@ -61,17 +61,17 @@ export const ModalPrestamo = ({ open, setOpen, equipoId, jugadorId, data }) => {
                     {`Negociar prestamo por ${data.name}`}
                 </DialogTitle>
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                    {data.transferible === 'No' && <Grid item sx={{color: 'var(--neutral)'}}>{`El prestamo de ${data.name} es gratis solo pagas la mitad de su salario, el jugador no esta en venta pero puedes enviarte una oferta (en este caso es recomendable pagar la clausula, quizas acepte)`}</Grid>}
-                    {data.transferible === 'Si' && <Grid item sx={{color: 'var(--neutral)'}}>{`El prestamo de ${data.name} es gratis solo pagas la mitad de su salario, jugador esta en venta, podes ofrecer un precio sin necesidad de pagar clausula`}</Grid>}
+                    {data.transferible === 'No' && <Grid item sx={{ color: 'var(--neutral)' }}>{`El prestamo de ${data.name} es gratis solo pagas la mitad de su salario, el jugador no esta en venta pero puedes enviarte una oferta (en este caso es recomendable pagar la clausula, quizas acepte)`}</Grid>}
+                    {data.transferible === 'Si' && <Grid item sx={{ color: 'var(--neutral)' }}>{`El prestamo de ${data.name} es gratis solo pagas la mitad de su salario, jugador esta en venta, podes ofrecer un precio sin necesidad de pagar clausula`}</Grid>}
                     <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
-                        <InputNumber disable={true} placeholder={'Sueldo'} label={'Sueldo'} setValue={setSueldo} value={sueldo}/>
+                        <InputNumber disable={true} placeholder={'Sueldo'} label={'Sueldo'} setValue={setSueldo} value={sueldo} />
                         <InputSelect disable={true} label={'Contrato'} value={contrato} setValue={setContrato} selectData={contratos} />
                     </Grid>
                     <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
-                        <InputNumber disable={true} placeholder={'Oferta'} label={'Oferta'} setValue={setPrecio} value={precio}/>
+                        <InputNumber disable={true} placeholder={'Oferta'} label={'Oferta'} setValue={setPrecio} value={precio} />
                     </Grid>
                     <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
-                        <InputTexArea label={'Comentario'} disable={false} placeholder={'Comentario'} value={comentario} setValue={setComentario}/>
+                        <InputTexArea label={'Comentario'} disable={false} placeholder={'Comentario'} value={comentario} setValue={setComentario} />
                     </Grid>
                 </DialogContent>
                 {isLoading && (
@@ -81,7 +81,7 @@ export const ModalPrestamo = ({ open, setOpen, equipoId, jugadorId, data }) => {
                 )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
                     <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
-                    <ButtonSend disable={false} handle={() => { crearOferta(equipoId,jugadorId,user?.equipo,filterEstado()[0]?.logo,precio,contrato,'prestamo',sueldo,setIsLoading,oferta,queryClient,handleClose,comentario,'Prestamo_Enviada',user?.email, user?._id) }} title={'Negociar'} icon={Cash} iconColor={'var(--check)'} iconSize={20} />
+                    <ButtonSend disable={false} handle={() => { crearOferta(equipoId, jugadorId, user?.equipo, filterEstado()[0]?.logo, precio, contrato, 'prestamo', sueldo, setIsLoading, oferta, queryClient, handleClose, comentario, 'Prestamo_Enviada', user?.email, user?._id) }} title={'Negociar'} icon={Cash} iconColor={'var(--check)'} iconSize={20} />
                 </DialogActions>
             </Dialog>
         </Grid>

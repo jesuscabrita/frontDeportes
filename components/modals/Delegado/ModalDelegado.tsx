@@ -1,10 +1,5 @@
-import { Button, CircularProgress, Grid, useMediaQuery } from "@mui/material";
-import { useContext, useState } from "react";
-import Context from "../../../context/contextPrincipal";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import React, { useContext, useState } from "react";
+import { CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, useMediaQuery } from "@mui/material";
 import { InputText } from "../../Material/InputTex";
 import { useMutation, useQueryClient } from "react-query";
 import { delegadoPost } from "../../../service/delegado";
@@ -12,6 +7,7 @@ import { crearDelegado } from "../../../utils/utilsDelegado";
 import { BiExit as Salir } from 'react-icons/bi';
 import { MdGroupAdd as Crear } from 'react-icons/md';
 import { ButtonSend } from "../../Material/ButtonSend";
+import Context from "../../../context/contextPrincipal";
 
 export const ModalDelegado = ({ open, setOpen, id }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });

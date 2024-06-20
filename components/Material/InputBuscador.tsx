@@ -1,14 +1,14 @@
+import React, { useContext } from "react";
 import { InputAdornment, TextField } from "@mui/material"
-import { useContext } from "react";
+import { CiSearch as Search } from "react-icons/ci";
 import Context from "../../context/contextPrincipal";
-import { Search as SearchIcon } from "@mui/icons-material";
 
-export const InputBuscador =({value, setValue,placeholder})=>{
+export const InputBuscador = ({ value, setValue, placeholder }) => {
     const [light] = useContext(Context);
 
-    return(
+    return (
         <>
-        <TextField
+            <TextField
                 autoComplete="off"
                 fullWidth
                 value={value}
@@ -39,7 +39,7 @@ export const InputBuscador =({value, setValue,placeholder})=>{
                 InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">
-                            <SearchIcon color="action" sx={{ color: light ? "var(--dark2)" : "var(--cero)" }}/>
+                            <Search style={{ color: light ? "var(--dark2)" : "var(--cero)" }} />
                         </InputAdornment>
                     ),
                 }}

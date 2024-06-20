@@ -1,5 +1,5 @@
+import React, { useContext } from "react";
 import { Button, useMediaQuery } from "@mui/material"
-import { useContext } from "react";
 import Context from "../../context/contextPrincipal";
 
 export const ButtonSend = ({ title, handle, disable, icon: IconComponent, iconSize, iconColor }) => {
@@ -17,8 +17,8 @@ export const ButtonSend = ({ title, handle, disable, icon: IconComponent, iconSi
                 justifyContent: 'center',
                 gap: '8px',
                 color: light ? 'var(--dark2)' : 'var(--neutral)',
-                border: disable? 'none': 'solid 1px var(--neutral)',
-                fontSize: mobile ?'9px':'12px',
+                border: disable ? 'none' : 'solid 1px var(--neutral)',
+                fontSize: mobile ? '9px' : '12px',
             }}
         >
             {title}

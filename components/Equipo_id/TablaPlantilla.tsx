@@ -1,9 +1,5 @@
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableContainer from '@material-ui/core/TableContainer';
-import Paper from '@material-ui/core/Paper';
-import { Avatar, CircularProgress, Grid, useMediaQuery } from '@mui/material';
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { Avatar, CircularProgress, Grid, Paper, Table, TableBody, TableContainer, useMediaQuery } from '@mui/material';
 import Context from '../../context/contextPrincipal';
 import { ModalEditarJugador } from '../modals/Jugador/ModalEditarJugador';
 import { useMutation, useQueryClient } from 'react-query';
@@ -35,11 +31,19 @@ import { FlagIcon } from './FlagIcon';
 import { MdFiberNew as Nuevo } from 'react-icons/md';
 import { MdNewReleases as Prestamo } from 'react-icons/md';
 
+interface Jugador {
+    _id: string;
+}
+
+interface DtProps {
+    _id: string;
+}
+
 export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico }) => {
     const [light] = useContext(Context);
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
-    const [jugadorSeleccionado, setJugadorSeleccionado] = useState(null);
-    const [dtSeleccionado, setDtSeleccionado] = useState(null);
+    const [jugadorSeleccionado, setJugadorSeleccionado] = useState<Jugador | null>(null);
+    const [dtSeleccionado, setDtSeleccionado] = useState<DtProps | null>(null);
     const [modalEditarJugador, setModalEditarJugador] = useState(false);
     const [modalEditarDT, setModalEditarDT] = useState(false);
     const [modalEditarJornada, setModalEditarJornada] = useState(false);
@@ -74,7 +78,7 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
                     flexDirection: 'row',
                     gap: '16px',
                     minWidth: !mobile ? '960px' : '100%',
-                    height: mobile && '300px',
+                    height: mobile ? '300px' : '',
                     justifyContent: 'center',
                     color: light ? 'var(--dark2)' : 'var(--cero)'
                 }}>
@@ -86,7 +90,7 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
                         flexDirection: 'row',
                         gap: '16px',
                         minWidth: !mobile ? '960px' : '100%',
-                        height: mobile && '300px',
+                        height: mobile ? '300px' : '',
                         justifyContent: 'center',
                         color: light ? 'var(--dark2)' : 'var(--cero)'
                     }}>
@@ -99,7 +103,7 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
                             <TableBody style={{ background: light ? 'var(--cero)' : 'var(--dark3)' }}>
                                 {director_tecnico.map((dt, index) => {
                                     return (
-                                        <StyledTableRow light={light} key={dt.id} style={{ background: dt.suspendido === 'Si' && 'var(--danger2)' }}>
+                                        <StyledTableRow light={light} key={dt.id} style={{ background: dt.suspendido === 'Si' ? 'var(--danger2)' : '' }}>
                                             <StyledTableCell light={light} component="th" scope="row">
                                                 <Grid container alignItems={'center'} gap={2} sx={{ whiteSpace: 'nowrap', width: '70px' }}>
                                                     <Grid>..</Grid>
@@ -109,7 +113,7 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
                                             <StyledTableCell light={light} align="right" style={{ whiteSpace: 'nowrap' }}>
                                                 <Grid sx={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', gap: '18px' }} >
                                                     <Avatar src="/broken-image.jpg" sx={{ height: '35px', width: '35px' }} />
-                                                    <Grid sx={{ whiteSpace: 'nowrap', paddingRight: mobile && '30px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                    <Grid sx={{ whiteSpace: 'nowrap', paddingRight: mobile ? '30px' : '', display: 'flex', alignItems: 'center', gap: '6px' }}>
                                                         {dt.name}
                                                         {dt.tarjetas_acumuladas > 0 && (<Grid item sx={{ display: 'flex', alignItems: 'center' }}>{dt.tarjetas_acumuladas}<Tarjeta color={'var(--warnning)'} size={20} /></Grid>)}
                                                         {dt.suspendido === 'Si' && (
@@ -152,7 +156,7 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
                                 })}
                                 {ordenarJugadores(jugadores, posicionesOrdenadas).map((jugador, index) => {
                                     return (
-                                        <StyledTableRow disabled={jugador.inscrito === 'No'} light={light} key={jugador.id} style={{ background: jugador.suspendido === 'Si' && 'var(--danger2)' }}>
+                                        <StyledTableRow disabled={jugador.inscrito === 'No'} light={light} key={jugador.id} style={{ background: jugador.suspendido === 'Si' ? 'var(--danger2)' : '' }}>
                                             <StyledTableCell light={light} component="th" scope="row">
                                                 <Grid container alignItems={'center'} gap={2} sx={{ whiteSpace: 'nowrap', width: '70px' }}>
                                                     <Grid>{index + 1}</Grid>
@@ -169,15 +173,15 @@ export const TablaPlantilla = ({ jugadores, equipo, isLoading, director_tecnico 
                                             <StyledTableCell light={light} align="right" style={{ whiteSpace: 'nowrap' }}>
                                                 <Grid sx={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', gap: '18px', cursor: 'pointer' }} onClick={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalJugadorInfo) }}>
                                                     <Avatar {...stringAvatar(jugador.name)} sx={{ height: '35px', width: '35px' }} />
-                                                    <Grid sx={{ whiteSpace: 'nowrap', paddingRight: mobile && '30px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                    <Grid sx={{ whiteSpace: 'nowrap', paddingRight: mobile ? '30px' : '', display: 'flex', alignItems: 'center', gap: '6px' }}>
                                                         {jugador.name}
-                                                        {jugador.status ==='Fichado' && jugador.partidos < 2 &&
+                                                        {jugador.status === 'Fichado' && jugador.partidos < 2 &&
                                                             <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                                                <Nuevo size={25} color={'var(--check)'}/>
+                                                                <Nuevo size={25} color={'var(--check)'} />
                                                             </Grid>}
-                                                        {jugador.status ==='Prestamo' && 
+                                                        {jugador.status === 'Prestamo' &&
                                                             <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                                                <Prestamo size={25} color={'var(--warnning)'}/>
+                                                                <Prestamo size={25} color={'var(--warnning)'} />
                                                                 <Grid sx={{ color: 'var(--neutral)' }}>{`P.(${jugador.equipo})`}</Grid>
                                                             </Grid>}
                                                         {jugador.capitan === 'Si' &&

@@ -1,10 +1,10 @@
-import { useContext } from "react";
-import Context from "../../context/contextPrincipal";
+import React, { useContext } from "react";
 import { Grid, TextField } from "@mui/material";
+import Context from "../../context/contextPrincipal";
 
-export const InputTexArea =({label,placeholder,value,setValue,disable})=>{
+export const InputTexArea = ({ label, placeholder, value, setValue, disable }) => {
     const [light] = useContext(Context);
-    return(
+    return (
         <Grid item sx={{ width: '100%', display: "flex", flexDirection: "column", color: light ? "var(--dark2)" : "var(--cero)", fontSize: "10px" }}>
             {label}
             <TextField

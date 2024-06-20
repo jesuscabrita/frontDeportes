@@ -6,7 +6,6 @@ import Slide, { SlideProps } from '@mui/material/Slide';
 import Grow, { GrowProps } from '@mui/material/Grow';
 import { TransitionProps } from '@mui/material/transitions';
 
-
 function SlideTransition(props: SlideProps) {
     return <Slide {...props} direction="up" />;
 }

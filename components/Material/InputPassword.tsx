@@ -1,7 +1,8 @@
+import React from "react";
 import { useContext, useState } from "react";
 import { Grid, TextField, InputAdornment, IconButton } from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { MdOutlineVisibilityOff as VisibilityOff } from "react-icons/md";
+import { MdOutlineVisibility as Visibility } from "react-icons/md";
 import Context from "../../context/contextPrincipal";
 
 export const InputPassword = ({ value, setValue, label, placeholder }) => {

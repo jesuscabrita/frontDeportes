@@ -1,14 +1,20 @@
-import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
-import TableRow from '@material-ui/core/TableRow';
+import React from 'react';
+import { TableRow, TableRowProps } from '@mui/material';
+import { styled } from '@mui/system';
 
-export const StyledTableRow = withStyles((theme: Theme) =>
-    createStyles({
-        root: (props: { light?: boolean, disabled?: boolean }) => ({
-            '&:nth-of-type(odd)': {
-                backgroundColor: props.light ? theme.palette.action.hover : 'var(--dark)',
-            },
-            opacity: props.disabled ? 0.5 : 1,
-            pointerEvents: props.disabled ? 'none' : 'auto', 
-        }),
-    })
-)(TableRow);
+interface StyledTableRowProps extends TableRowProps {
+    light?: boolean;
+    disabled?: boolean;
+}
+
+export const StyledTableRow = styled(({ light, disabled, ...other }: StyledTableRowProps) => (
+    <TableRow {...other} />
+))(({ theme, light, disabled }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: light ? theme.palette.action.hover : 'var(--dark)',
+    },
+    opacity: disabled ? 0.5 : 1,
+    pointerEvents: disabled ? 'none' : 'auto',
+}));
+
+export default StyledTableRow;

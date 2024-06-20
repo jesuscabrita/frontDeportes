@@ -1,11 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import Context from '../../../context/contextPrincipal';
-import { CircularProgress, Grid, useMediaQuery } from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, useMediaQuery } from '@mui/material';
 import { IoMdImages as Images } from 'react-icons/io';
 import { TiDeleteOutline as Delete } from 'react-icons/ti';
 import { InputText } from '../../Material/InputTex';
@@ -16,6 +10,7 @@ import { BiExit as Salir } from 'react-icons/bi';
 import { BiEditAlt as Editar } from 'react-icons/bi';
 import { ButtonSend } from '../../Material/ButtonSend';
 import { editarEquipos } from '../../../utils/utilsEquipos';
+import Context from '../../../context/contextPrincipal';
 
 export const ModalEditarEquipo = ({ open, setOpen, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });

@@ -15,13 +15,12 @@ export const UltimateP = ({ last5 }) => {
     }
 
     return (
-        <Grid container alignItems={'center'} justifyContent={'center'} gap={1} sx={{width: mobile ?'140px': '100%', whiteSpace: 'nowrap'}}>
+        <Grid container alignItems={'center'} justifyContent={'center'} gap={1} sx={{ width: mobile ? '140px' : '100%', whiteSpace: 'nowrap' }}>
             {last5.map((result, index) => (
                 <React.Fragment key={index}>
                     {icons[result]}
                 </React.Fragment>
             ))}
         </Grid>
-
     )
 }

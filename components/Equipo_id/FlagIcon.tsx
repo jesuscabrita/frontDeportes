@@ -1,23 +1,23 @@
-import Image from "next/image";
-import argentinaFlag from '../../public/images/argentina.png';
-import boliviaFlag from '../../public/images/bolivia.png';
-import brazilFlag from '../../public/images/brazil.png';
-import chileFlag from '../../public/images/chile.png';
-import colombiaFlag from '../../public/images/colombia.png';
-import costaricaFlag from '../../public/images/costarica.png';
-import cubaFlag from '../../public/images/cuba.png';
-import dominicanrepublicFlag from '../../public/images/dominicanrepublic.png';
-import paraguayFlag from '../../public/images/paraguay.png';
-import ecuadorFlag from '../../public/images/ecuador.png';
-import mexicoFlag from '../../public/images/mexico.png';
-import unitedstatesFlag from '../../public/images/unitedstates.png';
-import uruguayFlag from '../../public/images/uruguay.png';
-import venezuelaFlag from '../../public/images/venezuela.png';
-import peruFlag from '../../public/images/peru.png';
+import React from "react";
 import { useMediaQuery } from "@mui/material";
 
 export const FlagIcon = ({ nacionalidad }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
+    const argentinaFlag = '/images/argentina.png';
+    const boliviaFlag = '/images/bolivia.png';
+    const brazilFlag = '/images/brazil.png';
+    const chileFlag = '/images/chile.png';
+    const colombiaFlag = '/images/colombia.png';
+    const costaricaFlag = '/images/costarica.png';
+    const cubaFlag = '/images/cuba.png';
+    const dominicanrepublicFlag = '/images/dominicanrepublic.png';
+    const paraguayFlag = '/images/paraguay.png';
+    const ecuadorFlag = '/images/ecuador.png';
+    const mexicoFlag = '/images/mexico.png';
+    const unitedstatesFlag = '/images/unitedstates.png';
+    const uruguayFlag = '/images/uruguay.png';
+    const venezuelaFlag = '/images/venezuela.png';
+    const peruFlag = '/images/peru.png';
 
     const getImageSource = (nacionalidad) => {
         switch (nacionalidad) {
@@ -58,7 +58,7 @@ export const FlagIcon = ({ nacionalidad }) => {
     const imageSource = getImageSource(nacionalidad);
 
     if (imageSource) {
-        return <Image src={imageSource} alt={nacionalidad} width={mobile ? 25 : 28} />;
+        return <img src={imageSource} alt={nacionalidad} width={mobile ? 25 : 28} />;
     }
 
     return null;

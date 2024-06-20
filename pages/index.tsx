@@ -1,12 +1,11 @@
-import { Box, Grid, useMediaQuery } from "@mui/material";
-import { useContext, useState } from "react";
-import Context from "../context/contextPrincipal";
+import React, { useContext, useState } from "react";
+import { Box, Grid, Tabs, useMediaQuery } from "@mui/material";
 import { Equipos } from "../components/home/Equipos/Equipos";
-import Tabs from '@mui/material/Tabs'
 import { LiveMatches } from "../components/Shared/LiveMatches";
 import { useQuery } from "react-query";
 import { equiposGet } from "../service/equipos";
 import { filterEstado } from "../utils/utils";
+import Context from "../context/contextPrincipal";
 
 const Index = () => {
     const [light] = useContext(Context);

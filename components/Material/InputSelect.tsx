@@ -1,15 +1,23 @@
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { useContext } from 'react';
-import Context from '../../context/contextPrincipal';
-import { Grid } from '@mui/material';
+import React, { useContext } from 'react';
+import { FormControl, Grid, MenuItem, Select } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import Context from '../../context/contextPrincipal';
 
-export const InputSelect = ({ value, setValue, label, selectData, disable }) => {
+interface SelectOption {
+    value: any;
+    label: any;
+}
+
+export const InputSelect = ({ value, setValue, label, selectData, disable }: {
+    value: any;
+    setValue: any;
+    label: any;
+    selectData: SelectOption[];
+    disable: boolean;
+}) => {
     const [light] = useContext(Context);
 
-    const handleChange = (event: SelectChangeEvent) => {
+    const handleChange = (event: any) => {
         setValue(event.target.value);
     };
 

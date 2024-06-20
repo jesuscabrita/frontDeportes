@@ -1,9 +1,8 @@
+import React, { useContext, useState } from "react";
 import { Button, CircularProgress, Grid, useMediaQuery } from "@mui/material";
-import { useContext, useState } from "react";
 import { RiImageAddFill as Add } from 'react-icons/ri';
 import { useMutation, useQueryClient } from "react-query";
 import { equiposPost } from "../../../service/equipos";
-import Context from "../../../context/contextPrincipal";
 import { InputText } from "../../Material/InputTex";
 import { IoMdImages as Images } from 'react-icons/io';
 import { TiDeleteOutline as Delete } from 'react-icons/ti';
@@ -11,13 +10,16 @@ import { FaRegRegistered as Crear } from 'react-icons/fa';
 import { ButtonSend } from "../../Material/ButtonSend";
 import { nuevoEquipo } from "../../../utils/utilsEquipos";
 import ContextRefac from "../../../context/contextLogin";
+import Context from "../../../context/contextPrincipal";
+
+type Nullable<T> = T | null;
 
 export const Form = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const { state: { user } }: any = useContext(ContextRefac);
     const [light] = useContext(Context);
     const [name, setName] = useState('');
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState<Nullable<string>>(null);
     const [correo, setCorreo] = useState('');
     const [instagram, setInstagram] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -26,15 +28,21 @@ export const Form = () => {
     const [imageName, setImageName] = useState('');
     const queryClient = useQueryClient()
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = () => {
-            setImage(reader.result);
-            setLogoAdded(true);
-            setImageName(file.name);
-        };
-        reader.readAsDataURL(file);
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const result = reader.result;
+                if (typeof result === 'string') {
+                    setImage(result);
+                    setLogoAdded(true);
+                    setImageName(file.name);
+                } else {
+                }
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     return (

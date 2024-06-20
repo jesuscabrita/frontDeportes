@@ -1,10 +1,5 @@
-import { useContext, useState } from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import Context from '../../../context/contextPrincipal';
-import { CircularProgress, Grid, useMediaQuery } from '@mui/material';
+import React, { useContext, useState } from 'react';
+import { CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, useMediaQuery } from '@mui/material';
 import { InputSelect } from '../../Material/InputSelect';
 import { arbitros } from '../../../utils/arrays';
 import { useMutation, useQueryClient } from 'react-query';
@@ -13,6 +8,7 @@ import { BiExit as Salir } from 'react-icons/bi';
 import { BiEditAlt as Editar } from 'react-icons/bi';
 import { ButtonSend } from '../../Material/ButtonSend';
 import { editarArbitros } from '../../../utils/utilsArbitro';
+import Context from '../../../context/contextPrincipal';
 
 export const ModalArbitro = ({ open, setOpen, data, index, id }) => {
     const [light] = useContext(Context);

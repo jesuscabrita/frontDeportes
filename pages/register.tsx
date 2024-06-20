@@ -1,22 +1,22 @@
+import React, { useContext, useState } from "react";
 import { Grid, useMediaQuery, Typography, Paper, Avatar, CircularProgress, Icon } from "@mui/material";
 import { InputText } from "../components/Material/InputTex";
-import { useContext, useState } from "react";
-import Context from "../context/contextPrincipal";
 import { InputFecha } from "../components/Material/InputFecha";
 import { ButtonSend } from "../components/Material/ButtonSend";
 import { RegisterRequest } from "../service/session";
 import { useMutation, useQueryClient } from "react-query";
-import moment from "moment";
 import { crearUser } from "../utils/utilsUser";
 import { FaRegistered as Reg } from 'react-icons/fa';
 import { useRouter } from "next/router";
+import Context from "../context/contextPrincipal";
+import moment from "moment";
 
 const Register = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [light] = useContext(Context);
     const [nombre, setNombre] = useState('');
     const [apellido, setApellido] = useState('');
-    const [fecha_de_nacimiento, setFecha_de_nacimiento] = useState('');
+    const [fecha_de_nacimiento, setFecha_de_nacimiento] = useState(null);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [repeated_password, setRepeated_password] = useState('');
@@ -64,13 +64,13 @@ const Register = () => {
                         <InputText disable={false} label="Nombre de tu equipo" placeholder="Nombre de tu equipo" setValue={setEquipo} value={equipo} />
                     </Grid>
                     <Grid item mt={2}>
-                        <ButtonSend disable={false} icon="" iconColor="" iconSize={20} title="Registrar" handle={() => { crearUser(nombre, apellido, moment(fecha_de_nacimiento).format('YYYY-MM-DD'), email, password, repeated_password, equipo, setIsLoading, crearUsers, queryClient,router) }} />
+                        <ButtonSend disable={false} icon="" iconColor="" iconSize={20} title="Registrar" handle={() => { crearUser(nombre, apellido, moment(fecha_de_nacimiento).format('YYYY-MM-DD'), email, password, repeated_password, equipo, setIsLoading, crearUsers, queryClient, router) }} />
                     </Grid>
                     <Grid item mt={2}>
-                    <Typography variant="body2" sx={{ color: light ? "var(--dark3)" : "var(--gris2)", cursor: 'pointer', textDecoration: 'underline' }} onClick={navigateToLogin}>
-                        Volver a iniciar sesión
-                    </Typography>
-                </Grid>
+                        <Typography variant="body2" sx={{ color: light ? "var(--dark3)" : "var(--gris2)", cursor: 'pointer', textDecoration: 'underline' }} onClick={navigateToLogin}>
+                            Volver a iniciar sesión
+                        </Typography>
+                    </Grid>
                 </Paper>
                 {isLoading && (
                     <Grid sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '160vh' : '130vh', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

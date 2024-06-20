@@ -1,3 +1,4 @@
+import React from 'react';
 import { BsCaretUpFill as ArrowTop } from 'react-icons/bs';
 import { BsCaretDownFill as ArrowBottom } from 'react-icons/bs';
 import { FaMinus as Igual } from 'react-icons/fa';

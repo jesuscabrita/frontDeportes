@@ -1,5 +1,5 @@
+import React, { useContext } from "react";
 import { Grid, Typography, Avatar, CircularProgress, useMediaQuery } from "@mui/material";
-import { useContext } from "react";
 import Context from "../context/contextPrincipal";
 import ContextRefac from "../context/contextLogin";
 import { useRouter } from "next/router";
@@ -30,40 +30,40 @@ const Perfil = () => {
 
     return (
         <>
-        {isLoading ?
-        <Grid item height="100vh" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', color: light ? 'var(--dark2)' : 'var(--cero)', gap: '16px' }}>
-            Cargando usuario..! <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} size={30} />
-        </Grid>
-        : isError ?
-        <Grid item height="100vh" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', color: light ? 'var(--dark2)' : 'var(--cero)', }}>
-            Ha ocurrido un error al cargar el usuario <Err404 size={45} />
-        </Grid>
-        :<Grid container direction="column" alignItems="center" justifyContent="center" height="100vh" style={{ padding: "0 50px" }}>
-            <Grid width={'100%'} sx={{ display: 'flex' }}>
-                <Grid sx={{ paddingLeft: !mobile ? '80px' : '16px' }}>
-                    <Atras size={30} style={{ cursor: 'pointer', color: light ? 'var(--dark2)' : 'var(--cero)' }} onClick={handleAtrasClick} />
+            {isLoading ?
+                <Grid item height="100vh" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', color: light ? 'var(--dark2)' : 'var(--cero)', gap: '16px' }}>
+                    Cargando usuario..! <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} size={30} />
                 </Grid>
-            </Grid>
-            <Avatar alt={`${usuario?.nombre} ${usuario?.apellido}`} src={''} sx={{ width: 100, height: 100, marginBottom: 5 }} />
-            <Typography variant="h5" component="h1" gutterBottom sx={{color: light ? 'var(--dark2)' : 'var(--cero)'}}>
-                {usuario?.nombre} {usuario?.apellido}
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom sx={{color: light ? 'var(--dark2)' : 'var(--cero)',display:'flex', gap:'10px', fontWeight:'700'}}>
-                Rol: <Grid item sx={{color: light ? 'var(--dark)' : 'var(--neutral)',fontWeight:'500'}}>{usuario?.role}</Grid>
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom sx={{color: light ? 'var(--dark2)' : 'var(--cero)',display:'flex', gap:'10px', fontWeight:'700'}}>
-                Email: <Grid item sx={{color: light ? 'var(--dark)' : 'var(--neutral)',fontWeight:'500'}}>{usuario?.email}</Grid>
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom sx={{color: light ? 'var(--dark2)' : 'var(--cero)',display:'flex', gap:'10px', fontWeight:'700'}}>
-                Fecha de nacimiento: <Grid item sx={{color: light ? 'var(--dark)' : 'var(--neutral)',fontWeight:'500'}}>{usuario?.fecha_de_nacimiento}</Grid>
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom sx={{color: light ? 'var(--dark2)' : 'var(--cero)',display:'flex', gap:'10px', fontWeight:'700'}}>
-                Edad: <Grid item sx={{color: light ? 'var(--dark)' : 'var(--neutral)',fontWeight:'500'}}>{usuario?.edad}</Grid>
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom sx={{color: light ? 'var(--dark2)' : 'var(--cero)',display:'flex', gap:'10px', fontWeight:'700'}}>
-                Equipo: <Grid item sx={{color: light ? 'var(--dark)' : 'var(--neutral)',fontWeight:'500'}}>{usuario?.equipo}</Grid>
-            </Typography>
-        </Grid>}
+                : isError ?
+                    <Grid item height="100vh" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', color: light ? 'var(--dark2)' : 'var(--cero)', }}>
+                        Ha ocurrido un error al cargar el usuario <Err404 size={45} />
+                    </Grid>
+                    : <Grid container direction="column" alignItems="center" justifyContent="center" height="100vh" style={{ padding: "0 50px" }}>
+                        <Grid width={'100%'} sx={{ display: 'flex' }}>
+                            <Grid sx={{ paddingLeft: !mobile ? '80px' : '16px' }}>
+                                <Atras size={30} style={{ cursor: 'pointer', color: light ? 'var(--dark2)' : 'var(--cero)' }} onClick={handleAtrasClick} />
+                            </Grid>
+                        </Grid>
+                        <Avatar alt={`${usuario?.nombre} ${usuario?.apellido}`} src={''} sx={{ width: 100, height: 100, marginBottom: 5 }} />
+                        <Typography variant="h5" component="h1" gutterBottom sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>
+                            {usuario?.nombre} {usuario?.apellido}
+                        </Typography>
+                        <Typography variant="subtitle1" gutterBottom sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', display: 'flex', gap: '10px', fontWeight: '700' }}>
+                            Rol: <Grid item sx={{ color: light ? 'var(--dark)' : 'var(--neutral)', fontWeight: '500' }}>{usuario?.role}</Grid>
+                        </Typography>
+                        <Typography variant="subtitle1" gutterBottom sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', display: 'flex', gap: '10px', fontWeight: '700' }}>
+                            Email: <Grid item sx={{ color: light ? 'var(--dark)' : 'var(--neutral)', fontWeight: '500' }}>{usuario?.email}</Grid>
+                        </Typography>
+                        <Typography variant="subtitle1" gutterBottom sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', display: 'flex', gap: '10px', fontWeight: '700' }}>
+                            Fecha de nacimiento: <Grid item sx={{ color: light ? 'var(--dark)' : 'var(--neutral)', fontWeight: '500' }}>{usuario?.fecha_de_nacimiento}</Grid>
+                        </Typography>
+                        <Typography variant="subtitle1" gutterBottom sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', display: 'flex', gap: '10px', fontWeight: '700' }}>
+                            Edad: <Grid item sx={{ color: light ? 'var(--dark)' : 'var(--neutral)', fontWeight: '500' }}>{usuario?.edad}</Grid>
+                        </Typography>
+                        <Typography variant="subtitle1" gutterBottom sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', display: 'flex', gap: '10px', fontWeight: '700' }}>
+                            Equipo: <Grid item sx={{ color: light ? 'var(--dark)' : 'var(--neutral)', fontWeight: '500' }}>{usuario?.equipo}</Grid>
+                        </Typography>
+                    </Grid>}
         </>
     );
 };

@@ -1,10 +1,9 @@
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import Context from '../../context/contextPrincipal';
 import { StyledTableCell } from './StyledTableCell';
+import { TableHead, TableRow } from '@mui/material';
 
-export const CustomTableHead = ({  headers }) => {
+export const CustomTableHead = ({ headers }) => {
     const [light] = useContext(Context);
     return (
         <TableHead>

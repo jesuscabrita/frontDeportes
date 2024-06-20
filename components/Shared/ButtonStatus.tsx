@@ -1,8 +1,8 @@
+import React, { useContext } from "react";
 import { Grid, Typography } from "@mui/material"
 import { EnVivo } from "./EnVivo"
-import { useContext } from "react";
-import Context from "../../context/contextPrincipal";
 import { BiTimer as Time } from 'react-icons/bi';
+import Context from "../../context/contextPrincipal";
 
 export const ButtonStatus = ({ status, gol_home, gol_away, minutosTranscurridos }) => {
     const [light] = useContext(Context);
@@ -47,7 +47,7 @@ export const ButtonStatus = ({ status, gol_home, gol_away, minutosTranscurridos 
                 </Grid>
             </Grid>
         );
-    } 
+    }
     else if (status === 'fechaInvalida') {
         return (
             <Grid sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

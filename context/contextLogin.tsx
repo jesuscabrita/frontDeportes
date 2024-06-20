@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from "react";
+import React, { createContext, useEffect, useReducer } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useRouter } from "next/router";
 import { ReducerApp } from "./Reducer/reducer";
@@ -14,11 +14,13 @@ export const InfoContextRefac = ({ children }) => {
     };
     const [state, dispatch] = useReducer(ReducerApp, initialState);
     const router = useRouter();
-    const sessionDuration =  2 * 60 * 60 * 1000; // 2 horas en milisegundos
+    const sessionDuration = 2 * 60 * 60 * 1000; // 2 horas en milisegundos
 
     useEffect(() => {
-        const usuario = JSON.parse(localStorage.getItem("user"));
-        const lastActivity = parseInt(localStorage.getItem("lastActivity"), 10); // Convertir a tipo number
+        const userJson = localStorage.getItem("user");
+        const usuario = userJson ? JSON.parse(userJson) : null;
+        const lastActivityStr = localStorage.getItem("lastActivity");
+        const lastActivity = lastActivityStr ? parseInt(lastActivityStr, 10) : null;
         const currentTime = new Date().getTime();
 
         if (usuario) {
@@ -41,30 +43,30 @@ export const InfoContextRefac = ({ children }) => {
     }, []);
 
     const { mutate } = useMutation(SignInRequest);
-    const { mutate:cerrarSesion } = useMutation(logoutRequest);
+    const { mutate: cerrarSesion } = useMutation(logoutRequest);
     const SignIn = ({ email, password }) => {
         dispatch({ type: "SET_LOGIN_ERROR", payload: { status: false, message: "" } });
-        mutate({ email, password },{
-                onSuccess: (data: any) => {
-                    if (data?.status === 400) {
-                        dispatch({ type: "SET_LOGIN_ERROR", payload: { status: true, message: data.data.message } });
-                        alertaSubmit(false, data.data.message);
-                    }
-                    if (data?.status === 200) {
-                        localStorage.setItem("token", data?.payload);
-                        localStorage.setItem("user", JSON.stringify(data?.data.payload));
-                        dispatch({ type: "SET_USER", payload: data?.data.payload });
-                        alertaSubmit(true, data.data.message);
-                        localStorage.setItem("lastActivity", new Date().getTime().toString());
-                        queryClient.invalidateQueries(["login"]);
-                        router.push("/");
-                    }
-                },
-                onError: (error: any) => {
-                    alertaSubmit(false, error);
-                    dispatch({ type: "SET_LOGIN_ERROR", payload: { status: true, message: error.data.message } });
-                },
-            }
+        mutate({ email, password }, {
+            onSuccess: (data: any) => {
+                if (data?.status === 400) {
+                    dispatch({ type: "SET_LOGIN_ERROR", payload: { status: true, message: data.data.message } });
+                    alertaSubmit(false, data.data.message);
+                }
+                if (data?.status === 200) {
+                    localStorage.setItem("token", data?.payload);
+                    localStorage.setItem("user", JSON.stringify(data?.data.payload));
+                    dispatch({ type: "SET_USER", payload: data?.data.payload });
+                    alertaSubmit(true, data.data.message);
+                    localStorage.setItem("lastActivity", new Date().getTime().toString());
+                    queryClient.invalidateQueries(["login"]);
+                    router.push("/");
+                }
+            },
+            onError: (error: any) => {
+                alertaSubmit(false, error);
+                dispatch({ type: "SET_LOGIN_ERROR", payload: { status: true, message: error.data.message } });
+            },
+        }
         );
     };
 
@@ -76,6 +78,7 @@ export const InfoContextRefac = ({ children }) => {
         dispatch({ type: "SET_USER", payload: null });
         dispatch({ type: "LOGOUT" });
         router.push("/login");
+        window.location.reload();
     };
 
     return (

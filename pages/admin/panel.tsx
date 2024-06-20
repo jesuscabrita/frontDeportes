@@ -1,3 +1,4 @@
+import React from "react";
 import { Grid, useMediaQuery } from "@mui/material";
 import { PanelPartidos } from "../../components/Panel/PanelPartidos";
 import { WithAuth } from "../../components/Shared/WithAuth";

@@ -1,8 +1,8 @@
-import { useContext } from "react";
-import Context from "../../context/contextPrincipal";
+import React, { useContext } from "react";
 import { Grid, TextField } from "@mui/material";
+import Context from "../../context/contextPrincipal";
 
-export const InputNumber = ({ value, label, setValue, placeholder,disable }) => {
+export const InputNumber = ({ value, label, setValue, placeholder, disable }) => {
     const [light] = useContext(Context);
 
     return (

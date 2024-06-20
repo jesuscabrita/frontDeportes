@@ -1,8 +1,8 @@
+import React, { useContext, useState } from "react";
 import { Grid, useMediaQuery } from "@mui/material";
 import { PositionTable } from "../components/Tabla/Table";
 import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@mui/material/styles';
-import { useContext, useState } from "react";
 import { TablaGoleadores } from "../components/Tabla/TablaGoleadores";
 import { TablaAsistidores } from "../components/Tabla/TablaAsistidores";
 import { TablaAmarillas } from "../components/Tabla/TablaAmarillas";
@@ -54,7 +54,7 @@ const Tabla = () => {
 
     return (
         <>
-            <Grid item sx={{ minHeight:'180vh', width: '100%', paddingTop: '90px', }}>
+            <Grid item sx={{ minHeight: '180vh', width: '100%', paddingTop: '90px', }}>
                 <Grid item sx={{ padding: '18px', width: '100%' }}>
                     <Grid item container justifyContent={'center'}>
                         <LogoRegister name={'Tablas'} />
@@ -82,7 +82,7 @@ const Tabla = () => {
                             <TablaRojas data={filterEstado(data, 'registrado')} isLoading={isLoading} isError={isError} />
                         </TabPanel>
                         <TabPanel value={value} index={5} dir={theme.direction}>
-                            <PlayOff data={data}/>
+                            <PlayOff data={data} />
                         </TabPanel>
                     </SwipeableViews>
                 </Grid>

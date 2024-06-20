@@ -1,10 +1,5 @@
-import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
-import Context from "../../../context/contextPrincipal";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import React, { useContext, useEffect, useState } from "react";
+import { CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, useMediaQuery } from "@mui/material";
 import { InputText } from "../../Material/InputTex";
 import { useMutation, useQueryClient } from "react-query";
 import { jugadoresDorsal } from "../../../service/jugadores";
@@ -12,6 +7,7 @@ import { ButtonSend } from "../../Material/ButtonSend";
 import { BiExit as Salir } from 'react-icons/bi';
 import { BiEditAlt as Editar } from 'react-icons/bi';
 import { DorsalJugador } from "../../../utils/utilsPanelJugadores";
+import Context from "../../../context/contextPrincipal";
 
 export const ModalDorsal = ({ open, setOpen, equipoId, jugadorId, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -47,7 +43,7 @@ export const ModalDorsal = ({ open, setOpen, equipoId, jugadorId, data }) => {
                 )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
                     <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
-                    <ButtonSend disable={false} handle={() => { DorsalJugador(equipoId,jugadorId,numeroJugador,queryClient,dorsal,setIsLoading,handleClose) }} title={'Editar'} icon={Editar} iconColor={''} iconSize={20} />
+                    <ButtonSend disable={false} handle={() => { DorsalJugador(equipoId, jugadorId, numeroJugador, queryClient, dorsal, setIsLoading, handleClose) }} title={'Editar'} icon={Editar} iconColor={''} iconSize={20} />
                 </DialogActions>
             </Dialog>
         </Grid>

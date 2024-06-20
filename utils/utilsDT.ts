@@ -1,6 +1,6 @@
 import { alertaQuestion, alertaSubmit } from "./alert";
 
-export const creardt = (id: string, name: string, fecha_nacimiento: string, nacionalidad: string, instagram: string, telefono, foto: string, setIsLoading, creardirectorTecnico, queryClient, handleClose) => {
+export const creardt = (id: string, name: string, fecha_nacimiento: string, nacionalidad: string, instagram: string, telefono, foto: any, setIsLoading, creardirectorTecnico, queryClient, handleClose) => {
     setIsLoading(true);
     const formData = { name, fecha_nacimiento, nacionalidad, instagram, telefono, foto };
     creardirectorTecnico({ form: formData, eid: id }, {

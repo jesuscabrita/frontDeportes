@@ -1,8 +1,7 @@
+import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
+import { Box, CircularProgress } from '@mui/material';
 import ContextRefac from '../../context/contextLogin';
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
 
 export const WithAdmin = (WrappedComponent: any) => {
     return (props: any) => {
@@ -25,7 +24,6 @@ export const WithAdmin = (WrappedComponent: any) => {
                 </Box>
             );
         }
-
         return <WrappedComponent {...props} />;
     };
 };

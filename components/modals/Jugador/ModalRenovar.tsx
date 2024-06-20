@@ -1,10 +1,5 @@
-import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
-import Context from "../../../context/contextPrincipal";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import React, { useContext, useEffect, useState } from "react";
+import { CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, useMediaQuery } from "@mui/material";
 import { useMutation, useQueryClient } from "react-query";
 import { InputSelect } from "../../Material/InputSelect";
 import { contratos } from "../../../utils/arrays";
@@ -15,6 +10,7 @@ import { InputNumber } from "../../Material/InputNumber";
 import { formatoPesosArgentinos } from "../../../utils/utils";
 import { jugadoresRenovar } from "../../../service/jugadores";
 import { editarRenovacion } from "../../../utils/utilsPanelJugadores";
+import Context from "../../../context/contextPrincipal";
 
 export const ModalRenovarJugador = ({ open, setOpen, equipoId, jugadorId, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -41,9 +37,9 @@ export const ModalRenovarJugador = ({ open, setOpen, equipoId, jugadorId, data }
                     {"Renovar Jugador"}
                 </DialogTitle>
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                    <Grid item sx={{color: 'var(--neutral)'}}>{`El sueldo minimo para renovar a ${data.name} es de ${formatoPesosArgentinos(data.sueldoCalculo)}, las temporadas no se acumulan (al renovar se debe pagar el sueldo anterior y se descuenta del banco del equipo automaticamente)`}</Grid>
+                    <Grid item sx={{ color: 'var(--neutral)' }}>{`El sueldo minimo para renovar a ${data.name} es de ${formatoPesosArgentinos(data.sueldoCalculo)}, las temporadas no se acumulan (al renovar se debe pagar el sueldo anterior y se descuenta del banco del equipo automaticamente)`}</Grid>
                     <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
-                        <InputNumber disable={false} placeholder={'Sueldo'} label={'Sueldo'} setValue={setSueldo} value={sueldo}/>
+                        <InputNumber disable={false} placeholder={'Sueldo'} label={'Sueldo'} setValue={setSueldo} value={sueldo} />
                         <InputSelect disable={false} label={'Contrato'} value={contrato} setValue={setContrato} selectData={contratos} />
                     </Grid>
                 </DialogContent>
@@ -54,7 +50,7 @@ export const ModalRenovarJugador = ({ open, setOpen, equipoId, jugadorId, data }
                 )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
                     <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
-                    <ButtonSend disable={false} handle={() => { editarRenovacion(equipoId,jugadorId,setIsLoading,renovarJugador,queryClient,handleClose,contrato,sueldo) }} title={'Renovar'} icon={Renovar} iconColor={''} iconSize={20} />
+                    <ButtonSend disable={false} handle={() => { editarRenovacion(equipoId, jugadorId, setIsLoading, renovarJugador, queryClient, handleClose, contrato, sueldo) }} title={'Renovar'} icon={Renovar} iconColor={''} iconSize={20} />
                 </DialogActions>
             </Dialog>
         </Grid>

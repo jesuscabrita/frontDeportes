@@ -1,13 +1,7 @@
-import { Avatar, Button, CircularProgress, Grid, Tooltip, useMediaQuery } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
-import Context from "../../../context/contextPrincipal";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import React, { useContext, useEffect, useState } from "react";
+import { Avatar, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Tooltip, useMediaQuery } from "@mui/material";
 import { BsFillPatchCheckFill as Check } from "react-icons/bs";
 import { useMutation, useQueryClient } from "react-query";
-import moment from "moment";
 import { jugadoresPut_partidos } from "../../../service/jugadores";
 import { editarPartido } from "../../../utils/utilsPanelJugadores";
 import { bajarPartido } from "../../../utils/utilsPanelAnular";
@@ -18,6 +12,7 @@ import { MdLocalHospital as Lesion } from 'react-icons/md';
 import { stringAvatar } from "../../../utils/utils";
 import { MdOutlinePersonOff as Susp } from 'react-icons/md';
 import { RiUserUnfollowFill as Baja } from 'react-icons/ri';
+import Context from "../../../context/contextPrincipal";
 
 export const ModalLista = ({ open, setOpen, data, currentRound }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -55,7 +50,7 @@ export const ModalLista = ({ open, setOpen, data, currentRound }) => {
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     {data?.director_tecnico.map((dt, index) => {
                         return (
-                            <Grid item gap={1} p={1} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', color: light ? 'var(--dark2)' : 'var(--cero)', background: dt.suspendido === 'Si' && 'var(--danger2)', borderRadius: '8px' }}>
+                            <Grid item gap={1} p={1} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', color: light ? 'var(--dark2)' : 'var(--cero)', background: dt.suspendido === 'Si' ? 'var(--danger2)' : '', borderRadius: '8px' }}>
                                 <Grid item sx={{ fontSize: mobile ? '15px' : '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: mobile ? '20px' : '40px', fontWeight: 600 }}>..DT</Grid>
                                 <Grid item sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: mobile ? '20px' : '35px', height: mobile ? '20px' : '35px' }}>
                                     <Tooltip title={dt.foto ? <img src={dt.foto} alt="Imagen" style={{ width: '150px', height: '150px' }} /> : <Avatar src="/broken-image.jpg" sx={{ width: '150px', height: '150px' }} />} arrow placement="top">
@@ -96,10 +91,8 @@ export const ModalLista = ({ open, setOpen, data, currentRound }) => {
                         )
                     })}
                     {filterInscrito(data?.jugadores).map((jugador, index) => {
-                        console.log('data', jugador)
-                        
                         return (
-                            <Grid item gap={1} p={1} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', color: light ? 'var(--dark2)' : 'var(--cero)', background: jugador.suspendido === 'Si' && 'var(--danger2)', borderRadius: '8px' }}>
+                            <Grid item gap={1} p={1} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', color: light ? 'var(--dark2)' : 'var(--cero)', background: jugador.suspendido === 'Si' ? 'var(--danger2)' : '', borderRadius: '8px' }}>
                                 <Grid item sx={{ fontSize: mobile ? '15px' : '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: mobile ? '20px' : '40px', fontWeight: 600 }}>#{jugador.dorsal}</Grid>
                                 <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ width: mobile ? '20px' : '35px', height: mobile ? '20px' : '35px' }}>
                                     <Tooltip title={jugador.foto ? <img src={jugador.foto} alt="Imagen" style={{ width: '150px', height: '150px' }} /> : <Avatar {...stringAvatar(jugador.name)} sx={{ width: '150px', height: '150px' }} />} arrow placement="top">
@@ -128,7 +121,7 @@ export const ModalLista = ({ open, setOpen, data, currentRound }) => {
                                 <Grid item sx={{ cursor: jugador.suspendido === 'Si' ? 'default' : 'pointer', color: jugador.suspendido === 'Si' ? 'var(--neutral)' : jugador.partidos_individual[currentRound] === 'Si' ? 'var(--check)' : 'var(--primario)' }}
                                     onClick={() => {
                                         jugador.suspendido === 'Si' ? null :
-                                        editarPartido(data._id, jugador._id, currentRound, jugador.name, jugador.partidos, jugador.partidos_individual, setIsLoading, editarPartidos, queryClient)
+                                            editarPartido(data._id, jugador._id, currentRound, jugador.name, jugador.partidos, jugador.partidos_individual, setIsLoading, editarPartidos, queryClient)
                                     }}>
                                     <Check size={mobile ? 15 : 20} />
                                 </Grid>
@@ -136,7 +129,7 @@ export const ModalLista = ({ open, setOpen, data, currentRound }) => {
                                     <Grid sx={{ cursor: jugador.suspendido === 'Si' ? 'default' : 'pointer', color: jugador.suspendido === 'Si' ? 'var(--neutral)' : 'var(--danger)' }}
                                         onClick={() => {
                                             jugador.suspendido === 'Si' ? null :
-                                            bajarPartido(data._id, jugador._id, currentRound, jugador.name, jugador.partidos, jugador.partidos_individual, setIsLoading, editarPartidos, queryClient)
+                                                bajarPartido(data._id, jugador._id, currentRound, jugador.name, jugador.partidos, jugador.partidos_individual, setIsLoading, editarPartidos, queryClient)
                                         }}>
                                         <Baja />
                                     </Grid>

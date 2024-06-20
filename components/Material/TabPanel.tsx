@@ -1,5 +1,5 @@
-import Box from '@mui/material/Box';
-import { Grid, useMediaQuery } from '@mui/material';
+import React from 'react';
+import { Grid, useMediaQuery, Box } from '@mui/material';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -8,7 +8,7 @@ interface TabPanelProps {
     value: number;
 }
 
-export const TabPanel=(props: TabPanelProps)=> {
+export const TabPanel = (props: TabPanelProps) => {
     const { children, value, index, ...other } = props;
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
 
@@ -19,7 +19,7 @@ export const TabPanel=(props: TabPanelProps)=> {
             id={`full-width-tabpanel-${index}`}
             aria-labelledby={`full-width-tab-${index}`}
             {...other}
-            style={{overflow:'hidden', overflowX:'auto'}}
+            style={{ overflow: 'hidden', overflowX: 'auto' }}
         >
             {value === index && (<Box>{children}</Box>)}
         </Grid>

@@ -1,15 +1,11 @@
-import { Button, CircularProgress, Grid, useMediaQuery } from "@mui/material";
-import { useContext, useState } from "react";
-import Context from "../../../context/contextPrincipal";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import React, { useContext, useState } from "react";
+import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, useMediaQuery } from "@mui/material";
 import { useMutation, useQueryClient } from "react-query";
 import { jugadoresPut_capitan } from "../../../service/jugadores";
 import { editarCapitan, editarCapitanNo } from "../../../utils/utilsPanelJugadores";
 import { BiExit as Salir } from 'react-icons/bi';
 import { ButtonSend } from "../../Material/ButtonSend";
+import Context from "../../../context/contextPrincipal";
 
 export const ModalJugadorCapitan = ({ open, setOpen, jugador, equipoId }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });

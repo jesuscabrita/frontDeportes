@@ -1,7 +1,7 @@
 import { alertaQuestion, alertaSubmit } from "./alert";
 import { filterEstado } from "./utils";
 
-export const crearJugadores = (id: string, name: string, sueldo: number, contrato, posicion: string, fecha_nacimiento: string, nacionalidad: string, dorsal: string, instagram: string, foto: string, setIsLoading, crearJugador, queryClient, handleClose) => {
+export const crearJugadores = (id: string, name: string, sueldo: any, contrato, posicion: string, fecha_nacimiento: string, nacionalidad: string, dorsal: string, instagram: string, foto: any, setIsLoading, crearJugador, queryClient, handleClose) => {
     setIsLoading(true);
     const formData = { name, sueldo, contrato, posicion, fecha_nacimiento, nacionalidad, dorsal, instagram, foto };
     crearJugador({ form: formData, eid: id }, {
@@ -1734,7 +1734,7 @@ export const crearOferta = (
     precio,
     contrato: string,
     tipo: string,
-    sueldo: string,
+    sueldo: any,
     setIsLoading,
     oferta,
     queryClient,

@@ -1,18 +1,14 @@
-import { useContext, useEffect, useState } from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import React, { useContext, useEffect, useState } from 'react';
 import { MobileDateTimePicker } from '@mui/x-date-pickers';
-import Context from '../../../context/contextPrincipal';
-import { CircularProgress, Grid, useMediaQuery } from '@mui/material';
-import moment from 'moment';
+import { CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, useMediaQuery } from '@mui/material';
 import { useMutation, useQueryClient } from 'react-query';
 import { alertaSubmit } from '../../../utils/alert';
 import { equiposPut } from '../../../service/equipos';
 import { BiExit as Salir } from 'react-icons/bi';
 import { BiEditAlt as Editar } from 'react-icons/bi';
 import { ButtonSend } from '../../Material/ButtonSend';
+import Context from '../../../context/contextPrincipal';
+import moment from 'moment';
 
 export const ModalEdit = ({ open, setOpen, id, data, index }) => {
     const [light] = useContext(Context);
@@ -59,7 +55,7 @@ export const ModalEdit = ({ open, setOpen, id, data, index }) => {
                 </DialogTitle>
                 <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
                     <MobileDateTimePicker
-                        value={fecha}
+                        value={fecha as any}
                         onChange={(date) => setFecha(date)}
                         sx={{
                             '& .MuiInputBase-root': {

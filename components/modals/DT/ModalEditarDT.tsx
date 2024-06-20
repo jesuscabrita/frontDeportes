@@ -1,15 +1,9 @@
-import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
-import Context from "../../../context/contextPrincipal";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import React, { useContext, useEffect, useState } from "react";
+import { CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, useMediaQuery } from "@mui/material";
 import { InputText } from "../../Material/InputTex";
 import { useMutation, useQueryClient } from "react-query";
-import moment from "moment";
 import { InputSelect } from "../../Material/InputSelect";
-import { nationalities, posiciones } from "../../../utils/arrays";
+import { nationalities } from "../../../utils/arrays";
 import { InputFecha } from "../../Material/InputFecha";
 import { InputImagen } from "../../Shared/InputImagen";
 import { DTPut } from "../../../service/dt";
@@ -17,6 +11,8 @@ import { editarDTs } from "../../../utils/utilsDT";
 import { BiExit as Salir } from 'react-icons/bi';
 import { BiEditAlt as Editar } from 'react-icons/bi';
 import { ButtonSend } from "../../Material/ButtonSend";
+import Context from "../../../context/contextPrincipal";
+import moment from "moment";
 
 export const ModalEditarDT = ({ open, setOpen, equipoId, directorTecnicoId, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });

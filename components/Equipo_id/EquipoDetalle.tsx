@@ -1,6 +1,5 @@
-import { Button, CircularProgress, Grid, useMediaQuery } from "@mui/material"
-import { useContext, useEffect, useState } from "react";
-import Context from "../../context/contextPrincipal";
+import React, { useContext, useEffect, useState } from "react";
+import { CircularProgress, Grid, Tooltip, useMediaQuery } from "@mui/material"
 import { TbRectangleVertical as Tarjeta } from 'react-icons/tb';
 import { BsArrowsCollapse as Position } from 'react-icons/bs';
 import { GrInstagram as Instagram } from 'react-icons/gr';
@@ -17,7 +16,6 @@ import { TbTemplate as Plantilla } from 'react-icons/tb';
 import { GiSoccerKick as Asistir } from 'react-icons/gi';
 import { GiSoccerBall as Goles } from 'react-icons/gi';
 import { BiTransfer as Fichaje } from 'react-icons/bi';
-import SwipeableViews from "react-swipeable-views";
 import { useTheme } from '@mui/material/styles';
 import { TabPanel } from "../Material/TabPanel";
 import { ModalCrearJugador } from "../modals/Jugador/ModalCrearJugador";
@@ -31,7 +29,6 @@ import { IoIosCreate as CreatePlayer } from 'react-icons/io';
 import { ModalDT } from "../modals/DT/ModalDT";
 import { DelegadoDelete } from "../../service/delegado";
 import { MdDelete as Borrar } from 'react-icons/md';
-import Tooltip from '@mui/material/Tooltip';
 import { ModalDelegado } from "../modals/Delegado/ModalDelegado";
 import { AiOutlineEdit as Editar } from 'react-icons/ai';
 import { ModalDelegadoEditar } from "../modals/Delegado/ModalDelegadoEdit";
@@ -45,6 +42,8 @@ import { TablaContratos } from "./TablaContratos";
 import { TablaFichajes } from "./TablaFichajes";
 import { GiArchiveRegister as Regis } from 'react-icons/gi';
 import { TablaInscripcion } from "./Tabla.Inscripcion";
+import Context from "../../context/contextPrincipal";
+import SwipeableViews from "react-swipeable-views";
 
 const opcionSelectEquipo = [
     { id: 0, name: 'Plantilla', icono: <Plantilla size={30} /> },
@@ -146,7 +145,7 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
                                     <ArrowP currentPos={equipoIndex} prevPos={data.puntaje_anterior} />
                                 </Grid>}
                         </Grid>
-                        {!mobile ? 
+                        {!mobile ?
                             <a href={`https://www.instagram.com/${data?.instagram}`} target="_blank">
                                 <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}>
                                     <Instagram size={!mobile ? 17 : 10} color={light ? 'var(--dark2)' : 'var(--cero)'} />
@@ -215,13 +214,13 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
             <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
                 <TabPanel value={value} index={0} dir={theme.direction}>
                     <Grid item mt={1} mb={1} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px' }}>
-                        {isUserAdmin && <ButtonSend title={!mobile ?'Fichar jugador libre' : 'Jugador'} icon={CreatePlayer} disable={false} handle={() => { setModalJugador(!modalJugador) }} iconSize={20} iconColor={'var(--check)'} />}
-                        {isUserAdmin && <ButtonSend title={!mobile ?'Fichar DT': 'DT'} icon={CreatePlayer} disable={data.director_tecnico.length > 0} handle={() => { setModalDT(!modalDT) }} iconSize={20} iconColor={'var(--check)'} />}
-                        {isUserAdmin && <ButtonSend title={!mobile ?'Fichar Delegado': 'Delegado'} icon={CreatePlayer} disable={data?.delegado.length > 0} handle={() => { setModalDelegado(!modalDelegado) }} iconSize={20} iconColor={'var(--check)'} />}
+                        {isUserAdmin && <ButtonSend title={!mobile ? 'Fichar jugador libre' : 'Jugador'} icon={CreatePlayer} disable={false} handle={() => { setModalJugador(!modalJugador) }} iconSize={20} iconColor={'var(--check)'} />}
+                        {isUserAdmin && <ButtonSend title={!mobile ? 'Fichar DT' : 'DT'} icon={CreatePlayer} disable={data.director_tecnico.length > 0} handle={() => { setModalDT(!modalDT) }} iconSize={20} iconColor={'var(--check)'} />}
+                        {isUserAdmin && <ButtonSend title={!mobile ? 'Fichar Delegado' : 'Delegado'} icon={CreatePlayer} disable={data?.delegado.length > 0} handle={() => { setModalDelegado(!modalDelegado) }} iconSize={20} iconColor={'var(--check)'} />}
 
-                        {isSameEmail && <ButtonSend title={!mobile ?'Fichar jugador libre' : 'Jugador'} icon={CreatePlayer} disable={false} handle={() => { setModalJugador(!modalJugador) }} iconSize={20} iconColor={'var(--check)'} />}
-                        {isSameEmail && <ButtonSend title={!mobile ?'Fichar DT': 'DT'} icon={CreatePlayer} disable={data.director_tecnico.length > 0} handle={() => { setModalDT(!modalDT) }} iconSize={20} iconColor={'var(--check)'} />}
-                        {isSameEmail && <ButtonSend title={!mobile ?'Fichar Delegado': 'Delegado'} icon={CreatePlayer} disable={data?.delegado.length > 0} handle={() => { setModalDelegado(!modalDelegado) }} iconSize={20} iconColor={'var(--check)'} />}
+                        {isSameEmail && <ButtonSend title={!mobile ? 'Fichar jugador libre' : 'Jugador'} icon={CreatePlayer} disable={false} handle={() => { setModalJugador(!modalJugador) }} iconSize={20} iconColor={'var(--check)'} />}
+                        {isSameEmail && <ButtonSend title={!mobile ? 'Fichar DT' : 'DT'} icon={CreatePlayer} disable={data.director_tecnico.length > 0} handle={() => { setModalDT(!modalDT) }} iconSize={20} iconColor={'var(--check)'} />}
+                        {isSameEmail && <ButtonSend title={!mobile ? 'Fichar Delegado' : 'Delegado'} icon={CreatePlayer} disable={data?.delegado.length > 0} handle={() => { setModalDelegado(!modalDelegado) }} iconSize={20} iconColor={'var(--check)'} />}
                     </Grid>
                     <TablaPlantilla jugadores={filterLibreJugador(data.jugadores, 'No')} equipo={data} isLoading={isLoading} director_tecnico={data.director_tecnico} />
                 </TabPanel>
@@ -238,50 +237,50 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
                     <TablaEstadisticas jugadores={data.jugadores} label={'Tarjetas rojas'} isLoading={isLoading} rojas={true} amarillas={false} asistencias={false} goles={false} />
                 </TabPanel>
                 <TabPanel value={value} index={5} dir={theme.direction}>
-                    {isSameEmail && <TablaContratos jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id}/>}
-                    {isUserAdmin && <TablaContratos jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id}/>}
+                    {isSameEmail && <TablaContratos jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id} />}
+                    {isUserAdmin && <TablaContratos jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id} />}
                     {!isSameEmail && !isUserAdmin &&
-                    <Grid mt={8} item sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        gap: '16px',
-                        minWidth: !mobile ? '960px' : '100%',
-                        height: mobile && '300px',
-                        justifyContent: 'center',
-                        color: light ? 'var(--dark2)' : 'var(--cero)'
-                    }}>
-                        {`Solo el administrador del  ${data.name} puede ver este panel`}
-                    </Grid>}
+                        <Grid mt={8} item sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            gap: '16px',
+                            minWidth: !mobile ? '960px' : '100%',
+                            height: mobile ? '300px' : '',
+                            justifyContent: 'center',
+                            color: light ? 'var(--dark2)' : 'var(--cero)'
+                        }}>
+                            {`Solo el administrador del  ${data.name} puede ver este panel`}
+                        </Grid>}
                 </TabPanel>
                 <TabPanel value={value} index={6} dir={theme.direction}>
-                    {user ? <TablaFichajes jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id} data={data}/>
-                    : <Grid mt={8} item sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        gap: '16px',
-                        minWidth: !mobile ? '960px' : '100%',
-                        height: mobile && '300px',
-                        justifyContent: 'center',
-                        color: light ? 'var(--dark2)' : 'var(--cero)'
-                    }}>
-                        {`Solo los usuarios pueden ver este panel`}
-                    </Grid>}
+                    {user ? <TablaFichajes jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id} data={data} />
+                        : <Grid mt={8} item sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            gap: '16px',
+                            minWidth: !mobile ? '960px' : '100%',
+                            height: mobile ? '300px' : '',
+                            justifyContent: 'center',
+                            color: light ? 'var(--dark2)' : 'var(--cero)'
+                        }}>
+                            {`Solo los usuarios pueden ver este panel`}
+                        </Grid>}
                 </TabPanel>
                 <TabPanel value={value} index={7} dir={theme.direction}>
-                    {isSameEmail && <TablaInscripcion jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id}/>}
-                    {isUserAdmin && <TablaInscripcion jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id}/>}
+                    {isSameEmail && <TablaInscripcion jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id} />}
+                    {isUserAdmin && <TablaInscripcion jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id} />}
                     {!isSameEmail && !isUserAdmin &&
-                    <Grid mt={8} item sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        gap: '16px',
-                        minWidth: !mobile ? '960px' : '100%',
-                        height: mobile && '300px',
-                        justifyContent: 'center',
-                        color: light ? 'var(--dark2)' : 'var(--cero)'
-                    }}>
-                        {`Solo el administrador del  ${data.name} puede ver este panel`}
-                    </Grid>}
+                        <Grid mt={8} item sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            gap: '16px',
+                            minWidth: !mobile ? '960px' : '100%',
+                            height: mobile ? '300px' : '',
+                            justifyContent: 'center',
+                            color: light ? 'var(--dark2)' : 'var(--cero)'
+                        }}>
+                            {`Solo el administrador del  ${data.name} puede ver este panel`}
+                        </Grid>}
                 </TabPanel>
             </SwipeableViews>
             {modalJugador && <ModalCrearJugador open={modalJugador} setOpen={setModalJugador} id={data?._id} />}

@@ -1,7 +1,7 @@
 import { alertaCheck, alertaQuestion, alertaSubmit } from "./alert";
 import { filterEstado } from "./utils";
 
-export const nuevoEquipo = (nombre: string, logo: string, correo: string, instagram: string, setIsLoading, crearEquipo, queryClient, setName, setImage, setCorreo, setInstagram, setLogoAdded, setImageName) => {
+export const nuevoEquipo = (nombre: string, logo: any, correo: string, instagram: string, setIsLoading, crearEquipo, queryClient, setName, setImage, setCorreo, setInstagram, setLogoAdded, setImageName) => {
     setIsLoading(true);
     const formData = { form: { name: nombre, logo, correo, instagram } };
     crearEquipo(formData, {

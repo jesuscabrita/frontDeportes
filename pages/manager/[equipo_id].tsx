@@ -1,15 +1,15 @@
+import React, { useContext } from "react";
 import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
 import { useQuery } from "react-query";
 import { equiposGetById } from "../../service/equipos";
 import { useRouter } from "next/router";
 import { EquipoDetalle } from "../../components/Equipo_id/EquipoDetalle";
-import { useContext } from "react";
-import Context from "../../context/contextPrincipal";
 import { TbError404 as Err404 } from 'react-icons/tb';
 import { TbMoodEmpty as Vacio } from 'react-icons/tb';
 import { alertaSubmit } from "../../utils/alert";
 import { FaArrowAltCircleLeft as Atras } from 'react-icons/fa';
 import { LogoRegister } from "../../components/Shared/LogoRegister";
+import Context from "../../context/contextPrincipal";
 
 const Equipo = () => {
   const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -31,7 +31,7 @@ const Equipo = () => {
 
   if (isLoading) {
     return (
-      <Grid sx={{ height: '110vh'}}>
+      <Grid sx={{ height: '110vh' }}>
         <Grid sx={{ paddingTop: !mobile ? '100px' : '90px', paddingBottom: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} size={45} />
         </Grid>

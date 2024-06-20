@@ -1,8 +1,7 @@
+import React, { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { equiposGet } from "../../service/equipos";
-import { useContext, useState } from "react";
 import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
-import Context from "../../context/contextPrincipal";
 import { generateCalendar } from "../../utils/generateCalendar";
 import { filterEstado, handleNextRound, handlePrevRound } from "../../utils/utils";
 import { PanelRow } from "./PanelRow";
@@ -11,6 +10,12 @@ import { BsFillArrowLeftCircleFill as Atras } from 'react-icons/bs';
 import { BsFillArrowRightCircleFill as Lef } from 'react-icons/bs';
 import { TbError404 as Err404 } from 'react-icons/tb';
 import { TbMoodEmpty as Vacio } from 'react-icons/tb';
+import Context from "../../context/contextPrincipal";
+
+interface Match {
+    homeTeam: string;
+    awayTeam: string;
+}
 
 export const PanelPartidos = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -25,7 +30,7 @@ export const PanelPartidos = () => {
         },
     })
 
-    const matches = generateCalendar(filterEstado(data, 'registrado'));
+    const matches: Match[][] = generateCalendar(filterEstado(data, 'registrado'));
 
     return (
         <>

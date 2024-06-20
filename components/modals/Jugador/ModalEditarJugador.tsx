@@ -1,13 +1,7 @@
-import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
-import Context from "../../../context/contextPrincipal";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import React, { useContext, useEffect, useState } from "react";
+import { CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, useMediaQuery } from "@mui/material";
 import { InputText } from "../../Material/InputTex";
 import { useMutation, useQueryClient } from "react-query";
-import moment from "moment";
 import { InputSelect } from "../../Material/InputSelect";
 import { contratos, nationalities, posiciones } from "../../../utils/arrays";
 import { InputFecha } from "../../Material/InputFecha";
@@ -18,6 +12,8 @@ import { BiExit as Salir } from 'react-icons/bi';
 import { BiEditAlt as Editar } from 'react-icons/bi';
 import { editarJugadores } from "../../../utils/utilsPanelJugadores";
 import { InputNumber } from "../../Material/InputNumber";
+import Context from "../../../context/contextPrincipal";
+import moment from "moment";
 
 export const ModalEditarJugador = ({ open, setOpen, equipoId, jugadorId, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -73,7 +69,7 @@ export const ModalEditarJugador = ({ open, setOpen, equipoId, jugadorId, data })
                         <InputText disable={false} placeholder={'Instagram'} label={'Instagram'} setValue={setInstagram} value={instagram} />
                     </Grid>
                     <Grid item gap={2} sx={{ display: 'flex', alignItems: 'center', flexDirection: mobile ? 'column' : 'row' }}>
-                        <InputNumber disable={false} placeholder={'Sueldo'} label={'Sueldo'} setValue={setSueldo} value={sueldo}/>
+                        <InputNumber disable={false} placeholder={'Sueldo'} label={'Sueldo'} setValue={setSueldo} value={sueldo} />
                         <InputSelect disable={false} label={'Contrato'} value={contrato} setValue={setContrato} selectData={contratos} />
                     </Grid>
                     <Grid container alignItems={'center'} gap={2} flexDirection={'column'}>
@@ -87,7 +83,7 @@ export const ModalEditarJugador = ({ open, setOpen, equipoId, jugadorId, data })
                 )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
                     <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
-                    <ButtonSend disable={false} handle={() => { editarJugadores(equipoId, jugadorId, name, sueldo,contrato ,posicion, moment(fecha).format('YYYY-MM-DD HH:mm:ss'), nacionalidad, dorsal, instagram, foto, setIsLoading, editarJugador, queryClient, handleClose) }} title={'Editar'} icon={Editar} iconColor={''} iconSize={20} />
+                    <ButtonSend disable={false} handle={() => { editarJugadores(equipoId, jugadorId, name, sueldo, contrato, posicion, moment(fecha).format('YYYY-MM-DD HH:mm:ss'), nacionalidad, dorsal, instagram, foto, setIsLoading, editarJugador, queryClient, handleClose) }} title={'Editar'} icon={Editar} iconColor={''} iconSize={20} />
                 </DialogActions>
             </Dialog>
         </Grid>

@@ -1,14 +1,10 @@
-import { Button, Grid, useMediaQuery } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
-import Context from "../../../context/contextPrincipal";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import React, { useContext, useEffect, useState } from "react";
+import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, useMediaQuery } from "@mui/material";
 import { IoLogoWhatsapp as Chat } from 'react-icons/io';
 import { MdEmail as Correo } from 'react-icons/md';
 import { BiExit as Salir } from 'react-icons/bi';
 import { ButtonSend } from "../../Material/ButtonSend";
+import Context from "../../../context/contextPrincipal";
 
 export const ModalChatDelegado = ({ open, setOpen, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });

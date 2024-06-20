@@ -1,13 +1,18 @@
-import { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState, Dispatch, SetStateAction } from "react";
 
-const Context = createContext([]);
+type ContextType = [boolean, Dispatch<SetStateAction<boolean>>];
 
-export const InfoContextProvider = ({ children }) => {
+const Context = createContext<ContextType>([false, () => { }]);
+
+export const InfoContextProvider = ({ children }: { children: React.ReactNode }) => {
     const verifyLight = typeof window !== "undefined" ? localStorage.getItem("light") : null;
-    const [light, setLight] = useState(verifyLight === "false" ? false : true);
+    const [light, setLight] = useState<boolean>(verifyLight === "false" ? false : true);
 
     useEffect(() => {
-        document.querySelector("body").classList.toggle("light");
+        const bodyElement = document.querySelector("body");
+        if (bodyElement) {
+            bodyElement.classList.toggle("light");
+        }
     }, []);
 
     return (
@@ -16,4 +21,5 @@ export const InfoContextProvider = ({ children }) => {
         </Context.Provider>
     );
 };
+
 export default Context;

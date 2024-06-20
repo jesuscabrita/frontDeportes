@@ -1,12 +1,10 @@
-import { Button, CircularProgress, Grid, Tooltip, useMediaQuery } from "@mui/material";
+import React, { useContext, useEffect, useState } from "react";
+import { CircularProgress, Grid, Tooltip, useMediaQuery } from "@mui/material";
 import { Form } from "../../components/Registrar/Form/Form";
-import { useContext, useEffect, useState } from "react";
-import Context from "../../context/contextPrincipal";
 import { ListaEquipoRegistro } from "../../components/Registrar/ListaEquipos/ListaEquipoRegistro";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { equiposGet, resetEquiposJugador } from "../../service/equipos";
 import { GiSandsOfTime as Espera } from 'react-icons/gi';
-import SwipeableViews from "react-swipeable-views";
 import { useTheme } from '@mui/material/styles';
 import { TabPanel } from "../../components/Material/TabPanel";
 import { FaRegistered as Register } from 'react-icons/fa';
@@ -17,12 +15,14 @@ import { TbError404 as Err404 } from 'react-icons/tb';
 import { filterEstado } from "../../utils/utils";
 import { BiReset as Reset } from 'react-icons/bi'
 import { AiOutlineWarning as Warning } from 'react-icons/ai'
-import ContextRefac from "../../context/contextLogin";
 import { editarReset } from "../../utils/utilsEquipos";
 import { devolverJugadorPrestamo, jugadoresContratoCalculo } from "../../service/jugadores";
 import { ButtonSend } from "../../components/Material/ButtonSend";
 import { calculoContratosJugadores, devolverJugador } from "../../utils/utilsPanelJugadores";
 import { FaFileContract as Contra } from 'react-icons/fa';
+import SwipeableViews from "react-swipeable-views";
+import ContextRefac from "../../context/contextLogin";
+import Context from "../../context/contextPrincipal";
 
 const opcionSelectEquipos = [
     { id: 0, name: 'Equipos en la liga', icono: <Register size={30} /> },
@@ -72,7 +72,7 @@ const Registrar = () => {
         flexDirection: 'row',
         gap: '16px',
         minWidth: !mobile ? '960px' : '100%',
-        height: mobile && '300px',
+        height: mobile ? '300px' : '',
         justifyContent: 'center',
         color: light ? 'var(--dark2)' : 'var(--cero)'
     }
@@ -82,7 +82,7 @@ const Registrar = () => {
         flexDirection: 'column',
         gap: '16px',
         minWidth: !mobile ? '960px' : '100%',
-        height: mobile && '300px',
+        height: mobile ? '300px' : '',
         justifyContent: 'center',
         alignItems: 'center',
         color: light ? 'var(--dark2)' : 'var(--cero)'
@@ -94,7 +94,7 @@ const Registrar = () => {
                 <LogoRegister name={'Registrar equipo'} />
                 {(!isUserEmailInData && !isUserEmailInDataEnCola) || isUserAdmin ?
                     <Form /> :
-                    <Grid item sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', fontSize: '18px', height: mobile ? '100vh' : '100vh' }}>{isUserEmailInDataEnCola ? 'Tu equipo paso a lista de espera':'Ya tienes un equipo registrado'}</Grid>
+                    <Grid item sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', fontSize: '18px', height: mobile ? '100vh' : '100vh' }}>{isUserEmailInDataEnCola ? 'Tu equipo paso a lista de espera' : 'Ya tienes un equipo registrado'}</Grid>
                 }
                 {isUserAdmin &&
                     <Grid item mt={4}>
@@ -110,21 +110,21 @@ const Registrar = () => {
                                     <Grid mt={1} container gap={1}>
                                         <Tooltip title="Resetea los datos de los equipos, es recomendable al terminar la liga o temporada" placement="top">
                                             <Grid item>
-                                                <ButtonSend disable={false} handle={() => {editarReset(setIsLoadinng, queryClient, data, reseteoEquipos)} } title={'Reset'} icon={Warning} iconColor={'var(--warnning)'} iconSize={20} />
+                                                <ButtonSend disable={false} handle={() => { editarReset(setIsLoadinng, queryClient, data, reseteoEquipos) }} title={'Reset'} icon={Warning} iconColor={'var(--warnning)'} iconSize={20} />
                                             </Grid>
                                         </Tooltip>
                                         <Tooltip title="Devuelve a los jugadores que se encuentran en calidad de PRESTAMO a sus equipos de origen" placement="top">
                                             <Grid item>
-                                                <ButtonSend disable={false} handle={() => {devolverJugador(data,devolver,queryClient,setIsLoadinng) } } title={'D. Prestamos'} icon={Reset} iconColor={'var(--check)'} iconSize={20} />
+                                                <ButtonSend disable={false} handle={() => { devolverJugador(data, devolver, queryClient, setIsLoadinng) }} title={'D. Prestamos'} icon={Reset} iconColor={'var(--check)'} iconSize={20} />
                                             </Grid>
                                         </Tooltip>
                                         <Tooltip title="Calcula y analiza los contratos de los jugadores" placement="top">
                                             <Grid item>
-                                                <ButtonSend disable={false} handle={() => {calculoContratosJugadores(data,calculo,queryClient,setIsLoadinng)} } title={'C.Contratos'} icon={Contra} iconColor={'var(--check)'} iconSize={20} />
+                                                <ButtonSend disable={false} handle={() => { calculoContratosJugadores(data, calculo, queryClient, setIsLoadinng) }} title={'C.Contratos'} icon={Contra} iconColor={'var(--check)'} iconSize={20} />
                                             </Grid>
                                         </Tooltip>
                                     </Grid>
-                                    }
+                                }
                                 <Grid mt={2} sx={{ width: '100%', display: filterEstado(data, 'registrado').length === 0 || isError || isLoading ? 'flex' : 'grid', gridTemplateColumns: !mobile ? 'repeat(5, 1fr)' : 'repeat(2, 1fr)', gap: '20px', }}>
                                     {isLoading ?
                                         <Grid mt={8} item sx={stylesRow}>

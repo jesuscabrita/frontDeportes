@@ -1,10 +1,5 @@
-import { Button, CircularProgress, Grid, useMediaQuery } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
-import Context from "../../../context/contextPrincipal";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import React, { useContext, useEffect, useState } from "react";
+import { CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, useMediaQuery } from "@mui/material";
 import { useMutation, useQueryClient } from "react-query";
 import { InputSelect } from "../../Material/InputSelect";
 import { jugadoresPut_jornada } from "../../../service/jugadores";
@@ -13,6 +8,7 @@ import { optionJornada } from "../../../utils/arrays";
 import { BiExit as Salir } from 'react-icons/bi';
 import { ButtonSend } from "../../Material/ButtonSend";
 import { AiOutlineEdit as Edit } from 'react-icons/ai';
+import Context from "../../../context/contextPrincipal";
 
 export const ModalJornada = ({ open, setOpen, id, equipoId, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
