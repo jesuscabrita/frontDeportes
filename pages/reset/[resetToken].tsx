@@ -1,65 +1,87 @@
 import React, { useContext, useState } from "react";
-import { Grid, useMediaQuery, Typography, Paper, Avatar, CircularProgress } from "@mui/material";
-import { CiLock as Lock } from "react-icons/ci";
+import { Grid, useMediaQuery } from "@mui/material";
 import { useRouter } from 'next/router';
-import { InputText } from "../../components/Material/InputTex";
-import { InputPassword } from "../../components/Material/InputPassword";
-import { ButtonSend } from "../../components/Material/ButtonSend";
 import { useMutation, useQueryClient } from "react-query";
 import { CambiarContraseñaRequest } from "../../service/session";
 import { handleResetPassword } from "../../utils/utilsUser";
 import Context from "../../context/contextPrincipal";
+import Head from "next/head";
+import { FormReset } from "../../components/Reset/FormReset";
+import { LoadingScreen } from "../../components/Shared/LoadingScreen";
 
 const ResetToken = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [light] = useContext(Context);
     const router = useRouter();
     const resetToken = router.query.resetToken;
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [repeated_password, setRepeated_password] = useState("");
     const [isLoading, setIsLoading] = useState(false)
-    const { mutate: cambiarContraseñas } = useMutation(CambiarContraseñaRequest);
+    const { mutate: cambiarContraseñas, isLoading: cargando } = useMutation(CambiarContraseñaRequest);
     const queryClient = useQueryClient();
+    const [emailError, setEmailError] = useState(false);
+    const [emailErrorText, setEmailErrorText] = useState('');
+    const [PasswordError, setPasswordError] = useState(false);
+    const [PasswordErrorText, setPasswordErrorText] = useState('');
+    const [Repeated_passwordError, setRepeated_passwordError] = useState(false);
+    const [Repeated_passwordErrorText, setRepeated_passwordErrorText] = useState('');
 
     const handleAtrasClick = () => {
         router.back();
     };
 
+    const handleEmail = (event: any) => {
+        setEmailError(false)
+        setEmailErrorText('')
+        setEmail(event.target.value)
+    }
+
+    const handlePassword = (event: any) => {
+        setPasswordError(false)
+        setPasswordErrorText('')
+        setPassword(event.target.value)
+    }
+
+    const handleRepeatedPassword = (event: any) => {
+        setRepeated_passwordError(false)
+        setRepeated_passwordErrorText('')
+        setRepeated_password(event.target.value)
+    }
+
     return (
-        <Grid container direction="column" alignItems="center" justifyContent="center" height="100vh" gap={2} style={{ padding: mobile ? "0 20px" : "0 50px" }}>
-            <Paper elevation={3} sx={{ padding: mobile ? "20px" : "40px", display: "flex", flexDirection: "column", alignItems: "center", background: light ? 'var(--gris)' : 'var(--dark2)' }}>
-                <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-                    <Lock />
-                </Avatar>
-                <Typography variant="h5" component="h1" gutterBottom sx={{ color: light ? "var(--dark2)" : "var(--cero)" }}>
-                    Restablecer contraseña
-                </Typography>
-                <Grid item sx={{ width: '100%' }}>
-                    <InputText disable={false} label="Email" placeholder="Email" setValue={setEmail} value={email} />
+        <>
+            <Head>
+                <title>Ligamaster | Cambiar contraseña</title>
+            </Head>
+            <Grid item container sx={{ padding: mobile ? "100px 20px 60px 20px" : "80px 200px 60px 200px", height: mobile ? '100%' : '110vh' }}>
+                <Grid item xs={12}>
+                    <FormReset
+                        light={light}
+                        mobile={mobile}
+                        email={email}
+                        setEmail={setEmail}
+                        password={password}
+                        repeated_password={repeated_password}
+                        setPassword={setPassword}
+                        setRepeated_password={setRepeated_password}
+                        cargando={cargando}
+                        handleResetPassword={() => { handleResetPassword(setIsLoading, cambiarContraseñas, email, password, repeated_password, queryClient, router, setEmailError, setEmailErrorText, setPasswordError, setPasswordErrorText, setRepeated_passwordError, setRepeated_passwordErrorText) }}
+                        handleAtrasClick={handleAtrasClick}
+                        errorEmail={emailError}
+                        textErrorEmail={emailErrorText}
+                        handleEmail={handleEmail}
+                        PasswordError={PasswordError}
+                        PasswordErrorText={PasswordErrorText}
+                        handlePassword={handlePassword}
+                        Repeated_passwordError={Repeated_passwordError}
+                        Repeated_passwordErrorText={Repeated_passwordErrorText}
+                        handleRepeatedPassword={handleRepeatedPassword}
+                    />
                 </Grid>
-                <Grid item mt={2} sx={{ width: '100%' }}>
-                    <InputPassword label="Nueva Contraseña" placeholder="Nueva Contraseña" setValue={setPassword} value={password} />
-                </Grid>
-                <Grid item mt={2} sx={{ width: '100%' }}>
-                    <InputPassword label="Repetir Contraseña" placeholder="Repetir Contraseña" setValue={setRepeated_password} value={repeated_password} />
-                </Grid>
-                <Grid item mt={2}>
-                    <ButtonSend disable={false} icon="" iconColor="" iconSize={20} title="Restablecer contraseña" handle={() => { handleResetPassword(setIsLoading, cambiarContraseñas, email, password, repeated_password, queryClient, router) }} />
-                </Grid>
-                <Grid item mt={2}>
-                    <Typography variant="body2" sx={{ color: light ? "var(--dark3)" : "var(--gris2)", cursor: 'pointer', textDecoration: 'underline' }} onClick={handleAtrasClick}>
-                        Volver atrás
-                    </Typography>
-                </Grid>
-            </Paper>
-            {isLoading && (
-                <Grid sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '160vh' : '130vh', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} />
-                </Grid>
-            )}
-        </Grid>
+            </Grid>
+            {isLoading && <LoadingScreen />}
+        </>
     );
 }
 

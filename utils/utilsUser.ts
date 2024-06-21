@@ -47,8 +47,45 @@ export const crearUser = (nombre: string, apellido: string, fecha_de_nacimiento:
     });
 }
 
-export const handleResetPassword = (setIsLoading, cambiarContraseñas, email, password, repeated_password, queryClient, router) => {
+export const handleResetPassword = (setIsLoading, cambiarContraseñas, email, password, repeated_password, queryClient, router, setEmailError, setEmailErrorText, setPasswordError, setPasswordErrorText, setRepeatedPasswordError, setRepeatedPasswordErrorText) => {
     setIsLoading(true);
+    const isValidEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
+    const isValidPassword = (password) => {
+        return password.length >= 8;
+    };
+
+    const arePasswordsEqual = (password, repeated_password) => {
+        return password === repeated_password;
+    };
+
+    if (!isValidEmail(email)) {
+        alertaSubmit(false, 'Debes escribir un email válido');
+        setEmailError(true)
+        setEmailErrorText('Debes escribir un email válido')
+        setIsLoading(false);
+        return;
+    }
+
+    if (!isValidPassword(password)) {
+        alertaSubmit(false, 'La contraseña debe tener al menos 8 caracteres');
+        setPasswordError(true)
+        setPasswordErrorText('Debes escribir un email válido')
+        setIsLoading(false);
+        return;
+    }
+
+    if (!arePasswordsEqual(password, repeated_password)) {
+        alertaSubmit(false, 'Las contraseñas no coinciden');
+        setRepeatedPasswordError(true);
+        setRepeatedPasswordErrorText('Las contraseñas no coinciden');
+        setIsLoading(false);
+        return;
+    }
+
     cambiarContraseñas({ form: { email, password, repeated_password } }, {
         onSuccess: (success: any) => {
             queryClient.invalidateQueries(["login"]);
