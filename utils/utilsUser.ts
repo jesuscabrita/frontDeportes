@@ -1,9 +1,21 @@
 import { alertaQuestion, alertaSubmit } from "./alert";
 
-export const handleSolicitarPassword = (setIsLoading, solicitarContraseña, email, queryClient, router) => {
+export const handleSolicitarPassword = (setIsLoading, solicitarContraseña, email, queryClient, router, setEmailError, setEmailErrorText) => {
     setIsLoading(true);
+    const isValidEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
+    if (!isValidEmail(email)) {
+        alertaSubmit(false, 'Debes escribir un email válido');
+        setEmailError(true)
+        setEmailErrorText('Debes escribir un email válido')
+        setIsLoading(false);
+        return;
+    }
     solicitarContraseña({ form: { email } }, {
-        onSuccess: (success:any) => {
+        onSuccess: (success: any) => {
             queryClient.invalidateQueries(["login"]);
             alertaSubmit(true, success?.data.message);
             setIsLoading(false);
@@ -17,7 +29,7 @@ export const handleSolicitarPassword = (setIsLoading, solicitarContraseña, emai
     });
 };
 
-export const crearUser = (nombre: string, apellido: string, fecha_de_nacimiento: string, email: string, password: string, repeated_password: string, equipo: string, setIsLoading, crearUser, queryClient,router) => {
+export const crearUser = (nombre: string, apellido: string, fecha_de_nacimiento: string, email: string, password: string, repeated_password: string, equipo: string, setIsLoading, crearUser, queryClient, router) => {
     setIsLoading(true);
     const formData = { nombre, apellido, fecha_de_nacimiento, email, password, repeated_password, equipo };
     crearUser({ form: formData }, {
@@ -38,7 +50,7 @@ export const crearUser = (nombre: string, apellido: string, fecha_de_nacimiento:
 export const handleResetPassword = (setIsLoading, cambiarContraseñas, email, password, repeated_password, queryClient, router) => {
     setIsLoading(true);
     cambiarContraseñas({ form: { email, password, repeated_password } }, {
-        onSuccess: (success:any) => {
+        onSuccess: (success: any) => {
             queryClient.invalidateQueries(["login"]);
             alertaSubmit(true, success?.data.message);
             setIsLoading(false);
@@ -69,7 +81,7 @@ export const eliminarUsuarios = (userId: string, eliminarUser, queryClient) => {
     }, 'Si, Eliminar!', 'Eliminado!', 'El usuario ha sido eliminado.', 'El usuario sigue en la liga :)')
 }
 
-export const editarUser = (userId: string,  nombre: string, apellido: string, role: string ,setIsLoading, editarUsuario, queryClient, handleClose) => {
+export const editarUser = (userId: string, nombre: string, apellido: string, role: string, setIsLoading, editarUsuario, queryClient, handleClose) => {
     setIsLoading(true);
     const formData = { nombre, apellido, role };
     editarUsuario({ form: formData, userId }, {

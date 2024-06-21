@@ -58,8 +58,12 @@ export const ordenPosition = (data) => {
     return orden;
 };
 
-export const getLast5ToShow = (row, maxCount) => {
-    let last5ToShow = [];
+interface Row {
+    last5: string[];
+}
+
+export const getLast5ToShow = (row: Row, maxCount: number): string[] => {
+    let last5ToShow: string[] = [];
     let neutralCount = 0;
 
     for (let i = row.last5.length - 1; i >= 0; i--) {
@@ -110,10 +114,10 @@ export const jugadoresAsistidores = (data, cantidad) => {
 
 export const jugadoresAmarillas = (data, cantidad) => {
     return data
-    .flatMap((equipo) => equipo.jugadores)
-    .filter((jugador) => jugador.libre === "No" && jugador.inscrito === 'Si')
-    .sort((a, b) => b.tarjetas_amarillas - a.tarjetas_amarillas)
-    .slice(0, cantidad);
+        .flatMap((equipo) => equipo.jugadores)
+        .filter((jugador) => jugador.libre === "No" && jugador.inscrito === 'Si')
+        .sort((a, b) => b.tarjetas_amarillas - a.tarjetas_amarillas)
+        .slice(0, cantidad);
 
 };
 
@@ -170,14 +174,14 @@ export const ordenarJugadores = (jugadores, posicionesOrdenadas) => {
     });
 }
 
-export const calcularPromedio = (jugador, partidos)=> {
+export const calcularPromedio = (jugador, partidos) => {
     const promedio = (jugador / partidos).toFixed(2);
     const promedioNumber = parseFloat(promedio);
     const promedioFormatted = isNaN(promedioNumber) ? '-' : promedioNumber.toFixed(2);
     return promedioFormatted;
 }
 
-export const formatoPesosArgentinos=(valor)=> {
+export const formatoPesosArgentinos = (valor) => {
     let formato = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
     return formato.format(valor);
 }

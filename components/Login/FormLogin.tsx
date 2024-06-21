@@ -59,12 +59,12 @@ export const FormLogin: React.FC<FormLoginProps> = ({ mobile, light, emailOrUser
                         />
                     </Grid>
                     <Grid item mt={2}>
-                        <Grid item sx={{ color: light ? "var(--dark2)" : "var(--cero)", fontSize: '14px', fontWeight: '500', cursor: 'pointer', textDecoration: 'underline' }} onClick={navigateToForgotPassword}>
+                        <Grid item sx={{ color: light ? "#444748" : 'var(--gris)', fontSize: '14px', fontWeight: '500', cursor: 'pointer', textDecoration: 'underline' }} onClick={navigateToForgotPassword}>
                             ¿Olvidaste tu contraseña?
                         </Grid>
                     </Grid>
                     <Grid item mt={2}>
-                        <Grid item sx={{ color: light ? "var(--dark2)" : "var(--cero)", fontSize: '14px', fontWeight: '500', cursor: 'pointer', textDecoration: 'underline' }} onClick={navigateToRegister}>
+                        <Grid item sx={{ color: light ? "#444748" : 'var(--gris)', fontSize: '14px', fontWeight: '500', cursor: 'pointer', textDecoration: 'underline' }} onClick={navigateToRegister}>
                             ¿No tienes una cuenta? Regístrate aquí
                         </Grid >
                     </Grid>
