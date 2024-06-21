@@ -1,12 +1,10 @@
 import React, { useContext, useState } from "react";
-import { Grid, useMediaQuery, Typography, Paper, Avatar } from "@mui/material";
-import { CiLock as Lock } from "react-icons/ci";
+import { Grid, useMediaQuery } from "@mui/material";
 import { useRouter } from 'next/router';
-import { ButtonSend } from "../components/Material/ButtonSend";
-import { InputPassword } from "../components/Material/InputPassword";
-import { InputText } from "../components/Material/InputTex";
+import { FormLogin } from "../components/Login/FormLogin";
 import ContextRefac from "../context/contextLogin";
 import Context from "../context/contextPrincipal";
+import Head from "next/head";
 
 const Login = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -29,35 +27,26 @@ const Login = () => {
     };
 
     return (
-        <Grid container direction="column" alignItems="center" justifyContent="center" height="100vh" gap={2} style={{ padding: mobile ? "0 20px" : "0 50px" }}>
-            <Paper elevation={3} sx={{ padding: mobile ? "20px" : "40px", display: "flex", flexDirection: "column", alignItems: "center", background: light ? 'var(--gris)' : 'var(--dark2)' }}>
-                <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-                    <Lock />
-                </Avatar>
-                <Typography variant="h5" component="h1" gutterBottom sx={{ color: light ? "var(--dark2)" : "var(--cero)" }}>
-                    Iniciar sesión
-                </Typography>
-                <Grid item sx={{ width: '100%' }}>
-                    <InputText disable={false} label="Usuario" placeholder="Email" setValue={setEmailOrUsername} value={emailOrUsername} />
+        <>
+            <Head>
+                <title>Ligamaster | Login</title>
+            </Head>
+            <Grid item container sx={{ padding: mobile ? "100px 20px 60px 20px" : "80px 120px 60px 120px", height: mobile ? '100%' : '110vh' }}>
+                <Grid item xs={12}>
+                    <FormLogin
+                        mobile={mobile}
+                        light={light}
+                        password={password}
+                        emailOrUsername={emailOrUsername}
+                        setPassword={setPassword}
+                        setEmailOrUsername={setEmailOrUsername}
+                        handleLogin={handleLogin}
+                        navigateToForgotPassword={navigateToForgotPassword}
+                        navigateToRegister={navigateToRegister}
+                    />
                 </Grid>
-                <Grid item mt={2} sx={{ width: '100%' }}>
-                    <InputPassword label="Contraseña" placeholder="Contraseña" setValue={setPassword} value={password} />
-                </Grid>
-                <Grid item mt={2}>
-                    <ButtonSend disable={false} icon="" iconColor="" iconSize={20} title="Iniciar sesión" handle={handleLogin} />
-                </Grid>
-                <Grid item mt={2}>
-                    <Typography variant="body2" sx={{ color: light ? "var(--dark3)" : "var(--gris2)", cursor: 'pointer', textDecoration: 'underline' }} onClick={navigateToForgotPassword}>
-                        ¿Olvidaste tu contraseña?
-                    </Typography>
-                </Grid>
-                <Grid item mt={2}>
-                    <Typography variant="body2" sx={{ color: light ? "var(--dark3)" : "var(--gris2)", cursor: 'pointer', textDecoration: 'underline' }} onClick={navigateToRegister}>
-                        ¿No tienes una cuenta? Regístrate aquí
-                    </Typography>
-                </Grid>
-            </Paper>
-        </Grid>
+            </Grid>
+        </>
     );
 };
 

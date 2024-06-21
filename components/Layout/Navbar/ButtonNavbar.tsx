@@ -15,7 +15,7 @@ export const ButtonNavbar = ({ children, href, handleOpenRuta, mobile }: { child
         borderRadius: "6px",
         fontSize: mobile ? "12px" : '14px',
         background: "transparent",
-        color: isActive ? "var(--marcaRed)" : light ? "var(--dark2)" : "white",
+        color: isActive ? "var(--marcaRed)" : light ? "var(--dark2)" : "#aab4be",
         textDecoration: "none",
         cursor: "pointer",
         letterSpacing: '2px',

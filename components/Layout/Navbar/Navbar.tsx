@@ -233,7 +233,7 @@ export const Navbar = () => {
                                 </Grid>
                                 <ButtonNavbar href='/perfil' handleOpenRuta={toggleMenu} mobile={true}>Perfil</ButtonNavbar>
                                 {user?.role === 'super_admin' && <ButtonNavbar href='/admin/usuarios' handleOpenRuta={toggleMenu} mobile={true}>Usuarios</ButtonNavbar>}
-                                <Grid onClick={() => { handleLogout(); }} item sx={{ color: light ? "var(--dark2)" : "white", cursor: 'pointer', display: "block", padding: "8px 12px 8px 12px", fontSize: "12px", letterSpacing: '2px', fontWeight: light ? '900' : '400' }}>
+                                <Grid onClick={() => { handleLogout(); }} item sx={{ color: light ? "var(--dark2)" : "#aab4be", cursor: 'pointer', display: "block", padding: "8px 12px 8px 12px", fontSize: "12px", letterSpacing: '2px', fontWeight: light ? '900' : '400' }}>
                                     Cerrar cesion
                                 </Grid>
                             </>}

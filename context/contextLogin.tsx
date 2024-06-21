@@ -1,9 +1,10 @@
-import React, { createContext, useEffect, useReducer } from "react";
+import React, { createContext, useEffect, useReducer, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useRouter } from "next/router";
 import { ReducerApp } from "./Reducer/reducer";
 import { SignInRequest, logoutRequest } from "../service/session";
 import { alertaSubmit } from "../utils/alert";
+import { LoadingScreen } from "../components/Shared/LoadingScreen";
 
 const ContextRefac = createContext({});
 
@@ -13,6 +14,7 @@ export const InfoContextRefac = ({ children }) => {
         user: null,
     };
     const [state, dispatch] = useReducer(ReducerApp, initialState);
+    const [isLoading, setIsLoading] = useState(false)
     const router = useRouter();
     const sessionDuration = 2 * 60 * 60 * 1000; // 2 horas en milisegundos
 
@@ -46,23 +48,27 @@ export const InfoContextRefac = ({ children }) => {
     const { mutate: cerrarSesion } = useMutation(logoutRequest);
     const SignIn = ({ email, password }) => {
         dispatch({ type: "SET_LOGIN_ERROR", payload: { status: false, message: "" } });
+        setIsLoading(true)
         mutate({ email, password }, {
             onSuccess: (data: any) => {
                 if (data?.status === 400) {
                     dispatch({ type: "SET_LOGIN_ERROR", payload: { status: true, message: data.data.message } });
+                    setIsLoading(false)
                     alertaSubmit(false, data.data.message);
                 }
                 if (data?.status === 200) {
                     localStorage.setItem("token", data?.payload);
                     localStorage.setItem("user", JSON.stringify(data?.data.payload));
                     dispatch({ type: "SET_USER", payload: data?.data.payload });
-                    alertaSubmit(true, data.data.message);
                     localStorage.setItem("lastActivity", new Date().getTime().toString());
                     queryClient.invalidateQueries(["login"]);
                     router.push("/");
+                    setIsLoading(false)
+                    alertaSubmit(true, data.data.message);
                 }
             },
             onError: (error: any) => {
+                setIsLoading(false)
                 alertaSubmit(false, error);
                 dispatch({ type: "SET_LOGIN_ERROR", payload: { status: true, message: error.data.message } });
             },
@@ -82,9 +88,12 @@ export const InfoContextRefac = ({ children }) => {
     };
 
     return (
-        <ContextRefac.Provider value={{ state, dispatch, SignIn }}>
-            {children}
-        </ContextRefac.Provider>
+        <>
+            <ContextRefac.Provider value={{ state, dispatch, SignIn }}>
+                {children}
+            </ContextRefac.Provider>
+            {isLoading && <LoadingScreen />}
+        </>
     );
 };
 

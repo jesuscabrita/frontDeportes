@@ -1,51 +1,47 @@
-import React from "react";
-import { useContext, useState } from "react";
-import { Grid, TextField, InputAdornment, IconButton } from "@mui/material";
-import { MdOutlineVisibilityOff as VisibilityOff } from "react-icons/md";
-import { MdOutlineVisibility as Visibility } from "react-icons/md";
-import Context from "../../context/contextPrincipal";
+import React, { useContext } from "react";
+import { Grid, TextField } from "@mui/material";
 import { IconoErrorInput } from "../../icons/icons";
+import Context from "../../context/contextPrincipal";
 
 interface InputFieldsProps {
-    title: string;
-    mt?: number;
-    disabled?: boolean;
-    placeholder?: string
-    value: any;
+    type: 'text' | 'email' | 'number';
+    value: any
     setValue: React.Dispatch<React.SetStateAction<any>>;
+    mt?: number;
+    title: string;
+    disabled?: boolean;
+    descripcion?: string;
+    placeholder?: string;
     handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
     handleActive?: boolean;
     error?: boolean;
     textError?: string;
-    descripcion?: string;
+    lengths?: boolean;
+    max?: number;
 }
 
-export const InputPassword: React.FC<InputFieldsProps> = ({ title, mt = 0, disabled = false, placeholder, value, setValue, handleChange, handleActive = false, error = false, textError, descripcion }) => {
+export const InputFields: React.FC<InputFieldsProps> = ({ type, value, setValue, mt = 0, title, disabled = false, descripcion, placeholder, handleChange, handleActive = false, error = false, textError, lengths = false, max }) => {
     const [light] = useContext(Context);
-    const [showPassword, setShowPassword] = useState(false);
-
     return (
         <Grid item container mt={mt}>
             <Grid mb={0.5} sx={{ color: disabled ? '#C4C7C7' : light ? 'var(--dark2)' : 'var(--gris)', lineHeight: '24px', fontSize: '14px', cursor: disabled ? 'not-allowed' : 'default', letterSpacing: '0.025px' }}>
                 {title}
             </Grid>
             <TextField
-                type={showPassword ? "text" : "password"}
                 placeholder={placeholder}
+                type={type}
                 variant="outlined"
                 fullWidth
                 value={value}
                 onChange={handleActive ? handleChange : (event) => setValue(event.target.value)}
                 disabled={disabled}
-                autoComplete="off"
                 sx={{
-                    border: disabled ? "none !important" : (error ? "1px solid #DE1212 !important" : '1px solid #747878 !important'),
-                    borderRadius: "11px",
-                    padding: '-2px',
                     "& .MuiOutlinedInput-input": {
+                        border: disabled ? "none !important" : (error ? "1px solid #DE1212 !important" : '1px solid #747878 !important'),
                         borderRadius: "9px",
                         color: light ? "#444748" : 'var(--gris)',
                         outline: "none",
+                        width: '100%',
                         height: '10px',
                         fontSize: '14px',
                         letterSpacing: '0.18%',
@@ -70,25 +66,12 @@ export const InputPassword: React.FC<InputFieldsProps> = ({ title, mt = 0, disab
                         borderRadius: "10px !important",
                     },
                 }}
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <IconButton
-                                onClick={() => setShowPassword(!showPassword)}
-                                sx={{ color: light ? "var(--dark2)" : "var(--cero)" }}
-                                edge="end"
-                                tabIndex={-1}
-                            >
-                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                        </InputAdornment>
-                    ),
-                }}
             />
             {error ? <span style={{ color: '#DE1212', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '3px' }}> <IconoErrorInput />{textError}</span>
                 : <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                     <span style={{ color: disabled ? '#C4C7C7' : light ? 'var(--dark2)' : 'var(--gris)', fontSize: '12px' }}>{descripcion}</span>
+                    {lengths && <span style={{ color: disabled ? '#C4C7C7' : '#444748', fontSize: '12px' }}>{`${value.length}/${max}`}</span>}
                 </div>}
         </Grid>
-    );
-};
+    )
+}
