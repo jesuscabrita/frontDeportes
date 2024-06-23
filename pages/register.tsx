@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Grid, useMediaQuery } from "@mui/material";
+import { Grid, SelectChangeEvent, useMediaQuery } from "@mui/material";
 import { RegisterRequest } from "../service/session";
 import { useMutation, useQueryClient } from "react-query";
 import { crearUser } from "../utils/utilsUser";
@@ -24,10 +24,15 @@ const Register = () => {
     const { mutate: crearUsers, isLoading: cargando } = useMutation(RegisterRequest);
     const queryClient = useQueryClient();
     const router = useRouter();
+    const [selectCategoria, setSelectCategoria] = useState('Elija una opción');
 
     const navigateToLogin = () => {
         router.push("/login");
     };
+
+    const handleSelectChange = (event: SelectChangeEvent<string>) => {
+        setSelectCategoria(event.target.value)
+    }
 
     return (
         <>
@@ -53,9 +58,11 @@ const Register = () => {
                         setRepeated_password={setRepeated_password}
                         equipo={equipo}
                         setEquipo={setEquipo}
-                        handleRegistrar={() => { crearUser(nombre, apellido, moment(fecha_de_nacimiento).format('YYYY-MM-DD'), email, password, repeated_password, equipo, setIsLoading, crearUsers, queryClient, router) }}
+                        handleRegistrar={() => { crearUser(nombre, apellido, moment(fecha_de_nacimiento).format('YYYY-MM-DD'), email, password, repeated_password, equipo, setIsLoading, crearUsers, queryClient, router, selectCategoria) }}
                         navigateToLogin={navigateToLogin}
                         cargando={cargando}
+                        categoria={selectCategoria}
+                        handleSelect={handleSelectChange}
                     />
                 </Grid>
             </Grid>

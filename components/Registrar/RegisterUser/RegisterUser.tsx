@@ -1,9 +1,10 @@
 import React from "react";
-import { Avatar, Grid, Paper } from "@mui/material";
+import { Avatar, Grid, Paper, SelectChangeEvent } from "@mui/material";
 import { PiTrademarkRegistered } from "react-icons/pi";
 import { InputFields } from "../../Material/InputFields";
 import { InputDate } from "../../Material/InputFecha";
 import { ButtomPrimario } from "../../Material/ButtonSend";
+import { InputSelects } from "../../Material/InputSelect";
 
 interface RegisterUserProps {
     mobile: boolean;
@@ -25,7 +26,16 @@ interface RegisterUserProps {
     handleRegistrar: () => void;
     navigateToLogin: () => void;
     cargando: any
+    categoria: any;
+    handleSelect: (event: SelectChangeEvent<any>) => void;
 }
+
+const dataCategoria = [
+    { codigo: 'Sub20 - Masculino', descripcion: 'Sub20 - Masculino' },
+    { codigo: 'Libre - Masculino', descripcion: 'Libre - Masculino' },
+    { codigo: 'Sub20 - Femenino', descripcion: 'Sub20 - Femenino' },
+    { codigo: 'Libre - Femenino', descripcion: 'Libre - Femenino' },
+]
 
 export const RegisterUser: React.FC<RegisterUserProps> = ({
     mobile,
@@ -46,7 +56,9 @@ export const RegisterUser: React.FC<RegisterUserProps> = ({
     setEquipo,
     handleRegistrar,
     navigateToLogin,
-    cargando
+    cargando,
+    categoria,
+    handleSelect
 }) => {
     return (
         <Paper elevation={3} sx={{ padding: mobile ? "20px" : "40px", display: "flex", flexDirection: "column", alignItems: "center", background: light ? 'var(--gris)' : 'var(--dark2)' }}>
@@ -127,6 +139,15 @@ export const RegisterUser: React.FC<RegisterUserProps> = ({
                             descripcion="Escribir un nombre para tu equipo"
                             value={equipo}
                             setValue={setEquipo}
+                        />
+                    </Grid>
+                    <Grid item sx={{ width: '100%' }}>
+                        <InputSelects
+                            title="Categoria"
+                            descripcion="Seleccionar una categoria"
+                            value={categoria}
+                            handleSelect={handleSelect}
+                            data={dataCategoria}
                         />
                     </Grid>
                     <Grid item container mt={2}>

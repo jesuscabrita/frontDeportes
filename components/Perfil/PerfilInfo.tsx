@@ -6,14 +6,17 @@ import { GoVerified as Very } from 'react-icons/go';
 import { IoIosFootball } from "react-icons/io";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { TbError404 as Err404 } from 'react-icons/tb';
+import { ButtomPrimario } from "../Material/ButtonSend";
+import { FaUserEdit } from "react-icons/fa";
 
 interface PerfilInfoProps {
     mobile: boolean;
     light: boolean;
-    usuario: { foto: string; nombre: string; apellido: string; role: string; email: string; fecha_de_nacimiento: string; edad: SVGFESpecularLightingElement, equipo: string }
+    usuario: { foto: string; nombre: string; apellido: string; role: string; email: string; fecha_de_nacimiento: string; edad: string, equipo: string; categoria: string; subCategoria: string; }
     isLoading: boolean;
     isError: boolean;
     handleAtrasClick: () => void;
+    handleEditar: () => void;
 }
 
 const styles = {
@@ -34,7 +37,8 @@ export const PerfilInfo: React.FC<PerfilInfoProps> = ({
     usuario,
     isLoading,
     isError,
-    handleAtrasClick
+    handleAtrasClick,
+    handleEditar
 }) => {
     return (
         <Paper elevation={3} sx={{ padding: mobile ? "20px" : "40px", display: "flex", flexDirection: "column", alignItems: "center", background: light ? 'var(--gris)' : 'var(--dark2)' }}>
@@ -99,9 +103,32 @@ export const PerfilInfo: React.FC<PerfilInfoProps> = ({
                                 </Grid>
                             </Grid>
                             <Grid item container alignItems={'center'} justifyContent={'center'} gap={1}>
+                                <Grid item sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>
+                                    Categoria
+                                </Grid>
+                                <Grid item sx={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '12px' : '16px', fontWeight: '400' }}>
+                                    {usuario?.categoria}
+                                </Grid>
+                            </Grid>
+                            <Grid item container alignItems={'center'} justifyContent={'center'} gap={1}>
+                                <Grid item sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>
+                                    Sub categoria
+                                </Grid>
+                                <Grid item sx={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '12px' : '16px', fontWeight: '400' }}>
+                                    {usuario?.subCategoria}
+                                </Grid>
+                            </Grid>
+                            <Grid item container alignItems={'center'} justifyContent={'center'} gap={1}>
                                 <Grid item container alignItems={'center'} justifyContent={'center'} gap={1} sx={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '12px' : '16px', fontWeight: '400' }}>
                                     <span style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>Tu equipo</span>{usuario?.equipo} <IoIosFootball color={light ? "var(--dark2)" : "var(--cero)"} />
                                 </Grid>
+                            </Grid>
+                            <Grid item container mt={2}>
+                                <ButtomPrimario
+                                    title="Editar"
+                                    handleclick={handleEditar}
+                                    icon={FaUserEdit}
+                                />
                             </Grid>
                         </Grid>
                     </Grid>}

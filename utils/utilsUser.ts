@@ -29,9 +29,14 @@ export const handleSolicitarPassword = (setIsLoading, solicitarContraseña, emai
     });
 };
 
-export const crearUser = (nombre: string, apellido: string, fecha_de_nacimiento: string, email: string, password: string, repeated_password: string, equipo: string, setIsLoading, crearUser, queryClient, router) => {
+export const crearUser = (nombre: string, apellido: string, fecha_de_nacimiento: string, email: string, password: string, repeated_password: string, equipo: string, setIsLoading, crearUser, queryClient, router, categoria) => {
     setIsLoading(true);
-    const formData = { nombre, apellido, fecha_de_nacimiento, email, password, repeated_password, equipo };
+    if (categoria === 'Elija una opción') {
+        alertaSubmit(false, 'Debes seleccionar una categoria');
+        setIsLoading(false);
+        return;
+    }
+    const formData = { nombre, apellido, fecha_de_nacimiento, email, password, repeated_password, equipo, categoria };
     crearUser({ form: formData }, {
         onSuccess: (success) => {
             queryClient.invalidateQueries(["login"]);

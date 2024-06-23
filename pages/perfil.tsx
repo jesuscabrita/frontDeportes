@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Grid, useMediaQuery } from "@mui/material";
 import { useRouter } from "next/router";
 import { alertaSubmit } from "../utils/alert";
@@ -14,10 +14,15 @@ const Perfil = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const { state: { user } }: any = useContext(ContextRefac);
     const router = useRouter();
+    const [modalEditar, setModalEditar] = useState(false)
 
     const handleAtrasClick = () => {
         router.back();
     };
+
+    const handleEditar = () => {
+        setModalEditar(!modalEditar)
+    }
 
     const { data, isLoading, isError } = useQuery(["usuario", user?._id], () => UserGetById(user?._id), {
         refetchOnWindowFocus: false,
@@ -33,7 +38,7 @@ const Perfil = () => {
             <Head>
                 <title>Ligamaster | Perfil</title>
             </Head>
-            <Grid item container sx={{ padding: mobile ? "100px 20px 60px 20px" : "100px 200px 60px 200px", height: mobile ? '100vh' : '110vh' }}>
+            <Grid item container sx={{ padding: mobile ? "100px 20px 60px 20px" : "100px 200px 60px 200px", height: mobile ? '100%' : '110vh' }}>
                 <Grid item xs={12}>
                     <PerfilInfo
                         light={light}
@@ -42,6 +47,7 @@ const Perfil = () => {
                         isLoading={isLoading}
                         isError={isError}
                         handleAtrasClick={handleAtrasClick}
+                        handleEditar={handleEditar}
                     />
                 </Grid>
             </Grid>
