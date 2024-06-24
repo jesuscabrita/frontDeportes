@@ -8,6 +8,7 @@ import { MdAdminPanelSettings } from "react-icons/md";
 import { TbError404 as Err404 } from 'react-icons/tb';
 import { ButtomPrimario } from "../Material/ButtonSend";
 import { FaUserEdit } from "react-icons/fa";
+import { ImNotification } from "react-icons/im";
 
 interface PerfilInfoProps {
     mobile: boolean;
@@ -60,8 +61,9 @@ export const PerfilInfo: React.FC<PerfilInfoProps> = ({
                                 </Grid>
                             </Grid>
                             {usuario?.foto === 'no definida' ?
-                                <Grid item container alignItems={'center'} justifyContent={'center'} mt={mobile ? 4 : -18} mb={mobile ? 4 : 0} sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '2px', fontSize: '16px', fontWeight: '500' }}>
-                                    No has registrado tu equipo
+                                <Grid item container alignItems={'center'} justifyContent={'center'} flexDirection={'column'} gap={2} mt={mobile ? 4 : -26} mb={mobile ? 4 : 0} sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '2px', fontSize: '16px', fontWeight: '500' }}>
+                                    <ImNotification size={mobile ? 50 : 100} />
+                                    {'No has registrado tu equipo'}
                                 </Grid>
                                 : <img style={{ height: mobile ? '150px' : '' }} src={usuario?.foto} alt="logoEquipo" />}
                         </Grid>
@@ -72,7 +74,7 @@ export const PerfilInfo: React.FC<PerfilInfoProps> = ({
                             </Grid>
                             <Grid item container alignItems={'center'} justifyContent={'center'} gap={1} mt={2}>
                                 <Grid item container alignItems={'center'} justifyContent={'center'} gap={1} mt={-1.5} sx={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '12px' : '16px', fontWeight: '400' }}>
-                                    <span style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>Tipo de usuario</span>{usuario?.role === 'usuario' ? 'Usuraio basico' : usuario?.role === 'super_admin' ? 'Super administrador' : 'Administrador'}
+                                    <span style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>Tipo de usuario</span>{usuario?.role === 'usuario' ? 'Usuario basico' : usuario?.role === 'super_admin' ? 'Super administrador' : 'Administrador'}
                                     {usuario?.role === 'usuario' ?
                                         <FaUserCheck color={light ? "var(--dark2)" : "var(--cero)"} />
                                         : usuario?.role === 'super_admin' ? <Very color={'var(--check)'} /> : <MdAdminPanelSettings color={light ? "var(--dark2)" : "var(--cero)"} />}

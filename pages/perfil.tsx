@@ -8,6 +8,7 @@ import { PerfilInfo } from "../components/Perfil/PerfilInfo";
 import Context from "../context/contextPrincipal";
 import ContextRefac from "../context/contextLogin";
 import Head from "next/head";
+import { ModalEditarPerfil } from "../components/modals/User/ModalEditarPerfil";
 
 const Perfil = () => {
     const [light] = useContext(Context);
@@ -51,6 +52,7 @@ const Perfil = () => {
                     />
                 </Grid>
             </Grid>
+            {modalEditar && <ModalEditarPerfil open={modalEditar} setOpen={setModalEditar} data={usuario} />}
         </>
     );
 };

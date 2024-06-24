@@ -1,5 +1,5 @@
+import React, { useContext, useEffect, useState } from "react";
 import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
 import Context from "../../../context/contextPrincipal";
 import { useMutation, useQueryClient } from "react-query";
 import Dialog from '@mui/material/Dialog';
@@ -57,7 +57,7 @@ export const ModalUser = ({ open, setOpen, data }) => {
                 )}
                 <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
                     <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
-                    <ButtonSend disable={false} handle={() => { editarUser(data?._id,nombre,apellido,role, setIsLoading, editarUsuario, queryClient, handleClose) }} title={'Editar'} icon={Editar} iconColor={''} iconSize={20} />
+                    <ButtonSend disable={false} handle={() => { editarUser(data?._id, nombre, apellido, role, setIsLoading, editarUsuario, queryClient, handleClose) }} title={'Editar'} icon={Editar} iconColor={''} iconSize={20} />
                 </DialogActions>
             </Dialog>
         </Grid>

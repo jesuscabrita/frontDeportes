@@ -55,7 +55,7 @@ export const InputDate: React.FC<InputDateProps> = ({ title, disabled, value, se
                 sx={{
                     '& .MuiInputBase-input': { width: '100%', height: '12px' },
                     '& .MuiInputBase-root': {
-                        color: light ? "#444748" : '#747878 ',
+                        color: light ? "#444748" : 'var(--gris)',
                         border: 'none',
                         borderRadius: "9px",
                     },
