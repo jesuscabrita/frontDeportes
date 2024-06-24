@@ -5,13 +5,17 @@ import { IoExit } from "react-icons/io5";
 import { InputFields } from "../../Material/InputFields";
 import { InputDate } from "../../Material/InputFecha";
 import { ButtomPrimario, ButtomSecundario } from "../../Material/ButtonSend";
+import { useMutation, useQueryClient } from "react-query";
+import { userPut } from "../../../service/session";
+import { editarPerfilUser } from "../../../utils/utilsUser";
+import { LoadingScreen } from "../../Shared/LoadingScreen";
 import Context from "../../../context/contextPrincipal";
 import moment from "moment";
 
 interface ModalPerfilProps {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<any>>;
-    data: { nombre: string; apellido: string; email: string; fecha_de_nacimiento: string; }
+    data: { nombre: string; apellido: string; email: string; fecha_de_nacimiento: string; _id: string; }
 }
 
 export const ModalEditarPerfil: React.FC<ModalPerfilProps> = ({ open, setOpen, data }) => {
@@ -21,6 +25,9 @@ export const ModalEditarPerfil: React.FC<ModalPerfilProps> = ({ open, setOpen, d
     const [apellido, setApellido] = useState(data?.apellido);
     const [email, setEmail] = useState(data?.email);
     const [fechaNacimiento, setFechaNacimiento] = useState(moment(data?.fecha_de_nacimiento));
+    const { mutate: editarPerfil } = useMutation(userPut);
+    const [isLoading, setIsLoading] = useState(false);
+    const queryClient = useQueryClient();
 
     const handleClose = () => {
         setOpen(false);
@@ -29,6 +36,7 @@ export const ModalEditarPerfil: React.FC<ModalPerfilProps> = ({ open, setOpen, d
     useEffect(() => {
         setNombre(data?.nombre);
         setApellido(data?.apellido);
+        setEmail(data?.email)
         setFechaNacimiento(moment(data?.fecha_de_nacimiento))
     }, [data]);
 
@@ -80,18 +88,14 @@ export const ModalEditarPerfil: React.FC<ModalPerfilProps> = ({ open, setOpen, d
                     />
                 </Grid>
             </DialogContent>
-            {/* {isLoading && (
-                <Grid sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '100%' : '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} />
-                </Grid>
-            )} */}
+            {isLoading && <LoadingScreen />}
             <DialogActions sx={{ background: light ? 'var(--gris)' : 'var(--dark2)' }}>
                 <Grid item container gap={0.5}>
                     <Grid item container sx={{ paddingLeft: '14px', paddingRight: '14px' }}>
                         <ButtomPrimario
                             title="Editar"
                             icon={FaUserEdit}
-                            handleclick={() => { }}
+                            handleclick={() => { editarPerfilUser(data?._id, nombre, apellido, email, moment(fechaNacimiento).format('YYYY-MM-DD HH:mm:ss'), setIsLoading, editarPerfil, queryClient, handleClose) }}
                         />
                     </Grid>
                     <Grid item container sx={{ paddingLeft: '14px', paddingRight: '14px' }}>
@@ -102,8 +106,6 @@ export const ModalEditarPerfil: React.FC<ModalPerfilProps> = ({ open, setOpen, d
                         />
                     </Grid>
                 </Grid>
-                {/* <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
-                <ButtonSend disable={false} handle={() => { editarUser(data?._id, nombre, apellido, role, setIsLoading, editarUsuario, queryClient, handleClose) }} title={'Editar'} icon={Editar} iconColor={''} iconSize={20} /> */}
             </DialogActions>
         </Dialog>
     )

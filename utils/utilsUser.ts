@@ -140,3 +140,31 @@ export const editarUser = (userId: string, nombre: string, apellido: string, rol
         },
     });
 }
+
+export const editarPerfilUser = (
+    userId: string,
+    nombre: string,
+    apellido: string,
+    email: string,
+    fecha_de_nacimiento,
+    setIsLoading,
+    editarPerfilUser,
+    queryClient,
+    handleClose
+) => {
+    setIsLoading(true);
+    const formData = { nombre, apellido, email, fecha_de_nacimiento };
+    editarPerfilUser({ form: formData, userId }, {
+        onSuccess: (success) => {
+            queryClient.invalidateQueries(["usuario"]);
+            alertaSubmit(true, success?.message);
+            setIsLoading(false);
+            handleClose()
+        },
+        onError: (err: any) => {
+            const errorMessage = err?.response?.data?.message || err.message;
+            alertaSubmit(false, errorMessage);
+            setIsLoading(false);
+        },
+    });
+}
