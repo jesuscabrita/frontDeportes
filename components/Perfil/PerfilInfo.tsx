@@ -52,7 +52,7 @@ export const PerfilInfo: React.FC<PerfilInfoProps> = ({
                             </Grid>
                             <Grid item container alignItems={'center'} justifyContent={'center'} gap={1} mt={2}>
                                 <Grid item container alignItems={'center'} justifyContent={'center'} gap={1} mt={-1.5} sx={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '12px' : '16px', fontWeight: '400' }}>
-                                    <span style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>Tipo de usuario</span>{usuario?.role === 'usuario' ? 'Usuario basico' : usuario?.role === 'super_admin' ? 'Super administrador' : 'Administrador'}
+                                    <span style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>Tipo de usuario</span>{usuario?.role === 'usuario' ? 'User basico' : usuario?.role === 'super_admin' ? 'Super admin' : 'Admin'}
                                     {usuario?.role === 'usuario' ?
                                         <FaUserCheck color={light ? "var(--dark2)" : "var(--cero)"} />
                                         : usuario?.role === 'super_admin' ? <Very color={'var(--check)'} /> : <MdAdminPanelSettings color={light ? "var(--dark2)" : "var(--cero)"} />}

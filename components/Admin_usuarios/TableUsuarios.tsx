@@ -45,13 +45,13 @@ export const TableUsuarios: React.FC<TableUsuariosProps> = ({
                         <TableBody>
                             <TableRow sx={{ '& > *': { borderBottom: 'unset', background: light ? 'var(--gris3)' : 'var(--dark4)', cursor: 'pointer' } }}>
                                 <TableCell sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', whiteSpace: 'nowrap' }}>
-                                    <Grid container width={'300px'} flexDirection={'row'} alignItems={'center'}>
+                                    <Grid container width={'280px'} flexDirection={'row'} alignItems={'center'}>
                                         <Grid item>
                                             <IconButton aria-label="expand row" size="small" sx={{ color: light ? 'black' : 'var(--cero)' }} onClick={() => handleRowClick(index)}>
                                                 {isOpen ? <ArrowUp /> : <ArrowDown />}
                                             </IconButton>
                                         </Grid>
-                                        <Grid item width={'260px'} container gap={1} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ marginLeft: '6px' }}>
+                                        <Grid item width={'240px'} container gap={1} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ marginLeft: '6px' }}>
                                             <Avatar {...stringAvatar(usuario?.nombre)} sx={{ height: '35px', width: '35px', bgcolor: !light ? "#aab4be" : 'var(--dark2)' }} />
                                             <Grid item sx={{ fontSize: mobile ? '14px' : '16px', letterSpacing: '2px', fontWeight: '500' }}>{`${usuario?.nombre} ${usuario?.apellido}`}</Grid>
                                             {usuario?.role === 'usuario' ?
@@ -79,7 +79,7 @@ export const TableUsuarios: React.FC<TableUsuariosProps> = ({
                                                 </Grid>
                                                 <Grid item container alignItems={'center'} justifyContent={'center'} gap={1} mt={2}>
                                                     <Grid item container alignItems={'center'} justifyContent={'center'} gap={1} mt={-1.5} sx={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '12px' : '16px', fontWeight: '400' }}>
-                                                        <span style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>Tipo de usuario</span>{usuario?.role === 'usuario' ? 'Usuario basico' : usuario?.role === 'super_admin' ? 'Super administrador' : 'Administrador'}
+                                                        <span style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>Tipo de usuario</span>{usuario?.role === 'usuario' ? 'User basico' : usuario?.role === 'super_admin' ? 'Super admin' : 'Admin'}
                                                         {usuario?.role === 'usuario' ?
                                                             <FaUserCheck color={light ? "var(--dark2)" : "var(--cero)"} />
                                                             : usuario?.role === 'super_admin' ? <Very color={'var(--check)'} /> : <MdAdminPanelSettings color={light ? "var(--dark2)" : "var(--cero)"} />}
