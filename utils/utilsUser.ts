@@ -123,9 +123,21 @@ export const eliminarUsuarios = (userId: string, eliminarUser, queryClient) => {
     }, 'Si, Eliminar!', 'Eliminado!', 'El usuario ha sido eliminado.', 'El usuario sigue en la liga :)')
 }
 
-export const editarUser = (userId: string, nombre: string, apellido: string, role: string, setIsLoading, editarUsuario, queryClient, handleClose) => {
+export const editarUser = (
+    userId: string,
+    nombre: string,
+    apellido: string,
+    role: string,
+    email: string,
+    fecha_de_nacimiento,
+    setIsLoading,
+    editarUsuario,
+    queryClient,
+    handleClose,
+
+) => {
     setIsLoading(true);
-    const formData = { nombre, apellido, role };
+    const formData = { nombre, apellido, role, email, fecha_de_nacimiento };
     editarUsuario({ form: formData, userId }, {
         onSuccess: (success) => {
             queryClient.invalidateQueries(["user"]);

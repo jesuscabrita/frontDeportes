@@ -5,20 +5,20 @@ import { CiLogin } from "react-icons/ci";
 import { InputFields } from "../Material/InputFields";
 import { InputPassword } from "../Material/InputPassword";
 import { ButtomPrimario } from "../Material/ButtonSend";
+import { FormLoginProps } from "../../interfaces/general";
 
-interface FormLoginProps {
-    mobile: boolean;
-    light: boolean;
-    emailOrUsername: string;
-    setEmailOrUsername: React.Dispatch<React.SetStateAction<any>>;
-    password: any;
-    setPassword: React.Dispatch<React.SetStateAction<any>>;
-    handleLogin: () => void;
-    navigateToForgotPassword: () => void;
-    navigateToRegister: () => void;
-}
-
-export const FormLogin: React.FC<FormLoginProps> = ({ mobile, light, emailOrUsername, setEmailOrUsername, password, setPassword, handleLogin, navigateToForgotPassword, navigateToRegister }) => {
+export const FormLogin: React.FC<FormLoginProps> = ({
+    mobile,
+    light,
+    emailOrUsername,
+    password,
+    loading,
+    setEmailOrUsername,
+    setPassword,
+    handleLogin,
+    navigateToForgotPassword,
+    navigateToRegister,
+}) => {
     return (
         <Paper elevation={3} sx={{ padding: mobile ? "20px" : "40px", display: "flex", flexDirection: "column", alignItems: "center", background: light ? 'var(--gris)' : 'var(--dark2)' }}>
             <Grid item container>
@@ -56,6 +56,7 @@ export const FormLogin: React.FC<FormLoginProps> = ({ mobile, light, emailOrUser
                             title="Iniciar sesión"
                             handleclick={handleLogin}
                             icon={CiLogin}
+                            isLoading={loading}
                         />
                     </Grid>
                     <Grid item mt={2}>

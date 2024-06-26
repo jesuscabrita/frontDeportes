@@ -3,6 +3,18 @@ import { useRouter } from 'next/router';
 import { Box, CircularProgress } from '@mui/material';
 import ContextRefac from '../../context/contextLogin';
 
+const styles = {
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        position: 'relative',
+    },
+    spinner: {
+        position: 'absolute',
+    },
+};
+
 export const WithAuth = (WrappedComponent: any) => {
     return (props: any) => {
         const router = useRouter();
@@ -20,7 +32,8 @@ export const WithAuth = (WrappedComponent: any) => {
         if (isLoading) {
             return (
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', opacity: 0.5, }}>
-                    <CircularProgress />
+                    <CircularProgress color="inherit" size={110} thickness={1} sx={styles.spinner} />
+                    <img src="/images/logo1.png" alt="logo" style={{ height: '80px', marginTop: '10px' }} />
                 </Box>
             );
         }

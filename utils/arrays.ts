@@ -1,3 +1,13 @@
+//REGISTER
+
+export const dataCategoria = [
+    { codigo: 'Sub20 - Masculino', descripcion: 'Sub20 - Masculino' },
+    { codigo: 'Libre - Masculino', descripcion: 'Libre - Masculino' },
+    { codigo: 'Sub20 - Femenino', descripcion: 'Sub20 - Femenino' },
+    { codigo: 'Libre - Femenino', descripcion: 'Libre - Femenino' },
+]
+
+
 export const posiciones = [
     { value: 'Seleccionar', label: 'Seleccionar' },
     { value: 'Portero', label: 'Portero' },
@@ -85,10 +95,9 @@ export const posicionesOrdenadas = {
 };
 
 export const roles = [
-    { value: 'Seleccionar', label: 'Seleccionar' },
-    { value: 'usuario', label: 'Usuario' },
-    { value: 'super_admin', label: 'Super admin' },
-    { value: 'admin', label: 'Admin' },
+    { codigo: 'usuario', descripcion: 'usuario' },
+    { codigo: 'super_admin', descripcion: 'super_admin' },
+    { codigo: 'admin', descripcion: 'admin' },
 ]
 
 export const contratos = [

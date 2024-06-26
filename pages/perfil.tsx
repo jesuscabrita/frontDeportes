@@ -5,11 +5,11 @@ import { alertaSubmit } from "../utils/alert";
 import { useQuery } from "react-query";
 import { UserGetById } from "../service/session";
 import { PerfilInfo } from "../components/Perfil/PerfilInfo";
+import { ModalEditarPerfil } from "../components/modals/User/ModalEditarPerfil";
+import { LoadingScreen } from "../components/Shared/LoadingScreen";
 import Context from "../context/contextPrincipal";
 import ContextRefac from "../context/contextLogin";
 import Head from "next/head";
-import { ModalEditarPerfil } from "../components/modals/User/ModalEditarPerfil";
-import { LoadingScreen } from "../components/Shared/LoadingScreen";
 
 const Perfil = () => {
     const [light] = useContext(Context);

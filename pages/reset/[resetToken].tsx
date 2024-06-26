@@ -4,10 +4,10 @@ import { useRouter } from 'next/router';
 import { useMutation, useQueryClient } from "react-query";
 import { CambiarContraseñaRequest } from "../../service/session";
 import { handleResetPassword } from "../../utils/utilsUser";
-import Context from "../../context/contextPrincipal";
-import Head from "next/head";
 import { FormReset } from "../../components/Reset/FormReset";
 import { LoadingScreen } from "../../components/Shared/LoadingScreen";
+import Context from "../../context/contextPrincipal";
+import Head from "next/head";
 
 const ResetToken = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });

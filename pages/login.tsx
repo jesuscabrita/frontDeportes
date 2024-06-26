@@ -11,11 +11,16 @@ const Login = () => {
     const [light] = useContext(Context);
     const [emailOrUsername, setEmailOrUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
     const { state: { user }, SignIn }: any = useContext(ContextRefac);
     const router = useRouter();
 
     const handleLogin = async () => {
-        await SignIn({ email: emailOrUsername, password });
+        setLoading(true)
+        setTimeout(async () => {
+            setLoading(false)
+            await SignIn({ email: emailOrUsername, password });
+        }, 2000);
     };
 
     const navigateToForgotPassword = () => {
@@ -38,6 +43,7 @@ const Login = () => {
                         light={light}
                         password={password}
                         emailOrUsername={emailOrUsername}
+                        loading={loading}
                         setPassword={setPassword}
                         setEmailOrUsername={setEmailOrUsername}
                         handleLogin={handleLogin}

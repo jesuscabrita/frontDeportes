@@ -1,36 +1,16 @@
 import React from "react";
-import { Avatar, CircularProgress, Grid, Paper } from "@mui/material";
+import { Avatar, Grid, Paper } from "@mui/material";
 import { FaArrowAltCircleLeft as Atras } from 'react-icons/fa';
 import { FaUserCheck } from "react-icons/fa";
 import { GoVerified as Very } from 'react-icons/go';
 import { IoIosFootball } from "react-icons/io";
 import { MdAdminPanelSettings } from "react-icons/md";
-import { TbError404 as Err404 } from 'react-icons/tb';
 import { ButtomPrimario } from "../Material/ButtonSend";
 import { FaUserEdit } from "react-icons/fa";
 import { ImNotification } from "react-icons/im";
-
-interface PerfilInfoProps {
-    mobile: boolean;
-    light: boolean;
-    usuario: { foto: string; nombre: string; apellido: string; role: string; email: string; fecha_de_nacimiento: string; edad: string, equipo: string; categoria: string; subCategoria: string; }
-    isLoading: boolean;
-    isError: boolean;
-    handleAtrasClick: () => void;
-    handleEditar: () => void;
-}
-
-const styles = {
-    container: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        position: 'relative',
-    },
-    spinner: {
-        position: 'absolute',
-    },
-};
+import { Carga } from "../Shared/Carga";
+import { ErrorCarga } from "../Shared/ErrorCarga";
+import { PerfilInfoProps } from "../../interfaces/general";
 
 export const PerfilInfo: React.FC<PerfilInfoProps> = ({
     light,
@@ -45,13 +25,11 @@ export const PerfilInfo: React.FC<PerfilInfoProps> = ({
         <Paper elevation={3} sx={{ padding: mobile ? "20px" : "40px", display: "flex", flexDirection: "column", alignItems: "center", background: light ? 'var(--gris)' : 'var(--dark2)' }}>
             {isLoading ?
                 <Grid item height={mobile ? "75vh" : '60vh'} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', color: light ? 'var(--dark2)' : 'var(--cero)', gap: '16px' }}>
-                    <CircularProgress color="inherit" size={110} thickness={1} sx={styles.spinner} />
-                    <img src="/images/logo1.png" alt="logo" style={{ height: '80px', marginTop: '10px' }} />
+                    <Carga />
                 </Grid>
                 : isError ?
                     <Grid item height={mobile ? "75vh" : '60vh'} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', color: light ? "var(--dark2)" : "var(--gris)", flexDirection: 'column', fontSize: mobile ? '14px' : '16px' }}>
-                        <Err404 size={140} />
-                        Ha ocurrido un error al cargar el usuario
+                        <ErrorCarga />
                     </Grid>
                     : <Grid item container>
                         <Grid item md={6} container alignItems={'center'} justifyContent={'center'}>

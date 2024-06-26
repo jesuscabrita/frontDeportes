@@ -1,64 +1,35 @@
 import React from "react";
-import { Avatar, Grid, Paper, SelectChangeEvent } from "@mui/material";
+import { Avatar, Grid, Paper } from "@mui/material";
 import { PiTrademarkRegistered } from "react-icons/pi";
 import { InputFields } from "../../Material/InputFields";
 import { InputDate } from "../../Material/InputFecha";
 import { ButtomPrimario } from "../../Material/ButtonSend";
 import { InputSelects } from "../../Material/InputSelect";
-
-interface RegisterUserProps {
-    mobile: boolean;
-    light: boolean;
-    nombre: string;
-    setNombre: React.Dispatch<React.SetStateAction<any>>;
-    apellido: string;
-    setApellido: React.Dispatch<React.SetStateAction<any>>;
-    email: string;
-    setEmail: React.Dispatch<React.SetStateAction<any>>;
-    fecha_de_nacimiento: any
-    setFecha_de_nacimiento: React.Dispatch<React.SetStateAction<any>>;
-    password: string;
-    repeated_password: string;
-    setPassword: React.Dispatch<React.SetStateAction<any>>;
-    setRepeated_password: React.Dispatch<React.SetStateAction<any>>;
-    equipo: string;
-    setEquipo: React.Dispatch<React.SetStateAction<any>>;
-    handleRegistrar: () => void;
-    navigateToLogin: () => void;
-    cargando: any
-    categoria: any;
-    handleSelect: (event: SelectChangeEvent<any>) => void;
-}
-
-const dataCategoria = [
-    { codigo: 'Sub20 - Masculino', descripcion: 'Sub20 - Masculino' },
-    { codigo: 'Libre - Masculino', descripcion: 'Libre - Masculino' },
-    { codigo: 'Sub20 - Femenino', descripcion: 'Sub20 - Femenino' },
-    { codigo: 'Libre - Femenino', descripcion: 'Libre - Femenino' },
-]
+import { RegisterUserProps } from "../../../interfaces/general";
+import { dataCategoria } from "../../../utils/arrays";
 
 export const RegisterUser: React.FC<RegisterUserProps> = ({
     mobile,
     light,
     nombre,
-    setNombre,
     apellido,
-    setApellido,
     email,
-    setEmail,
     fecha_de_nacimiento,
-    setFecha_de_nacimiento,
     password,
     repeated_password,
+    equipo,
+    cargando,
+    categoria,
+    setNombre,
+    setApellido,
+    setEmail,
+    setFecha_de_nacimiento,
     setPassword,
     setRepeated_password,
-    equipo,
     setEquipo,
     handleRegistrar,
     navigateToLogin,
-    cargando,
-    categoria,
-    handleSelect
+    handleSelect,
 }) => {
     return (
         <Paper elevation={3} sx={{ padding: mobile ? "20px" : "40px", display: "flex", flexDirection: "column", alignItems: "center", background: light ? 'var(--gris)' : 'var(--dark2)' }}>

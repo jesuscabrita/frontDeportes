@@ -167,3 +167,66 @@ export const ButtomSecundario: React.FC<ButtomProps> = ({ title, handleclick, wi
         </Grid>
     )
 }
+
+export const ButtomDanger: React.FC<ButtomProps> = ({ title, handleclick, width, widthBorder, disabled = false, isLoading = false, icon: IconComponent, iconSize = 24, iconColor }) => {
+    const [isClicked, setIsClicked] = useState(false);
+    const [light] = useContext(Context);
+
+    const handleMouseDown = () => {
+        if (!disabled) {
+            setIsClicked(true);
+        }
+    };
+
+    const handleMouseUp = () => {
+        if (!disabled) {
+            handleclick();
+            setTimeout(() => setIsClicked(false), 8000);
+        }
+    };
+
+    return (
+        <Grid
+            item
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={() => setIsClicked(false)}
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: '8px',
+                width: widthBorder ? widthBorder : '100%',
+                height: '50px',
+                border: isClicked ? (light ? '1px solid var(--danger)' : '1px solid #bb415e') : 'none',
+            }}>
+            <Grid
+                item
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '45px',
+                    borderRadius: '7px',
+                    background: disabled ? '#E1E3E3 !important' : light ? 'var(--danger) !important' : '#bb415e !important',
+                    color: disabled ? '#d1d1d1' : light ? '#FEFEFE' : '#FEFEFE',
+                    fontSize: '16px',
+                    cursor: disabled ? 'no-drop' : 'pointer',
+                    gap: '10px',
+                    width: width ? width : '100%',
+                    userSelect: 'none',
+                    fontWeight: '600',
+                    '&:hover': {
+                        background: disabled ? '#E1E3E3' : light ? '#b74848f2 !important' : '#bb415dba !important'
+                    }
+                }}
+            >
+                {isLoading && <CircularProgress size={25} color="inherit" />}
+                {title}
+                {IconComponent && (
+                    <IconComponent size={iconSize} color={disabled ? 'var(--dark3)' : iconColor} />
+                )}
+            </Grid>
+        </Grid>
+    )
+}

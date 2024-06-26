@@ -5,51 +5,29 @@ import { InputFields } from "../Material/InputFields";
 import { InputPassword } from "../Material/InputPassword";
 import { ButtomPrimario } from "../Material/ButtonSend";
 import { MdSettingsBackupRestore as Restore } from "react-icons/md";
-
-interface FormResetProps {
-    mobile: boolean;
-    light: boolean;
-    email: string;
-    setEmail: React.Dispatch<React.SetStateAction<any>>;
-    password: string;
-    setPassword: React.Dispatch<React.SetStateAction<any>>;
-    repeated_password: string;
-    setRepeated_password: React.Dispatch<React.SetStateAction<any>>;
-    handleResetPassword: () => void;
-    cargando: any;
-    handleAtrasClick: () => void;
-    errorEmail: boolean;
-    textErrorEmail: string;
-    handleEmail: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    PasswordError: boolean;
-    PasswordErrorText: string;
-    handlePassword: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    Repeated_passwordError: boolean;
-    Repeated_passwordErrorText: string;
-    handleRepeatedPassword: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
+import { FormResetProps } from "../../interfaces/general";
 
 export const FormReset: React.FC<FormResetProps> = ({
     mobile,
     light,
     email,
-    setEmail,
     password,
-    setPassword,
     repeated_password,
-    setRepeated_password,
-    handleResetPassword,
     cargando,
-    handleAtrasClick,
     errorEmail,
     textErrorEmail,
-    handleEmail,
     PasswordError,
     PasswordErrorText,
-    handlePassword,
     Repeated_passwordError,
     Repeated_passwordErrorText,
-    handleRepeatedPassword
+    setEmail,
+    setPassword,
+    setRepeated_password,
+    handleResetPassword,
+    handleAtrasClick,
+    handleEmail,
+    handlePassword,
+    handleRepeatedPassword,
 }) => {
     return (
         <Paper elevation={3} sx={{ padding: mobile ? "20px" : "40px", display: "flex", flexDirection: "column", alignItems: "center", background: light ? 'var(--gris)' : 'var(--dark2)' }}>

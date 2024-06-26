@@ -4,21 +4,20 @@ import { PiPasswordLight } from "react-icons/pi";
 import { InputFields } from "../Material/InputFields";
 import { ButtomPrimario } from "../Material/ButtonSend";
 import { MdSettingsBackupRestore as Restore } from "react-icons/md";
+import { FormForgotPasswordProps } from "../../interfaces/general";
 
-interface FormForgotPasswordProps {
-    mobile: boolean;
-    light: boolean;
-    email: string
-    setEmail: React.Dispatch<React.SetStateAction<any>>;
-    handleSolicitarPassword: () => void;
-    navigateToLogin: () => void;
-    error: boolean;
-    textError: string;
-    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-    cargando: any
-}
-
-export const FormForgotPassword: React.FC<FormForgotPasswordProps> = ({ mobile, light, email, setEmail, handleSolicitarPassword, navigateToLogin, error, textError, handleChange, cargando }) => {
+export const FormForgotPassword: React.FC<FormForgotPasswordProps> = ({
+    mobile,
+    light,
+    email,
+    error,
+    textError,
+    cargando,
+    setEmail,
+    handleSolicitarPassword,
+    navigateToLogin,
+    handleChange,
+}) => {
     return (
         <Paper elevation={3} sx={{ padding: mobile ? "20px" : "40px", display: "flex", flexDirection: "column", alignItems: "center", background: light ? 'var(--gris)' : 'var(--dark2)' }}>
             <Grid item container>
