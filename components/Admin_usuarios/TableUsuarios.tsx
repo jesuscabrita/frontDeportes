@@ -64,7 +64,7 @@ export const TableUsuarios: React.FC<TableUsuariosProps> = ({
                             <TableRow>
                                 <TableCell style={{ paddingBottom: 0, paddingTop: 0, background: light ? 'var(--gris3)' : 'var(--dark4)', borderColor: light ? 'var(--dark2)' : 'var(--gris)' }} colSpan={8}>
                                     <Collapse in={isOpen} timeout="auto" unmountOnExit>
-                                        <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ padding: '20px' }}>
+                                        <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ padding: mobile ? '0px' : '20px', paddingTop: mobile ? '20px' : '0px' }}>
                                             <Grid item md={6} container alignItems={'center'} justifyContent={'center'}>
                                                 {usuario?.foto === 'no definida' ?
                                                     <Grid item container alignItems={'center'} justifyContent={'center'} flexDirection={'column'} gap={2} sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '2px', fontSize: '16px', fontWeight: '500' }}>
@@ -73,7 +73,7 @@ export const TableUsuarios: React.FC<TableUsuariosProps> = ({
                                                     </Grid>
                                                     : <img style={{ height: mobile ? '150px' : '' }} src={usuario?.foto} alt="logoEquipo" />}
                                             </Grid>
-                                            <Grid item md={6} gap={2} container alignItems={'center'} justifyContent={'center'} flexDirection={'column'} sx={{ padding: '20px' }}>
+                                            <Grid item md={6} gap={2} container alignItems={'center'} justifyContent={'center'} flexDirection={'column'} sx={{ padding: mobile ? '0px' : '20px', paddingTop: mobile ? '20px' : '0px' }}>
                                                 <Grid item sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '2px', fontSize: '20px', fontWeight: '500' }}>
                                                     {usuario?.nombre} {usuario?.apellido}
                                                 </Grid>
