@@ -24,7 +24,7 @@ export const InputFields: React.FC<InputFieldsProps> = ({ type, value, setValue,
     const [light] = useContext(Context);
     return (
         <Grid item container mt={mt}>
-            <Grid mb={0.5} sx={{ color: disabled ? '#C4C7C7' : light ? 'var(--dark2)' : 'var(--gris)', lineHeight: '24px', fontSize: '14px', cursor: disabled ? 'not-allowed' : 'default', letterSpacing: '0.025px' }}>
+            <Grid mb={0.5} sx={{ color: disabled ? (light ? 'var(--gris2)' : '#444748') : (light ? 'var(--dark2)' : 'var(--gris)'), lineHeight: '24px', fontSize: '14px', cursor: disabled ? 'not-allowed' : 'default', letterSpacing: '0.025px' }}>
                 {title}
             </Grid>
             <TextField
@@ -46,7 +46,7 @@ export const InputFields: React.FC<InputFieldsProps> = ({ type, value, setValue,
                         fontSize: '14px',
                         letterSpacing: '0.18%',
                         lineHeight: '20px',
-                        background: disabled ? '#EFF1F1' : 'none',
+                        background: disabled ? (light ? 'var(--gris)' : 'var(--dark2)') : 'none',
                         cursor: disabled ? 'no-drop' : '',
                         "&:focus": {
                             borderColor: disabled ? '#d5d5d5' : (error ? "#DE1212" : "#747878"),
@@ -60,7 +60,7 @@ export const InputFields: React.FC<InputFieldsProps> = ({ type, value, setValue,
                         borderColor: "#065fbe !important",
                     },
                     "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
-                        borderColor: disabled ? "#5155586a" : (error ? "#DE1212" : "#747878"),
+                        borderColor: disabled ? "none" : (error ? "#DE1212" : "#747878"),
                     },
                     "& .MuiOutlinedInput-root": {
                         borderRadius: "10px !important",
@@ -69,7 +69,7 @@ export const InputFields: React.FC<InputFieldsProps> = ({ type, value, setValue,
             />
             {error ? <span style={{ color: '#DE1212', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '3px' }}> <IconoErrorInput />{textError}</span>
                 : <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                    <span style={{ color: disabled ? '#C4C7C7' : light ? 'var(--dark2)' : 'var(--gris)', fontSize: '12px' }}>{descripcion}</span>
+                    <span style={{ color: disabled ? (light ? 'var(--gris2)' : '#444748') : (light ? 'var(--dark2)' : 'var(--gris)'), fontSize: '12px' }}>{descripcion}</span>
                     {lengths && <span style={{ color: disabled ? '#C4C7C7' : '#444748', fontSize: '12px' }}>{`${value.length}/${max}`}</span>}
                 </div>}
         </Grid>

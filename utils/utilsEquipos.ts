@@ -1,22 +1,40 @@
 import { alertaCheck, alertaQuestion, alertaSubmit } from "./alert";
-import { filterEstado } from "./utils";
+import { filterEmail, filterEstado } from "./utils";
 
-export const nuevoEquipo = (nombre: string, logo: any, correo: string, instagram: string, setIsLoading, crearEquipo, queryClient, setName, setImage, setCorreo, setInstagram, setLogoAdded, setImageName) => {
+export const nuevoEquipo = (
+    nombre: string,
+    logo: any,
+    correo: string,
+    instagram: string,
+    setIsLoading,
+    crearEquipo,
+    queryClient,
+    setImage,
+    setInstagram,
+    setLogoAdded,
+    setImageName,
+    subCategoria,
+    router,
+) => {
     setIsLoading(true);
-    const formData = { form: { name: nombre, logo, correo, instagram } };
+    if (subCategoria === 'Elija una opción') {
+        alertaSubmit(false, 'Debes seleccionar una categoria');
+        setIsLoading(false);
+        return;
+    }
+    const formData = { form: { name: nombre, logo, correo, instagram, subCategoria } };
     crearEquipo(formData, {
         onSuccess: (success) => {
             queryClient.invalidateQueries(["/api/liga"])
-            setName('');
             setImage('');
-            setCorreo('')
             setInstagram('')
             setLogoAdded(false);
             setImageName('');
             alertaSubmit(true, success?.message);
-            setTimeout(() => {
-                alertaCheck('Registrado!', 'Gracias por crear un equipo en nuestra plataforma. En breve recibirás un correo electrónico con la confirmación de su registro. Si tiene alguna pregunta o necesita ayuda adicional, no dude en ponerse en contacto con nuestro equipo de soporte.');
-            }, 4000);
+            router.replace("/");
+            // setTimeout(() => {
+            //     alertaCheck('Registrado!', 'Gracias por crear un equipo en nuestra plataforma. En breve recibirás un correo electrónico con la confirmación de su registro. Si tiene alguna pregunta o necesita ayuda adicional, no dude en ponerse en contacto con nuestro equipo de soporte.');
+            // }, 4000);
             setIsLoading(false);
         },
         onError: (err: any) => {

@@ -4,7 +4,7 @@ import { RegisterRequest } from "../service/session";
 import { useMutation, useQueryClient } from "react-query";
 import { crearUser } from "../utils/utilsUser";
 import { useRouter } from "next/router";
-import { RegisterUser } from "../components/Registrar/RegisterUser/RegisterUser";
+import { RegisterUser } from "../components/RegistrarUsuario/RegisterUser";
 import { LoadingScreen } from "../components/Shared/LoadingScreen";
 import Context from "../context/contextPrincipal";
 import Head from "next/head";

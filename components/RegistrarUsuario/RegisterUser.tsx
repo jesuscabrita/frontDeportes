@@ -1,12 +1,12 @@
 import React from "react";
 import { Avatar, Grid, Paper } from "@mui/material";
 import { PiTrademarkRegistered } from "react-icons/pi";
-import { InputFields } from "../../Material/InputFields";
-import { InputDate } from "../../Material/InputFecha";
-import { ButtomPrimario } from "../../Material/ButtonSend";
-import { InputSelects } from "../../Material/InputSelect";
-import { RegisterUserProps } from "../../../interfaces/general";
-import { dataCategoria } from "../../../utils/arrays";
+import { dataCategoria } from "../../utils/arrays";
+import { RegisterUserProps } from "../../interfaces/general";
+import { InputFields } from "../Material/InputFields";
+import { InputDate } from "../Material/InputFecha";
+import { ButtomPrimario } from "../Material/ButtonSend";
+import { InputSelects } from "../Material/InputSelect";
 
 export const RegisterUser: React.FC<RegisterUserProps> = ({
     mobile,

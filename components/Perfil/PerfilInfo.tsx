@@ -43,7 +43,7 @@ export const PerfilInfo: React.FC<PerfilInfoProps> = ({
                                     <ImNotification size={mobile ? 50 : 100} />
                                     {'No has registrado tu equipo'}
                                 </Grid>
-                                : <img style={{ height: mobile ? '150px' : '' }} src={usuario?.foto} alt="logoEquipo" />}
+                                : <img style={{ height: mobile ? '100px' : '180px', marginTop: mobile ? '0px' : '0px', marginBottom: mobile ? '40px' : '120px' }} src={usuario?.foto} alt="logoEquipo" />}
                         </Grid>
                         <Grid item md={6} gap={2} container alignItems={'center'} justifyContent={'center'} flexDirection={'column'} sx={{ padding: '20px' }}>
                             <Avatar alt={`${usuario?.nombre} ${usuario?.apellido}`} src={''} sx={{ width: 100, height: 100, marginBottom: 5, bgcolor: !light ? "#aab4be" : 'var(--dark2)' }} />

@@ -71,7 +71,7 @@ export const TableUsuarios: React.FC<TableUsuariosProps> = ({
                                                         <ImNotification size={mobile ? 50 : 100} />
                                                         {'No ha registrado su equipo'}
                                                     </Grid>
-                                                    : <img style={{ height: mobile ? '150px' : '' }} src={usuario?.foto} alt="logoEquipo" />}
+                                                    : <img style={{ height: mobile ? '100px' : '180px', marginTop: mobile ? '0px' : '0px', marginBottom: mobile ? '20px' : '120px' }} src={usuario?.foto} alt="logoEquipo" />}
                                             </Grid>
                                             <Grid item md={6} gap={2} container alignItems={'center'} justifyContent={'center'} flexDirection={'column'} sx={{ padding: mobile ? '0px' : '20px', paddingTop: mobile ? '20px' : '0px' }}>
                                                 <Grid item sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '2px', fontSize: '20px', fontWeight: '500' }}>

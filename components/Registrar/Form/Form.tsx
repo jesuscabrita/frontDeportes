@@ -27,6 +27,8 @@ export const Form = () => {
     const [logoAdded, setLogoAdded] = useState(false);
     const [imageName, setImageName] = useState('');
     const queryClient = useQueryClient()
+    // console.log(image);
+
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -107,7 +109,7 @@ export const Form = () => {
                     <CircularProgress color="primary" />
                 </div>
             )}
-            <ButtonSend disable={false} handle={() => { nuevoEquipo(user?.equipo, image, user?.email, instagram, setIsLoading, crearEquipo, queryClient, setName, setImage, setCorreo, setInstagram, setLogoAdded, setImageName) }} title={'Registrar'} icon={Crear} iconColor={'var(--check)'} iconSize={20} />
+            {/* <ButtonSend disable={false} handle={() => { nuevoEquipo(user?.equipo, image, user?.email, instagram, setIsLoading, crearEquipo, queryClient, setName, setImage, setCorreo, setInstagram, setLogoAdded, setImageName) }} title={'Registrar'} icon={Crear} iconColor={'var(--check)'} iconSize={20} /> */}
         </Grid>
     )
 }

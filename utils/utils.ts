@@ -3,6 +3,11 @@ export const filterEstado = (array, estado) => {
     return newFilter;
 }
 
+export const filterEmail = (array, email) => {
+    const newFilter = array.filter(data => data.correo == email);
+    return newFilter;
+}
+
 export const filterLibreJugador = (array, estado) => {
     const newFilter = array.filter(data => data.libre == estado);
     return newFilter;
