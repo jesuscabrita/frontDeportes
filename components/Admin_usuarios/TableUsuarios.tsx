@@ -55,8 +55,8 @@ export const TableUsuarios: React.FC<TableUsuariosProps> = ({
                                             <Avatar {...stringAvatar(usuario?.nombre)} sx={{ height: '35px', width: '35px', bgcolor: !light ? "#aab4be" : 'var(--dark2)' }} />
                                             <Grid item sx={{ fontSize: mobile ? '14px' : '16px', letterSpacing: '2px', fontWeight: '500' }}>{`${usuario?.nombre} ${usuario?.apellido}`}</Grid>
                                             {usuario?.role === 'usuario' ?
-                                                <FaUserCheck color={light ? "var(--dark2)" : "var(--cero)"} />
-                                                : usuario?.role === 'super_admin' ? <Very color={'var(--check)'} /> : <MdAdminPanelSettings color={light ? "var(--dark2)" : "var(--cero)"} />}
+                                                <FaUserCheck size={25} color={light ? "var(--dark2)" : "var(--cero)"} />
+                                                : usuario?.role === 'super_admin' ? <Very size={25} color={'var(--check)'} /> : <MdAdminPanelSettings size={25} color={light ? "var(--dark2)" : "var(--cero)"} />}
                                         </Grid>
                                     </Grid>
                                 </TableCell>
@@ -75,14 +75,14 @@ export const TableUsuarios: React.FC<TableUsuariosProps> = ({
                                             </Grid>
                                             <Grid item md={6} gap={2} container alignItems={'center'} justifyContent={'center'} flexDirection={'column'} sx={{ padding: mobile ? '0px' : '20px', paddingTop: mobile ? '20px' : '0px' }}>
                                                 <Grid item sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '2px', fontSize: '20px', fontWeight: '500' }}>
-                                                    {usuario?.nombre} {usuario?.apellido}
+                                                    {`${usuario?.nombre} ${usuario?.apellido}`}
                                                 </Grid>
                                                 <Grid item container alignItems={'center'} justifyContent={'center'} gap={1} mt={2}>
                                                     <Grid item container alignItems={'center'} justifyContent={'center'} gap={1} mt={-1.5} sx={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '12px' : '16px', fontWeight: '400' }}>
                                                         <span style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>Tipo de usuario</span>{usuario?.role === 'usuario' ? 'User basico' : usuario?.role === 'super_admin' ? 'Super admin' : 'Admin'}
                                                         {usuario?.role === 'usuario' ?
-                                                            <FaUserCheck color={light ? "var(--dark2)" : "var(--cero)"} />
-                                                            : usuario?.role === 'super_admin' ? <Very color={'var(--check)'} /> : <MdAdminPanelSettings color={light ? "var(--dark2)" : "var(--cero)"} />}
+                                                            <FaUserCheck size={20} color={light ? "var(--dark2)" : "var(--cero)"} />
+                                                            : usuario?.role === 'super_admin' ? <Very size={20} color={'var(--check)'} /> : <MdAdminPanelSettings size={20} color={light ? "var(--dark2)" : "var(--cero)"} />}
                                                     </Grid>
                                                 </Grid>
                                                 <Grid item container alignItems={'center'} justifyContent={'center'} gap={1}>
@@ -127,7 +127,7 @@ export const TableUsuarios: React.FC<TableUsuariosProps> = ({
                                                 </Grid>
                                                 <Grid item container alignItems={'center'} justifyContent={'center'} gap={1}>
                                                     <Grid item container alignItems={'center'} justifyContent={'center'} gap={1} sx={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '12px' : '16px', fontWeight: '400' }}>
-                                                        <span style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>Equipo</span>{usuario?.equipo} <IoIosFootball color={light ? "var(--dark2)" : "var(--cero)"} />
+                                                        <span style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>Equipo</span>{usuario?.equipo} <IoIosFootball size={18} color={light ? "var(--dark2)" : "var(--cero)"} />
                                                     </Grid>
                                                 </Grid>
                                                 <Grid item container mt={2}>
@@ -137,7 +137,7 @@ export const TableUsuarios: React.FC<TableUsuariosProps> = ({
                                                         icon={FaUserEdit}
                                                     />
                                                 </Grid>
-                                                <Grid item container mt={0}>
+                                                <Grid item container>
                                                     <ButtomDanger
                                                         title="Eliminar"
                                                         handleclick={() => { eliminarUsuarios(usuario?._id, eliminarUsuario, queryClient) }}

@@ -1,9 +1,7 @@
 //REGISTER
 
 export const dataCategoria = [
-    { codigo: 'Sub20 - Masculino', descripcion: 'Sub20 - Masculino' },
     { codigo: 'Libre - Masculino', descripcion: 'Libre - Masculino' },
-    { codigo: 'Sub20 - Femenino', descripcion: 'Sub20 - Femenino' },
     { codigo: 'Libre - Femenino', descripcion: 'Libre - Femenino' },
 ]
 

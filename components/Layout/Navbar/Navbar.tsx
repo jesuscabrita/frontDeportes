@@ -10,10 +10,10 @@ import { UserMenu } from './UserMenu';
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { stringAvatar } from '../../../utils/utils';
-import ContextRefac from '../../../context/contextLogin';
-import Context from '../../../context/contextPrincipal';
 import { CustomButton, CustomButtonDark } from './CustomButton';
 import { LoadingScreen } from '../../Shared/LoadingScreen';
+import ContextRefac from '../../../context/contextLogin';
+import Context from '../../../context/contextPrincipal';
 
 export const Navbar = () => {
     const [light, setLight] = useContext(Context);
@@ -31,14 +31,12 @@ export const Navbar = () => {
     const ref5 = useRef<HTMLDivElement>(null);
     const ref6 = useRef<HTMLDivElement>(null);
     const ref7 = useRef<HTMLDivElement>(null);
-    const ref8 = useRef<HTMLDivElement>(null);
-    const ref9 = useRef<HTMLDivElement>(null);
     const current_view = useSelector<any>((store) => store.section.current_view);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (ref1.current) {
-            const refs = [ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9];
+            const refs = [ref1, ref2, ref3, ref4, ref5, ref6, ref7];
             refs.forEach((r) => {
                 r.current?.addEventListener('mouseenter', (e: any) => {
                     setPosition(e.target?.getBoundingClientRect());
@@ -186,12 +184,6 @@ export const Navbar = () => {
                                                 J. Libre
                                             </div>
                                         </ButtonNavbar>}
-                                    {isLoggedIn && (user?.role === 'super_admin' || user?.role === 'admin') &&
-                                        <ButtonNavbar href='/admin/panel' handleOpenRuta={toggleMenu} mobile={false}>
-                                            <div ref={ref7} id="G" style={{ padding: '6px' }}>
-                                                Panel
-                                            </div>
-                                        </ButtonNavbar>}
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -206,7 +198,7 @@ export const Navbar = () => {
                             ) : (
                                 !mobile &&
                                 <ButtonNavbar href="/login" handleOpenRuta={toggleMenu} mobile={false}>
-                                    <div ref={ref8} id="G" style={{ padding: '6px' }}>
+                                    <div ref={ref7} id="G" style={{ padding: '6px' }}>
                                         Login
                                     </div>
                                 </ButtonNavbar>
@@ -223,7 +215,6 @@ export const Navbar = () => {
                         <ButtonNavbar href='/noticias' handleOpenRuta={toggleMenu} mobile={true}>Noticias</ButtonNavbar>
                         {isLoggedIn && user && <ButtonNavbar href='/manager/registrar' handleOpenRuta={toggleMenu} mobile={true}>Registrar equipo</ButtonNavbar>}
                         {isLoggedIn && user && <ButtonNavbar href='/libres' handleOpenRuta={toggleMenu} mobile={true}>J. Libre</ButtonNavbar>}
-                        {isLoggedIn && (user?.role === 'super_admin' || user?.role === 'admin') && <ButtonNavbar href='/admin/panel' handleOpenRuta={toggleMenu} mobile={true}>Panel</ButtonNavbar>}
                         {isLoggedIn &&
                             <>
                                 <Grid item sx={{ border: light ? '1px solid var(--dark2)' : '1px solid var(--cero)' }} />
@@ -233,6 +224,8 @@ export const Navbar = () => {
                                 </Grid>
                                 <ButtonNavbar href='/perfil' handleOpenRuta={toggleMenu} mobile={true}>Perfil</ButtonNavbar>
                                 {user?.role === 'super_admin' && <ButtonNavbar href='/admin/usuarios' handleOpenRuta={toggleMenu} mobile={true}>Usuarios</ButtonNavbar>}
+                                {isLoggedIn && (user?.role === 'super_admin' || user?.role === 'admin') && <ButtonNavbar href='/admin/panel' handleOpenRuta={toggleMenu} mobile={true}>Panel partidos</ButtonNavbar>}
+                                {isLoggedIn && (user?.role === 'super_admin') && <ButtonNavbar href='/admin/panelequipos' handleOpenRuta={toggleMenu} mobile={true}>Panel equipos</ButtonNavbar>}
                                 <Grid onClick={() => { handleLogout(); }} item sx={{ color: light ? "var(--dark2)" : "#aab4be", cursor: 'pointer', display: "block", padding: "8px 12px 8px 12px", fontSize: "12px", letterSpacing: '2px', fontWeight: light ? '900' : '400' }}>
                                     Cerrar cesion
                                 </Grid>

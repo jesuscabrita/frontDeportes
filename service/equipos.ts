@@ -40,6 +40,16 @@ export const equiposPut = async ({ form, id }) => {
     }
 }
 
+export const equiposEstadosPut = async ({ form, id }) => {
+    try {
+        const data = await api.put(`/api/liga/estado/${id}`, form).then(res => res.data)
+        return data;
+    } catch (err) {
+        const message = err?.response?.data?.message || err.message;
+        throw new Error(message);
+    }
+}
+
 export const equiposDelete = async ({ id}) => {
     try {
         const data = await api.delete(`/api/liga/${id}`).then(res => res.data)

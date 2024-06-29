@@ -1,5 +1,5 @@
 import { alertaCheck, alertaQuestion, alertaSubmit } from "./alert";
-import { filterEmail, filterEstado } from "./utils";
+import { filterEstado } from "./utils";
 
 export const nuevoEquipo = (
     nombre: string,
@@ -15,6 +15,7 @@ export const nuevoEquipo = (
     setImageName,
     subCategoria,
     router,
+    categoria,
 ) => {
     setIsLoading(true);
     if (subCategoria === 'Elija una opción') {
@@ -22,7 +23,7 @@ export const nuevoEquipo = (
         setIsLoading(false);
         return;
     }
-    const formData = { form: { name: nombre, logo, correo, instagram, subCategoria } };
+    const formData = { form: { name: nombre, logo, correo, instagram, subCategoria, categoria } };
     crearEquipo(formData, {
         onSuccess: (success) => {
             queryClient.invalidateQueries(["/api/liga"])
@@ -57,12 +58,23 @@ export const eliminarEquipos = (id: string, eliminarEquipo, queryClient) => {
                 alertaSubmit(false, errorMessage);
             },
         });
-    }, 'Si, Eliminar!', 'Eliminado de la Liga!', 'El equipo ha sido eliminado.', 'El equipo sigue en la liga :)')
+    }, 'Si, Eliminar!', 'Eliminado!', 'El equipo ha sido eliminado.', 'El equipo sigue en cola :)')
 }
 
-export const editarEquipos = (id: string, name: string, logo: string, correo: string, instagram: string, setIsLoading, editarEquipo, queryClient, handleClose) => {
+export const editarEquipos = (
+    id: string,
+    name: string,
+    logo: any,
+    correo: string,
+    instagram: string,
+    setIsLoading,
+    editarEquipo,
+    queryClient,
+    handleClose,
+    categoria
+) => {
     setIsLoading(true);
-    const formData = { name, logo, correo, instagram };
+    const formData = { name, logo, correo, instagram, categoria };
     editarEquipo({ form: formData, id }, {
         onSuccess: (success) => {
             queryClient.invalidateQueries(["/api/liga"]);
@@ -78,24 +90,38 @@ export const editarEquipos = (id: string, name: string, logo: string, correo: st
     });
 }
 
-export const editarEstado = (id: string, estado: string, editarEquipo, queryClient) => {
-    const formData = { estado: estado };
+export const editarEstado = (id: string, estado: string, editarEstados, queryClient, subCategoria, liga) => {
+    const formData = { estado: estado, subCategoria: subCategoria };
     alertaQuestion(id, formData, (id: string, formData: any) => {
-        editarEquipo({ form: formData, id }, {
+        editarEstados({ form: formData, id }, {
             onSuccess: (success) => {
                 queryClient.invalidateQueries(["/api/liga"]);
-                alertaSubmit(true, estado == 'registrado' ? 'Se registro el equipo correctamente' : 'Se suspendio el equipo correctamente');
+                alertaSubmit(true, `Se registro el equipo correctamente en ${liga}`);
             },
             onError: (err: any) => {
                 const errorMessage = err?.response?.data?.message || err.message;
                 alertaSubmit(false, errorMessage);
             },
         });
-    }, estado == 'registrado' ? 'Si, Registrar!' : 'Si, Suspender!',
-        estado == 'registrado' ? 'Registrado a la Liga!' : 'Suspendido de la Liga!',
-        estado == 'registrado' ? 'El equipo ha sido registrado.' : 'El equipo ha sido suspendido.',
-        estado == 'registrado' ? 'El equipo sigue en la cola :)' : 'El equipo sigue en la liga :)');
+    }, 'Si, Registrar!', `Registrado en ${liga}.!`, `El equipo ha sido registrado en ${liga}.`, `El equipo sigue en ${liga}:)`);
 };
+
+export const editarEstadoSuspender = (id: string, estado: string, editarEstados, queryClient, subCategoria, liga) => {
+    const formData = { estado: estado, subCategoria: subCategoria };
+    alertaQuestion(id, formData, (id: string, formData: any) => {
+        editarEstados({ form: formData, id }, {
+            onSuccess: (success) => {
+                queryClient.invalidateQueries(["/api/liga"]);
+                alertaSubmit(true, `Se registro el equipo correctamente en ${liga}`);
+            },
+            onError: (err: any) => {
+                const errorMessage = err?.response?.data?.message || err.message;
+                alertaSubmit(false, errorMessage);
+            },
+        });
+    }, 'Si, Suspender!', `Suspendido.!`, `El equipo ha sido suspendido.`, `El equipo no fue suspendido:)`);
+};
+
 
 export const editarReset = async (setIsLoading, queryClient, data, reseteoEquipos) => {
     alertaQuestion("", {}, () => {

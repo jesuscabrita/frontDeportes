@@ -12,8 +12,8 @@ export const MenuTabla = ({ opcion, valueSelect, handleChange }) => {
             key={opcion.name}
             id={opcion.name}
             sx={{
-                width: !mobile ? '180px' : '60px',
-                background: !light && valueSelect === opcion.id ? 'var(--dark2)' : light && valueSelect === opcion.id ? 'var(--gris)' : '',
+                width: !mobile ? '150px' : '60px',
+                background: !light && valueSelect === opcion.id ? 'var(--dark4)' : light && valueSelect === opcion.id ? 'var(--gris3)' : '',
                 height: '48px',
                 display: 'flex',
                 justifyContent: 'center',
@@ -22,6 +22,7 @@ export const MenuTabla = ({ opcion, valueSelect, handleChange }) => {
                 color: !light && valueSelect === opcion.id ? 'var(--cero)' : light && valueSelect === opcion.id ? 'var(--dark2)' : light ? 'var(--dark3)' : 'var(--neutral)',
                 cursor: 'pointer',
                 gap: '8px',
+                fontSize: mobile ? '15px' : '12px',
             }}
             onClick={() => handleChange(opcion.id)}
         >

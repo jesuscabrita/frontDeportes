@@ -1,24 +1,32 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, useMediaQuery } from '@mui/material';
-import { IoMdImages as Images } from 'react-icons/io';
-import { TiDeleteOutline as Delete } from 'react-icons/ti';
-import { InputText } from '../../Material/InputTex';
-import { RiImageAddFill as Add } from 'react-icons/ri';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, SelectChangeEvent, useMediaQuery } from '@mui/material';
 import { useMutation, useQueryClient } from 'react-query';
 import { equiposPut } from '../../../service/equipos';
-import { BiExit as Salir } from 'react-icons/bi';
-import { BiEditAlt as Editar } from 'react-icons/bi';
-import { ButtonSend } from '../../Material/ButtonSend';
+import { ButtomPrimario, ButtomSecundario } from '../../Material/ButtonSend';
 import { editarEquipos } from '../../../utils/utilsEquipos';
+import { FaUserEdit } from "react-icons/fa";
+import { IoExit } from "react-icons/io5";
+import { InputFields } from '../../Material/InputFields';
+import { LoadingScreen } from '../../Shared/LoadingScreen';
+import { InputUpload } from '../../Material/InputUpload';
+import { InputSelects } from '../../Material/InputSelect';
+import { dataCategoria } from '../../../utils/arrays';
 import Context from '../../../context/contextPrincipal';
 
-export const ModalEditarEquipo = ({ open, setOpen, data }) => {
+interface ModalEditarEquipoProps {
+    open: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<any>>;
+    data: { name: string; logo: any; correo: string; instagram: string; _id: string; categoria: string; }
+}
+
+export const ModalEditarEquipo: React.FC<ModalEditarEquipoProps> = ({ open, setOpen, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [light] = useContext(Context);
     const [name, setName] = useState(data?.name);
     const [image, setImage] = useState(data?.logo);
     const [correo, setCorreo] = useState(data?.correo);
     const [instagram, setInstagram] = useState(data?.instagram);
+    const [selectCategoria, setSelectCategoria] = useState(data?.categoria);
     const [logoAdded, setLogoAdded] = useState(false);
     const [imageName, setImageName] = useState('');
     const { mutate: editarEquipo } = useMutation(equiposPut);
@@ -29,102 +37,116 @@ export const ModalEditarEquipo = ({ open, setOpen, data }) => {
         setOpen(false);
     };
 
+    const handleSelectChange = (event: SelectChangeEvent<string>) => {
+        setSelectCategoria(event.target.value)
+    }
+
     useEffect(() => {
         setName(data?.name);
         setCorreo(data?.correo);
         setImage(data?.logo);
         setInstagram(data?.instagram)
-        setLogoAdded(false);
-        setImageName('');
+        setLogoAdded(true);
+        setImageName(data?.logo);
+        setSelectCategoria(data?.categoria)
     }, [data]);
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = () => {
-            setImage(reader.result);
-            setLogoAdded(true);
-            setImageName(file.name);
-        };
-        reader.readAsDataURL(file);
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const result = reader.result;
+                if (typeof result === 'string') {
+                    setImage(result);
+                    setLogoAdded(true);
+                    setImageName(file.name);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     return (
-        <Grid>
-            <Dialog open={open} onClose={handleClose}>
-                <DialogTitle sx={{ padding: '20px', color: light ? 'var(dark2)' : 'var(--cero)', background: light ? 'var(--cero)' : 'var(--dark)' }}>
+        <Dialog open={open} onClose={handleClose}>
+            <DialogTitle sx={{ background: light ? 'var(--gris)' : 'var(--dark2)', color: light ? "var(--dark2)" : "var(--cero)", display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <Grid item container alignItems={'center'} gap={1} sx={{ letterSpacing: '2px' }}>
                     {"Editar Equipo"}
-                </DialogTitle>
-                <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                    <InputText disable={false} placeholder={'Nombre'} label={'Nombre'} setValue={setName} value={name} />
-                    <InputText disable={false} placeholder={'Correo'} label={'Correo'} setValue={setCorreo} value={correo} />
-                    <InputText disable={false} placeholder={'Instagram'} label={'Instagram'} setValue={setInstagram} value={instagram} />
-                    {image && (
-                        <img src={image} alt="Logo del equipo" style={{ maxWidth: "100%", maxHeight: "150px" }} />
-                    )}
-                    <Button
-                        variant="contained"
-                        component="label"
-                        sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            gap: "10px",
-                            background: "var(--dark2)",
-                            "&:hover": { background: "var(--dark2hover)" },
-                        }}
-                    >
-                        <Add /> Agregue el logo
-                        <input hidden accept="image/*" multiple type="file" onChange={handleImageChange} />
-                    </Button>
-                    {logoAdded && (
-                        <Grid container flexDirection={'column'}>
-                            <Grid item sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                gap: '6px',
-                                color: 'var(--check)'
-                            }}>
-                                Logo agregado correctamente
-                                <Images size={25} />
-                            </Grid>
-                            <Grid item sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                color: light ? 'var(--dark2)' : 'var(--gris)'
-                            }}>
-                                {imageName}
-                            </Grid>
-                            <Grid item sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                color: 'var(--danger)',
-                            }}>
-                                <Delete
-                                    size={30}
-                                    style={{ cursor: 'pointer' }}
-                                    onClick={() => {
-                                        setImage(null);
-                                        setLogoAdded(false);
-                                        setImageName('');
-                                    }} />
-                            </Grid>
-                        </Grid>
-                    )}
-                </DialogContent>
-                {isLoading && (
-                    <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '100%' : '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <CircularProgress color="primary" />
-                    </div>
-                )}
-                <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
-                    <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
-                    <ButtonSend disable={false} handle={() => { editarEquipos(data?._id, name, image, correo, instagram, setIsLoading, editarEquipo, queryClient, handleClose) }} title={'Editar'} icon={Editar} iconColor={''} iconSize={20} />
-                </DialogActions>
-            </Dialog>
-        </Grid>
+                    <FaUserEdit size={25} color={light ? "var(--dark2)" : "var(--cero)"} />
+                </Grid>
+            </DialogTitle>
+            <DialogContent sx={{ background: light ? 'var(--gris)' : 'var(--dark2)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <Grid item container>
+                    <InputFields
+                        title="Nombre"
+                        descripcion="Escribir nombre del equipo"
+                        placeholder="Nombre"
+                        type="text"
+                        setValue={setName}
+                        value={name}
+                    />
+                </Grid>
+                <Grid item container>
+                    <InputFields
+                        title="Email"
+                        descripcion="Escribir email"
+                        placeholder="Email"
+                        type="text"
+                        setValue={setCorreo}
+                        value={correo}
+                    />
+                </Grid>
+                <Grid item container>
+                    <InputSelects
+                        title="Categoria"
+                        descripcion="Seleccionar una categoria"
+                        value={selectCategoria}
+                        data={dataCategoria}
+                        handleSelect={handleSelectChange}
+                    />
+                </Grid>
+                <Grid item container>
+                    <InputFields
+                        title="Instagram"
+                        descripcion="Escribir instagram"
+                        placeholder="Instagram"
+                        type="text"
+                        value={instagram}
+                        setValue={setInstagram}
+                    />
+                </Grid>
+                <Grid item container>
+                    <InputUpload
+                        title='Logo'
+                        descripcion="Carga o arrastra aqui tu logo"
+                        handleImageChange={handleImageChange}
+                        imageName={imageName}
+                        setImage={setImage}
+                        setImageName={setImageName}
+                        logoAdded={logoAdded}
+                        setLogoAdded={setLogoAdded}
+                    />
+                </Grid>
+            </DialogContent>
+            {isLoading && <LoadingScreen />}
+            <DialogActions sx={{ background: light ? 'var(--gris)' : 'var(--dark2)' }}>
+                <Grid item container gap={0.5}>
+                    <Grid item container sx={{ paddingLeft: '14px', paddingRight: '14px' }}>
+                        <ButtomPrimario
+                            title="Editar"
+                            icon={FaUserEdit}
+                            handleclick={() => { editarEquipos(data?._id, name, image, correo, instagram, setIsLoading, editarEquipo, queryClient, handleClose, selectCategoria) }}
+                        />
+                    </Grid>
+                    <Grid item container sx={{ paddingLeft: '14px', paddingRight: '14px' }}>
+                        <ButtomSecundario
+                            title="Cancelar"
+                            icon={IoExit}
+                            handleclick={handleClose}
+                        />
+                    </Grid>
+                </Grid>
+            </DialogActions>
+        </Dialog>
     )
 }

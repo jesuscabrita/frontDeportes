@@ -143,7 +143,7 @@ export const RegistrarEquipo: React.FC<RegistrarEquipoProps> = ({
                         <Grid item container md={5}>
                             <ButtomPrimario
                                 title="Registrar"
-                                handleclick={() => { nuevoEquipo(user?.equipo, image, user?.email, instagram, setIsLoading, crearEquipo, queryClient, setImage, setInstagram, setLogoAdded, setImageName, subCategoria, router) }}
+                                handleclick={() => { nuevoEquipo(user?.equipo, image, user?.email, instagram, setIsLoading, crearEquipo, queryClient, setImage, setInstagram, setLogoAdded, setImageName, subCategoria, router, categoria) }}
                                 icon={MdPlaylistAddCheckCircle}
                             />
                         </Grid>

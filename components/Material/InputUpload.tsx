@@ -63,7 +63,7 @@ export const InputUpload: React.FC<InputUploadProps> = ({
                 {logoAdded ?
                     <Grid item container justifyContent={'space-between'} sx={{ color: 'var(--check)' }}>
                         <Grid item container xs={10} md={9} alignItems={'center'} gap={1}>
-                            {truncateText(imageName, 30)}
+                            {truncateText(imageName, 20)}
                             <Images size={25} />
                         </Grid>
                         <Grid item container xs={1} md={1} alignItems={'center'} sx={{ color: 'var(--danger)' }}>

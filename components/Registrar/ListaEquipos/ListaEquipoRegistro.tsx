@@ -31,8 +31,8 @@ export const ListaEquipoRegistro = ({ data, isLoading }) => {
             <Grid container flexDirection={'column'} justifyContent={'center'} alignItems={'center'} sx={{
                 border: light ? '1px solid var(--dark2)' : '1px solid var(--neutral)',
                 borderRadius: '8px',
-                height: !mobile?'200px':'180px',
-                width: !mobile?'180px':'150px',
+                height: !mobile ? '200px' : '180px',
+                width: !mobile ? '180px' : '150px',
                 background: light ? 'var(--gris)' : 'var(--dark2)',
             }}>
                 <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px', paddingLeft: '100px', paddingBottom: '10px' }}>
@@ -47,11 +47,11 @@ export const ListaEquipoRegistro = ({ data, isLoading }) => {
                         : showImage ? <img src={data?.logo} alt={data?.name} style={{ height: '80px', cursor: 'pointer' }} />
                             : null}
                 </Grid>
-                <Grid item sx={{ color: light ? 'var(--dark2)' : 'var(--cero)',fontSize:mobile?'12px':'16px' }}>
+                <Grid item sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', fontSize: mobile ? '12px' : '16px' }}>
                     {data?.name}
                 </Grid>
-                {data?.estado == 'enCola' && <Button onClick={() => { editarEstado(data?._id, "registrado", editarEquipo, queryClient) }} sx={{ color: 'var(--primario)', fontSize: '16px' }}>Registrar</Button>}
-                {data?.estado == 'registrado' && <Button onClick={() => { editarEstado(data?._id, "enCola", editarEquipo, queryClient) }} sx={{ color: 'var(--primario)', fontSize: '16px' }}>Suspender</Button>}
+                {data?.estado == 'enCola' && <Button onClick={() => { editarEstado(data?._id, "registrado", editarEquipo, queryClient, '', '') }} sx={{ color: 'var(--primario)', fontSize: '16px' }}>Registrar</Button>}
+                {data?.estado == 'registrado' && <Button onClick={() => { editarEstado(data?._id, "enCola", editarEquipo, queryClient, '', '') }} sx={{ color: 'var(--primario)', fontSize: '16px' }}>Suspender</Button>}
             </Grid>
             {modalEdit && <ModalEditarEquipo open={modalEdit} setOpen={setModalEdit} data={data} />}
         </>

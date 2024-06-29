@@ -40,6 +40,16 @@ export const UserMenu = ({ handleLogout, user, router }) => {
                             onClick={() => { router.push("/admin/usuarios"); handleMenuClose(); }}>
                             Usuarios
                         </Grid>}
+                    {(user?.role === 'super_admin' || user?.role === 'admin') &&
+                        <Grid className="block px-4 py-2 text-sm" sx={{ cursor: 'pointer', color: light ? 'var(--dark2)' : 'var(--cero)', '&:hover': { backgroundColor: light ? 'var(--dark2)' : '#aab4be', color: light ? 'var(--cero)' : 'var(--dark2)' } }} role="menuitem" tabIndex={-1} id="user-menu-item-1"
+                            onClick={() => { router.push("/admin/panel"); handleMenuClose(); }}>
+                            Panel Partidos
+                        </Grid>}
+                    {user?.role === 'super_admin' &&
+                        <Grid className="block px-4 py-2 text-sm" sx={{ cursor: 'pointer', color: light ? 'var(--dark2)' : 'var(--cero)', '&:hover': { backgroundColor: light ? 'var(--dark2)' : '#aab4be', color: light ? 'var(--cero)' : 'var(--dark2)' } }} role="menuitem" tabIndex={-1} id="user-menu-item-1"
+                            onClick={() => { router.push("/admin/panelequipos"); handleMenuClose(); }}>
+                            Panel Equipos
+                        </Grid>}
                     <Grid className="block px-4 py-2 text-sm" sx={{ cursor: 'pointer', color: light ? 'var(--dark2)' : 'var(--cero)', '&:hover': { backgroundColor: light ? 'var(--dark2)' : '#aab4be', color: light ? 'var(--cero)' : 'var(--dark2)' } }} role="menuitem" tabIndex={-1} id="user-menu-item-2"
                         onClick={() => { handleLogout(); handleMenuClose(); }}>
                         Cerrar sesión
