@@ -104,14 +104,6 @@ export const TableEquiposLigamaster: React.FC<TableEquiposLigamasterProps> = ({
                                                                 {equipo?.categoria}
                                                             </Grid>
                                                         </Grid>
-                                                        <Grid item container alignItems={'center'} justifyContent={'center'} gap={1}>
-                                                            <Grid item sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>
-                                                                Solicita jugar en
-                                                            </Grid>
-                                                            <Grid item mt={0.4} sx={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '12px' : '16px', fontWeight: '400' }}>
-                                                                {equipo?.subCategoria}
-                                                            </Grid>
-                                                        </Grid>
                                                         <Grid item container mt={2}>
                                                             <ButtomSecundario
                                                                 title="Enviar a liga B"

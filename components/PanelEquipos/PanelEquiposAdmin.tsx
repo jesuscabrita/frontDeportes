@@ -16,6 +16,7 @@ import { TableEquiposLigaC } from "./TableEquiposLigaC";
 import { TableEquiposLigamaster } from "./TableEquiposLigamaster";
 import { MdAdminPanelSettings as Admin } from "react-icons/md";
 import SwipeableViews from "react-swipeable-views";
+import { PanelAcciones } from "./PanelAcciones";
 
 interface PanelEquiposAdminProps {
     mobile: boolean;
@@ -32,8 +33,8 @@ const opcionSelectEquipos = [
     { id: 0, name: 'Ligamaster', icono: <Liga size={30} /> },
     { id: 1, name: 'Liga B', icono: <B size={30} /> },
     { id: 2, name: 'Liga C', icono: <C size={30} /> },
-    { id: 3, name: 'Equipos en cola', icono: <Espera size={20} /> },
-    { id: 4, name: 'Acciones', icono: <Admin size={20} /> }
+    { id: 3, name: 'Equipos en cola', icono: <Espera size={25} /> },
+    { id: 4, name: 'Acciones', icono: <Admin size={30} /> }
 ]
 
 export const PanelEquiposAdmin: React.FC<PanelEquiposAdminProps> = ({
@@ -130,7 +131,10 @@ export const PanelEquiposAdmin: React.FC<PanelEquiposAdminProps> = ({
                                 </TabPanel>
                                 <TabPanel value={value} index={4} dir={theme.direction}>
                                     <Grid item mt={4} xs={12} md={12} container sx={{ width: '120vh', }} >
-
+                                        <PanelAcciones
+                                            light={light}
+                                            mobile={mobile}
+                                        />
                                     </Grid>
                                 </TabPanel>
                             </SwipeableViews>
