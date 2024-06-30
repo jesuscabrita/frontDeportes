@@ -9,31 +9,13 @@ import { FaUserEdit } from "react-icons/fa";
 import { ModalEditarEquipo } from "../modals/Equipos/ModalEditarEquipo";
 import { seleccionarData } from "../../utils/utils";
 import { editarEstado, editarEstadoSuspender } from "../../utils/utilsEquipos";
+import { TableEquiposLigasProps, dataModalProps } from "../../interfaces/general";
 import { TbMoodEmpty as Vacio } from 'react-icons/tb';
 import { FaPowerOff } from "react-icons/fa";
 
-interface TableEquiposLigaCProps {
-    light: boolean;
-    dataEquiposLigaC: {
-        name: string;
-        logo: string;
-        categoria: string;
-        subCategoria: string;
-        correo: string;
-        _id: string;
-    }[];
-    mobile: boolean;
-    queryClient: any;
-    editarEstados: any;
-}
-
-interface dataModalProps {
-    name: string; logo: any; correo: string; instagram: string; _id: string; categoria: string
-}
-
-export const TableEquiposLigaC: React.FC<TableEquiposLigaCProps> = ({
+export const TableEquiposLigaC: React.FC<TableEquiposLigasProps> = ({
     light,
-    dataEquiposLigaC,
+    dataEquipos,
     mobile,
     queryClient,
     editarEstados,
@@ -48,7 +30,7 @@ export const TableEquiposLigaC: React.FC<TableEquiposLigaCProps> = ({
 
     return (
         <Grid item container>
-            {dataEquiposLigaC.length === 0 ?
+            {dataEquipos?.length === 0 ?
                 <Grid item height={mobile ? "55vh" : '50vh'} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', color: light ? "var(--dark2)" : "var(--gris)", flexDirection: 'column', fontSize: mobile ? '14px' : '16px' }}>
                     <Vacio size={140} />
                     No hay equipos en la Liga C
@@ -58,7 +40,7 @@ export const TableEquiposLigaC: React.FC<TableEquiposLigaCProps> = ({
                         <TableHead sx={{ background: light ? 'var(--dark2)' : 'var(--gris4)' }}>
                             <TableCell sx={{ color: light ? "var(--cero)" : "var(--dark2)", letterSpacing: '2px', fontSize: '18px', fontWeight: '500' }} align="center">Equipos en Liga B</TableCell>
                         </TableHead>
-                        {dataEquiposLigaC && dataEquiposLigaC?.map((equipo, index) => {
+                        {dataEquipos && dataEquipos?.map((equipo, index) => {
                             const isOpen = openRows[index] || false;
                             return (
                                 <TableBody>

@@ -1,10 +1,34 @@
-//REGISTER
+import React from "react";
+import { MdStars as Liga } from "react-icons/md";
+import { GiSandsOfTime as Espera } from 'react-icons/gi';
+import { TbCircleLetterBFilled as B } from "react-icons/tb";
+import { TbCircleLetterCFilled as C } from "react-icons/tb";
+import { MdAdminPanelSettings as Admin } from "react-icons/md";
+
+//REGISTER USER
 
 export const dataCategoria = [
     { codigo: 'Libre - Masculino', descripcion: 'Libre - Masculino' },
     { codigo: 'Libre - Femenino', descripcion: 'Libre - Femenino' },
 ]
 
+// REGISTRAR EQUIPO
+
+export const dataSubCategoria = [
+    { codigo: 'Primera', descripcion: 'Primera' },
+    { codigo: 'Segunda', descripcion: 'Segunda' },
+    { codigo: 'Tercera', descripcion: 'Tercera' },
+]
+
+export const opcionSelectEquipos = [
+    { id: 0, name: 'Ligamaster', icono: <Liga size={30} /> },
+    { id: 1, name: 'Liga B', icono: <B size={30} /> },
+    { id: 2, name: 'Liga C', icono: <C size={30} /> },
+    { id: 3, name: 'Equipos en cola', icono: <Espera size={25} /> },
+    { id: 4, name: 'Acciones', icono: <Admin size={30} /> }
+]
+
+//
 
 export const posiciones = [
     { value: 'Seleccionar', label: 'Seleccionar' },

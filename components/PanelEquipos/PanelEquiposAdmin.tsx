@@ -3,10 +3,6 @@ import { Grid, Paper } from "@mui/material";
 import { Carga } from "../Shared/Carga";
 import { ErrorCarga } from "../Shared/ErrorCarga";
 import { MenuTabla } from "../Material/MenuTabla";
-import { MdStars as Liga } from "react-icons/md";
-import { GiSandsOfTime as Espera } from 'react-icons/gi';
-import { TbCircleLetterBFilled as B } from "react-icons/tb";
-import { TbCircleLetterCFilled as C } from "react-icons/tb";
 import { useTheme } from '@mui/material/styles';
 import { TabPanel } from "../Material/TabPanel";
 import { filterEstado, filterEstadoCategoria } from "../../utils/utils";
@@ -14,28 +10,10 @@ import { TableEquiposCola } from "./TableEquiposCola";
 import { TableEquiposLigaB } from "./TableEquiposLigaB";
 import { TableEquiposLigaC } from "./TableEquiposLigaC";
 import { TableEquiposLigamaster } from "./TableEquiposLigamaster";
-import { MdAdminPanelSettings as Admin } from "react-icons/md";
-import SwipeableViews from "react-swipeable-views";
+import { PanelEquiposAdminProps } from "../../interfaces/general";
+import { opcionSelectEquipos } from "../../utils/arrays";
 import { PanelAcciones } from "./PanelAcciones";
-
-interface PanelEquiposAdminProps {
-    mobile: boolean;
-    light: boolean;
-    isLoading: boolean;
-    isError: boolean;
-    data: {}[];
-    eliminarEquipo: any;
-    queryClient: any;
-    editarEstados: any;
-}
-
-const opcionSelectEquipos = [
-    { id: 0, name: 'Ligamaster', icono: <Liga size={30} /> },
-    { id: 1, name: 'Liga B', icono: <B size={30} /> },
-    { id: 2, name: 'Liga C', icono: <C size={30} /> },
-    { id: 3, name: 'Equipos en cola', icono: <Espera size={25} /> },
-    { id: 4, name: 'Acciones', icono: <Admin size={30} /> }
-]
+import SwipeableViews from "react-swipeable-views";
 
 export const PanelEquiposAdmin: React.FC<PanelEquiposAdminProps> = ({
     light,
@@ -46,6 +24,10 @@ export const PanelEquiposAdmin: React.FC<PanelEquiposAdminProps> = ({
     eliminarEquipo,
     queryClient,
     editarEstados,
+    reseteoEquipos,
+    devolver,
+    calculo,
+    setIsLoadinng,
 }) => {
     const [value, setValue] = useState(0);
     const theme = useTheme();
@@ -78,7 +60,7 @@ export const PanelEquiposAdmin: React.FC<PanelEquiposAdminProps> = ({
                         </Grid>
                         <Grid item container mt={2} xs={12} md={9} alignItems={'center'} justifyContent={'center'}>
                             <Grid item container mt={4} alignItems={'center'} justifyContent={'center'} sx={{ height: 'min-content' }}>
-                                {opcionSelectEquipos.map(opcion => (
+                                {opcionSelectEquipos?.map(opcion => (
                                     <MenuTabla opcion={opcion} valueSelect={value} handleChange={handleChange} />
                                 ))}
                                 <Grid container sx={{ borderBottom: light ? '2px solid var(--dark2)' : '2px solid var(--gris)', marginTop: '0px' }}></Grid>
@@ -91,7 +73,7 @@ export const PanelEquiposAdmin: React.FC<PanelEquiposAdminProps> = ({
                                             mobile={mobile}
                                             queryClient={queryClient}
                                             editarEstados={editarEstados}
-                                            dataEquiposLigamaster={filterEstadoCategoria(data, 'registrado', 'Primera')}
+                                            dataEquipos={filterEstadoCategoria(data, 'registrado', 'Primera')}
                                         />
                                     </Grid>
                                 </TabPanel>
@@ -102,7 +84,7 @@ export const PanelEquiposAdmin: React.FC<PanelEquiposAdminProps> = ({
                                             mobile={mobile}
                                             queryClient={queryClient}
                                             editarEstados={editarEstados}
-                                            dataEquiposLigaB={filterEstadoCategoria(data, 'registrado', 'Segunda')}
+                                            dataEquipos={filterEstadoCategoria(data, 'registrado', 'Segunda')}
                                         />
                                     </Grid>
                                 </TabPanel>
@@ -113,7 +95,7 @@ export const PanelEquiposAdmin: React.FC<PanelEquiposAdminProps> = ({
                                             mobile={mobile}
                                             queryClient={queryClient}
                                             editarEstados={editarEstados}
-                                            dataEquiposLigaC={filterEstadoCategoria(data, 'registrado', 'Tercera')}
+                                            dataEquipos={filterEstadoCategoria(data, 'registrado', 'Tercera')}
                                         />
                                     </Grid>
                                 </TabPanel>
@@ -134,6 +116,12 @@ export const PanelEquiposAdmin: React.FC<PanelEquiposAdminProps> = ({
                                         <PanelAcciones
                                             light={light}
                                             mobile={mobile}
+                                            data={data}
+                                            queryClient={queryClient}
+                                            setIsLoadinng={setIsLoadinng}
+                                            reseteoEquipos={reseteoEquipos}
+                                            devolver={devolver}
+                                            calculo={calculo}
                                         />
                                     </Grid>
                                 </TabPanel>

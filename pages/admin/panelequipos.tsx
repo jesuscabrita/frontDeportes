@@ -1,23 +1,25 @@
 import React, { useContext, useState } from "react";
 import { Grid, useMediaQuery } from "@mui/material";
-import { WithAuth } from "../../components/Shared/WithAuth";
 import { PanelEquiposAdmin } from "../../components/PanelEquipos/PanelEquiposAdmin";
-import { FaRegistered as Register } from 'react-icons/fa';
-import { GiSandsOfTime as Espera } from 'react-icons/gi';
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { equiposDelete, equiposEstadosPut, equiposGet, equiposPut } from "../../service/equipos";
+import { equiposDelete, equiposEstadosPut, equiposGet, resetEquiposJugador } from "../../service/equipos";
+import { LoadingScreen } from "../../components/Shared/LoadingScreen";
+import { devolverJugadorPrestamo, jugadoresContratoCalculo } from "../../service/jugadores";
+import { WithAdmin } from "../../components/Shared/WithAdmin";
 import Context from "../../context/contextPrincipal";
 import Head from "next/head";
 
-
 const PanelEquipos = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
+    const queryClient = useQueryClient();
     const [light] = useContext(Context);
     const [data, setData] = useState([]);
+    const [isLoadinng, setIsLoadinng] = useState(false);
     const { mutate: eliminarEquipo } = useMutation(equiposDelete);
     const { mutate: editarEstados } = useMutation(equiposEstadosPut);
-
-    const queryClient = useQueryClient();
+    const { mutate: reseteoEquipos } = useMutation(resetEquiposJugador);
+    const { mutate: devolver } = useMutation(devolverJugadorPrestamo);
+    const { mutate: calculo } = useMutation(jugadoresContratoCalculo);
 
     const { isLoading, isError } = useQuery(["/api/liga"], equiposGet, {
         refetchOnWindowFocus: false,
@@ -42,10 +44,15 @@ const PanelEquipos = () => {
                         eliminarEquipo={eliminarEquipo}
                         queryClient={queryClient}
                         editarEstados={editarEstados}
+                        setIsLoadinng={setIsLoadinng}
+                        reseteoEquipos={reseteoEquipos}
+                        devolver={devolver}
+                        calculo={calculo}
                     />
                 </Grid>
             </Grid>
+            {isLoadinng && <LoadingScreen />}
         </>
     );
 };
-export default PanelEquipos;
+export default WithAdmin(PanelEquipos);

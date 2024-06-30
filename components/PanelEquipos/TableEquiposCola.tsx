@@ -12,26 +12,7 @@ import { ModalEditarEquipo } from "../modals/Equipos/ModalEditarEquipo";
 import { seleccionarData } from "../../utils/utils";
 import { editarEstado, eliminarEquipos } from "../../utils/utilsEquipos";
 import { TbMoodEmpty as Vacio } from 'react-icons/tb';
-
-interface TableEquiposColaProps {
-    light: boolean;
-    dataEquiposLiga: {
-        name: string;
-        logo: string;
-        categoria: string;
-        subCategoria: string;
-        correo: string;
-        _id: string;
-    }[];
-    mobile: boolean;
-    eliminarEquipo: any;
-    queryClient: any;
-    editarEstados: any;
-}
-
-interface dataModalProps {
-    name: string; logo: any; correo: string; instagram: string; _id: string; categoria: string
-}
+import { TableEquiposColaProps, dataModalProps } from "../../interfaces/general";
 
 export const TableEquiposCola: React.FC<TableEquiposColaProps> = ({
     light,
@@ -51,7 +32,7 @@ export const TableEquiposCola: React.FC<TableEquiposColaProps> = ({
 
     return (
         <Grid item container>
-            {dataEquiposLiga.length === 0 ?
+            {dataEquiposLiga?.length === 0 ?
                 <Grid item height={mobile ? "55vh" : '50vh'} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', color: light ? "var(--dark2)" : "var(--gris)", flexDirection: 'column', fontSize: mobile ? '14px' : '16px' }}>
                     <Vacio size={140} />
                     No hay equipos en cola

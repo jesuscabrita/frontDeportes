@@ -126,3 +126,101 @@ export interface FormResetProps {
     handlePassword: (event: React.ChangeEvent<HTMLInputElement>) => void;
     handleRepeatedPassword: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
+
+// REGISTRAR EQUIPO
+
+export interface RegistrarEquipoProps {
+    mobile: boolean;
+    light: boolean;
+    name: string;
+    email: string;
+    instagram: string;
+    categoria: string;
+    subCategoria: string;
+    dataSubCategoria: any;
+    logoAdded: boolean;
+    imageName: string;
+    image: any;
+    user: any;
+    crearEquipo: any;
+    queryClient: any;
+    isUserEmailInDataEnCola: any;
+    isUserEmailInData: any;
+    router: any;
+    setName: React.Dispatch<React.SetStateAction<any>>;
+    setEmail: React.Dispatch<React.SetStateAction<any>>;
+    setInstagram: React.Dispatch<React.SetStateAction<any>>;
+    setCategoria: React.Dispatch<React.SetStateAction<any>>;
+    handleSelect: (event: SelectChangeEvent<any>) => void;
+    setImage: React.Dispatch<React.SetStateAction<any>>;
+    setLogoAdded: React.Dispatch<React.SetStateAction<any>>;
+    setImageName: React.Dispatch<React.SetStateAction<any>>;
+    handleImageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    setIsLoading: React.Dispatch<React.SetStateAction<any>>;
+}
+
+export interface dataModalProps {
+    name: string;
+    logo: any;
+    correo: string;
+    instagram: string;
+    _id: string;
+    categoria: string
+}
+
+export interface TableEquiposColaProps {
+    light: boolean;
+    dataEquiposLiga: {
+        name: string;
+        logo: string;
+        categoria: string;
+        subCategoria: string;
+        correo: string;
+        _id: string;
+    }[];
+    mobile: boolean;
+    eliminarEquipo: any;
+    queryClient: any;
+    editarEstados: any;
+}
+
+export interface TableEquiposLigasProps {
+    light: boolean;
+    dataEquipos: {
+        name: string;
+        logo: string;
+        categoria: string;
+        subCategoria: string;
+        correo: string;
+        _id: string;
+    }[];
+    mobile: boolean;
+    queryClient: any;
+    editarEstados: any;
+}
+
+export interface PanelEquiposAdminProps {
+    mobile: boolean;
+    light: boolean;
+    isLoading: boolean;
+    isError: boolean;
+    data: {}[];
+    eliminarEquipo: any;
+    queryClient: any;
+    editarEstados: any;
+    reseteoEquipos: any;
+    devolver: any;
+    calculo: any
+    setIsLoadinng: React.Dispatch<React.SetStateAction<any>>;
+}
+
+export interface PanelAccionesProps {
+    mobile: boolean;
+    light: boolean;
+    queryClient: any;
+    data: {}[];
+    reseteoEquipos: any;
+    devolver: any;
+    calculo: any;
+    setIsLoadinng: React.Dispatch<React.SetStateAction<any>>;
+}

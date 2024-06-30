@@ -8,67 +8,36 @@ import { MdPlaylistAddCheckCircle } from "react-icons/md";
 import { nuevoEquipo } from "../../utils/utilsEquipos";
 import { IoTimerSharp } from "react-icons/io5";
 import { FaCircleCheck } from "react-icons/fa6";
-
-interface RegistrarEquipoProps {
-    mobile: boolean;
-    light: boolean;
-    setName: React.Dispatch<React.SetStateAction<any>>;
-    name: string;
-    setEmail: React.Dispatch<React.SetStateAction<any>>;
-    email: string;
-    setInstagram: React.Dispatch<React.SetStateAction<any>>;
-    instagram: string;
-    setCategoria: React.Dispatch<React.SetStateAction<any>>;
-    categoria: string;
-    subCategoria: string;
-    dataSubCategoria: any;
-    handleSelect: (event: SelectChangeEvent<any>) => void;
-    setImage: React.Dispatch<React.SetStateAction<any>>;
-    logoAdded: boolean;
-    setLogoAdded: React.Dispatch<React.SetStateAction<any>>;
-    imageName: string;
-    setImageName: React.Dispatch<React.SetStateAction<any>>;
-    handleImageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    user: any;
-    image: any;
-    setIsLoading: React.Dispatch<React.SetStateAction<any>>;
-    crearEquipo: any;
-    queryClient: any;
-    isUserEmailInDataEnCola: any;
-    isUserEmailInData: any;
-    isUserAdmin: any;
-    router: any;
-}
+import { RegistrarEquipoProps } from "../../interfaces/general";
 
 export const RegistrarEquipo: React.FC<RegistrarEquipoProps> = ({
     light,
     mobile,
-    setName,
     name,
     email,
-    setEmail,
-    setInstagram,
     instagram,
     categoria,
-    setCategoria,
     subCategoria,
     dataSubCategoria,
-    handleSelect,
-    setImage,
     logoAdded,
-    setLogoAdded,
     imageName,
-    setImageName,
-    handleImageChange,
     user,
     image,
-    setIsLoading,
     crearEquipo,
     queryClient,
     isUserEmailInDataEnCola,
     isUserEmailInData,
-    isUserAdmin,
     router,
+    setName,
+    setEmail,
+    setInstagram,
+    setCategoria,
+    handleSelect,
+    setImage,
+    setLogoAdded,
+    setImageName,
+    handleImageChange,
+    setIsLoading,
 }) => {
 
     return (
@@ -80,7 +49,7 @@ export const RegistrarEquipo: React.FC<RegistrarEquipoProps> = ({
                 <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '2px', fontSize: '20px', fontWeight: '500' }}>
                     Registrar equipo
                 </Grid>
-                {(!isUserEmailInData && !isUserEmailInDataEnCola) || isUserAdmin ?
+                {(!isUserEmailInData && !isUserEmailInDataEnCola) ?
                     <Grid item container mt={2} gap={2} alignItems={'center'} justifyContent={'center'}>
                         <Grid item container md={5}>
                             <InputFields
