@@ -29,9 +29,17 @@ export const InfoContextRefac = ({ children }) => {
             dispatch({ type: "SET_USER", payload: usuario });
         }
         if (lastActivity && currentTime - lastActivity > sessionDuration) {
-            console.log('se termino la sesion');
             logout();
+            dispatch({ type: "SET_USER", payload: usuario });
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            localStorage.removeItem("lastActivity");
             router.push("/login");
+        }
+        if (!usuario || (lastActivity && currentTime - lastActivity > sessionDuration)) {
+            router.push("/login");
+        } else {
+            dispatch({ type: "SET_USER", payload: usuario });
         }
         const timer = setInterval(() => {
             const newCurrentTime = new Date().getTime();
@@ -85,6 +93,7 @@ export const InfoContextRefac = ({ children }) => {
         dispatch({ type: "LOGOUT" });
         router.push("/login");
         window.location.reload();
+        router.push("/login");
     };
 
     return (

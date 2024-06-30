@@ -31,6 +31,11 @@ const Login = () => {
         router.push("/register");
     };
 
+    if (user) {
+        router.push('/')
+        return null;
+    }
+
     return (
         <>
             <Head>

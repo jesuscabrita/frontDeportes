@@ -43,6 +43,15 @@ export const InputUpload: React.FC<InputUploadProps> = ({
         return text.slice(0, maxLength) + "...";
     };
 
+    const handleFileDelete = () => {
+        setImage(null);
+        setLogoAdded(false);
+        setImageName('');
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
+    };
+
     return (
         <Grid item container>
             <Grid mb={0.5} sx={{ color: disabled ? (light ? 'var(--gris2)' : '#444748') : (light ? 'var(--dark2)' : 'var(--gris)'), lineHeight: '24px', fontSize: '14px', cursor: disabled ? 'not-allowed' : 'default', letterSpacing: '0.025px' }}>
@@ -70,14 +79,7 @@ export const InputUpload: React.FC<InputUploadProps> = ({
                             <Delete
                                 size={25}
                                 style={{ cursor: 'pointer' }}
-                                onClick={() => {
-                                    setImage(null);
-                                    setLogoAdded(false);
-                                    setImageName('');
-                                    if (fileInputRef.current) {
-                                        fileInputRef.current.value = '';
-                                    }
-                                }}
+                                onClick={handleFileDelete}
                             />
                         </Grid>
                     </Grid>

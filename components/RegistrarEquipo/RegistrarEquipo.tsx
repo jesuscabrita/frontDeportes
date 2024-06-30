@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Paper, SelectChangeEvent } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import { InputFields } from "../Material/InputFields";
 import { InputSelects } from "../Material/InputSelect";
 import { InputUpload } from "../Material/InputUpload";
