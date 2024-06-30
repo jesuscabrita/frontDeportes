@@ -53,7 +53,9 @@ export const TableEquiposLigaB: React.FC<TableEquiposLigasProps> = ({
                                                     </IconButton>
                                                 </Grid>
                                                 <Grid item width={'240px'} container gap={1} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ marginLeft: '6px' }}>
-                                                    <img src={equipo?.logo} alt={equipo?.name} style={{ height: '35px', width: '35px' }} />
+                                                    <Grid item sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '55px', height: '35px' }}>
+                                                        <img src={equipo?.logo} alt={equipo?.name} style={{ height: '35px' }} />
+                                                    </Grid>
                                                     <Grid item sx={{ fontSize: mobile ? '14px' : '16px', letterSpacing: '2px', fontWeight: '500' }}>{equipo?.name}</Grid>
                                                 </Grid>
                                             </Grid>
