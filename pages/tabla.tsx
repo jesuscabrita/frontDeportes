@@ -20,6 +20,7 @@ import { equiposGet } from "../service/equipos";
 import { filterEstado } from "../utils/utils";
 import { GiChampions as Play } from 'react-icons/gi';
 import { PlayOff } from "../components/Tabla/PlayOff";
+import Head from "next/head";
 
 const opcionSelect = [
     { id: 0, name: 'Posiciones', icono: <Tablas size={30} /> },
@@ -54,7 +55,15 @@ const Tabla = () => {
 
     return (
         <>
-            <Grid item sx={{ minHeight: '180vh', width: '100%', paddingTop: '90px', }}>
+            <Head>
+                <title>Ligamaster | Tablas</title>
+            </Head>
+            <Grid item container sx={{ padding: mobile ? "100px 20px 60px 20px" : "80px 120px 60px 120px", height: data.length >= 3 ? '100%' : '180vh' }}>
+                <Grid item xs={12}>
+
+                </Grid>
+            </Grid>
+            {/* <Grid item sx={{ minHeight: '180vh', width: '100%', paddingTop: '90px', }}>
                 <Grid item sx={{ padding: '18px', width: '100%' }}>
                     <Grid item container justifyContent={'center'}>
                         <LogoRegister name={'Tablas'} />
@@ -86,7 +95,7 @@ const Tabla = () => {
                         </TabPanel>
                     </SwipeableViews>
                 </Grid>
-            </Grid>
+            </Grid> */}
         </>
     );
 };
