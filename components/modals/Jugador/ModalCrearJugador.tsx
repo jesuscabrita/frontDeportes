@@ -21,7 +21,7 @@ export const ModalCrearJugador = ({ open, setOpen, id }) => {
     const [name, setName] = useState('');
     const [sueldo, setSueldo] = useState(null);
     const [posicion, setPosicion] = useState('Seleccionar');
-    const [fecha, setFecha] = useState('');
+    const [fecha, setFecha] = useState(null);
     const [nacionalidad, setNacionalidad] = useState('Seleccionar');
     const [contrato, setContrato] = useState('Seleccionar');
     const [dorsal, setDorsal] = useState('');

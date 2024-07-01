@@ -15,7 +15,7 @@ export const StyledTableCell = styled(({ light, ...other }: StyledTableCellProps
         letterSpacing: '2px',
         fontSize: '12.5px',
         fontWeight: '500',
-        whiteSpace: 'nowrap'
+        whiteSpace: 'nowrap',
     },
     '&.MuiTableCell-body': {
         fontSize: 12,

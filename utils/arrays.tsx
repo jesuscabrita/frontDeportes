@@ -74,7 +74,7 @@ export const nationalities = [
 ];
 
 export const headers = [
-    { label: 'Club', align: 'center' },
+    { label: 'Equipo', align: 'center' },
     { label: 'PTS', align: 'center' },
     { label: 'PJ', align: 'center' },
     { label: 'G', align: 'center' },

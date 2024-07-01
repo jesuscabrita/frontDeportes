@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Grid, useMediaQuery } from "@mui/material";
 import { useRouter } from 'next/router';
+import WithAuthRedirect from "../components/Shared/withAuthRedirect";
 import { FormLogin } from "../components/Login/FormLogin";
 import ContextRefac from "../context/contextLogin";
 import Context from "../context/contextPrincipal";
@@ -31,11 +32,6 @@ const Login = () => {
         router.push("/register");
     };
 
-    if (user) {
-        router.push('/')
-        return null;
-    }
-
     return (
         <>
             <Head>
@@ -61,4 +57,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default WithAuthRedirect(Login); 

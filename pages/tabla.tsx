@@ -34,9 +34,9 @@ const opcionSelect = [
 
 const Tabla = () => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
+    const [light] = useContext(Context);
     const theme = useTheme();
     const [value, setValue] = useState(0);
-    const [light] = useContext(Context);
     const [data, setData] = useState([]);
 
     const handleChange = (newValue) => {

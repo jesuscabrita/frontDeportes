@@ -31,7 +31,7 @@ const Usuarios = () => {
             <Head>
                 <title>Ligamaster | Administrar usuarios</title>
             </Head>
-            <Grid item container sx={{ padding: mobile ? "100px 20px 60px 20px" : "80px 120px 60px 120px", height: mobile ? '180vh' : '100%' }}>
+            <Grid item container sx={{ padding: mobile ? "100px 20px 60px 20px" : "80px 120px 60px 120px", height: data.length >= 3 ? '100%' : '180vh' }}>
                 <Grid item mt={6} xs={12}>
                     <AdminUsuarios
                         light={light}

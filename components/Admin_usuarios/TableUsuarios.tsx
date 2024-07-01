@@ -52,7 +52,7 @@ export const TableUsuarios: React.FC<TableUsuariosProps> = ({
                                             </IconButton>
                                         </Grid>
                                         <Grid item width={'240px'} container gap={1} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ marginLeft: '6px' }}>
-                                            <Avatar {...stringAvatar(usuario?.nombre)} sx={{ height: '35px', width: '35px', bgcolor: !light ? "#aab4be" : 'var(--dark2)' }} />
+                                            <Avatar {...stringAvatar(usuario?.nombre)} sx={{ height: '35px', width: '35px', background: !light ? '#aab4be' : '#1F2937', color: !light ? '#1F2937' : 'white' }} />
                                             <Grid item sx={{ fontSize: mobile ? '14px' : '16px', letterSpacing: '2px', fontWeight: '500' }}>{`${usuario?.nombre} ${usuario?.apellido}`}</Grid>
                                             {usuario?.role === 'usuario' ?
                                                 <FaUserCheck size={25} color={light ? "var(--dark2)" : "var(--cero)"} />

@@ -14,6 +14,8 @@ import { GiChampions as Play } from 'react-icons/gi';
 import SwipeableViews from "react-swipeable-views";
 import { TabPanel } from "../Material/TabPanel";
 import { TablePosiciones } from "./TablePosiciones";
+import { TableEstadisticas } from "./TableEstadisticas";
+import { useRouter } from "next/router";
 
 const opcionSelectTabla = [
     { id: 0, name: 'Posiciones', icono: <Tablas size={30} /> },
@@ -32,7 +34,6 @@ interface TablesCategoriasProps {
     data: {}[];
 }
 
-
 export const TablesCategorias: React.FC<TablesCategoriasProps> = ({
     light,
     mobile,
@@ -44,6 +45,7 @@ export const TablesCategorias: React.FC<TablesCategoriasProps> = ({
     const [selectCategoria, setSelectCategoria] = useState('Elija una opción');
     const [value, setValue] = useState(0);
     const theme = useTheme();
+    const router = useRouter();
 
     const handleChange = (newValue) => {
         setValue(newValue);
@@ -121,6 +123,22 @@ export const TablesCategorias: React.FC<TablesCategoriasProps> = ({
                                             titleTable={subCategoria}
                                             SubTitle={selectCategoria}
                                             isLoading={isLoading}
+                                            light={light}
+                                            mobile={mobile}
+                                        />
+                                    </Grid>
+                                </TabPanel>
+                                <TabPanel value={value} index={1} dir={theme.direction}>
+                                    <Grid item mt={4} xs={12} md={12} container sx={{ width: '120vh', }} >
+                                        <TableEstadisticas
+                                            data={filteredData}
+                                            titleTable={subCategoria}
+                                            SubTitle={selectCategoria}
+                                            isLoading={isLoading}
+                                            light={light}
+                                            mobile={mobile}
+                                            nameEstadistida="Goles"
+                                            router={router}
                                         />
                                     </Grid>
                                 </TabPanel>

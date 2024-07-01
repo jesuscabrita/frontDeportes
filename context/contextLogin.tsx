@@ -14,7 +14,7 @@ export const InfoContextRefac = ({ children }) => {
         user: null,
     };
     const [state, dispatch] = useReducer(ReducerApp, initialState);
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     const sessionDuration = 2 * 60 * 60 * 1000; // 2 horas en milisegundos
 
@@ -28,29 +28,22 @@ export const InfoContextRefac = ({ children }) => {
         if (usuario) {
             dispatch({ type: "SET_USER", payload: usuario });
         }
+
         if (lastActivity && currentTime - lastActivity > sessionDuration) {
             logout();
-            dispatch({ type: "SET_USER", payload: usuario });
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            localStorage.removeItem("lastActivity");
-            router.push("/login");
         }
-        if (!usuario || (lastActivity && currentTime - lastActivity > sessionDuration)) {
-            router.push("/login");
-        } else {
-            dispatch({ type: "SET_USER", payload: usuario });
-        }
+
         const timer = setInterval(() => {
             const newCurrentTime = new Date().getTime();
             if (lastActivity && newCurrentTime - lastActivity > sessionDuration) {
                 logout();
             }
         }, 9000);
+
         return () => {
             clearInterval(timer);
         };
-    }, []);
+    }, [dispatch]);
 
     const { mutate } = useMutation(SignInRequest);
     const { mutate: cerrarSesion } = useMutation(logoutRequest);
@@ -93,7 +86,6 @@ export const InfoContextRefac = ({ children }) => {
         dispatch({ type: "LOGOUT" });
         router.push("/login");
         window.location.reload();
-        router.push("/login");
     };
 
     return (

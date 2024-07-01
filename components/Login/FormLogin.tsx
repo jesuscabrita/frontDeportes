@@ -36,7 +36,7 @@ export const FormLogin: React.FC<FormLoginProps> = ({
                         <InputFields
                             title="Usuario"
                             placeholder="example@example.com"
-                            type="text"
+                            type="email"
                             descripcion="Escribir un email"
                             value={emailOrUsername}
                             setValue={setEmailOrUsername}

@@ -21,6 +21,8 @@ interface TablePosicionesProps {
     titleTable: string;
     SubTitle: string;
     isLoading: boolean;
+    mobile: boolean;
+    light: boolean;
 }
 
 export const TablePosiciones: React.FC<TablePosicionesProps> = ({
@@ -28,9 +30,9 @@ export const TablePosiciones: React.FC<TablePosicionesProps> = ({
     titleTable,
     SubTitle,
     isLoading,
+    light,
+    mobile,
 }) => {
-    const [light] = useContext(Context);
-    const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [showImage, setShowImage] = useState(false);
     const router = useRouter();
 
@@ -46,7 +48,7 @@ export const TablePosiciones: React.FC<TablePosicionesProps> = ({
     return (
         <Grid item container>
             {titleTable === 'Elija una opción' || SubTitle === 'Elija una opción' ?
-                <Grid item height={mobile ? "55vh" : '50vh'} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', color: light ? "var(--dark2)" : "var(--gris)", flexDirection: 'column', fontSize: mobile ? '14px' : '16px' }}>
+                <Grid item height={mobile ? "55vh" : '50vh'} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', color: light ? "var(--dark2)" : "var(--gris)", flexDirection: 'column', fontSize: mobile ? '14px' : '16px', textAlign: 'center' }}>
                     <MdCategory size={140} />
                     Debes seleccionar una categoria y sub-categoria
                 </Grid>
@@ -54,7 +56,7 @@ export const TablePosiciones: React.FC<TablePosicionesProps> = ({
                 data?.length === 0 ?
                     <Grid item height={mobile ? "55vh" : '50vh'} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', color: light ? "var(--dark2)" : "var(--gris)", flexDirection: 'column', fontSize: mobile ? '14px' : '16px' }}>
                         <Vacio size={140} />
-                        No hay equipos en la Ligamaster
+                        {`No hay equipos en ${titleTable}`}
                     </Grid>
                     :
                     <Grid item container>
