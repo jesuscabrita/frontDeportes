@@ -16,6 +16,7 @@ import { TabPanel } from "../Material/TabPanel";
 import { TablePosiciones } from "./TablePosiciones";
 import { TableEstadisticas } from "./TableEstadisticas";
 import { useRouter } from "next/router";
+import { PlayOff } from "./PlayOff";
 
 const opcionSelectTabla = [
     { id: 0, name: 'Posiciones', icono: <Tablas size={30} /> },
@@ -134,11 +135,62 @@ export const TablesCategorias: React.FC<TablesCategoriasProps> = ({
                                             data={filteredData}
                                             titleTable={subCategoria}
                                             SubTitle={selectCategoria}
-                                            isLoading={isLoading}
                                             light={light}
                                             mobile={mobile}
                                             nameEstadistida="Goles"
                                             router={router}
+                                        />
+                                    </Grid>
+                                </TabPanel>
+                                <TabPanel value={value} index={2} dir={theme.direction}>
+                                    <Grid item mt={4} xs={12} md={12} container sx={{ width: '120vh', }} >
+                                        <TableEstadisticas
+                                            data={filteredData}
+                                            titleTable={subCategoria}
+                                            SubTitle={selectCategoria}
+                                            light={light}
+                                            mobile={mobile}
+                                            nameEstadistida="Asistencias"
+                                            router={router}
+                                        />
+                                    </Grid>
+                                </TabPanel>
+                                <TabPanel value={value} index={3} dir={theme.direction}>
+                                    <Grid item mt={4} xs={12} md={12} container sx={{ width: '120vh', }} >
+                                        <TableEstadisticas
+                                            data={filteredData}
+                                            titleTable={subCategoria}
+                                            SubTitle={selectCategoria}
+                                            light={light}
+                                            mobile={mobile}
+                                            nameEstadistida="Amarillas"
+                                            router={router}
+                                        />
+                                    </Grid>
+                                </TabPanel>
+                                <TabPanel value={value} index={4} dir={theme.direction}>
+                                    <Grid item mt={4} xs={12} md={12} container sx={{ width: '120vh', }} >
+                                        <TableEstadisticas
+                                            data={filteredData}
+                                            titleTable={subCategoria}
+                                            SubTitle={selectCategoria}
+                                            light={light}
+                                            mobile={mobile}
+                                            nameEstadistida="Rojas"
+                                            router={router}
+                                        />
+                                    </Grid>
+                                </TabPanel>
+                                <TabPanel value={value} index={5} dir={theme.direction}>
+                                    <Grid item mt={4} xs={12} md={12} container sx={{ width: '120vh', }} >
+                                        <PlayOff
+                                            data={filteredData}
+                                            titleTable={subCategoria}
+                                            SubTitle={selectCategoria}
+                                            light={light}
+                                            mobile={mobile}
+                                            nameEstadistida="Play-off"
+
                                         />
                                     </Grid>
                                 </TabPanel>

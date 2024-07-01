@@ -1,17 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Avatar, Grid, Paper, Table, TableBody, TableContainer, TableHead, TableRow } from '@mui/material';
 import { TbMoodEmpty as Vacio } from 'react-icons/tb';
 import { MdCategory } from "react-icons/md";
+import { seleccionarData, stringAvatar } from '../../utils/utils';
+import { ModalJugadorInfo } from '../modals/Jugador/ModalInfoJugador';
 import StyledTableCell from '../Material/StyledTableCell';
 import StyledTableRow from '../Material/StyledTableRow';
-import { jugadoresGoleadores, seleccionarData, stringAvatar } from '../../utils/utils';
-import { ModalJugadorInfo } from '../modals/Jugador/ModalInfoJugador';
 
 interface TableEstadisticasProps {
     data: { name: string; _id: string; }[];
     titleTable: string;
     SubTitle: string;
-    isLoading: boolean;
     mobile: boolean;
     light: boolean;
     nameEstadistida: string;
@@ -20,7 +19,6 @@ interface TableEstadisticasProps {
 
 export const TableEstadisticas: React.FC<TableEstadisticasProps> = ({
     data,
-    isLoading,
     SubTitle,
     titleTable,
     mobile,
@@ -36,6 +34,31 @@ export const TableEstadisticas: React.FC<TableEstadisticasProps> = ({
         return newFilter;
     }
 
+    const jugadoresData = (data, cantidad, estadisticaKey) => {
+        return data
+            .flatMap((equipo) => equipo.jugadores)
+            .filter((jugador) => jugador.libre === "No" && jugador.inscrito === 'Si')
+            .sort((a, b) => b[estadisticaKey] - a[estadisticaKey])
+            .slice(0, cantidad);
+    };
+
+    const getEstadisticaKey = (nameEstadistida) => {
+        switch (nameEstadistida) {
+            case 'Goles':
+                return 'goles';
+            case 'Amarillas':
+                return 'tarjetas_amarillas';
+            case 'Asistencias':
+                return 'asistencias';
+            case 'Rojas':
+                return 'tarjetas_roja';
+            default:
+                return null;
+        }
+    };
+
+    const estadisticaKey = getEstadisticaKey(nameEstadistida);
+
     return (
         <Grid item container>
             {titleTable === 'Elija una opción' || SubTitle === 'Elija una opción' ?
@@ -44,7 +67,7 @@ export const TableEstadisticas: React.FC<TableEstadisticasProps> = ({
                     Debes seleccionar una categoria y sub-categoria
                 </Grid>
                 :
-                jugadoresGoleadores(data, 10)?.length === 0 ?
+                estadisticaKey && jugadoresData(data, 10, estadisticaKey)?.length === 0 ?
                     <Grid item height={mobile ? "55vh" : '50vh'} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', color: light ? "var(--dark2)" : "var(--gris)", flexDirection: 'column', fontSize: mobile ? '14px' : '16px' }}>
                         <Vacio size={140} />
                         {`No hay jugadores en ${titleTable}`}
@@ -61,16 +84,17 @@ export const TableEstadisticas: React.FC<TableEstadisticasProps> = ({
                                     <TableRow>
                                         <StyledTableCell light={light} align="center">Nombre</StyledTableCell>
                                         <StyledTableCell light={light} align="center">Equipo</StyledTableCell>
-                                        <StyledTableCell light={light} align={"center"}>{nameEstadistida}</StyledTableCell>
+                                        <StyledTableCell light={light} align="center">{nameEstadistida}</StyledTableCell>
                                         <StyledTableCell light={light} align="center" style={{ whiteSpace: 'nowrap' }}>{'PJ'}</StyledTableCell>
                                         <StyledTableCell light={light} align="center" style={{ whiteSpace: 'nowrap' }}>{mobile ? 'GP' : 'Promedio'}</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody style={{ background: light ? 'var(--cero)' : 'var(--dark3)' }}>
-                                    {jugadoresGoleadores(data, 10).map((jugador, index) => {
-                                        const promedioGol: string = (jugador.goles / jugador.partidos).toFixed(2);
-                                        const promedioGolNumber = parseFloat(promedioGol);
-                                        const promedioGolFormatted = isNaN(promedioGolNumber) ? '-' : promedioGolNumber.toFixed(2);
+                                    {estadisticaKey && jugadoresData(data, 10, estadisticaKey).map((jugador, index) => {
+                                        const estadistica = jugador[estadisticaKey];
+                                        const promedio: string = (estadistica / jugador.partidos).toFixed(2);
+                                        const promedioNumber = parseFloat(promedio);
+                                        const promedioFormatted = isNaN(promedioNumber) ? '-' : promedioNumber.toFixed(2);
                                         return (
                                             <StyledTableRow light={light} key={jugador._id}>
                                                 <StyledTableCell light={light} component="th" scope="row">
@@ -99,9 +123,11 @@ export const TableEstadisticas: React.FC<TableEstadisticasProps> = ({
                                                             </Grid>}
                                                     </Grid>
                                                 </StyledTableCell>
-                                                <StyledTableCell light={light} align="center" style={{ fontWeight: 700, fontSize: '15px' }}>{jugador.goles}</StyledTableCell>
+                                                <StyledTableCell light={light} align="center" style={{ fontWeight: 700, fontSize: '15px' }}>
+                                                    {estadistica}
+                                                </StyledTableCell>
                                                 <StyledTableCell light={light} align="center" >{jugador.partidos}</StyledTableCell>
-                                                {<StyledTableCell light={light} align="center">{promedioGolFormatted}</StyledTableCell>}
+                                                {<StyledTableCell light={light} align="center">{promedioFormatted}</StyledTableCell>}
                                             </StyledTableRow>
                                         )
                                     })}
