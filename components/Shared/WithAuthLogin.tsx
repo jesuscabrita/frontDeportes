@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import ContextRefac from '../../context/contextLogin';
 
-const WithAuthRedirect = (WrappedComponent) => {
+export const WithAuthLogin = (WrappedComponent) => {
     return (props) => {
         const { state: { user } }: any = useContext(ContextRefac);
         const router = useRouter();
@@ -20,5 +20,3 @@ const WithAuthRedirect = (WrappedComponent) => {
         return <WrappedComponent {...props} />;
     };
 };
-
-export default WithAuthRedirect;
