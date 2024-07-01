@@ -74,15 +74,15 @@ export const nationalities = [
 ];
 
 export const headers = [
-    { label: 'Club', align: 'left' },
-    { label: 'PTS', align: 'right' },
-    { label: 'PJ', align: 'right' },
-    { label: 'G', align: 'right' },
-    { label: 'E', align: 'right' },
-    { label: 'P', align: 'right' },
-    { label: 'GF', align: 'right' },
-    { label: 'GC', align: 'right' },
-    { label: 'DG', align: 'right' },
+    { label: 'Club', align: 'center' },
+    { label: 'PTS', align: 'center' },
+    { label: 'PJ', align: 'center' },
+    { label: 'G', align: 'center' },
+    { label: 'E', align: 'center' },
+    { label: 'P', align: 'center' },
+    { label: 'GF', align: 'center' },
+    { label: 'GC', align: 'center' },
+    { label: 'DG', align: 'center' },
     { label: 'Ultimos 5', align: 'center' },
 ];
 

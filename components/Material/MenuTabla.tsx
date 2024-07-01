@@ -12,7 +12,7 @@ export const MenuTabla = ({ opcion, valueSelect, handleChange }) => {
             key={opcion.name}
             id={opcion.name}
             sx={{
-                width: !mobile ? '150px' : '60px',
+                width: !mobile ? '120px' : '45px',
                 background: !light && valueSelect === opcion.id ? 'var(--dark4)' : light && valueSelect === opcion.id ? 'var(--gris3)' : '',
                 height: '48px',
                 display: 'flex',
@@ -22,7 +22,7 @@ export const MenuTabla = ({ opcion, valueSelect, handleChange }) => {
                 color: !light && valueSelect === opcion.id ? 'var(--cero)' : light && valueSelect === opcion.id ? 'var(--dark2)' : light ? 'var(--dark3)' : 'var(--neutral)',
                 cursor: 'pointer',
                 gap: '8px',
-                fontSize: mobile ? '15px' : '12px',
+                fontSize: mobile ? '10px' : '11px',
             }}
             onClick={() => handleChange(opcion.id)}
         >

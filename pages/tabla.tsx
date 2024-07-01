@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Grid, useMediaQuery } from "@mui/material";
-import { PositionTable } from "../components/Tabla/Table";
+// import { PositionTable } from "../components/Tabla/TablePosiciones";
 import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@mui/material/styles';
 import { TablaGoleadores } from "../components/Tabla/TablaGoleadores";
@@ -21,6 +21,7 @@ import { filterEstado } from "../utils/utils";
 import { GiChampions as Play } from 'react-icons/gi';
 import { PlayOff } from "../components/Tabla/PlayOff";
 import Head from "next/head";
+import { TablesCategorias } from "../components/Tabla/TablesCategorias";
 
 const opcionSelect = [
     { id: 0, name: 'Posiciones', icono: <Tablas size={30} /> },
@@ -60,7 +61,13 @@ const Tabla = () => {
             </Head>
             <Grid item container sx={{ padding: mobile ? "100px 20px 60px 20px" : "80px 120px 60px 120px", height: data.length >= 3 ? '100%' : '180vh' }}>
                 <Grid item xs={12}>
-
+                    <TablesCategorias
+                        mobile={mobile}
+                        light={light}
+                        isError={isError}
+                        isLoading={isLoading}
+                        data={data}
+                    />
                 </Grid>
             </Grid>
             {/* <Grid item sx={{ minHeight: '180vh', width: '100%', paddingTop: '90px', }}>
