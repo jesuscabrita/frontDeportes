@@ -52,7 +52,7 @@ export const TableEstadisticas: React.FC<TableEstadisticasProps> = ({
                     :
                     <Grid item container>
                         <Grid item container mb={1} alignItems={'center'} flexDirection={'column'} justifyContent={'center'} sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '2px', fontSize: '20px', fontWeight: '500' }}>
-                            {titleTable}
+                            {`${nameEstadistida} en  ${titleTable}`}
                             <span style={{ fontSize: '14px', fontWeight: '400' }}>{SubTitle}</span>
                         </Grid>
                         <TableContainer component={Paper}>
