@@ -70,39 +70,6 @@ const Tabla = () => {
                     />
                 </Grid>
             </Grid>
-            {/* <Grid item sx={{ minHeight: '180vh', width: '100%', paddingTop: '90px', }}>
-                <Grid item sx={{ padding: '18px', width: '100%' }}>
-                    <Grid item container justifyContent={'center'}>
-                        <LogoRegister name={'Tablas'} />
-                    </Grid>
-                    <Grid item container sx={{ height: 'min-content' }}>
-                        {opcionSelect.map(opcion => (
-                            <MenuTabla opcion={opcion} valueSelect={value} handleChange={handleChange} />
-                        ))}
-                        <Grid container sx={{ borderBottom: light ? '2px solid var(--gris)' : '2px solid var(--neutral)', marginTop: '-10px' }}></Grid>
-                    </Grid>
-                    <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
-                        <TabPanel value={value} index={0} dir={theme.direction}>
-                            <PositionTable data={filterEstado(data, 'registrado')} isLoading={isLoading} isError={isError} />
-                        </TabPanel>
-                        <TabPanel value={value} index={1} dir={theme.direction}>
-                            <TablaGoleadores data={filterEstado(data, 'registrado')} isLoading={isLoading} isError={isError} />
-                        </TabPanel>
-                        <TabPanel value={value} index={2} dir={theme.direction}>
-                            <TablaAsistidores data={filterEstado(data, 'registrado')} isLoading={isLoading} isError={isError} />
-                        </TabPanel>
-                        <TabPanel value={value} index={3} dir={theme.direction}>
-                            <TablaAmarillas data={filterEstado(data, 'registrado')} isLoading={isLoading} isError={isError} />
-                        </TabPanel>
-                        <TabPanel value={value} index={4} dir={theme.direction}>
-                            <TablaRojas data={filterEstado(data, 'registrado')} isLoading={isLoading} isError={isError} />
-                        </TabPanel>
-                        <TabPanel value={value} index={5} dir={theme.direction}>
-                            <PlayOff data={data} />
-                        </TabPanel>
-                    </SwipeableViews>
-                </Grid>
-            </Grid> */}
         </>
     );
 };

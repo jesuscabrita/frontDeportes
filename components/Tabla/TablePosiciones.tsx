@@ -90,7 +90,7 @@ export const TablePosiciones: React.FC<TablePosicionesProps> = ({
                                                                 : showImage ? <img src={row.logo} alt={row.name} style={{ height: '35px' }} />
                                                                     : null}
                                                         </Grid>
-                                                        <Grid item sx={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', width: !mobile ? '130px' : '110px', cursor: 'pointer', letterSpacing: '2px', fontSize: mobile ? '11px' : '14px', fontWeight: '500' }} onClick={() => { router.push(`/manager/${row._id}`) }}>
+                                                        <Grid item sx={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', width: !mobile ? '140px' : '150px', cursor: 'pointer', letterSpacing: '2px', fontSize: mobile ? '11px' : '14px', fontWeight: '500' }} onClick={() => { router.push(`/manager/${row._id}`) }}>
                                                             {row.name}
                                                         </Grid>
                                                         {row.partidosJugados >= 1 &&
