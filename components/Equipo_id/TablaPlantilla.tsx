@@ -102,7 +102,6 @@ export const TablaPlantilla: React.FC<TablaPlantillaProps> = ({
         setOpenRows((prev) => ({ ...prev, [index]: !prev[index] }));
     };
 
-
     return (
         <Grid item container>
             {ordenarJugadores(jugadores, posicionesOrdenadas).length === 0 ?
@@ -190,7 +189,7 @@ export const TablaPlantilla: React.FC<TablaPlantillaProps> = ({
                                                             {`Acciones`}
                                                             <VscGithubAction size={20} />
                                                         </Grid>
-                                                        {isUserAdmin &&
+                                                        {(isUserAdmin || isSameEmail) &&
                                                             <Grid item container width={'220px'} mt={2}>
                                                                 <ButtomSecundario
                                                                     title="Capitan"
@@ -198,31 +197,15 @@ export const TablaPlantilla: React.FC<TablaPlantillaProps> = ({
                                                                     icon={Capitan}
                                                                 />
                                                             </Grid>}
-                                                        {isSameEmail &&
+                                                        {(isUserAdmin) &&
                                                             <Grid item container width={'220px'} mt={2}>
                                                                 <ButtomSecundario
-                                                                    title="Capitan"
-                                                                    handleclick={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalJugadorCapitan) }}
-                                                                    icon={Capitan}
-                                                                />
-                                                            </Grid>}
-                                                        {(jugador.lesion === 'No' && isUserAdmin) &&
-                                                            <Grid item container width={'220px'} mt={2}>
-                                                                <ButtomSecundario
-                                                                    title="Lesion"
-                                                                    handleclick={() => { lesionJugadores(equipo._id, jugador._id, lesion_jugador, queryClient, 'Si') }}
+                                                                    title={(jugador.lesion === 'No' && isUserAdmin) ? "Lesion" : 'Recuperar'}
+                                                                    handleclick={() => { (jugador.lesion === 'No' && isUserAdmin) ? lesionJugadores(equipo._id, jugador._id, lesion_jugador, queryClient, 'Si') : lesionJugadoresNO(equipo._id, jugador._id, lesion_jugador, queryClient, 'No') }}
                                                                     icon={Lesion}
                                                                 />
                                                             </Grid>}
-                                                        {(jugador.lesion === 'Si' && isUserAdmin) &&
-                                                            <Grid item container width={'220px'} mt={2}>
-                                                                <ButtomSecundario
-                                                                    title="Recuperar"
-                                                                    handleclick={() => { lesionJugadoresNO(equipo._id, jugador._id, lesion_jugador, queryClient, 'No') }}
-                                                                    icon={Lesion}
-                                                                />
-                                                            </Grid>}
-                                                        {isUserAdmin &&
+                                                        {(isUserAdmin) &&
                                                             <Grid item container width={'220px'} mt={2}>
                                                                 <ButtomPrimario
                                                                     title="Editar"
@@ -230,7 +213,7 @@ export const TablaPlantilla: React.FC<TablaPlantillaProps> = ({
                                                                     icon={Edit}
                                                                 />
                                                             </Grid>}
-                                                        {isUserAdmin &&
+                                                        {(isUserAdmin) &&
                                                             <Grid item container width={'220px'} mt={2}>
                                                                 <ButtomWarnnig
                                                                     title="Suspender"
@@ -239,7 +222,7 @@ export const TablaPlantilla: React.FC<TablaPlantillaProps> = ({
                                                                     disabled={jugador.jornadas_suspendido < 1}
                                                                 />
                                                             </Grid>}
-                                                        {isUserAdmin &&
+                                                        {(isUserAdmin) &&
                                                             <Grid item container width={'220px'} mt={2}>
                                                                 <ButtomDanger
                                                                     title="Eliminar"
@@ -253,25 +236,14 @@ export const TablaPlantilla: React.FC<TablaPlantillaProps> = ({
                                                             {` Contratos`}
                                                             <Contra size={20} />
                                                         </Grid>
-                                                        {jugador.inscrito === 'Si' &&
-                                                            <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px', letterSpacing: '2px', fontSize: mobile ? '11px' : '13px', color: light ? 'var(--dark2)' : 'var(--gris)', fontFamily: 'Quicksand' }}>
-                                                                Jugador registrado
-                                                                <Regis size={20} color={'var(--check)'} />
-                                                            </Grid>}
-                                                        {jugador.inscrito === 'No' &&
-                                                            <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px', letterSpacing: '2px', fontSize: mobile ? '11px' : '13px', color: light ? 'var(--dark2)' : 'var(--gris)', fontFamily: 'Quicksand' }}>
-                                                                Jugador no registrado
-                                                                <Regis size={20} color={'var(--danger)'} />
-                                                            </Grid>}
-                                                        {jugador.transferible === 'No' &&
-                                                            <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px', letterSpacing: '2px', fontSize: mobile ? '11px' : '13px', color: light ? 'var(--dark2)' : 'var(--gris)', fontFamily: 'Quicksand' }}>
-                                                                No transferible
-                                                            </Grid>}
-                                                        {jugador.transferible === 'Si' &&
-                                                            <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px', letterSpacing: '2px', fontSize: mobile ? '11px' : '13px', color: light ? 'var(--dark2)' : 'var(--gris)', fontFamily: 'Quicksand' }}>
-                                                                Transferible
-                                                                <ListaTransf size={20} color={'var(--warnning)'} />
-                                                            </Grid>}
+                                                        <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px', letterSpacing: '2px', fontSize: mobile ? '11px' : '13px', color: light ? 'var(--dark2)' : 'var(--gris)', fontFamily: 'Quicksand' }}>
+                                                            {jugador.inscrito === 'Si' ? 'Jugador registrado' : 'Jugador no registrado'}
+                                                            {jugador.inscrito === 'Si' ? <Regis size={20} color={'var(--check)'} /> : <Regis size={20} color={'var(--danger)'} />}
+                                                        </Grid>
+                                                        <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px', letterSpacing: '2px', fontSize: mobile ? '11px' : '13px', color: light ? 'var(--dark2)' : 'var(--gris)', fontFamily: 'Quicksand' }}>
+                                                            {jugador.transferible === 'No' ? 'No transferible' : 'Transferible'}
+                                                            {jugador.transferible === 'Si' && <ListaTransf size={20} color={'var(--warnning)'} />}
+                                                        </Grid>
                                                         <Grid item container mt={0.5} alignItems={'center'} justifyContent={'center'} gap={1}>
                                                             <Grid item sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800', fontFamily: 'Quicksand' }}>
                                                                 Sueldo
@@ -300,56 +272,31 @@ export const TablaPlantilla: React.FC<TablaPlantillaProps> = ({
                                                             <Grid item sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800', fontFamily: 'Quicksand' }}>
                                                                 Contrato
                                                             </Grid>
-                                                            {jugador.contrato === 0.5 &&
-                                                                <Grid item mt={mobile ? 0.4 : 0} sx={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '12px' : '16px', fontWeight: '400', fontFamily: 'Quicksand' }}>
-                                                                    Media Temporada
-                                                                </Grid>}
-                                                            {jugador.contrato === 1 &&
-                                                                <Grid item mt={mobile ? 0.4 : 0} sx={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '12px' : '16px', fontWeight: '400', fontFamily: 'Quicksand' }}>
-                                                                    1 Temporada
-                                                                </Grid>}
-                                                            {jugador.contrato >= 2 &&
-                                                                <Grid item mt={mobile ? 0.4 : 0} sx={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '12px' : '16px', fontWeight: '400', fontFamily: 'Quicksand' }}>
-                                                                    {`${jugador.contrato} Temporadas`}
-                                                                </Grid>}
+                                                            <Grid item mt={mobile ? 0.4 : 0} sx={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '12px' : '16px', fontWeight: '400', fontFamily: 'Quicksand' }}>
+                                                                {jugador.contrato === 0.5 && 'Media Temporada'}
+                                                                {jugador.contrato === 1 && '1 Temporada'}
+                                                                {jugador.contrato >= 2 && `${jugador.contrato} Temporadas`}
+                                                            </Grid>
                                                         </Grid>
-                                                        {isSameEmail && jugador.transferible === 'No' &&
+                                                        {(isSameEmail || isUserAdmin) && jugador.transferible === 'No' &&
                                                             <Grid item container width={'220px'} mt={2}>
                                                                 <ButtomWarnnig
-                                                                    title="Poner en transfererible"
+                                                                    title="L.transferencia"
                                                                     handleclick={() => { listaDeTransferiblesSi(equipo._id, jugador._id, listaTransferibleJugador, queryClient, 'Si') }}
                                                                     icon={ListaTransf}
                                                                     disabled={jugador.contrato === 0}
                                                                 />
                                                             </Grid>}
-                                                        {isUserAdmin && jugador.transferible === 'No' &&
-                                                            <Grid item container width={'220px'} mt={2}>
-                                                                <ButtomWarnnig
-                                                                    title="Poner en transfererible"
-                                                                    handleclick={() => { listaDeTransferiblesSi(equipo._id, jugador._id, listaTransferibleJugador, queryClient, 'Si') }}
-                                                                    icon={ListaTransf}
-                                                                    disabled={jugador.contrato === 0}
-                                                                />
-                                                            </Grid>}
-                                                        {isSameEmail && jugador.transferible === 'Si' &&
+                                                        {(isSameEmail || isUserAdmin) && jugador.transferible === 'Si' &&
                                                             <Grid item container width={'220px'} mt={2}>
                                                                 <ButtomPrimario
-                                                                    title="Quitar de transfererible"
+                                                                    title="No transfererible"
                                                                     handleclick={() => { listaDeTransferiblesNo(equipo._id, jugador._id, listaTransferibleJugador, queryClient, 'No') }}
                                                                     icon={ListaTransf}
                                                                     disabled={jugador.contrato === 0}
                                                                 />
                                                             </Grid>}
-                                                        {isUserAdmin && jugador.transferible === 'Si' &&
-                                                            <Grid item container width={'220px'} mt={2}>
-                                                                <ButtomPrimario
-                                                                    title="Quitar de transfererible"
-                                                                    handleclick={() => { listaDeTransferiblesNo(equipo._id, jugador._id, listaTransferibleJugador, queryClient, 'No') }}
-                                                                    icon={ListaTransf}
-                                                                    disabled={jugador.contrato === 0}
-                                                                />
-                                                            </Grid>}
-                                                        {isSameEmail &&
+                                                        {(isSameEmail || isUserAdmin) &&
                                                             <Grid item container width={'220px'} mt={2}>
                                                                 <ButtomPrimario
                                                                     title="Renovar contrato"
@@ -357,15 +304,7 @@ export const TablaPlantilla: React.FC<TablaPlantillaProps> = ({
                                                                     icon={Renovar}
                                                                 />
                                                             </Grid>}
-                                                        {isUserAdmin &&
-                                                            <Grid item container width={'220px'} mt={2}>
-                                                                <ButtomPrimario
-                                                                    title="Renovar contrato"
-                                                                    handleclick={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalRenovar) }}
-                                                                    icon={Renovar}
-                                                                />
-                                                            </Grid>}
-                                                        {isUserAdmin &&
+                                                        {(isSameEmail || isUserAdmin) &&
                                                             <Grid item container width={'220px'} mt={2}>
                                                                 <ButtomDanger
                                                                     title="Recindir contrato"
@@ -374,16 +313,7 @@ export const TablaPlantilla: React.FC<TablaPlantillaProps> = ({
                                                                     disabled={jugador.contrato === 0}
                                                                 />
                                                             </Grid>}
-                                                        {isSameEmail &&
-                                                            <Grid item container width={'220px'} mt={2}>
-                                                                <ButtomDanger
-                                                                    title="Recindir contrato"
-                                                                    handleclick={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalRecindir) }}
-                                                                    icon={Recindir}
-                                                                    disabled={jugador.contrato === 0}
-                                                                />
-                                                            </Grid>}
-                                                        {isSameEmail &&
+                                                        {(isSameEmail || isUserAdmin) &&
                                                             <Grid item container width={'220px'} mt={2}>
                                                                 <ButtomSecundario
                                                                     title="Dorsal"
@@ -391,15 +321,7 @@ export const TablaPlantilla: React.FC<TablaPlantillaProps> = ({
                                                                     icon={Num}
                                                                 />
                                                             </Grid>}
-                                                        {isUserAdmin &&
-                                                            <Grid item container width={'220px'} mt={2}>
-                                                                <ButtomSecundario
-                                                                    title="Dorsal"
-                                                                    handleclick={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalDorsal) }}
-                                                                    icon={Num}
-                                                                />
-                                                            </Grid>}
-                                                        {isUserAdmin && jugador.inscrito === 'No' &&
+                                                        {(isSameEmail || isUserAdmin) && jugador.inscrito === 'No' &&
                                                             <Grid item container width={'220px'} mt={2}>
                                                                 <ButtomPrimario
                                                                     title="Inscribir"
@@ -407,23 +329,7 @@ export const TablaPlantilla: React.FC<TablaPlantillaProps> = ({
                                                                     icon={Regis}
                                                                 />
                                                             </Grid>}
-                                                        {isSameEmail && jugador.inscrito === 'No' &&
-                                                            <Grid item container width={'220px'} mt={2}>
-                                                                <ButtomPrimario
-                                                                    title="Inscribir"
-                                                                    handleclick={() => { InscribirJugador(equipo._id, jugador._id, inscribir, queryClient, 'Si', setIsLoadinng) }}
-                                                                    icon={Regis}
-                                                                />
-                                                            </Grid>}
-                                                        {isUserAdmin && jugador.inscrito === 'Si' &&
-                                                            <Grid item container width={'220px'} mt={2}>
-                                                                <ButtomWarnnig
-                                                                    title="No inscribir"
-                                                                    handleclick={() => { InscribirJugador(equipo._id, jugador._id, inscribir, queryClient, 'No', setIsLoadinng) }}
-                                                                    icon={Regis}
-                                                                />
-                                                            </Grid>}
-                                                        {isSameEmail && jugador.inscrito === 'Si' &&
+                                                        {(isSameEmail || isUserAdmin) && jugador.inscrito === 'Si' &&
                                                             <Grid item container width={'220px'} mt={2}>
                                                                 <ButtomWarnnig
                                                                     title="No inscribir"

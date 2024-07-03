@@ -3,7 +3,7 @@ import { Disclosure } from '@headlessui/react';
 import { Grid, useMediaQuery, Avatar, FormControlLabel } from '@mui/material';
 import { ButtonNavbar } from './ButtonNavbar';
 import { MaterialUISwitch } from './MaterialUISwitch';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { logoutRequest } from '../../../service/session';
 import { useRouter } from 'next/router';
 import { UserMenu } from './UserMenu';
@@ -14,6 +14,7 @@ import { CustomButton, CustomButtonDark } from './CustomButton';
 import { LoadingScreen } from '../../Shared/LoadingScreen';
 import ContextRefac from '../../../context/contextLogin';
 import Context from '../../../context/contextPrincipal';
+import { equiposGet } from '../../../service/equipos';
 
 export const Navbar = () => {
     const [light, setLight] = useContext(Context);
@@ -33,6 +34,7 @@ export const Navbar = () => {
     const ref7 = useRef<HTMLDivElement>(null);
     const current_view = useSelector<any>((store) => store.section.current_view);
     const [isLoading, setIsLoading] = useState(false);
+    const [equipo, setEquipo] = useState([]);
 
     useEffect(() => {
         if (ref1.current) {
@@ -107,6 +109,21 @@ export const Navbar = () => {
             router.events.off('routeChangeError', handleStopLoading);
         };
     }, [router]);
+
+    const { isError: isErrorGet } = useQuery(["/api/liga"], equiposGet, {
+        refetchOnWindowFocus: false,
+        onSuccess: (data) => {
+            setEquipo(data);
+        },
+    })
+
+    const filterEmail = (array) => {
+        const newFilter = array.filter(data => data.correo == user?.email);
+        return newFilter;
+    }
+
+    console.log(filterEmail(equipo)[0]?._id);
+
 
     return (
         <Disclosure as="nav" style={{ background: light ? 'var(--light)' : 'var(--dark2)' }} className="fixed top-0 left-0 right-0 z-10">
@@ -194,7 +211,7 @@ export const Navbar = () => {
                                 control={<MaterialUISwitch light={light} sx={{ m: 1 }} defaultChecked={light ? true : false} />}
                             />
                             {isLoggedIn && !mobile ? (
-                                <UserMenu handleLogout={handleLogout} user={user} router={router} />
+                                <UserMenu equipoid={filterEmail(equipo)[0]?._id} handleLogout={handleLogout} user={user} router={router} />
                             ) : (
                                 !mobile &&
                                 <ButtonNavbar href="/login" handleOpenRuta={toggleMenu} mobile={false}>
@@ -223,6 +240,7 @@ export const Navbar = () => {
                                     <Grid item sx={{ color: light ? "var(--dark2)" : "white", fontWeight: '700', letterSpacing: '2px', }}>{`${user?.nombre} ${user?.apellido}`}</Grid>
                                 </Grid>
                                 <ButtonNavbar href='/perfil' handleOpenRuta={toggleMenu} mobile={true}>Perfil</ButtonNavbar>
+                                <ButtonNavbar href={`manager/${filterEmail(equipo)[0]?._id}`} handleOpenRuta={toggleMenu} mobile={true}>Mi equipo</ButtonNavbar>
                                 {user?.role === 'super_admin' && <ButtonNavbar href='/admin/usuarios' handleOpenRuta={toggleMenu} mobile={true}>Usuarios</ButtonNavbar>}
                                 {isLoggedIn && (user?.role === 'super_admin' || user?.role === 'admin') && <ButtonNavbar href='/admin/panel' handleOpenRuta={toggleMenu} mobile={true}>Panel partidos</ButtonNavbar>}
                                 {isLoggedIn && (user?.role === 'super_admin') && <ButtonNavbar href='/admin/panelequipos' handleOpenRuta={toggleMenu} mobile={true}>Panel equipos</ButtonNavbar>}

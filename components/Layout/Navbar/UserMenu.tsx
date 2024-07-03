@@ -3,7 +3,7 @@ import { Avatar, Grid } from "@mui/material";
 import { stringAvatar } from "../../../utils/utils";
 import Context from "../../../context/contextPrincipal";
 
-export const UserMenu = ({ handleLogout, user, router }) => {
+export const UserMenu = ({ handleLogout, user, router, equipoid }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [light] = useContext(Context);
 
@@ -34,6 +34,10 @@ export const UserMenu = ({ handleLogout, user, router }) => {
                     <Grid sx={{ cursor: 'pointer', color: light ? 'var(--dark2)' : 'var(--cero)', '&:hover': { backgroundColor: light ? 'var(--dark2)' : '#aab4be', color: light ? 'var(--cero)' : 'var(--dark2)' } }} className="block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} id="user-menu-item-0"
                         onClick={() => { router.push("/perfil"); handleMenuClose(); }}>
                         Perfil
+                    </Grid>
+                    <Grid sx={{ cursor: 'pointer', color: light ? 'var(--dark2)' : 'var(--cero)', '&:hover': { backgroundColor: light ? 'var(--dark2)' : '#aab4be', color: light ? 'var(--cero)' : 'var(--dark2)' } }} className="block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} id="user-menu-item-0"
+                        onClick={() => { router.push(`manager/${equipoid}`); handleMenuClose(); }}>
+                        Mi equipo
                     </Grid>
                     {user?.role === 'super_admin' &&
                         <Grid className="block px-4 py-2 text-sm" sx={{ cursor: 'pointer', color: light ? 'var(--dark2)' : 'var(--cero)', '&:hover': { backgroundColor: light ? 'var(--dark2)' : '#aab4be', color: light ? 'var(--cero)' : 'var(--dark2)' } }} role="menuitem" tabIndex={-1} id="user-menu-item-1"

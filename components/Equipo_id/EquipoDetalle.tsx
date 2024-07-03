@@ -35,7 +35,7 @@ import { ModalDelegadoEditar } from "../modals/Delegado/ModalDelegadoEdit";
 import { BsFillChatLeftDotsFill as Chat } from "react-icons/bs";
 import { ModalChatDelegado } from "../modals/Delegado/ModalChat";
 import { eliminarDelegados } from "../../utils/utilsDelegado";
-import { ButtonSend } from "../Material/ButtonSend";
+import { ButtomPrimario, ButtonSend } from "../Material/ButtonSend";
 import ContextRefac from "../../context/contextLogin";
 import { FaFileContract as Contra } from 'react-icons/fa';
 import { TablaContratos } from "./TablaContratos";
@@ -83,6 +83,7 @@ interface EquipoDetalleProps {
         diferencia_de_Goles: number;
         delegado: { name: string; _id: string; }[];
         jugadores: {}[];
+        director_tecnico: {}[];
         _id: string;
     };
     equipo_id: any;
@@ -151,6 +152,11 @@ export const EquipoDetalle: React.FC<EquipoDetalleProps> = ({
         }
     }, [isLoading]);
 
+    const filterLibreJugadorData = (array, estado) => {
+        const newFilter = array.filter(data => data.libre == estado && data.inscrito === 'Si');
+        return newFilter;
+    }
+
     return (
         <Paper elevation={3} sx={{ padding: mobile ? "20px" : "40px", display: "flex", flexDirection: "column", alignItems: "center", background: light ? 'var(--gris)' : 'var(--dark2)' }}>
             {isLoading ?
@@ -171,7 +177,7 @@ export const EquipoDetalle: React.FC<EquipoDetalleProps> = ({
                             <Grid item container alignItems={'center'} justifyContent={'center'}>
                                 <img style={{ height: mobile ? '80px' : '120px' }} src={data.logo} alt="logo" />
                             </Grid>
-                            <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '2px', fontSize: '20px', fontWeight: '500' }}>
+                            <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '2px', fontSize: !mobile ? '20px' : '13px', fontWeight: '500' }}>
                                 {`Detalles del ${data.name}`}
                             </Grid>
                             <Grid item container mt={2} xs={12} md={9} gap={2} alignItems={'center'} justifyContent={'center'}>
@@ -191,6 +197,40 @@ export const EquipoDetalle: React.FC<EquipoDetalleProps> = ({
                                         setModalDelegadoEditar={setModalDelegadoEditar}
                                     />
                                 </Paper>
+                                {(isUserAdmin || isSameEmail) &&
+                                    <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '2px', fontSize: !mobile ? '20px' : '13px', fontWeight: '500' }}>
+                                        {`Acciones`}
+                                    </Grid>}
+                                {(isUserAdmin || isSameEmail) &&
+                                    <Paper elevation={3} sx={{ padding: mobile ? "20px" : "40px", display: "flex", flexDirection: "column", alignItems: "center", background: light ? 'var(--gris3)' : 'var(--dark4)', width: '100%' }}>
+                                        <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ padding: mobile ? '0px' : '20px', paddingTop: '20px', paddingBottom: '20px' }}>
+                                            <Grid item md={6} container flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
+                                                <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '2px', fontSize: !mobile ? '18px' : '16px', fontWeight: '500', fontFamily: 'Quicksand' }}>
+                                                    {`Fichajes jugadores`}
+                                                </Grid>
+                                                <Grid item container width={'220px'} mt={2}>
+                                                    <ButtomPrimario
+                                                        title="Fichar jugador libre"
+                                                        handleclick={() => { setModalJugador(!modalJugador) }}
+                                                        icon={CreatePlayer}
+                                                    />
+                                                </Grid>
+                                            </Grid>
+                                            <Grid item md={6} container flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
+                                                <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '2px', fontSize: !mobile ? '18px' : '16px', fontWeight: '500', fontFamily: 'Quicksand' }}>
+                                                    {`Fichajes delegados`}
+                                                </Grid>
+                                                <Grid item container width={'220px'} mt={2}>
+                                                    <ButtomPrimario
+                                                        title="Fichar delegado libre"
+                                                        handleclick={() => { setModalDelegado(!modalDelegado) }}
+                                                        icon={CreatePlayer}
+                                                        disabled={data?.delegado.length > 0}
+                                                    />
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                    </Paper>}
                                 <Grid item container mt={4} alignItems={'center'} justifyContent={'center'} sx={{ height: 'min-content' }}>
                                     {opcionSelectEquipo?.map(opcion => (
                                         <MenuTabla opcion={opcion} valueSelect={value} handleChange={handleChange} />
@@ -201,8 +241,54 @@ export const EquipoDetalle: React.FC<EquipoDetalleProps> = ({
                                     <TabPanel value={value} index={0} dir={theme.direction}>
                                         <Grid item mt={4} xs={12} md={12} container sx={{ width: '120vh', }} >
                                             <TablaPlantilla
-                                                jugadores={filterLibreJugador(data.jugadores, 'No')}
+                                                jugadores={(isUserAdmin || isSameEmail) ? filterLibreJugador(data.jugadores, 'No') : filterLibreJugadorData(data.jugadores, 'No')}
                                                 equipo={data}
+                                            />
+                                        </Grid>
+                                    </TabPanel>
+                                    <TabPanel value={value} index={1} dir={theme.direction}>
+                                        <Grid item mt={4} xs={12} md={12} container sx={{ width: '120vh', }} >
+                                            <TablaEstadisticas
+                                                jugadores={data.jugadores}
+                                                label="Tabla de goleadores del equipo"
+                                                goles
+                                            />
+                                        </Grid>
+                                    </TabPanel>
+                                    <TabPanel value={value} index={2} dir={theme.direction}>
+                                        <Grid item mt={4} xs={12} md={12} container sx={{ width: '120vh', }} >
+                                            <TablaEstadisticas
+                                                jugadores={data.jugadores}
+                                                label="Tabla de asistidores del equipo"
+                                                asistencias
+                                            />
+                                        </Grid>
+                                    </TabPanel>
+                                    <TabPanel value={value} index={3} dir={theme.direction}>
+                                        <Grid item mt={4} xs={12} md={12} container sx={{ width: '120vh', }} >
+                                            <TablaEstadisticas
+                                                jugadores={data.jugadores}
+                                                label="Tabla de tarjetas amarillas del equipo"
+                                                amarillas
+                                            />
+                                        </Grid>
+                                    </TabPanel>
+                                    <TabPanel value={value} index={4} dir={theme.direction}>
+                                        <Grid item mt={4} xs={12} md={12} container sx={{ width: '120vh', }} >
+                                            <TablaEstadisticas
+                                                jugadores={data.jugadores}
+                                                label="Tabla de tarjetas rojas del equipo"
+                                                rojas
+                                            />
+                                        </Grid>
+                                    </TabPanel>
+                                    <TabPanel value={value} index={5} dir={theme.direction}>
+                                        <Grid item mt={4} xs={12} md={12} container sx={{ width: '120vh', }} >
+                                            <TablaFichajes
+                                                jugadores={data.jugadores}
+                                                isLoading={isLoading}
+                                                equipoId={equipo_id}
+                                                data={data}
                                             />
                                         </Grid>
                                     </TabPanel>
@@ -210,6 +296,11 @@ export const EquipoDetalle: React.FC<EquipoDetalleProps> = ({
                             </Grid>
                         </Grid>
             }
+            {modalJugador && <ModalCrearJugador open={modalJugador} setOpen={setModalJugador} id={data?._id} />}
+            {modalDT && <ModalDT open={modalDT} setOpen={setModalDT} id={data?._id} />}
+            {modalDelegado && <ModalDelegado open={modalDelegado} setOpen={setModalDelegado} id={data?._id} />}
+            {delegadoSeleccionado && <ModalDelegadoEditar open={modalDelegadoEditar} setOpen={setModalDelegadoEditar} id={data?._id} data={data?.delegado[0]} />}
+            {delegadoSeleccionado && <ModalChatDelegado open={modalDelegadoChat} setOpen={setModalDelegadoChat} data={data?.delegado[0]} />}
         </Paper >
 
         //     </Grid>

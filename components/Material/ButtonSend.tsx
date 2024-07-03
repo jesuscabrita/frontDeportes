@@ -81,8 +81,8 @@ export const ButtomPrimario: React.FC<ButtomProps> = ({ title, handleclick, widt
                     justifyContent: 'center',
                     height: '45px',
                     borderRadius: '7px',
-                    background: disabled ? '#E1E3E3 !important' : light ? 'var(--dark2) !important' : '#aab4be !important',
-                    color: disabled ? '#d1d1d1' : light ? '#FEFEFE' : 'var(--dark2)',
+                    background: disabled ? (light ? '#1f293790 !important' : '#aab4be58 !important') : light ? 'var(--dark2) !important' : '#aab4be !important',
+                    color: disabled ? (light ? '#d1d1d186' : '#1f293781') : light ? '#FEFEFE' : 'var(--dark2)',
                     fontSize: '16px',
                     cursor: disabled ? 'no-drop' : 'pointer',
                     gap: '10px',
@@ -144,9 +144,9 @@ export const ButtomSecundario: React.FC<ButtomProps> = ({ title, handleclick, wi
                     justifyContent: 'center',
                     height: '45px',
                     borderRadius: '7px',
-                    border: disabled ? '1px solid #d1d1d1' : light ? '1px var(--dark2) solid' : '1px var(--gris) solid',
-                    background: disabled ? '#E1E3E3 !important' : light ? 'transparent !important' : 'transparent !important',
-                    color: disabled ? '#d1d1d1' : light ? 'var(--dark2)' : 'var(--cero)',
+                    border: disabled ? (light ? '1px #1f29376f solid' : '1px #d1d1d13d solid') : light ? '1px var(--dark2) solid' : '1px var(--gris) solid',
+                    background: disabled ? '#e1e3e34 !important' : light ? 'transparent !important' : 'transparent !important',
+                    color: disabled ? (light ? '#1f29376f' : '#d1d1d13d') : light ? 'var(--dark2)' : 'var(--cero)',
                     fontSize: '16px',
                     cursor: disabled ? 'no-drop' : 'pointer',
                     gap: '10px',
@@ -154,7 +154,7 @@ export const ButtomSecundario: React.FC<ButtomProps> = ({ title, handleclick, wi
                     userSelect: 'none',
                     fontWeight: '600',
                     '&:hover': {
-                        background: disabled ? '#E1E3E3' : light ? '#aab4be !important' : '#aab4be2d !important'
+                        background: disabled ? 'none' : light ? '#aab4be !important' : '#aab4be2d !important'
                     }
                 }}
             >
