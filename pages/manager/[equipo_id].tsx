@@ -10,6 +10,7 @@ import { alertaSubmit } from "../../utils/alert";
 import { FaArrowAltCircleLeft as Atras } from 'react-icons/fa';
 import { LogoRegister } from "../../components/Shared/LogoRegister";
 import Context from "../../context/contextPrincipal";
+import Head from "next/head";
 
 const Equipo = () => {
   const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -29,76 +30,45 @@ const Equipo = () => {
     }
   });
 
-  if (isLoading) {
-    return (
-      <Grid sx={{ height: '110vh' }}>
-        <Grid sx={{ paddingTop: !mobile ? '100px' : '90px', paddingBottom: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} size={45} />
-        </Grid>
-      </Grid>
-    )
-  }
-
-  if (isError) {
-    return (
-      <Grid sx={{ height: !mobile ? '110vh' : '100%', }}>
-        <Grid sx={{
-          paddingTop: !mobile ? '100px' : '90px',
-          paddingBottom: '40px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          color: light ? 'var(--dark2)' : 'var(--cero)'
-        }}>
-          Ha ocurrido un error al cargar el equipo <Err404 size={85} />
-        </Grid>
-      </Grid>
-    );
-  }
-
-  if (!data?.equipo) {
-    return (
-      <Grid sx={{ height: !mobile ? '110vh' : '100%', }}>
-        <Grid sx={{
-          paddingTop: !mobile ? '100px' : '90px',
-          paddingBottom: '40px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          color: light ? 'var(--dark2)' : 'var(--cero)'
-        }}>
-          No se encontró el equipo con el ID: {equipo_id} <Vacio size={45} />
-        </Grid>
-      </Grid>
-    )
-  }
-
   return (
-    <Grid sx={{ height: !mobile ? '180vh' : '180vh', }}>
-      <Grid sx={{
-        paddingTop: !mobile ? '100px' : '90px',
-        paddingBottom: '40px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-      }}>
-        <Grid width={'100%'} sx={{ display: 'flex' }}>
-          <Grid sx={{ paddingLeft: !mobile ? '40px' : '16px' }}>
-            <Atras size={30} style={{ cursor: 'pointer', color: light ? 'var(--dark2)' : 'var(--cero)' }} onClick={handleAtrasClick} />
-          </Grid>
-          <Grid mt={-1.5} item sx={{ display: 'flex', justifyContent: 'center', width: '100%', }}>
-            <LogoRegister name={'Detalles del equipo'} />
-          </Grid>
-        </Grid>
-        <Grid item sx={{ fontSize: '24px', color: light ? 'var(--dark2)' : 'var(--cero)' }}>{data?.equipo?.name}</Grid>
-        <Grid sx={{ padding: '18px', width: '100%' }}>
-          <EquipoDetalle data={data?.equipo} isLoading={isLoading} equipo_id={equipo_id} />
+    <>
+      <Head>
+        <title>Ligamaster | Detalle del equipo</title>
+      </Head>
+      <Grid item container sx={{ padding: mobile ? "100px 20px 60px 20px" : "80px 120px 60px 120px", height: '100%' }}>
+        <Grid item xs={12}>
+          <EquipoDetalle
+            data={data?.equipo}
+            isLoading={isLoading}
+            equipo_id={equipo_id}
+            isError={isError}
+          />
         </Grid>
       </Grid>
-    </Grid>
+    </>
+    // <Grid sx={{ height: !mobile ? '180vh' : '180vh', }}>
+    //   <Grid sx={{
+    //     paddingTop: !mobile ? '100px' : '90px',
+    //     paddingBottom: '40px',
+    //     display: 'flex',
+    //     alignItems: 'center',
+    //     justifyContent: 'center',
+    //     flexDirection: 'column',
+    //   }}>
+    //     <Grid width={'100%'} sx={{ display: 'flex' }}>
+    //       <Grid sx={{ paddingLeft: !mobile ? '40px' : '16px' }}>
+    //         <Atras size={30} style={{ cursor: 'pointer', color: light ? 'var(--dark2)' : 'var(--cero)' }} onClick={handleAtrasClick} />
+    //       </Grid>
+    //       <Grid mt={-1.5} item sx={{ display: 'flex', justifyContent: 'center', width: '100%', }}>
+    //         <LogoRegister name={'Detalles del equipo'} />
+    //       </Grid>
+    //     </Grid>
+    //     <Grid item sx={{ fontSize: '24px', color: light ? 'var(--dark2)' : 'var(--cero)' }}>{data?.equipo?.name}</Grid>
+    //     <Grid sx={{ padding: '18px', width: '100%' }}>
+    //       <EquipoDetalle data={data?.equipo} isLoading={isLoading} equipo_id={equipo_id} />
+    //     </Grid>
+    //   </Grid>
+    // </Grid>
   );
 };
 

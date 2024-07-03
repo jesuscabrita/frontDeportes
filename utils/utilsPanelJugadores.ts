@@ -1696,10 +1696,12 @@ export const InscribirJugador = (equipoId: string, jugadorId: string, inscribir,
         onSuccess: (success) => {
             queryClient.invalidateQueries(["equipos"]);
             alertaSubmit(true, success?.message);
+            setIsLoading(false);
         },
         onError: (err: any) => {
             const errorMessage = err?.response?.data?.message || err.message;
             alertaSubmit(false, errorMessage);
+            setIsLoading(false);
         },
     });
 }

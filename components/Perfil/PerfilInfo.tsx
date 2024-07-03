@@ -46,7 +46,7 @@ export const PerfilInfo: React.FC<PerfilInfoProps> = ({
                                 : <img style={{ height: mobile ? '100px' : '180px', marginTop: mobile ? '0px' : '0px', marginBottom: mobile ? '40px' : '120px' }} src={usuario?.foto} alt="logoEquipo" />}
                         </Grid>
                         <Grid item md={6} gap={2} container alignItems={'center'} justifyContent={'center'} flexDirection={'column'} sx={{ padding: '20px' }}>
-                            <Avatar alt={`${usuario?.nombre} ${usuario?.apellido}`} src={''} sx={{ width: 100, height: 100, marginBottom: 5, bgcolor: !light ? "#aab4be" : 'var(--dark2)' }} />
+                            <Avatar alt={`${usuario?.nombre} ${usuario?.apellido}`} src={''} sx={{ width: 100, height: 100, marginBottom: 5, background: !light ? '#aab4be' : '#1F2937', color: !light ? '#1F2937' : 'white' }} />
                             <Grid item sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '2px', fontSize: '20px', fontWeight: '500' }}>
                                 {`${usuario?.nombre} ${usuario?.apellido}`}
                             </Grid>

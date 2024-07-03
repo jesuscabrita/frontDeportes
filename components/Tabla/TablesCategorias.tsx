@@ -11,12 +11,12 @@ import { GiSoccerBall as Gol } from 'react-icons/gi';
 import { GiSoccerKick as Asistir } from 'react-icons/gi';
 import { TbRectangleVertical as Tarjeta } from 'react-icons/tb';
 import { GiChampions as Play } from 'react-icons/gi';
-import SwipeableViews from "react-swipeable-views";
 import { TabPanel } from "../Material/TabPanel";
 import { TablePosiciones } from "./TablePosiciones";
 import { TableEstadisticas } from "./TableEstadisticas";
 import { useRouter } from "next/router";
 import { PlayOff } from "./PlayOff";
+import SwipeableViews from "react-swipeable-views";
 
 const opcionSelectTabla = [
     { id: 0, name: 'Posiciones', icono: <Tablas size={30} /> },

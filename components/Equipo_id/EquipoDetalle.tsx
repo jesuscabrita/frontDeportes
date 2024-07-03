@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { CircularProgress, Grid, Tooltip, useMediaQuery } from "@mui/material"
+import { CircularProgress, Grid, Paper, Tooltip, useMediaQuery } from "@mui/material"
 import { TbRectangleVertical as Tarjeta } from 'react-icons/tb';
 import { BsArrowsCollapse as Position } from 'react-icons/bs';
 import { GrInstagram as Instagram } from 'react-icons/gr';
@@ -44,19 +44,57 @@ import { GiArchiveRegister as Regis } from 'react-icons/gi';
 import { TablaInscripcion } from "./Tabla.Inscripcion";
 import Context from "../../context/contextPrincipal";
 import SwipeableViews from "react-swipeable-views";
+import { Carga } from "../Shared/Carga";
+import { ErrorCarga } from "../Shared/ErrorCarga";
+import { TbMoodEmpty as Vacio } from 'react-icons/tb';
+import { MdCategory } from "react-icons/md";
+import { DatosEquipo } from "./DatosEquipo";
 
 const opcionSelectEquipo = [
-    { id: 0, name: 'Plantilla', icono: <Plantilla size={30} /> },
-    { id: 1, name: 'Goles', icono: <Goles size={30} /> },
-    { id: 2, name: 'Asistencias', icono: <Asistir size={30} /> },
-    { id: 3, name: 'Amarillas', icono: <Tarjeta color={'var(--warnning)'} size={30} /> },
-    { id: 4, name: 'Rojas', icono: <Tarjeta color={'var(--danger)'} size={30} /> },
-    { id: 5, name: 'Contratos', icono: <Contra size={25} /> },
-    { id: 6, name: 'Fichajes', icono: <Fichaje size={30} /> },
-    { id: 7, name: 'Inscripción', icono: <Regis size={25} /> },
+    { id: 0, name: 'Plantilla', icono: <Plantilla size={25} /> },
+    { id: 1, name: 'Goles', icono: <Goles size={25} /> },
+    { id: 2, name: 'Asistencias', icono: <Asistir size={25} /> },
+    { id: 3, name: 'Amarillas', icono: <Tarjeta color={'var(--warnning)'} size={25} /> },
+    { id: 4, name: 'Rojas', icono: <Tarjeta color={'var(--danger)'} size={25} /> },
+    // { id: 5, name: 'Contratos', icono: <Contra size={25} /> },
+    { id: 5, name: 'Fichajes', icono: <Fichaje size={25} /> },
+    // { id: 7, name: 'Inscripción', icono: <Regis size={25} /> },
 ]
 
-export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
+interface EquipoDetalleProps {
+    isError: boolean;
+    data: {
+        correo: string;
+        name: string;
+        logo: string;
+        partidosJugados: number;
+        puntaje_anterior: number;
+        instagram: string;
+        banco_fondo: number;
+        categoria: string;
+        tarjetasAmarillas: number;
+        tarjetasRojas: number;
+        puntos: number;
+        empates: number;
+        ganados: number;
+        perdidos: number;
+        goles_a_Favor: number;
+        goles_en_Contra: number;
+        diferencia_de_Goles: number;
+        delegado: { name: string; _id: string; }[];
+        jugadores: {}[];
+        _id: string;
+    };
+    equipo_id: any;
+    isLoading: boolean;
+}
+
+export const EquipoDetalle: React.FC<EquipoDetalleProps> = ({
+    data,
+    isLoading,
+    equipo_id,
+    isError
+}) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [light] = useContext(Context);
     const [showImage, setShowImage] = useState(false);
@@ -87,7 +125,7 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
         setIsUserAdmin(user?.role === 'super_admin' || user?.role === 'admin');
     }, [user]);
 
-    const { isError } = useQuery(["/api/liga"], equiposGet, {
+    const { isError: isErrorGet } = useQuery(["/api/liga"], equiposGet, {
         refetchOnWindowFocus: false,
         onSuccess: (data) => {
             setEquipo(data);
@@ -114,180 +152,150 @@ export const EquipoDetalle = ({ data, isLoading, equipo_id }) => {
     }, [isLoading]);
 
     return (
-        <>
-            <Grid container sx={{
-                border: light ? '1px solid var(--dark2)' : '1px solid var(--neutral)',
-                borderRadius: '8px',
-                padding: '8px',
-                flexDirection: 'row',
-                gap: '20px',
-                alignItems: 'center',
-            }}>
-                <Grid sx={{ fontSize: !mobile ? '20px' : '12px', display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center', whiteSpace: 'nowrap' }}>
-                    <Grid container flexDirection={'column'} justifyContent={'center'} alignItems={'center'} sx={{
-                        borderRadius: '8px',
-                        height: '150px',
-                        width: '150px',
-                        background: light ? 'var(--gris)' : 'var(--dark2)',
-                    }}>
-                        <Grid item>
-                            {isLoading || !showImage ?
-                                (<CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} size={30} />)
-                                : showImage ? <img src={data?.logo} alt={data?.name} style={{ height: '80px' }} />
-                                    : null}
-                        </Grid>
-                    </Grid>
-                    <Grid sx={{ display: 'flex', flexDirection: 'column', color: light ? 'var(--dark2)' : 'var(--neutral)' }}>
-                        <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Position color={light ? 'var(--dark2)' : 'var(--cero)'} />
-                            Posicion: # {equipoIndex + 1}
-                            {data.partidosJugados >= 1 &&
-                                <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ whiteSpace: 'nowrap', width: '30px' }}>
-                                    <ArrowP currentPos={equipoIndex} prevPos={data.puntaje_anterior} />
-                                </Grid>}
-                        </Grid>
-                        {!mobile ?
-                            <a href={`https://www.instagram.com/${data?.instagram}`} target="_blank">
-                                <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}>
-                                    <Instagram size={!mobile ? 17 : 10} color={light ? 'var(--dark2)' : 'var(--cero)'} />
-                                    Intagram:  @{!data?.instagram ? 'No definido' : data?.instagram}
-                                </Grid>
-                            </a>
-                            :
-                            <a href={`https://www.instagram.com/${data?.instagram}`} target="_blank">
-                                <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}>
-                                    <Instagram size={!mobile ? 17 : 10} color={light ? 'var(--dark2)' : 'var(--cero)'} />
-                                    @{!data?.instagram ? 'No definido' : data?.instagram}
-                                </Grid>
-                            </a>
-                        }
-                        {isSameEmail && <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Cash color={light ? 'var(--dark2)' : 'var(--cero)'} /> {formatoPesosArgentinos(data?.banco_fondo)}</Grid>}
-                        {isUserAdmin && <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Cash color={light ? 'var(--dark2)' : 'var(--cero)'} /> {formatoPesosArgentinos(data?.banco_fondo)}</Grid>}
-                    </Grid>
+        <Paper elevation={3} sx={{ padding: mobile ? "20px" : "40px", display: "flex", flexDirection: "column", alignItems: "center", background: light ? 'var(--gris)' : 'var(--dark2)' }}>
+            {isLoading ?
+                <Grid item height={mobile ? "75vh" : '65vh'} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', color: light ? 'var(--dark2)' : 'var(--cero)', gap: '16px' }}>
+                    <Carga />
                 </Grid>
-                <Grid sx={{ display: 'flex', flexDirection: 'column', color: light ? 'var(--dark2)' : 'var(--neutral)', fontSize: !mobile ? '20px' : '14px' }}>
-                    <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Categoria color={light ? 'var(--dark2)' : 'var(--cero)'} />categoria: {!data?.categoria ? 'No definido' : data?.categoria}</Grid>
-                    <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Estadio color={light ? 'var(--dark2)' : 'var(--cero)'} />Estadio: {!data?.estadio ? 'No definido' : data?.estadio}</Grid>
-                    <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Delegado color={light ? 'var(--dark2)' : 'var(--cero)'} />
-                        delegado:
-                        {data?.delegado.length === 0 ? ' No definido' : ' ' + data?.delegado[0].name}
-                        {isUserAdmin && (data?.delegado.length > 0) &&
-                            <Tooltip title="Elimina el delegado" placement="top">
-                                <Grid sx={{ cursor: 'pointer' }} onClick={() => { eliminarDelegados(equipo_id, data?.delegado[0]._id, eliminarDelegado, queryClient) }}>
-                                    <Borrar size={20} color={'var(--danger)'} />
-                                </Grid>
-                            </Tooltip>}
-                        {isUserAdmin && (data?.delegado.length > 0) &&
-                            <Tooltip title="Editar el delegado" placement="top">
-                                <Grid sx={{ cursor: 'pointer' }} onClick={() => { seleccionarData(data?.delegado, setDelegadoSeleccionado, setModalDelegadoEditar) }}>
-                                    <Editar size={20} />
-                                </Grid>
-                            </Tooltip>}
-                        <Tooltip title="Contactar al delegado del equipo" placement="top">
-                            <Grid sx={{ cursor: 'pointer' }} onClick={() => { seleccionarData(data?.delegado, setDelegadoSeleccionado, setModalDelegadoChat) }}>
-                                <Chat size={20} />
+                : !data ?
+                    <Grid item height={mobile ? "75vh" : '65vh'} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', color: light ? 'var(--dark2)' : 'var(--cero)', gap: '16px' }}>
+                        <Vacio size={140} />
+                        {`No se encontró el equipo con el ID: ${equipo_id}`}
+                    </Grid>
+                    : isError ?
+                        <Grid item height={mobile ? "75vh" : '60vh'} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', color: light ? "var(--dark2)" : "var(--gris)", flexDirection: 'column', fontSize: mobile ? '14px' : '16px' }}>
+                            <ErrorCarga />
+                        </Grid>
+                        :
+                        <Grid item container alignItems={'center'} justifyContent={'center'}>
+                            <Grid item container alignItems={'center'} justifyContent={'center'}>
+                                <img style={{ height: mobile ? '80px' : '120px' }} src={data.logo} alt="logo" />
                             </Grid>
-                        </Tooltip>
-                    </Grid>
-                </Grid>
-                <Grid sx={{ display: 'flex', flexDirection: 'column', color: light ? 'var(--dark2)' : 'var(--neutral)', fontSize: !mobile ? '20px' : '14px' }}>
-                    <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Tarjeta color={'var(--warnning)'} />tarjetas amarillas:{data?.tarjetasAmarillas}</Grid>
-                    <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Tarjeta color={'var(--danger)'} />tarjetas rojas: {data?.tarjetasRojas}</Grid>
-                    <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Puntos color={light ? 'var(--dark2)' : 'var(--cero)'} />puntos: {data?.puntos}</Grid>
-                </Grid>
-                <Grid sx={{ display: 'flex', flexDirection: 'column', color: light ? 'var(--dark2)' : 'var(--neutral)', fontSize: !mobile ? '20px' : '14px' }}>
-                    <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Empate color={light ? 'var(--dark2)' : 'var(--cero)'} />Empates:{data?.empates}</Grid>
-                    <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Ganado color={light ? 'var(--dark2)' : 'var(--cero)'} />Ganados: {data?.ganados}</Grid>
-                    <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Perdido color={light ? 'var(--dark2)' : 'var(--cero)'} />perdidos: {data?.perdidos}</Grid>
-                </Grid>
-                <Grid sx={{ display: 'flex', flexDirection: 'column', color: light ? 'var(--dark2)' : 'var(--neutral)', fontSize: !mobile ? '20px' : '14px' }}>
-                    <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Empate color={light ? 'var(--dark2)' : 'var(--cero)'} />Goles en total:{data?.goles_a_Favor}</Grid>
-                    <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Ganado color={light ? 'var(--dark2)' : 'var(--cero)'} />Goles en contra: {data?.goles_en_Contra}</Grid>
-                    <Grid sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}><Perdido color={light ? 'var(--dark2)' : 'var(--cero)'} />Diferencia de goles: {data?.diferencia_de_Goles}</Grid>
-                </Grid>
-            </Grid>
-            <Grid mt={3} item container sx={{ height: 'min-content' }}>
-                {opcionSelectEquipo.map(opcion => (
-                    <MenuTabla opcion={opcion} valueSelect={value} handleChange={handleChange} />
-                ))}
-                <Grid container sx={{ borderBottom: light ? '2px solid var(--gris)' : '2px solid var(--neutral)', marginTop: '-10px' }}></Grid>
-            </Grid>
-            <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
-                <TabPanel value={value} index={0} dir={theme.direction}>
-                    <Grid item mt={1} mb={1} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px' }}>
-                        {isUserAdmin && <ButtonSend title={!mobile ? 'Fichar jugador libre' : 'Jugador'} icon={CreatePlayer} disable={false} handle={() => { setModalJugador(!modalJugador) }} iconSize={20} iconColor={'var(--check)'} />}
-                        {isUserAdmin && <ButtonSend title={!mobile ? 'Fichar DT' : 'DT'} icon={CreatePlayer} disable={data.director_tecnico.length > 0} handle={() => { setModalDT(!modalDT) }} iconSize={20} iconColor={'var(--check)'} />}
-                        {isUserAdmin && <ButtonSend title={!mobile ? 'Fichar Delegado' : 'Delegado'} icon={CreatePlayer} disable={data?.delegado.length > 0} handle={() => { setModalDelegado(!modalDelegado) }} iconSize={20} iconColor={'var(--check)'} />}
+                            <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '2px', fontSize: '20px', fontWeight: '500' }}>
+                                {`Detalles del ${data.name}`}
+                            </Grid>
+                            <Grid item container mt={2} xs={12} md={9} gap={2} alignItems={'center'} justifyContent={'center'}>
+                                <Paper elevation={3} sx={{ padding: mobile ? "20px" : "40px", display: "flex", flexDirection: "column", alignItems: "center", background: light ? 'var(--gris3)' : 'var(--dark4)', width: '100%' }}>
+                                    <DatosEquipo
+                                        data={data}
+                                        eliminarDelegado={eliminarDelegado}
+                                        equipoIndex={equipoIndex}
+                                        equipo_id={equipo_id}
+                                        isSameEmail={isSameEmail}
+                                        isUserAdmin={isUserAdmin}
+                                        light={light}
+                                        mobile={mobile}
+                                        queryClient={queryClient}
+                                        setDelegadoSeleccionado={setDelegadoSeleccionado}
+                                        setModalDelegadoChat={setModalDelegadoChat}
+                                        setModalDelegadoEditar={setModalDelegadoEditar}
+                                    />
+                                </Paper>
+                                <Grid item container mt={4} alignItems={'center'} justifyContent={'center'} sx={{ height: 'min-content' }}>
+                                    {opcionSelectEquipo?.map(opcion => (
+                                        <MenuTabla opcion={opcion} valueSelect={value} handleChange={handleChange} />
+                                    ))}
+                                    <Grid container sx={{ borderBottom: light ? '2px solid var(--dark2)' : '2px solid var(--gris)', marginTop: '0px' }}></Grid>
+                                </Grid>
+                                <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
+                                    <TabPanel value={value} index={0} dir={theme.direction}>
+                                        <Grid item mt={4} xs={12} md={12} container sx={{ width: '120vh', }} >
+                                            <TablaPlantilla
+                                                jugadores={filterLibreJugador(data.jugadores, 'No')}
+                                                equipo={data}
+                                            />
+                                        </Grid>
+                                    </TabPanel>
+                                </SwipeableViews>
+                            </Grid>
+                        </Grid>
+            }
+        </Paper >
 
-                        {isSameEmail && <ButtonSend title={!mobile ? 'Fichar jugador libre' : 'Jugador'} icon={CreatePlayer} disable={false} handle={() => { setModalJugador(!modalJugador) }} iconSize={20} iconColor={'var(--check)'} />}
-                        {isSameEmail && <ButtonSend title={!mobile ? 'Fichar DT' : 'DT'} icon={CreatePlayer} disable={data.director_tecnico.length > 0} handle={() => { setModalDT(!modalDT) }} iconSize={20} iconColor={'var(--check)'} />}
-                        {isSameEmail && <ButtonSend title={!mobile ? 'Fichar Delegado' : 'Delegado'} icon={CreatePlayer} disable={data?.delegado.length > 0} handle={() => { setModalDelegado(!modalDelegado) }} iconSize={20} iconColor={'var(--check)'} />}
-                    </Grid>
-                    <TablaPlantilla jugadores={filterLibreJugador(data.jugadores, 'No')} equipo={data} isLoading={isLoading} director_tecnico={data.director_tecnico} />
-                </TabPanel>
-                <TabPanel value={value} index={1} dir={theme.direction}>
-                    <TablaEstadisticas jugadores={data.jugadores} label={'Goles'} isLoading={isLoading} goles={true} amarillas={false} asistencias={false} rojas={false} />
-                </TabPanel>
-                <TabPanel value={value} index={2} dir={theme.direction}>
-                    <TablaEstadisticas jugadores={data.jugadores} label={'Asistencias'} isLoading={isLoading} asistencias={true} amarillas={false} goles={false} rojas={false} />
-                </TabPanel>
-                <TabPanel value={value} index={3} dir={theme.direction}>
-                    <TablaEstadisticas jugadores={data.jugadores} label={'Tarjetas amarillas'} isLoading={isLoading} amarillas={true} asistencias={false} goles={false} rojas={false} />
-                </TabPanel>
-                <TabPanel value={value} index={4} dir={theme.direction}>
-                    <TablaEstadisticas jugadores={data.jugadores} label={'Tarjetas rojas'} isLoading={isLoading} rojas={true} amarillas={false} asistencias={false} goles={false} />
-                </TabPanel>
-                <TabPanel value={value} index={5} dir={theme.direction}>
-                    {isSameEmail && <TablaContratos jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id} />}
-                    {isUserAdmin && <TablaContratos jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id} />}
-                    {!isSameEmail && !isUserAdmin &&
-                        <Grid mt={8} item sx={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            gap: '16px',
-                            minWidth: !mobile ? '960px' : '100%',
-                            height: mobile ? '300px' : '',
-                            justifyContent: 'center',
-                            color: light ? 'var(--dark2)' : 'var(--cero)'
-                        }}>
-                            {`Solo el administrador del  ${data.name} puede ver este panel`}
-                        </Grid>}
-                </TabPanel>
-                <TabPanel value={value} index={6} dir={theme.direction}>
-                    {user ? <TablaFichajes jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id} data={data} />
-                        : <Grid mt={8} item sx={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            gap: '16px',
-                            minWidth: !mobile ? '960px' : '100%',
-                            height: mobile ? '300px' : '',
-                            justifyContent: 'center',
-                            color: light ? 'var(--dark2)' : 'var(--cero)'
-                        }}>
-                            {`Solo los usuarios pueden ver este panel`}
-                        </Grid>}
-                </TabPanel>
-                <TabPanel value={value} index={7} dir={theme.direction}>
-                    {isSameEmail && <TablaInscripcion jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id} />}
-                    {isUserAdmin && <TablaInscripcion jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id} />}
-                    {!isSameEmail && !isUserAdmin &&
-                        <Grid mt={8} item sx={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            gap: '16px',
-                            minWidth: !mobile ? '960px' : '100%',
-                            height: mobile ? '300px' : '',
-                            justifyContent: 'center',
-                            color: light ? 'var(--dark2)' : 'var(--cero)'
-                        }}>
-                            {`Solo el administrador del  ${data.name} puede ver este panel`}
-                        </Grid>}
-                </TabPanel>
-            </SwipeableViews>
-            {modalJugador && <ModalCrearJugador open={modalJugador} setOpen={setModalJugador} id={data?._id} />}
-            {modalDT && <ModalDT open={modalDT} setOpen={setModalDT} id={data?._id} />}
-            {modalDelegado && <ModalDelegado open={modalDelegado} setOpen={setModalDelegado} id={data?._id} />}
-            {delegadoSeleccionado && <ModalDelegadoEditar open={modalDelegadoEditar} setOpen={setModalDelegadoEditar} id={data?._id} data={data?.delegado[0]} />}
-            {delegadoSeleccionado && <ModalChatDelegado open={modalDelegadoChat} setOpen={setModalDelegadoChat} data={data?.delegado[0]} />}
-        </>
+        //     </Grid>
+        //     <Grid mt={3} item container sx={{ height: 'min-content' }}>
+        //         {opcionSelectEquipo.map(opcion => (
+        //             <MenuTabla opcion={opcion} valueSelect={value} handleChange={handleChange} />
+        //         ))}
+        //         <Grid container sx={{ borderBottom: light ? '2px solid var(--gris)' : '2px solid var(--neutral)', marginTop: '-10px' }}></Grid>
+        //     </Grid>
+        //     <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
+        //         <TabPanel value={value} index={0} dir={theme.direction}>
+        //             <Grid item mt={1} mb={1} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px' }}>
+        //                 {isUserAdmin && <ButtonSend title={!mobile ? 'Fichar jugador libre' : 'Jugador'} icon={CreatePlayer} disable={false} handle={() => { setModalJugador(!modalJugador) }} iconSize={20} iconColor={'var(--check)'} />}
+        //                 {isUserAdmin && <ButtonSend title={!mobile ? 'Fichar DT' : 'DT'} icon={CreatePlayer} disable={data.director_tecnico.length > 0} handle={() => { setModalDT(!modalDT) }} iconSize={20} iconColor={'var(--check)'} />}
+        //                 {isUserAdmin && <ButtonSend title={!mobile ? 'Fichar Delegado' : 'Delegado'} icon={CreatePlayer} disable={data?.delegado.length > 0} handle={() => { setModalDelegado(!modalDelegado) }} iconSize={20} iconColor={'var(--check)'} />}
+
+        //                 {isSameEmail && <ButtonSend title={!mobile ? 'Fichar jugador libre' : 'Jugador'} icon={CreatePlayer} disable={false} handle={() => { setModalJugador(!modalJugador) }} iconSize={20} iconColor={'var(--check)'} />}
+        //                 {isSameEmail && <ButtonSend title={!mobile ? 'Fichar DT' : 'DT'} icon={CreatePlayer} disable={data.director_tecnico.length > 0} handle={() => { setModalDT(!modalDT) }} iconSize={20} iconColor={'var(--check)'} />}
+        //                 {isSameEmail && <ButtonSend title={!mobile ? 'Fichar Delegado' : 'Delegado'} icon={CreatePlayer} disable={data?.delegado.length > 0} handle={() => { setModalDelegado(!modalDelegado) }} iconSize={20} iconColor={'var(--check)'} />}
+        //             </Grid>
+        //             <TablaPlantilla jugadores={filterLibreJugador(data.jugadores, 'No')} equipo={data} isLoading={isLoading} director_tecnico={data.director_tecnico} />
+        //         </TabPanel>
+        //         <TabPanel value={value} index={1} dir={theme.direction}>
+        //             <TablaEstadisticas jugadores={data.jugadores} label={'Goles'} isLoading={isLoading} goles={true} amarillas={false} asistencias={false} rojas={false} />
+        //         </TabPanel>
+        //         <TabPanel value={value} index={2} dir={theme.direction}>
+        //             <TablaEstadisticas jugadores={data.jugadores} label={'Asistencias'} isLoading={isLoading} asistencias={true} amarillas={false} goles={false} rojas={false} />
+        //         </TabPanel>
+        //         <TabPanel value={value} index={3} dir={theme.direction}>
+        //             <TablaEstadisticas jugadores={data.jugadores} label={'Tarjetas amarillas'} isLoading={isLoading} amarillas={true} asistencias={false} goles={false} rojas={false} />
+        //         </TabPanel>
+        //         <TabPanel value={value} index={4} dir={theme.direction}>
+        //             <TablaEstadisticas jugadores={data.jugadores} label={'Tarjetas rojas'} isLoading={isLoading} rojas={true} amarillas={false} asistencias={false} goles={false} />
+        //         </TabPanel>
+        //         <TabPanel value={value} index={5} dir={theme.direction}>
+        //             {isSameEmail && <TablaContratos jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id} />}
+        //             {isUserAdmin && <TablaContratos jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id} />}
+        //             {!isSameEmail && !isUserAdmin &&
+        //                 <Grid mt={8} item sx={{
+        //                     display: 'flex',
+        //                     flexDirection: 'row',
+        //                     gap: '16px',
+        //                     minWidth: !mobile ? '960px' : '100%',
+        //                     height: mobile ? '300px' : '',
+        //                     justifyContent: 'center',
+        //                     color: light ? 'var(--dark2)' : 'var(--cero)'
+        //                 }}>
+        //                     {`Solo el administrador del  ${data.name} puede ver este panel`}
+        //                 </Grid>}
+        //         </TabPanel>
+        //         <TabPanel value={value} index={6} dir={theme.direction}>
+        //             {user ? <TablaFichajes jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id} data={data} />
+        //                 : <Grid mt={8} item sx={{
+        //                     display: 'flex',
+        //                     flexDirection: 'row',
+        //                     gap: '16px',
+        //                     minWidth: !mobile ? '960px' : '100%',
+        //                     height: mobile ? '300px' : '',
+        //                     justifyContent: 'center',
+        //                     color: light ? 'var(--dark2)' : 'var(--cero)'
+        //                 }}>
+        //                     {`Solo los usuarios pueden ver este panel`}
+        //                 </Grid>}
+        //         </TabPanel>
+        //         <TabPanel value={value} index={7} dir={theme.direction}>
+        //             {isSameEmail && <TablaInscripcion jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id} />}
+        //             {isUserAdmin && <TablaInscripcion jugadores={data.jugadores} isLoading={isLoading} equipoId={equipo_id} />}
+        //             {!isSameEmail && !isUserAdmin &&
+        //                 <Grid mt={8} item sx={{
+        //                     display: 'flex',
+        //                     flexDirection: 'row',
+        //                     gap: '16px',
+        //                     minWidth: !mobile ? '960px' : '100%',
+        //                     height: mobile ? '300px' : '',
+        //                     justifyContent: 'center',
+        //                     color: light ? 'var(--dark2)' : 'var(--cero)'
+        //                 }}>
+        //                     {`Solo el administrador del  ${data.name} puede ver este panel`}
+        //                 </Grid>}
+        //         </TabPanel>
+        //     </SwipeableViews>
+        //     {modalJugador && <ModalCrearJugador open={modalJugador} setOpen={setModalJugador} id={data?._id} />}
+        //     {modalDT && <ModalDT open={modalDT} setOpen={setModalDT} id={data?._id} />}
+        //     {modalDelegado && <ModalDelegado open={modalDelegado} setOpen={setModalDelegado} id={data?._id} />}
+        //     {delegadoSeleccionado && <ModalDelegadoEditar open={modalDelegadoEditar} setOpen={setModalDelegadoEditar} id={data?._id} data={data?.delegado[0]} />}
+        //     {delegadoSeleccionado && <ModalChatDelegado open={modalDelegadoChat} setOpen={setModalDelegadoChat} data={data?.delegado[0]} />}
+        // </>
     )
 }

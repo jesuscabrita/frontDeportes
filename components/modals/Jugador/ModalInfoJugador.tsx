@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Avatar, Grid, useMediaQuery, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
+import { calcularPromedio, formatoPesosArgentinos, stringAvatar } from "../../../utils/utils";
 import { IoLogoClosedCaptioning as Capitan } from 'react-icons/io';
 import { GiSoccerBall as Gol } from 'react-icons/gi';
 import { TbRectangleVertical as Tarjeta } from 'react-icons/tb';
@@ -7,9 +8,8 @@ import { GiSoccerKick as Asistir } from 'react-icons/gi';
 import { MdLocalHospital as Lesion } from 'react-icons/md';
 import { BsInstagram as Insta } from 'react-icons/bs';
 import { BsTwitter as Twitter } from 'react-icons/bs';
-import { BiExit as Salir } from 'react-icons/bi';
-import { calcularPromedio, formatoPesosArgentinos, stringAvatar } from "../../../utils/utils";
-import { ButtonSend } from "../../Material/ButtonSend";
+import { IoExit } from "react-icons/io5";
+import { ButtomSecundario } from "../../Material/ButtonSend";
 import Context from "../../../context/contextPrincipal";
 import moment from "moment";
 
@@ -25,152 +25,182 @@ export const ModalJugadorInfo = ({ open, setOpen, jugador }) => {
     };
 
     return (
-        <Grid>
-            <Dialog open={open} onClose={handleClose}>
-                <DialogTitle sx={{ padding: '20px', color: light ? 'var(--dark2)' : 'var(--cero)', background: light ? 'var(--cero)' : 'var(--dark)' }}>
-                    <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap', fontSize: mobile ? '15px' : '20px' }}>
-                        <img src={jugador.logo} alt='.' style={{ height: '35px' }} />
-                        {jugador.name}
-                        <Grid item sx={{ color: 'var(--neutral)', fontSize: '10px' }}>{`(${jugador.equipo})`}</Grid>
+        <Dialog open={open} onClose={handleClose}>
+            <DialogTitle sx={{ background: light ? 'var(--gris)' : 'var(--dark2)', color: light ? "var(--dark2)" : "var(--cero)", display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap', fontSize: mobile ? '15px' : '20px', letterSpacing: '2px' }}>
+                    <img src={jugador.logo} alt='.' style={{ height: '35px' }} />
+                    {jugador.name}
+                    <Grid item sx={{ color: light ? 'var(--dark3)' : 'var(--neutral)', fontSize: '10px' }}>{`(${jugador.equipo})`}</Grid>
+                </Grid>
+            </DialogTitle>
+            <DialogContent sx={{ background: light ? 'var(--gris)' : 'var(--dark2)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <Grid container alignItems={'center'} gap={2}>
+                    {jugador.foto ? <Avatar alt="Jugador" src={jugador.foto} sx={{ height: '150px', width: '150px' }} /> :
+                        <Avatar {...stringAvatar(jugador.name)} sx={{ height: '150px', width: '150px', fontSize: '55px', background: !light ? '#aab4be' : '#1F2937', color: !light ? '#1F2937' : 'white', fontWeight: '900', letterSpacing: '2px', fontFamily: 'Quicksand' }} />}
+                    <Grid item sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>
+                        {jugador.lesion === 'Si' &&
+                            <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                <Lesion size={25} />
+                                <Grid sx={{ color: 'var(--neutral)' }}>{'(Lesionado)'}</Grid>
+                            </Grid>}
                     </Grid>
-                </DialogTitle>
-                <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     <Grid container alignItems={'center'} gap={2}>
-                        {jugador.foto ? <Avatar alt="Jugador" src={jugador.foto} sx={{ height: '150px', width: '150px' }} /> :
-                            <Avatar {...stringAvatar(jugador.name)} sx={{ height: '150px', width: '150px' }} />}
-                        <Grid item sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>
-                            {jugador.lesion === 'Si' &&
-                                <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                    <Lesion size={25} />
-                                    <Grid sx={{ color: 'var(--neutral)' }}>{'(Lesionado)'}</Grid>
-                                </Grid>}
+                        <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', fontWeight: 600, color: light ? 'var(--dark2)' : 'var(--cero)' }}>#{jugador.dorsal}</Grid>
+                        <Grid item>
+                            {(jugador.posicion == 'Portero') &&
+                                <Grid sx={{ color: 'var(--warnning)', fontWeight: 700, fontSize: '17px' }}>PORTERO</Grid>}
+                            {(jugador.posicion == 'Defensa') &&
+                                <Grid sx={{ color: 'var(--gris)', fontWeight: 700, fontSize: '17px' }}>DEFENSOR</Grid>}
+                            {(jugador.posicion == 'Medio') &&
+                                <Grid sx={{ color: 'var(--check)', fontWeight: 700, fontSize: '17px' }}>MEDIO CENTRO</Grid>}
+                            {(jugador.posicion == 'Delantero') &&
+                                <Grid sx={{ color: 'var(--primario)', fontWeight: 700, fontSize: '17px' }}>DELANTERO</Grid>}
                         </Grid>
-                        <Grid container alignItems={'center'} gap={2}>
-                            <Grid item sx={{ fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', fontWeight: 600, color: light ? 'var(--dark2)' : 'var(--cero)' }}>#{jugador.dorsal}</Grid>
-                            <Grid item>
-                                {(jugador.posicion == 'Portero') &&
-                                    <Grid sx={{ color: 'var(--warnning)', fontWeight: 700, fontSize: '17px' }}>PORTERO</Grid>}
-                                {(jugador.posicion == 'Defensa') &&
-                                    <Grid sx={{ color: 'var(--gris)', fontWeight: 700, fontSize: '17px' }}>DEFENSOR</Grid>}
-                                {(jugador.posicion == 'Medio') &&
-                                    <Grid sx={{ color: 'var(--check)', fontWeight: 700, fontSize: '17px' }}>MEDIO CENTRO</Grid>}
-                                {(jugador.posicion == 'Delantero') &&
-                                    <Grid sx={{ color: 'var(--primario)', fontWeight: 700, fontSize: '17px' }}>DELANTERO</Grid>}
+                        {jugador.capitan === 'Si' &&
+                            <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                <Grid item sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{'Capitan'}</Grid>
+                                <Grid item sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', border: light ? 'solid 1px var(--dark2)' : 'solid 1px var(--cero)', height: '25px', width: '50px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '4px' }}>
+                                    <Capitan size={20} />
+                                </Grid>
+                            </Grid>}
+                        <Grid container flexDirection={'column'} sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>
+                            <Grid item sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>
+                                {'Valor mercado: '} <strong style={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '13px' : '16px', fontWeight: '400' }}>{formatoPesosArgentinos(jugador.valor_mercado)}</strong>
                             </Grid>
-                            {jugador.capitan === 'Si' &&
-                                <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                    <Grid item sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{'Capitan'}</Grid>
-                                    <Grid item sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', border: light ? 'solid 1px var(--dark2)' : 'solid 1px var(--cero)', height: '25px', width: '50px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                        <Capitan size={20} />
-                                    </Grid>
-                                </Grid>}
-                            <Grid container alignItems={'center'} gap={2} sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>
-                                {'Valor mercado: '} <strong>{formatoPesosArgentinos(jugador.valor_mercado)}</strong>
-                                {'Clausula: '} <strong>{formatoPesosArgentinos(jugador.clausula)}</strong>
+                            <Grid item sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>
+                                {'Clausula: '} <strong style={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '13px' : '16px', fontWeight: '400' }}>{formatoPesosArgentinos(jugador.clausula)}</strong>
                             </Grid>
-                            <Grid container alignItems={'center'} gap={2} sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>
-                                {jugador.partidos >= 2 && jugador.status === 'Nuevo' && (
-                                    <span>
-                                        {`${jugador.name} nació el ${formatoFecha} en ${jugador.nacionalidad} tiene ${jugador.edad} años,
+                        </Grid>
+                        <Grid container alignItems={'center'} gap={2} sx={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>
+                            {jugador.partidos >= 2 && jugador.status === 'Nuevo' && (
+                                <span style={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '13px' : '16px', fontWeight: '400' }}>
+                                    {`Nació el ${formatoFecha} en ${jugador.nacionalidad} tiene ${jugador.edad} años,
                                     ha jugado ${jugador.partidos} partidos con ${jugador.equipo} y está en el equipo desde ${moment(jugador.fecha_inicio).format('DD/MM/YYYY')}, 
                                     tiene un contrato `}
-                                        <strong>{constratos}</strong>
-                                        {`, con un sueldo de `}
-                                        <strong>{formatoPesosArgentinos(jugador.sueldo)}</strong>
-                                    </span>
-                                )}
+                                    <strong style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>{constratos}</strong>
+                                    {`, con un sueldo de `}
+                                    <strong style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>{formatoPesosArgentinos(jugador.sueldo)}</strong>
+                                </span>
+                            )}
 
-                                {jugador.partidos === 1 && jugador.status === 'Nuevo' && (
-                                    <span>
-                                        {`${jugador.name} nació el ${formatoFecha} en ${jugador.nacionalidad} tiene ${jugador.edad} años,
+                            {jugador.partidos === 1 && jugador.status === 'Nuevo' && (
+                                <span style={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '13px' : '16px', fontWeight: '400' }}>
+                                    {`Nació el ${formatoFecha} en ${jugador.nacionalidad} tiene ${jugador.edad} años,
                                     ha jugado ${jugador.partidos} partido con ${jugador.equipo} y está en el equipo desde ${formatoFechaCreate}, 
                                     tiene un contrato `}
-                                        <strong>{constratos}</strong>
-                                        {`, con un sueldo de `}
-                                        <strong>{formatoPesosArgentinos(jugador.sueldo)}</strong>
-                                    </span>
-                                )}
+                                    <strong style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>{constratos}</strong>
+                                    {`, con un sueldo de `}
+                                    <strong style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>{formatoPesosArgentinos(jugador.sueldo)}</strong>
+                                </span>
+                            )}
 
-                                {jugador.partidos === 0 && jugador.status === 'Nuevo' && (
-                                    <span>
-                                        {`${jugador.name} nació el ${formatoFecha} en ${jugador.nacionalidad} tiene ${jugador.edad} años,
+                            {jugador.partidos === 0 && jugador.status === 'Nuevo' && (
+                                <span style={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '13px' : '16px', fontWeight: '400' }}>
+                                    {`Nació el ${formatoFecha} en ${jugador.nacionalidad} tiene ${jugador.edad} años,
                                     no ha jugado ningún partido con ${jugador.equipo} y está en el equipo desde ${moment(jugador.fecha_inicio).format('DD/MM/YYYY')}, 
                                     tiene un contrato `}
-                                        <strong>{constratos}</strong>
-                                        {`, con un sueldo de `}
-                                        <strong>{formatoPesosArgentinos(jugador.sueldo)}</strong>
-                                    </span>
-                                )}
+                                    <strong style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>{constratos}</strong>
+                                    {`, con un sueldo de `}
+                                    <strong style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>{formatoPesosArgentinos(jugador.sueldo)}</strong>
+                                </span>
+                            )}
 
-                                {jugador.status === 'Prestamo' && (
-                                    <span>
-                                        {`${jugador.name} nació el ${formatoFecha} en ${jugador.nacionalidad} tiene ${jugador.edad} años,
+                            {jugador.status === 'Prestamo' && (
+                                <span style={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '13px' : '16px', fontWeight: '400' }}>
+                                    {`Nació el ${formatoFecha} en ${jugador.nacionalidad} tiene ${jugador.edad} años,
                                     llega en condicion de PRESTAMO desde el ${jugador.equipo} estara hasta el final de temporara, teniendo en cuenta que con su equipo de origen le queda un contrato `}
-                                        <strong>{constratos}</strong>
-                                        {`, con un sueldo de `}
-                                        <strong>{formatoPesosArgentinos(jugador.sueldo)}</strong>
-                                    </span>
-                                )}
+                                    <strong style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>{constratos}</strong>
+                                    {`, con un sueldo de `}
+                                    <strong style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800' }}>{formatoPesosArgentinos(jugador.sueldo)}</strong>
+                                </span>
+                            )}
+                        </Grid>
+                        <TableContainer>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="inherit" style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800', fontFamily: 'Quicksand' }}>Estadística</TableCell>
+                                        <TableCell align="center" style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800', fontFamily: 'Quicksand' }}>Valor</TableCell>
+                                        <TableCell align="center" style={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800', fontFamily: 'Quicksand' }}>Promedio</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell align="inherit">
+                                            <Grid item sx={{ display: 'flex', alignItems: 'center', justifyItems: 'center', gap: '6px', color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '13px' : '16px', fontWeight: '400', fontFamily: 'Quicksand', width: '120px' }}>
+                                                <Gol size={20} /> {'Goles'}
+                                            </Grid>
+                                        </TableCell>
+                                        <TableCell align="center" style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{jugador.goles}</TableCell>
+                                        <TableCell align="center" style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{calcularPromedio(jugador.goles, jugador.partidos)}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell align="inherit">
+                                            <Grid item sx={{ display: 'flex', alignItems: 'center', justifyItems: 'center', gap: '6px', color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '13px' : '16px', fontWeight: '400', fontFamily: 'Quicksand', width: '120px' }}>
+                                                <Tarjeta size={20} color={'var(--warnning)'} /> {'Amarillas'}
+                                            </Grid>
+                                        </TableCell>
+                                        <TableCell align="center" style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{jugador.tarjetas_amarillas}</TableCell>
+                                        <TableCell align="center" style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{calcularPromedio(jugador.tarjetas_amarillas, jugador.partidos)}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell align="inherit">
+                                            <Grid item sx={{ display: 'flex', alignItems: 'center', justifyItems: 'center', gap: '6px', color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '13px' : '16px', fontWeight: '400', fontFamily: 'Quicksand', width: '120px' }}>
+                                                <Tarjeta size={20} color={'var(--danger)'} /> {'Rojas'}
+                                            </Grid>
+                                        </TableCell>
+                                        <TableCell align="center" style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{jugador.tarjetas_roja}</TableCell>
+                                        <TableCell align="center" style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{calcularPromedio(jugador.tarjetas_roja, jugador.partidos)}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell align="inherit">
+                                            <Grid item sx={{ display: 'flex', alignItems: 'center', justifyItems: 'center', gap: '6px', color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '13px' : '16px', fontWeight: '400', fontFamily: 'Quicksand', width: '120px' }}>
+                                                <Tarjeta size={20} color={'var(--primario)'} /> {'Azules'}
+                                            </Grid>
+                                        </TableCell>
+                                        <TableCell align="center" style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{jugador.tarjetas_azul}</TableCell>
+                                        <TableCell align="center" style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{calcularPromedio(jugador.tarjetas_azul, jugador.partidos)}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell align="inherit">
+                                            <Grid item sx={{ display: 'flex', alignItems: 'center', justifyItems: 'center', gap: '6px', color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '13px' : '16px', fontWeight: '400', fontFamily: 'Quicksand', width: '120px' }}>
+                                                <Asistir size={20} /> {'Asistencias'}
+                                            </Grid>
+                                        </TableCell>
+                                        <TableCell align="center" style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{jugador.asistencias}</TableCell>
+                                        <TableCell align="center" style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{calcularPromedio(jugador.asistencias, jugador.partidos)}</TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <Grid container alignItems={'center'} gap={2}>
+                            <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '6px', color: light ? 'var(--dark2)' : 'var(--cero)' }}>
+                                <a style={{ fontSize: mobile ? '12px' : '', display: 'flex', alignItems: 'center', gap: '6px' }} href={`https://www.instagram.com/${jugador?.instagram}`} target="_blank">
+                                    <Insta size={mobile ? 16 : 25} />
+                                    @{jugador.instagram}
+                                </a>
                             </Grid>
-                            <TableContainer>
-                                <Table>
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>Estadística</TableCell>
-                                            <TableCell style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>Valor</TableCell>
-                                            <TableCell style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>Promedio</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        <TableRow>
-                                            <TableCell><Grid item sx={{ display: 'flex', alignItems: 'center', gap: '6px', color: light ? 'var(--dark2)' : 'var(--cero)' }}>{'Goles'} <Gol size={20} /></Grid></TableCell>
-                                            <TableCell style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{jugador.goles}</TableCell>
-                                            <TableCell style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{calcularPromedio(jugador.goles, jugador.partidos)}</TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell><Grid item sx={{ display: 'flex', alignItems: 'center', gap: '6px', color: light ? 'var(--dark2)' : 'var(--cero)' }}>{'Amarillas'} <Tarjeta size={20} color={'var(--warnning)'} /></Grid></TableCell>
-                                            <TableCell style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{jugador.tarjetas_amarillas}</TableCell>
-                                            <TableCell style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{calcularPromedio(jugador.tarjetas_amarillas, jugador.partidos)}</TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell><Grid item sx={{ display: 'flex', alignItems: 'center', gap: '6px', color: light ? 'var(--dark2)' : 'var(--cero)' }}>{'Rojas'} <Tarjeta size={20} color={'var(--danger)'} /></Grid></TableCell>
-                                            <TableCell style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{jugador.tarjetas_roja}</TableCell>
-                                            <TableCell style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{calcularPromedio(jugador.tarjetas_roja, jugador.partidos)}</TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell><Grid item sx={{ display: 'flex', alignItems: 'center', gap: '6px', color: light ? 'var(--dark2)' : 'var(--cero)' }}>{'Azules'} <Tarjeta size={20} color={'var(--primario)'} /></Grid></TableCell>
-                                            <TableCell style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{jugador.tarjetas_azul}</TableCell>
-                                            <TableCell style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{calcularPromedio(jugador.tarjetas_azul, jugador.partidos)}</TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell><Grid item sx={{ display: 'flex', alignItems: 'center', gap: '6px', color: light ? 'var(--dark2)' : 'var(--cero)' }}>{'Asistencias'} <Asistir size={20} /></Grid></TableCell>
-                                            <TableCell style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{jugador.asistencias}</TableCell>
-                                            <TableCell style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }}>{calcularPromedio(jugador.asistencias, jugador.partidos)}</TableCell>
-                                        </TableRow>
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                            <Grid container alignItems={'center'} gap={2}>
-                                <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '6px', color: light ? 'var(--dark2)' : 'var(--cero)' }}>
-                                    <a style={{ fontSize: mobile ? '12px' : '', display: 'flex', alignItems: 'center', gap: '6px' }} href={`https://www.instagram.com/${jugador?.instagram}`} target="_blank">
-                                        <Insta size={mobile ? 16 : 25} />
-                                        @{jugador.instagram}
-                                    </a>
-                                </Grid>
-                                <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '6px', color: light ? 'var(--dark2)' : 'var(--cero)' }}>
-                                    <a style={{ fontSize: mobile ? '12px' : '', display: 'flex', alignItems: 'center', gap: '6px' }} href={`https://www.twitter.com/${jugador?.twitter}`} target="_blank">
-                                        <Twitter size={mobile ? 16 : 25} />
-                                        @{jugador.twitter}
-                                    </a>
-                                </Grid>
+                            <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '6px', color: light ? 'var(--dark2)' : 'var(--cero)' }}>
+                                <a style={{ fontSize: mobile ? '12px' : '', display: 'flex', alignItems: 'center', gap: '6px' }} href={`https://www.twitter.com/${jugador?.twitter}`} target="_blank">
+                                    <Twitter size={mobile ? 16 : 25} />
+                                    @{jugador.twitter}
+                                </a>
                             </Grid>
                         </Grid>
                     </Grid>
-                </DialogContent>
-                <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
-                    <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
-                </DialogActions>
-            </Dialog>
-        </Grid>
+                </Grid>
+            </DialogContent>
+            <DialogActions sx={{ background: light ? 'var(--gris)' : 'var(--dark2)' }}>
+                <Grid item container>
+                    <Grid item container sx={{ padding: '14px' }}>
+                        <ButtomSecundario
+                            title="Cancelar"
+                            icon={IoExit}
+                            handleclick={handleClose}
+                        />
+                    </Grid>
+                </Grid>
+            </DialogActions>
+        </Dialog>
     )
 }
