@@ -3,12 +3,12 @@ import { Avatar, CircularProgress, Collapse, Grid, IconButton, Paper, Table, Tab
 import Context from '../../context/contextPrincipal';
 import { ModalEditarJugador } from '../modals/Jugador/ModalEditarJugador';
 import { useMutation, useQueryClient } from 'react-query';
-import { JugadorDelete, jugadoresInscribir, jugadoresPut_lesion } from '../../service/jugadores';
+import { JugadorDelete, jugadoresInscribir, jugadoresListaTransferible, jugadoresPut_lesion } from '../../service/jugadores';
 import { TbMoodEmpty as Vacio } from 'react-icons/tb';
 import { ModalEditarDT } from '../modals/DT/ModalEditarDT';
 import { DTDelete } from '../../service/dt';
 import { MdLocalHospital as Lesion } from 'react-icons/md';
-import { InscribirJugador, eliminarJugadores, lesionJugadores, lesionJugadoresNO } from '../../utils/utilsPanelJugadores';
+import { InscribirJugador, eliminarJugadores, lesionJugadores, lesionJugadoresNO, listaDeTransferiblesNo, listaDeTransferiblesSi } from '../../utils/utilsPanelJugadores';
 import { ModalJornada } from '../modals/Jugador/ModalJornada';
 import { TbRectangleVertical as Tarjeta } from 'react-icons/tb';
 import { VscSearchStop as Expulsado } from 'react-icons/vsc';
@@ -19,8 +19,9 @@ import { ModalJornadaDT } from '../modals/DT/ModalJornadaDT';
 import { StyledTableRow } from '../Material/StyledTableRow';
 import { StyledTableCell } from '../Material/StyledTableCell';
 import { CustomTableHead } from '../Material/CustomTableHead';
+import { MdSell as ListaTransf } from 'react-icons/md';
 import { planilla, posicionesOrdenadas } from '../../utils/arrays';
-import { ordenarJugadores, seleccionarData, stringAvatar } from '../../utils/utils';
+import { formatoPesosArgentinos, ordenarJugadores, seleccionarData, stringAvatar } from '../../utils/utils';
 import { eliminarDTs } from '../../utils/utilsDT';
 import { ButtomDanger, ButtomPrimario, ButtomSecundario, ButtomWarnnig, ButtonSend } from '../Material/ButtonSend';
 import { AiFillEdit as Edit } from 'react-icons/ai';
@@ -38,6 +39,10 @@ import { VscGithubAction } from "react-icons/vsc";
 import { AiOutlineFieldNumber as Num } from 'react-icons/ai';
 import { ModalDorsal } from '../modals/Jugador/ModalDorsal';
 import { LoadingScreen } from '../Shared/LoadingScreen';
+import { MdAutorenew as Renovar } from 'react-icons/md';
+import { ModalRecindir } from '../modals/Jugador/ModalRecindir';
+import { ModalRenovarJugador } from '../modals/Jugador/ModalRenovar';
+import { FaFilePrescription as Recindir } from 'react-icons/fa';
 
 interface Jugador {
     _id: string;
@@ -77,6 +82,9 @@ export const TablaPlantilla: React.FC<TablaPlantillaProps> = ({
     const [modalDorsal, setModalDorsal] = useState(false);
     const { mutate: inscribir } = useMutation(jugadoresInscribir);
     const [isLoadinng, setIsLoadinng] = useState(false);
+    const [modalRenovar, setModalRenovar] = useState(false);
+    const [modalRecindir, setModalRecindir] = useState(false);
+    const { mutate: listaTransferibleJugador } = useMutation(jugadoresListaTransferible);
 
     useEffect(() => {
         setIsUserAdmin(user?.role === 'super_admin' || user?.role === 'admin');
@@ -240,8 +248,8 @@ export const TablaPlantilla: React.FC<TablaPlantillaProps> = ({
                                                                 />
                                                             </Grid>}
                                                     </Grid>
-                                                    <Grid item md={6} container alignItems={'center'} justifyContent={'center'}>
-                                                        <Grid item container mb={1} alignItems={'center'} justifyContent={'center'} sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '2px', fontSize: !mobile ? '18px' : '16px', fontWeight: '500', fontFamily: 'Quicksand' }}>
+                                                    <Grid item md={6} container alignItems={'center'} justifyContent={'center'} flexDirection={'column'} >
+                                                        <Grid item container mt={2} mb={1} alignItems={'center'} justifyContent={'center'} sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '2px', fontSize: !mobile ? '18px' : '16px', fontWeight: '500', fontFamily: 'Quicksand' }}>
                                                             {` Contratos`}
                                                             <Contra size={20} />
                                                         </Grid>
@@ -254,6 +262,126 @@ export const TablaPlantilla: React.FC<TablaPlantillaProps> = ({
                                                             <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px', letterSpacing: '2px', fontSize: mobile ? '11px' : '13px', color: light ? 'var(--dark2)' : 'var(--gris)', fontFamily: 'Quicksand' }}>
                                                                 Jugador no registrado
                                                                 <Regis size={20} color={'var(--danger)'} />
+                                                            </Grid>}
+                                                        {jugador.transferible === 'No' &&
+                                                            <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px', letterSpacing: '2px', fontSize: mobile ? '11px' : '13px', color: light ? 'var(--dark2)' : 'var(--gris)', fontFamily: 'Quicksand' }}>
+                                                                No transferible
+                                                            </Grid>}
+                                                        {jugador.transferible === 'Si' &&
+                                                            <Grid item container alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px', letterSpacing: '2px', fontSize: mobile ? '11px' : '13px', color: light ? 'var(--dark2)' : 'var(--gris)', fontFamily: 'Quicksand' }}>
+                                                                Transferible
+                                                                <ListaTransf size={20} color={'var(--warnning)'} />
+                                                            </Grid>}
+                                                        <Grid item container mt={0.5} alignItems={'center'} justifyContent={'center'} gap={1}>
+                                                            <Grid item sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800', fontFamily: 'Quicksand' }}>
+                                                                Sueldo
+                                                            </Grid>
+                                                            <Grid item mt={mobile ? 0.4 : 0} sx={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '12px' : '16px', fontWeight: '400', fontFamily: 'Quicksand' }}>
+                                                                {formatoPesosArgentinos(jugador.sueldo)}
+                                                            </Grid>
+                                                        </Grid>
+                                                        <Grid item container alignItems={'center'} justifyContent={'center'} gap={1}>
+                                                            <Grid item sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800', fontFamily: 'Quicksand' }}>
+                                                                Valor mercado
+                                                            </Grid>
+                                                            <Grid item mt={mobile ? 0.4 : 0} sx={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '12px' : '16px', fontWeight: '400', fontFamily: 'Quicksand' }}>
+                                                                {formatoPesosArgentinos(jugador.valor_mercado)}
+                                                            </Grid>
+                                                        </Grid>
+                                                        <Grid item container alignItems={'center'} justifyContent={'center'} gap={1}>
+                                                            <Grid item sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800', fontFamily: 'Quicksand' }}>
+                                                                Clausula
+                                                            </Grid>
+                                                            <Grid item mt={mobile ? 0.4 : 0} sx={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '12px' : '16px', fontWeight: '400', fontFamily: 'Quicksand' }}>
+                                                                {formatoPesosArgentinos(jugador.clausula)}
+                                                            </Grid>
+                                                        </Grid>
+                                                        <Grid item container alignItems={'center'} justifyContent={'center'} gap={1}>
+                                                            <Grid item sx={{ color: light ? "var(--dark2)" : "var(--cero)", letterSpacing: '1px', fontSize: mobile ? '14px' : '16px', fontWeight: '800', fontFamily: 'Quicksand' }}>
+                                                                Contrato
+                                                            </Grid>
+                                                            {jugador.contrato === 0.5 &&
+                                                                <Grid item mt={mobile ? 0.4 : 0} sx={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '12px' : '16px', fontWeight: '400', fontFamily: 'Quicksand' }}>
+                                                                    Media Temporada
+                                                                </Grid>}
+                                                            {jugador.contrato === 1 &&
+                                                                <Grid item mt={mobile ? 0.4 : 0} sx={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '12px' : '16px', fontWeight: '400', fontFamily: 'Quicksand' }}>
+                                                                    1 Temporada
+                                                                </Grid>}
+                                                            {jugador.contrato >= 2 &&
+                                                                <Grid item mt={mobile ? 0.4 : 0} sx={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '12px' : '16px', fontWeight: '400', fontFamily: 'Quicksand' }}>
+                                                                    {`${jugador.contrato} Temporadas`}
+                                                                </Grid>}
+                                                        </Grid>
+                                                        {isSameEmail && jugador.transferible === 'No' &&
+                                                            <Grid item container width={'220px'} mt={2}>
+                                                                <ButtomWarnnig
+                                                                    title="Poner en transfererible"
+                                                                    handleclick={() => { listaDeTransferiblesSi(equipo._id, jugador._id, listaTransferibleJugador, queryClient, 'Si') }}
+                                                                    icon={ListaTransf}
+                                                                    disabled={jugador.contrato === 0}
+                                                                />
+                                                            </Grid>}
+                                                        {isUserAdmin && jugador.transferible === 'No' &&
+                                                            <Grid item container width={'220px'} mt={2}>
+                                                                <ButtomWarnnig
+                                                                    title="Poner en transfererible"
+                                                                    handleclick={() => { listaDeTransferiblesSi(equipo._id, jugador._id, listaTransferibleJugador, queryClient, 'Si') }}
+                                                                    icon={ListaTransf}
+                                                                    disabled={jugador.contrato === 0}
+                                                                />
+                                                            </Grid>}
+                                                        {isSameEmail && jugador.transferible === 'Si' &&
+                                                            <Grid item container width={'220px'} mt={2}>
+                                                                <ButtomPrimario
+                                                                    title="Quitar de transfererible"
+                                                                    handleclick={() => { listaDeTransferiblesNo(equipo._id, jugador._id, listaTransferibleJugador, queryClient, 'No') }}
+                                                                    icon={ListaTransf}
+                                                                    disabled={jugador.contrato === 0}
+                                                                />
+                                                            </Grid>}
+                                                        {isUserAdmin && jugador.transferible === 'Si' &&
+                                                            <Grid item container width={'220px'} mt={2}>
+                                                                <ButtomPrimario
+                                                                    title="Quitar de transfererible"
+                                                                    handleclick={() => { listaDeTransferiblesNo(equipo._id, jugador._id, listaTransferibleJugador, queryClient, 'No') }}
+                                                                    icon={ListaTransf}
+                                                                    disabled={jugador.contrato === 0}
+                                                                />
+                                                            </Grid>}
+                                                        {isSameEmail &&
+                                                            <Grid item container width={'220px'} mt={2}>
+                                                                <ButtomPrimario
+                                                                    title="Renovar contrato"
+                                                                    handleclick={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalRenovar) }}
+                                                                    icon={Renovar}
+                                                                />
+                                                            </Grid>}
+                                                        {isUserAdmin &&
+                                                            <Grid item container width={'220px'} mt={2}>
+                                                                <ButtomPrimario
+                                                                    title="Renovar contrato"
+                                                                    handleclick={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalRenovar) }}
+                                                                    icon={Renovar}
+                                                                />
+                                                            </Grid>}
+                                                        {isUserAdmin &&
+                                                            <Grid item container width={'220px'} mt={2}>
+                                                                <ButtomDanger
+                                                                    title="Recindir contrato"
+                                                                    handleclick={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalRecindir) }}
+                                                                    icon={Recindir}
+                                                                    disabled={jugador.contrato === 0}
+                                                                />
+                                                            </Grid>}
+                                                        {isSameEmail &&
+                                                            <Grid item container width={'220px'} mt={2}>
+                                                                <ButtomDanger
+                                                                    title="Recindir contrato"
+                                                                    handleclick={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalRecindir) }}
+                                                                    icon={Recindir}
+                                                                    disabled={jugador.contrato === 0}
+                                                                />
                                                             </Grid>}
                                                         {isSameEmail &&
                                                             <Grid item container width={'220px'} mt={2}>
@@ -314,6 +442,8 @@ export const TablaPlantilla: React.FC<TablaPlantillaProps> = ({
                     </Table>
                 </TableContainer>}
             {isLoadinng && <LoadingScreen />}
+            {jugadorSeleccionado && <ModalRecindir open={modalRecindir} setOpen={setModalRecindir} data={jugadorSeleccionado} equipoId={equipo?._id} />}
+            {jugadorSeleccionado && (<ModalRenovarJugador open={modalRenovar} setOpen={setModalRenovar} data={jugadorSeleccionado} jugadorId={jugadorSeleccionado?._id} equipoId={equipo?._id} />)}
             {jugadorSeleccionado && (<ModalDorsal open={modalDorsal} setOpen={setModalDorsal} data={jugadorSeleccionado} equipoId={equipo?._id} jugadorId={jugadorSeleccionado._id} />)}
             {jugadorSeleccionado && (<ModalJugadorCapitan open={modalJugadorCapitan} setOpen={setModalJugadorCapitan} jugador={jugadorSeleccionado} equipoId={equipo?._id} />)}
             {jugadorSeleccionado && (<ModalEditarJugador open={modalEditarJugador} setOpen={setModalEditarJugador} equipoId={equipo?._id} jugadorId={jugadorSeleccionado._id} data={jugadorSeleccionado} />)}
