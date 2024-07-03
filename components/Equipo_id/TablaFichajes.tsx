@@ -128,7 +128,7 @@ export const TablaFichajes = ({ jugadores, isLoading, equipoId, data }) => {
                                                             </Grid>}
                                                         {jugador.transferible === 'Si' && <ListaTransf size={20} color={'var(--warnning)'} />}
                                                     </Grid>
-                                                    {filterOferta(jugador.oferta).length >= 1 && <Grid item sx={{ whiteSpace: 'nowrap', fontSize: '16px', display: 'flex', cursor: 'pointer' }} onClick={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalOfertaRecibida) }}>
+                                                    {filterOferta(jugador.oferta).length >= 1 && <Grid item ml={2} mr={1} sx={{ whiteSpace: 'nowrap', fontSize: '16px', display: 'flex', cursor: 'pointer' }} onClick={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalOfertaRecibida) }}>
                                                         <Trasnfer size={28} /> <Noti size={18} color={'var(--danger)'} />
                                                         <Grid item sx={{ fontSize: '12px' }}>{filterOferta(jugador.oferta).length}</Grid>
                                                     </Grid>}
