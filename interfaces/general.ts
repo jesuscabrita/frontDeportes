@@ -256,11 +256,9 @@ export interface DatosEquipoProps {
     equipo_id: any;
     eliminarDelegado: any;
     queryClient: any;
-    modalDelegado: boolean;
     setDelegadoSeleccionado: React.Dispatch<React.SetStateAction<any>>;
     setModalDelegadoChat: React.Dispatch<React.SetStateAction<any>>;
     setModalDelegadoEditar: React.Dispatch<React.SetStateAction<any>>;
-    setModalDelegado: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export interface JugadorEquipoDetalle {

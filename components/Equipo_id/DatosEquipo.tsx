@@ -18,7 +18,6 @@ import { AiOutlineCloseCircle as Perdido } from 'react-icons/ai';
 import { formatoPesosArgentinos, seleccionarData } from "../../utils/utils";
 import { eliminarDelegados } from "../../utils/utilsDelegado";
 import { DatosEquipoProps } from "../../interfaces/general";
-import { IoMdPersonAdd } from "react-icons/io";
 
 export const DatosEquipo: React.FC<DatosEquipoProps> = ({
     data,
@@ -30,11 +29,9 @@ export const DatosEquipo: React.FC<DatosEquipoProps> = ({
     equipo_id,
     eliminarDelegado,
     queryClient,
-    modalDelegado,
     setDelegadoSeleccionado,
     setModalDelegadoChat,
     setModalDelegadoEditar,
-    setModalDelegado,
 }) => {
     return (
         <Grid item container justifyContent={'center'} gap={1}>
@@ -183,17 +180,11 @@ export const DatosEquipo: React.FC<DatosEquipoProps> = ({
                         <Delegado size={20} color={light ? 'var(--dark2)' : 'var(--cero)'} />
                     </Grid>
                     <Grid item container alignItems={'center'} ml={2} gap={2} sx={{ color: light ? "var(--dark2)" : "var(--gris)", letterSpacing: '0px', fontSize: mobile ? '13px' : '16px', fontWeight: '400' }}>
-                        {data?.delegado.length === 0 ? ' No definido - Añadir uno' : ' ' + data?.delegado[0].name}
+                        {data?.delegado.length === 0 ? ' No definido' : ' ' + data?.delegado[0].name}
                         {data?.delegado.length > 0 &&
                             <Tooltip title="Contactar al delegado del equipo" placement="top">
                                 <Grid sx={{ cursor: 'pointer' }} onClick={() => { seleccionarData(data?.delegado, setDelegadoSeleccionado, setModalDelegadoChat) }}>
                                     <Chat size={20} />
-                                </Grid>
-                            </Tooltip>}
-                        {data?.delegado.length === 0 &&
-                            <Tooltip title="Crear un delegado y sus datos" placement="top">
-                                <Grid sx={{ cursor: 'pointer' }} onClick={() => { setModalDelegado(!modalDelegado) }}>
-                                    <IoMdPersonAdd size={20} />
                                 </Grid>
                             </Tooltip>}
                         {isUserAdmin && (data?.delegado.length > 0) &&
