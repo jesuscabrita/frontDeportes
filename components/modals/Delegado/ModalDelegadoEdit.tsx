@@ -1,16 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
-import { CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, useMediaQuery } from "@mui/material";
-import { InputText } from "../../Material/InputTex";
+import { Dialog, DialogActions, DialogContent, DialogTitle, Grid } from "@mui/material";
 import { useMutation, useQueryClient } from "react-query";
 import { DelegadoPut } from "../../../service/delegado";
 import { editarDelegado } from "../../../utils/utilsDelegado";
-import { BiExit as Salir } from 'react-icons/bi';
 import { BiEditAlt as Editar } from 'react-icons/bi';
-import { ButtonSend } from "../../Material/ButtonSend";
+import { ButtomPrimario, ButtomSecundario } from "../../Material/ButtonSend";
+import { FaUserEdit } from "react-icons/fa";
+import { IoExit } from "react-icons/io5";
+import { InputFields } from "../../Material/InputFields";
+import { LoadingScreen } from "../../Shared/LoadingScreen";
 import Context from "../../../context/contextPrincipal";
 
 export const ModalDelegadoEditar = ({ open, setOpen, id, data }) => {
-    const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [light] = useContext(Context);
     const [isLoading, setIsLoading] = useState(false);
     const [name, setName] = useState(data?.name);
@@ -28,27 +29,54 @@ export const ModalDelegadoEditar = ({ open, setOpen, id, data }) => {
     }, [data]);
 
     return (
-        <Grid>
-            <Dialog open={open} onClose={handleClose}>
-                <DialogTitle sx={{ padding: '20px', color: light ? 'var(dark2)' : 'var(--cero)', background: light ? 'var(--cero)' : 'var(--dark)' }}>
-                    {"Editar Delegado"}
-                </DialogTitle>
-                <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                    <Grid container alignItems={'center'} gap={2}>
-                        <InputText disable={false} placeholder={'Nombre'} label={'Nombre'} setValue={setName} value={name} />
+        <Dialog open={open} onClose={handleClose}>
+            <DialogTitle sx={{ background: light ? 'var(--gris)' : 'var(--dark2)', color: light ? "var(--dark2)" : "var(--cero)", display: 'flex', alignItems: 'center', gap: '10px', letterSpacing: '2px', fontFamily: 'Quicksand' }}>
+                <Grid item container alignItems={'center'} gap={1} sx={{ letterSpacing: '2px' }}>
+                    {"Editar delegado"}
+                    <FaUserEdit size={25} color={light ? "var(--dark2)" : "var(--cero)"} />
+                </Grid>
+            </DialogTitle>
+            <DialogContent sx={{ background: light ? 'var(--gris)' : 'var(--dark2)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <Grid container alignItems={'center'}>
+                    <InputFields
+                        title="Nombre"
+                        descripcion="Escribir nombre"
+                        type="text"
+                        placeholder="Nombre"
+                        value={name}
+                        setValue={setName}
+                    />
+                </Grid>
+                <Grid container alignItems={'center'}>
+                    <InputFields
+                        title="Telefono"
+                        descripcion="Escribir telefono"
+                        type="text"
+                        placeholder="Telefono"
+                        value={telefono}
+                        setValue={setTelefono}
+                    />
+                </Grid>
+            </DialogContent>
+            {isLoading && <LoadingScreen />}
+            <DialogActions sx={{ background: light ? 'var(--gris)' : 'var(--dark2)' }}>
+                <Grid item container gap={0.5}>
+                    <Grid item container sx={{ paddingLeft: '14px', paddingRight: '14px' }}>
+                        <ButtomPrimario
+                            title="Editar delegado"
+                            icon={Editar}
+                            handleclick={() => { editarDelegado(id, data?._id, name, telefono, setIsLoading, editDelegado, queryClient, handleClose) }}
+                        />
                     </Grid>
-                    <InputText disable={false} placeholder={'Nombre'} label={'Telefono'} setValue={setTelefono} value={telefono} />
-                </DialogContent>
-                {isLoading && (
-                    <Grid sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: !mobile ? '100%' : '100%', backgroundColor: 'rgba(2, 2, 2, 0.488)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <CircularProgress style={{ color: light ? 'var(--dark2)' : 'var(--cero)' }} />
+                    <Grid item container sx={{ paddingLeft: '14px', paddingRight: '14px' }}>
+                        <ButtomSecundario
+                            title="Cancelar"
+                            icon={IoExit}
+                            handleclick={handleClose}
+                        />
                     </Grid>
-                )}
-                <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
-                    <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
-                    <ButtonSend disable={false} handle={() => { editarDelegado(id, data?._id, name, telefono, setIsLoading, editDelegado, queryClient, handleClose) }} title={'Editar'} icon={Editar} iconColor={''} iconSize={20} />
-                </DialogActions>
-            </Dialog>
-        </Grid>
+                </Grid>
+            </DialogActions>
+        </Dialog>
     )
 }

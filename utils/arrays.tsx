@@ -4,6 +4,11 @@ import { GiSandsOfTime as Espera } from 'react-icons/gi';
 import { TbCircleLetterBFilled as B } from "react-icons/tb";
 import { TbCircleLetterCFilled as C } from "react-icons/tb";
 import { MdAdminPanelSettings as Admin } from "react-icons/md";
+import { TbTemplate as Plantilla } from 'react-icons/tb';
+import { GiSoccerKick as Asistir } from 'react-icons/gi';
+import { GiSoccerBall as Goles } from 'react-icons/gi';
+import { BiTransfer as Fichaje } from 'react-icons/bi';
+import { TbRectangleVertical as Tarjeta } from 'react-icons/tb';
 
 //REGISTER USER
 
@@ -28,7 +33,17 @@ export const opcionSelectEquipos = [
     { id: 4, name: 'Acciones', icono: <Admin size={30} /> }
 ]
 
-//
+// EQUIPO ID
+
+
+export const opcionSelectEquipoID = [
+    { id: 0, name: 'Plantilla', icono: <Plantilla size={25} /> },
+    { id: 1, name: 'Goles', icono: <Goles size={25} /> },
+    { id: 2, name: 'Asistencias', icono: <Asistir size={25} /> },
+    { id: 3, name: 'Amarillas', icono: <Tarjeta color={'var(--warnning)'} size={25} /> },
+    { id: 4, name: 'Rojas', icono: <Tarjeta color={'var(--danger)'} size={25} /> },
+    { id: 5, name: 'Fichajes', icono: <Fichaje size={25} /> },
+]
 
 export const posiciones = [
     { value: 'Seleccionar', label: 'Seleccionar' },

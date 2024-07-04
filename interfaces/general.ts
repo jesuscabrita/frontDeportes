@@ -256,9 +256,11 @@ export interface DatosEquipoProps {
     equipo_id: any;
     eliminarDelegado: any;
     queryClient: any;
+    modalDelegado: boolean;
     setDelegadoSeleccionado: React.Dispatch<React.SetStateAction<any>>;
     setModalDelegadoChat: React.Dispatch<React.SetStateAction<any>>;
     setModalDelegadoEditar: React.Dispatch<React.SetStateAction<any>>;
+    setModalDelegado: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export interface JugadorEquipoDetalle {
@@ -270,11 +272,101 @@ export interface TablaPlantillaProps {
     equipo: { _id: string; correo: string; }
     light: boolean;
     mobile: boolean;
-    jugadorSeleccionado: any;
+    queryClient: any;
+    eliminarJugador: any;
+    lesion_jugador: any;
+    inscribir: any;
+    listaTransferibleJugador: any;
+    isUserAdmin: boolean;
+    isSameEmail: boolean;
+    setIsLoadinng: React.Dispatch<React.SetStateAction<any>>;
     setJugadorSeleccionado: React.Dispatch<React.SetStateAction<any>>;
     setModalEditarJugador: React.Dispatch<React.SetStateAction<any>>;
     setModalRecindir: React.Dispatch<React.SetStateAction<any>>;
     setModalRenovar: React.Dispatch<React.SetStateAction<any>>;
     setModalDorsal: React.Dispatch<React.SetStateAction<any>>;
     setModalJugadorCapitan: React.Dispatch<React.SetStateAction<any>>;
+    setModalEditarJornada: React.Dispatch<React.SetStateAction<any>>;
+    setModalJugadorInfo: React.Dispatch<React.SetStateAction<any>>;
+}
+
+export interface AccionesProps {
+    light: boolean;
+    mobile: boolean;
+    isUserAdmin: boolean;
+    isSameEmail: boolean;
+    jugador: { lesion: string; _id: string; jornadas_suspendido: number };
+    equipo: { _id: string; }
+    queryClient: any;
+    eliminarJugador: any;
+    lesion_jugador: any;
+    setJugadorSeleccionado: React.Dispatch<React.SetStateAction<any>>;
+    setModalJugadorCapitan: React.Dispatch<React.SetStateAction<any>>;
+    setModalEditarJugador: React.Dispatch<React.SetStateAction<any>>;
+    setModalEditarJornada: React.Dispatch<React.SetStateAction<any>>;
+}
+
+export interface ContratosProps {
+    light: boolean;
+    mobile: boolean;
+    isUserAdmin: boolean;
+    isSameEmail: boolean;
+    jugador: {
+        inscrito: string;
+        transferible: string;
+        sueldo: number;
+        valor_mercado: number;
+        clausula: number;
+        contrato: number;
+        _id: string;
+    };
+    equipo: { _id: string; };
+    inscribir: any;
+    listaTransferibleJugador: any;
+    queryClient: any;
+    setJugadorSeleccionado: React.Dispatch<React.SetStateAction<any>>;
+    setModalRenovar: React.Dispatch<React.SetStateAction<any>>;
+    setModalRecindir: React.Dispatch<React.SetStateAction<any>>;
+    setModalDorsal: React.Dispatch<React.SetStateAction<any>>;
+    setIsLoadinng: React.Dispatch<React.SetStateAction<any>>;
+}
+
+export interface AccionesAdminProps {
+    light: boolean;
+    mobile: boolean;
+    data: { delegado: { name: string; _id: string; }[]; };
+    modalJugador: boolean;
+    modalDelegado: boolean;
+    setModalJugador: React.Dispatch<React.SetStateAction<any>>;
+    setModalDelegado: React.Dispatch<React.SetStateAction<any>>;
+}
+
+export interface TablaEstadisticasProps {
+    jugadores: {}[];
+    goles?: boolean;
+    asistencias?: boolean;
+    amarillas?: boolean;
+    rojas?: boolean;
+    label: string;
+    light: boolean;
+    mobile: boolean;
+}
+
+export interface TablaFichajesProps {
+    jugadores: {}
+    equipoId: any;
+    data: { correo: string; };
+    light: boolean;
+    mobile: boolean;
+    user: any;
+    eliminarOfert: any;
+    queryClient: any;
+    setIsLoadinng: React.Dispatch<React.SetStateAction<any>>;
+    setModalJugadorInfo: React.Dispatch<React.SetStateAction<any>>;
+    setJugadorSeleccionado: React.Dispatch<React.SetStateAction<any>>;
+    setModalOferta: React.Dispatch<React.SetStateAction<any>>;
+    setModalOfertaRecibida: React.Dispatch<React.SetStateAction<any>>;
+    setModalAceptarOferta: React.Dispatch<React.SetStateAction<any>>;
+    setModalPrestamo: React.Dispatch<React.SetStateAction<any>>;
+    setModalNegociar: React.Dispatch<React.SetStateAction<any>>;
 }

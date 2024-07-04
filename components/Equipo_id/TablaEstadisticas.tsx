@@ -1,24 +1,15 @@
-import React, { useContext, useState } from "react";
-import { Avatar, CircularProgress, Grid, Paper, Table, TableBody, TableContainer, TableHead, TableRow, useMediaQuery } from "@mui/material";
-import Context from "../../context/contextPrincipal";
+import React, { useState } from "react";
+import { Avatar, Grid, Paper, Table, TableBody, TableContainer, TableHead, TableRow } from "@mui/material";
 import { TbMoodEmpty as Vacio } from 'react-icons/tb';
 import { MdLocalHospital as Lesion } from 'react-icons/md';
 import { VscSearchStop as Expulsado } from 'react-icons/vsc';
 import { TbRectangleVertical as Tarjeta } from 'react-icons/tb';
 import { StyledTableCell } from "../Material/StyledTableCell";
 import { StyledTableRow } from "../Material/StyledTableRow";
-import { stringAvatar, seleccionarData, filterLibreJugador } from "../../utils/utils";
+import { stringAvatar, seleccionarData } from "../../utils/utils";
 import { ModalJugadorInfo } from "../modals/Jugador/ModalInfoJugador";
 import { IoLogoClosedCaptioning as Capitan } from 'react-icons/io';
-
-interface TablaEstadisticasProps {
-    jugadores: {}[];
-    goles?: boolean;
-    asistencias?: boolean;
-    amarillas?: boolean;
-    rojas?: boolean;
-    label: string;
-}
+import { TablaEstadisticasProps } from "../../interfaces/general";
 
 export const TablaEstadisticas: React.FC<TablaEstadisticasProps> = ({
     jugadores,
@@ -26,10 +17,10 @@ export const TablaEstadisticas: React.FC<TablaEstadisticasProps> = ({
     goles,
     asistencias,
     amarillas,
-    rojas
+    rojas,
+    light,
+    mobile,
 }) => {
-    const [light] = useContext(Context);
-    const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
     const [modalJugadorInfo, setModalJugadorInfo] = useState(false);
     const [jugadorSeleccionado, setJugadorSeleccionado] = useState(null);
 

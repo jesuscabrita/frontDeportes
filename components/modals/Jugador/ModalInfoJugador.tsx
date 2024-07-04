@@ -27,7 +27,7 @@ export const ModalJugadorInfo = ({ open, setOpen, jugador }) => {
     return (
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle sx={{ background: light ? 'var(--gris)' : 'var(--dark2)', color: light ? "var(--dark2)" : "var(--cero)", display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap', fontSize: mobile ? '15px' : '20px', letterSpacing: '2px' }}>
+                <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap', fontSize: mobile ? '15px' : '20px', letterSpacing: '2px', fontFamily: 'Quicksand' }}>
                     <img src={jugador.logo} alt='.' style={{ height: '35px' }} />
                     {jugador.name}
                     <Grid item sx={{ color: light ? 'var(--dark3)' : 'var(--neutral)', fontSize: '10px' }}>{`(${jugador.equipo})`}</Grid>

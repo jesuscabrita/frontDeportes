@@ -1,57 +1,42 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Avatar, CircularProgress, Grid, Paper, Table, TableBody, TableContainer, TableHead, TableRow, useMediaQuery } from "@mui/material";
-import Context from "../../context/contextPrincipal";
+import React from "react";
+import { Avatar, Grid, Paper, Table, TableBody, TableContainer, TableHead, TableRow } from "@mui/material";
 import { TbMoodEmpty as Vacio } from 'react-icons/tb';
 import { StyledTableCell } from "../Material/StyledTableCell";
 import { StyledTableRow } from "../Material/StyledTableRow";
-import { stringAvatar, seleccionarData, filterLibreJugador, formatoPesosArgentinos } from "../../utils/utils";
-import { ModalJugadorInfo } from "../modals/Jugador/ModalInfoJugador";
+import { stringAvatar, seleccionarData, formatoPesosArgentinos } from "../../utils/utils";
 import { IoLogoClosedCaptioning as Capitan } from 'react-icons/io';
 import { MdSell as ListaTransf } from 'react-icons/md';
 import { ButtomPrimario, ButtomSecundario, ButtonSend } from "../Material/ButtonSend";
 import { BsCashCoin as Cash } from 'react-icons/bs';
 import { MdOutlineAssignmentReturn as Prestamo } from 'react-icons/md';
-import { ModalOferta } from "../modals/Jugador/ModalOferta";
-import ContextRefac from "../../context/contextLogin";
 import { FaBusinessTime as Nego } from 'react-icons/fa';
 import { TiDelete as Dele } from 'react-icons/ti';
-import { ModalPrestamo } from "../modals/Jugador/ModalPrestamo";
-import { useMutation, useQueryClient } from "react-query";
-import { ofertaDelete } from "../../service/jugadores";
 import { eliminarOfertas } from '../../utils/utilsPanelJugadores';
 import { MdQuestionAnswer as Resp } from 'react-icons/md';
-import { ModalNegociar } from "../modals/Jugador/ModalNegociar";
 import { ImUserCheck as Acept } from 'react-icons/im';
-import { ModalAceptarOferta } from "../modals/Jugador/ModalAceptarOferta";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { MdNotificationsActive as Noti } from 'react-icons/md';
 import { BiTransfer as Trasnfer } from 'react-icons/bi';
-import { ModalOfertaRecibida } from "../modals/Jugador/ModalOfertaRecibida";
+import { TablaFichajesProps } from "../../interfaces/general";
 
-interface Jugador {
-    _id: string;
-}
-
-export const TablaFichajes = ({ jugadores, isLoading, equipoId, data }) => {
-    const [light] = useContext(Context);
-    const { state: { user } }: any = useContext(ContextRefac);
-    const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
-    const [modalJugadorInfo, setModalJugadorInfo] = useState(false);
-    const [modalOferta, setModalOferta] = useState(false);
-    const [modalPrestamo, setModalPrestamo] = useState(false);
-    const [modalNegociar, setModalNegociar] = useState(false);
-    const [modalAceptarOferta, setModalAceptarOferta] = useState(false);
-    const [jugadorSeleccionado, setJugadorSeleccionado] = useState<Jugador | null>(null);
-    const [isUserAdmin, setIsUserAdmin] = useState(false);
-    const { mutate: eliminarOfert } = useMutation(ofertaDelete);
-    const queryClient = useQueryClient();
-    const [isLoadinng, setIsLoadinng] = useState(false);
-    const [modalOfertaRecibida, setModalOfertaRecibida] = useState(false);
-
-    useEffect(() => {
-        setIsUserAdmin(user?.role === 'super_admin' || user?.role === 'admin');
-    }, [user]);
-
+export const TablaFichajes: React.FC<TablaFichajesProps> = ({
+    jugadores,
+    equipoId,
+    data,
+    light,
+    mobile,
+    user,
+    eliminarOfert,
+    queryClient,
+    setIsLoadinng,
+    setModalJugadorInfo,
+    setJugadorSeleccionado,
+    setModalOferta,
+    setModalOfertaRecibida,
+    setModalAceptarOferta,
+    setModalPrestamo,
+    setModalNegociar,
+}) => {
     const filterEmail = (array) => {
         const newFilter = array.filter(data => data.email == user?.email);
         return newFilter;
@@ -192,12 +177,6 @@ export const TablaFichajes = ({ jugadores, isLoading, equipoId, data }) => {
                         </Table>
                     </TableContainer>
             }
-            {jugadorSeleccionado && <ModalOfertaRecibida open={modalOfertaRecibida} setOpen={setModalOfertaRecibida} equipoId={equipoId} data={jugadorSeleccionado} jugadorId={jugadorSeleccionado._id} />}
-            {jugadorSeleccionado && (<ModalAceptarOferta open={modalAceptarOferta} setOpen={setModalAceptarOferta} equipoId={equipoId} data={jugadorSeleccionado} jugadorId={jugadorSeleccionado._id} />)}
-            {jugadorSeleccionado && (<ModalNegociar open={modalNegociar} setOpen={setModalNegociar} equipoId={equipoId} data={jugadorSeleccionado} jugadorId={jugadorSeleccionado._id} />)}
-            {jugadorSeleccionado && (<ModalPrestamo open={modalPrestamo} setOpen={setModalPrestamo} equipoId={equipoId} data={jugadorSeleccionado} jugadorId={jugadorSeleccionado._id} />)}
-            {jugadorSeleccionado && (<ModalOferta open={modalOferta} setOpen={setModalOferta} equipoId={equipoId} data={jugadorSeleccionado} jugadorId={jugadorSeleccionado._id} />)}
-            {jugadorSeleccionado && (<ModalJugadorInfo open={modalJugadorInfo} setOpen={setModalJugadorInfo} jugador={jugadorSeleccionado} />)}
         </Grid>
     )
 }

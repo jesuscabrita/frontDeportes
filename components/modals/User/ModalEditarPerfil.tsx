@@ -42,7 +42,7 @@ export const ModalEditarPerfil: React.FC<ModalPerfilProps> = ({ open, setOpen, d
 
     return (
         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle sx={{ background: light ? 'var(--gris)' : 'var(--dark2)', color: light ? "var(--dark2)" : "var(--cero)", display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <DialogTitle sx={{ background: light ? 'var(--gris)' : 'var(--dark2)', color: light ? "var(--dark2)" : "var(--cero)", display: 'flex', alignItems: 'center', gap: '10px', letterSpacing: '2px', fontFamily: 'Quicksand' }}>
                 <Grid item container alignItems={'center'} gap={1} sx={{ letterSpacing: '2px' }}>
                     {"Editar Usuario"}
                     <FaUserEdit size={25} color={light ? "var(--dark2)" : "var(--cero)"} />

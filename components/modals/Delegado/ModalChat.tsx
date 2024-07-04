@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, useMediaQuery } from "@mui/material";
 import { IoLogoWhatsapp as Chat } from 'react-icons/io';
 import { MdEmail as Correo } from 'react-icons/md';
-import { BiExit as Salir } from 'react-icons/bi';
-import { ButtonSend } from "../../Material/ButtonSend";
+import { IoExit } from "react-icons/io5";
 import Context from "../../../context/contextPrincipal";
+import { ButtomSecundario } from "../../Material/ButtonSend";
 
 export const ModalChatDelegado = ({ open, setOpen, data }) => {
     const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
@@ -35,23 +35,31 @@ export const ModalChatDelegado = ({ open, setOpen, data }) => {
     }
 
     return (
-        <Grid>
-            <Dialog open={open} onClose={handleClose}>
-                <DialogTitle sx={{ padding: '20px', color: light ? 'var(dark2)' : 'var(--cero)', background: light ? 'var(--cero)' : 'var(--dark)' }}>
+        <Dialog open={open} onClose={handleClose}>
+            <DialogTitle sx={{ background: light ? 'var(--gris)' : 'var(--dark2)', color: light ? "var(--dark2)" : "var(--cero)", display: 'flex', alignItems: 'center', gap: '10px', letterSpacing: '2px', fontFamily: 'Quicksand' }}>
+                <Grid item container alignItems={'center'} gap={1} sx={{ letterSpacing: '2px' }}>
                     {"Contactar Delegado"}
-                </DialogTitle>
-                <DialogContent sx={{ background: light ? 'var(--cero)' : 'var(--dark)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                    <Grid container alignItems={'center'} justifyContent={'center'} gap={2} sx={{ cursor: 'pointer', color: light ? 'var(--dark2)' : 'var(--cero)' }}>
-                        <Chat size={40} onClick={handleChatClick} />
+                </Grid>
+            </DialogTitle>
+            <DialogContent sx={{ background: light ? 'var(--gris)' : 'var(--dark2)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <Grid container alignItems={'center'} justifyContent={'center'} gap={2} sx={{ cursor: 'pointer', color: light ? 'var(--dark2)' : 'var(--cero)' }}>
+                    <Chat size={40} onClick={handleChatClick} />
+                </Grid>
+                <Grid container alignItems={'center'} justifyContent={'center'} gap={2} sx={{ cursor: 'pointer', color: light ? 'var(--dark2)' : 'var(--cero)' }}>
+                    <Correo size={40} onClick={handleCorreoClick} />
+                </Grid>
+            </DialogContent>
+            <DialogActions sx={{ background: light ? 'var(--gris)' : 'var(--dark2)' }}>
+                <Grid item container gap={0.5}>
+                    <Grid item container sx={{ paddingLeft: '14px', paddingRight: '14px' }}>
+                        <ButtomSecundario
+                            title="Cancelar"
+                            icon={IoExit}
+                            handleclick={handleClose}
+                        />
                     </Grid>
-                    <Grid container alignItems={'center'} justifyContent={'center'} gap={2} sx={{ cursor: 'pointer', color: light ? 'var(--dark2)' : 'var(--cero)' }}>
-                        <Correo size={40} onClick={handleCorreoClick} />
-                    </Grid>
-                </DialogContent>
-                <DialogActions sx={{ background: light ? 'var(--cero)' : 'var(--dark)' }}>
-                    <ButtonSend disable={false} handle={handleClose} title={'Cancelar'} icon={Salir} iconColor={''} iconSize={20} />
-                </DialogActions>
-            </Dialog>
-        </Grid>
+                </Grid>
+            </DialogActions>
+        </Dialog>
     );
 };
