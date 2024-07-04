@@ -224,3 +224,57 @@ export interface PanelAccionesProps {
     calculo: any;
     setIsLoadinng: React.Dispatch<React.SetStateAction<any>>;
 }
+
+//EQUIPO ID
+
+export interface DatosEquipoProps {
+    data: {
+        correo: string;
+        name: string;
+        logo: string;
+        partidosJugados: number;
+        puntaje_anterior: number;
+        instagram: string;
+        banco_fondo: number;
+        categoria: string;
+        tarjetasAmarillas: number;
+        tarjetasRojas: number;
+        puntos: number;
+        empates: number;
+        ganados: number;
+        perdidos: number;
+        goles_a_Favor: number;
+        goles_en_Contra: number;
+        diferencia_de_Goles: number;
+        delegado: { name: string; _id: string; }[];
+    };
+    light: boolean;
+    equipoIndex: number;
+    mobile: boolean;
+    isSameEmail: boolean;
+    isUserAdmin: boolean;
+    equipo_id: any;
+    eliminarDelegado: any;
+    queryClient: any;
+    setDelegadoSeleccionado: React.Dispatch<React.SetStateAction<any>>;
+    setModalDelegadoChat: React.Dispatch<React.SetStateAction<any>>;
+    setModalDelegadoEditar: React.Dispatch<React.SetStateAction<any>>;
+}
+
+export interface JugadorEquipoDetalle {
+    _id: string;
+}
+
+export interface TablaPlantillaProps {
+    jugadores: {}[];
+    equipo: { _id: string; correo: string; }
+    light: boolean;
+    mobile: boolean;
+    jugadorSeleccionado: any;
+    setJugadorSeleccionado: React.Dispatch<React.SetStateAction<any>>;
+    setModalEditarJugador: React.Dispatch<React.SetStateAction<any>>;
+    setModalRecindir: React.Dispatch<React.SetStateAction<any>>;
+    setModalRenovar: React.Dispatch<React.SetStateAction<any>>;
+    setModalDorsal: React.Dispatch<React.SetStateAction<any>>;
+    setModalJugadorCapitan: React.Dispatch<React.SetStateAction<any>>;
+}

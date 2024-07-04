@@ -17,40 +17,7 @@ import { MdVerified as Ganado } from 'react-icons/md';
 import { AiOutlineCloseCircle as Perdido } from 'react-icons/ai';
 import { formatoPesosArgentinos, seleccionarData } from "../../utils/utils";
 import { eliminarDelegados } from "../../utils/utilsDelegado";
-
-interface DatosEquipoProps {
-    data: {
-        correo: string;
-        name: string;
-        logo: string;
-        partidosJugados: number;
-        puntaje_anterior: number;
-        instagram: string;
-        banco_fondo: number;
-        categoria: string;
-        tarjetasAmarillas: number;
-        tarjetasRojas: number;
-        puntos: number;
-        empates: number;
-        ganados: number;
-        perdidos: number;
-        goles_a_Favor: number;
-        goles_en_Contra: number;
-        diferencia_de_Goles: number;
-        delegado: { name: string; _id: string; }[];
-    };
-    light: boolean;
-    equipoIndex: number;
-    mobile: boolean;
-    isSameEmail: boolean;
-    isUserAdmin: boolean;
-    setDelegadoSeleccionado: React.Dispatch<React.SetStateAction<any>>;
-    setModalDelegadoChat: React.Dispatch<React.SetStateAction<any>>;
-    equipo_id: any;
-    eliminarDelegado: any;
-    queryClient: any;
-    setModalDelegadoEditar: React.Dispatch<React.SetStateAction<any>>;
-}
+import { DatosEquipoProps } from "../../interfaces/general";
 
 export const DatosEquipo: React.FC<DatosEquipoProps> = ({
     data,
@@ -59,11 +26,11 @@ export const DatosEquipo: React.FC<DatosEquipoProps> = ({
     mobile,
     isSameEmail,
     isUserAdmin,
-    setDelegadoSeleccionado,
-    setModalDelegadoChat,
     equipo_id,
     eliminarDelegado,
     queryClient,
+    setDelegadoSeleccionado,
+    setModalDelegadoChat,
     setModalDelegadoEditar,
 }) => {
     return (

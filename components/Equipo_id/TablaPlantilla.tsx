@@ -1,12 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Avatar, CircularProgress, Collapse, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, useMediaQuery } from '@mui/material';
-import Context from '../../context/contextPrincipal';
-import { ModalEditarJugador } from '../modals/Jugador/ModalEditarJugador';
+import { Avatar, Collapse, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { useMutation, useQueryClient } from 'react-query';
 import { JugadorDelete, jugadoresInscribir, jugadoresListaTransferible, jugadoresPut_lesion } from '../../service/jugadores';
 import { TbMoodEmpty as Vacio } from 'react-icons/tb';
-import { ModalEditarDT } from '../modals/DT/ModalEditarDT';
-import { DTDelete } from '../../service/dt';
 import { MdLocalHospital as Lesion } from 'react-icons/md';
 import { InscribirJugador, eliminarJugadores, lesionJugadores, lesionJugadoresNO, listaDeTransferiblesNo, listaDeTransferiblesSi } from '../../utils/utilsPanelJugadores';
 import { ModalJornada } from '../modals/Jugador/ModalJornada';
@@ -14,16 +10,10 @@ import { TbRectangleVertical as Tarjeta } from 'react-icons/tb';
 import { VscSearchStop as Expulsado } from 'react-icons/vsc';
 import { ModalJugadorInfo } from '../modals/Jugador/ModalInfoJugador';
 import { IoLogoClosedCaptioning as Capitan } from 'react-icons/io';
-import { ModalJugadorCapitan } from '../modals/Jugador/ModalCapital';
-import { ModalJornadaDT } from '../modals/DT/ModalJornadaDT';
-import { StyledTableRow } from '../Material/StyledTableRow';
-import { StyledTableCell } from '../Material/StyledTableCell';
-import { CustomTableHead } from '../Material/CustomTableHead';
 import { MdSell as ListaTransf } from 'react-icons/md';
-import { planilla, posicionesOrdenadas } from '../../utils/arrays';
+import { posicionesOrdenadas } from '../../utils/arrays';
 import { formatoPesosArgentinos, ordenarJugadores, seleccionarData, stringAvatar } from '../../utils/utils';
-import { eliminarDTs } from '../../utils/utilsDT';
-import { ButtomDanger, ButtomPrimario, ButtomSecundario, ButtomWarnnig, ButtonSend } from '../Material/ButtonSend';
+import { ButtomDanger, ButtomPrimario, ButtomSecundario, ButtomWarnnig } from '../Material/ButtonSend';
 import { AiFillEdit as Edit } from 'react-icons/ai';
 import { MdDelete as Eliminar } from 'react-icons/md';
 import { MdOutlinePersonOff as Suspender } from 'react-icons/md';
@@ -37,53 +27,35 @@ import { GiArchiveRegister as Regis } from 'react-icons/gi';
 import { FaFileContract as Contra } from 'react-icons/fa';
 import { VscGithubAction } from "react-icons/vsc";
 import { AiOutlineFieldNumber as Num } from 'react-icons/ai';
-import { ModalDorsal } from '../modals/Jugador/ModalDorsal';
 import { LoadingScreen } from '../Shared/LoadingScreen';
 import { MdAutorenew as Renovar } from 'react-icons/md';
-import { ModalRecindir } from '../modals/Jugador/ModalRecindir';
-import { ModalRenovarJugador } from '../modals/Jugador/ModalRenovar';
 import { FaFilePrescription as Recindir } from 'react-icons/fa';
-
-interface Jugador {
-    _id: string;
-}
-
-interface DtProps {
-    _id: string;
-}
-
-interface TablaPlantillaProps {
-    jugadores: {}[];
-    equipo: { _id: string; correo: string; }
-}
+import { TablaPlantillaProps } from '../../interfaces/general';
 
 export const TablaPlantilla: React.FC<TablaPlantillaProps> = ({
     jugadores,
     equipo,
+    light,
+    mobile,
+    jugadorSeleccionado,
+    setJugadorSeleccionado,
+    setModalEditarJugador,
+    setModalRecindir,
+    setModalRenovar,
+    setModalDorsal,
+    setModalJugadorCapitan,
 }) => {
-    const [light] = useContext(Context);
-    const mobile = useMediaQuery("(max-width:600px)", { noSsr: true });
-    const [jugadorSeleccionado, setJugadorSeleccionado] = useState<Jugador | null>(null);
-    const [dtSeleccionado, setDtSeleccionado] = useState<DtProps | null>(null);
-    const [modalEditarJugador, setModalEditarJugador] = useState(false);
-    const [modalEditarDT, setModalEditarDT] = useState(false);
     const [modalEditarJornada, setModalEditarJornada] = useState(false);
     const [modalJugadorInfo, setModalJugadorInfo] = useState(false);
-    const [modalJugadorCapitan, setModalJugadorCapitan] = useState(false);
-    const [modalJornadaDT, setModalJornadaDT] = useState(false);
     const queryClient = useQueryClient();
     const { mutate: eliminarJugador } = useMutation(JugadorDelete);
-    const { mutate: eliminarDT } = useMutation(DTDelete);
     const { mutate: lesion_jugador } = useMutation(jugadoresPut_lesion);
     const [isUserAdmin, setIsUserAdmin] = useState(false);
     const [isSameEmail, setIsSameEmail] = useState(false);
     const { state: { user } }: any = useContext(ContextRefac);
     const [openRows, setOpenRows] = useState<{ [key: number]: boolean }>({});
-    const [modalDorsal, setModalDorsal] = useState(false);
     const { mutate: inscribir } = useMutation(jugadoresInscribir);
     const [isLoadinng, setIsLoadinng] = useState(false);
-    const [modalRenovar, setModalRenovar] = useState(false);
-    const [modalRecindir, setModalRecindir] = useState(false);
     const { mutate: listaTransferibleJugador } = useMutation(jugadoresListaTransferible);
 
     useEffect(() => {
@@ -120,7 +92,7 @@ export const TablaPlantilla: React.FC<TablaPlantillaProps> = ({
                                 <TableBody>
                                     <TableRow sx={{ '& > *': { borderBottom: 'unset', background: light ? 'var(--gris3)' : jugador.suspendido === 'Si' ? 'var(--danger2)' : 'var(--dark4)', cursor: 'pointer' } }}>
                                         <TableCell sx={{ color: light ? 'var(--dark2)' : 'var(--cero)', whiteSpace: 'nowrap' }}>
-                                            <Grid container flexDirection={'row'} alignItems={'center'} sx={{ minWidth: jugador.lesion === 'Si' ? '600px' : jugador.capitan === 'Si' ? '480px' : '420px' }}>
+                                            <Grid container flexDirection={'row'} alignItems={'center'} sx={{ minWidth: jugador.lesion === 'Si' ? '600px' : jugador.capitan === 'Si' ? '500px' : '480px' }}>
                                                 {(isSameEmail || isUserAdmin) &&
                                                     <Grid item>
                                                         <IconButton aria-label="expand row" size="small" sx={{ color: light ? 'black' : 'var(--cero)' }} onClick={() => handleRowClick(index)}>
@@ -138,7 +110,7 @@ export const TablaPlantilla: React.FC<TablaPlantillaProps> = ({
                                                     {(jugador.posicion == 'Delantero') &&
                                                         <Grid sx={{ color: 'var(--primario)', fontWeight: 700, fontSize: !mobile ? '15px' : '13px' }}>DEL</Grid>}
                                                 </Grid>
-                                                <Grid item sx={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', gap: '18px', cursor: 'pointer', width: '250px' }} onClick={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalJugadorInfo) }}>
+                                                <Grid item sx={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', gap: '18px', cursor: 'pointer', width: '240px' }} onClick={() => { seleccionarData(jugador, setJugadorSeleccionado, setModalJugadorInfo) }}>
                                                     <Avatar {...stringAvatar(jugador.name)} sx={{ height: '35px', width: '35px', background: !light ? '#aab4be' : '#1F2937', color: !light ? '#1F2937' : 'white' }} />
                                                     <Grid sx={{ whiteSpace: 'nowrap', paddingRight: mobile ? '30px' : '', display: 'flex', alignItems: 'center', gap: '6px', letterSpacing: '2px', fontSize: mobile ? '11px' : '14px', fontWeight: '500', fontFamily: 'Quicksand' }}>
                                                         {jugador.name}
@@ -160,7 +132,6 @@ export const TablaPlantilla: React.FC<TablaPlantillaProps> = ({
                                                         {jugador.lesion === 'Si' &&
                                                             <Grid item sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                                                                 <Lesion size={20} />
-                                                                <Grid sx={{ color: 'var(--neutral)' }}>{'(Lesionado)'}</Grid>
                                                             </Grid>}
                                                         {jugador.tarjetas_acumuladas > 0 && (<Grid item sx={{ display: 'flex', alignItems: 'center' }}>{jugador.tarjetas_acumuladas}<Tarjeta color={'var(--warnning)'} size={20} /></Grid>)}
                                                         {jugador.suspendido === 'Si' && (
@@ -348,15 +319,8 @@ export const TablaPlantilla: React.FC<TablaPlantillaProps> = ({
                     </Table>
                 </TableContainer>}
             {isLoadinng && <LoadingScreen />}
-            {jugadorSeleccionado && <ModalRecindir open={modalRecindir} setOpen={setModalRecindir} data={jugadorSeleccionado} equipoId={equipo?._id} />}
-            {jugadorSeleccionado && (<ModalRenovarJugador open={modalRenovar} setOpen={setModalRenovar} data={jugadorSeleccionado} jugadorId={jugadorSeleccionado?._id} equipoId={equipo?._id} />)}
-            {jugadorSeleccionado && (<ModalDorsal open={modalDorsal} setOpen={setModalDorsal} data={jugadorSeleccionado} equipoId={equipo?._id} jugadorId={jugadorSeleccionado._id} />)}
-            {jugadorSeleccionado && (<ModalJugadorCapitan open={modalJugadorCapitan} setOpen={setModalJugadorCapitan} jugador={jugadorSeleccionado} equipoId={equipo?._id} />)}
-            {jugadorSeleccionado && (<ModalEditarJugador open={modalEditarJugador} setOpen={setModalEditarJugador} equipoId={equipo?._id} jugadorId={jugadorSeleccionado._id} data={jugadorSeleccionado} />)}
-            {dtSeleccionado && (<ModalEditarDT open={modalEditarDT} setOpen={setModalEditarDT} equipoId={equipo?._id} directorTecnicoId={dtSeleccionado._id} data={dtSeleccionado} />)}
             {jugadorSeleccionado && (<ModalJornada open={modalEditarJornada} setOpen={setModalEditarJornada} id={jugadorSeleccionado._id} equipoId={equipo?._id} data={jugadorSeleccionado} />)}
             {jugadorSeleccionado && (<ModalJugadorInfo open={modalJugadorInfo} setOpen={setModalJugadorInfo} jugador={jugadorSeleccionado} />)}
-            {dtSeleccionado && (<ModalJornadaDT open={modalJornadaDT} setOpen={setModalJornadaDT} id={dtSeleccionado._id} equipoId={equipo?._id} data={dtSeleccionado} />)}
         </Grid>
     )
 }
